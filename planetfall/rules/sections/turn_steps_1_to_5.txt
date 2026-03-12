@@ -1,0 +1,501 @@
+Progression is measured with Experience become casualties in the first two rounds are 
+Points (XP), which are earned after each awarded as normal (they received a hard-won 
+mission. lesson about taking cover!).
+
+A character only receives mission XP if they 
+participated in a mission, but any character that Spending XP
+was on the table for at least 1 round qualifies. Once a character has accumulated enough 
+XP can be awarded through random events and experience points, you may spend 5 XP to roll 
+other factors, and these can be earned even if on the Advancement table below to gain 
+the character did not take part in a mission. an advance. This modifies the profile of the 
+
+character as noted in the table. 
+XP are tallied together for each character 
+individually and may be spent to upgrade a The number in parenthesis indicates the 
+character’s ability score. Each ability score can maximum value possible in a given ability 
+be upgraded to a maximum value as indicated score. If you roll an increase that is already 
+below and each character may purchase only a maxed out, select any other advance of choice.
+single upgrade per campaign turn. XP Points Buy – Option
+A character “directly kills” a Leader if they If you prefer a nonrandom option, you may 
+carried out the attack that killed the Leader. use the costs below. This allows you to buy 
+Only Tactical Enemies have Leaders. A character upgrades directly. Players coming from Five 
+that kills more than one Leader receives the Parsecs from Home will note that this is the 
+reward only once. same system used in that book.
+
+Mission XP table 
+
+MISSION XP AMOUNT RECIPIENT
+
+Participated in the battle +1 Every eligible character
+…and did not become a casualty +1 Every eligible character
+
+Directly killed an enemy Boss or Leader +1 Each eligible character once per battle
+
+Advancement table 
+
+D100 ABILITY ADVANCE
+
+01-15 Speed increase (max. 8”) First time, +2”. Second and third time, +1”.
+16-35 Reactions increase (max. 6) +1 each time. Scientists may trade this for Savvy. 
+36-55 Combat Skill increase (max. +5) +1 each time. Scouts may trade this for Reactions.
+56-75 Toughness increase (max. 6) +1 each time. 
+76-90 Savvy increase (max. +5) +1 each time. Troopers may trade this for Toughness.
+91-00 Kill Point increase (max. 3) +1 KP
+
+67
+
+
+
+The Campaign
+
+Paying for an upgrade increases the ability Step 11: Colony Morale 
+score in question by 1 point from the current Adjustments
+value. The morale of your colony is subject to  
+
+ABILITY XP MAXIMUM constant changes as the campaign progresses 
+SCORE COST LEVEL (this system is explained in detail on page 89). 
+Reactions 7 6 In particular, your Colony Morale score 
+
+Combat Skill 7 +5 automatically drops 1 point during this step, 
+Speed 5 8” regardless of any actions taken. It will drop an 
+
+additional point for every battle casualty. 
+Toughness 6 6
+
+If you were playing a Rescue Mission, you do 
+Savvy 5 +5 NOT suffer Morale loss due to casualties, except 
+
+for the colonists in the mission.
+If you are now at -10 or worse, you must now 
+
+Alternate Advancement Options roll on the Morale Incident table (see page 90).
+
+A character eligible for an advancement roll may If a Crisis is ongoing, a test is now made to 
+instead pick one of the following options: determine the resolution of the Crisis.
+
+◆	 If currently Disloyal or Committed, increase Step 12: Track Enemy Information 
+Loyalty to Loyal. and Mission Data
+
+◆	 If the character is a scientist, gain  
+3 Research Points instead. If you fought a Tactical Enemy and won, add  
+
+1 Enemy Information for that enemy type. You 
+◆	 If the character is a scout, gain 3 units of  should also note that they cannot take an action 
+
+Raw Materials instead. next campaign turn. If they are selected to take 
+one, treat it as no event.
+If you obtained any Mission Data, note it on 
+your roster. It is resolved when you reach a 
+Campaign Milestone (see page 156).
+
+Step 13: Replacements
+As you play the campaign, it is likely you will 
+suffer casualties. Among your colonists there 
+will be exceptional individuals who can take a 
+place among your squad, but they are often few 
+in number.
+
+Civvy Heroic Promotion the number of replacements you can attempt 
+per turn is 1 + 1 per Milestone achieved.  
+
+If any civvies participated in the mission, pick If you have less than a full roster (8 characters, 
+one who did not become a casualty and roll initially), roll 2D6, trying to obtain a 
+2D6. On 10-12, they have shown themselves replacement by doing surveys and interviews 
+to have what it takes and can be added to your of your colonists:
+roster of grunts.
+
+68
+
+
+
+The Campaign
+
+2D6 REPLACEMENT Step 16: Colony Integrity
+2-6 No replacement is currently available. If your current Colony Integrity is -3 or worse, 
+
+Roll 1D6 again: check to see what the consequences are for the 
+damage your colony has taken. See page 87 
+
+1-2:	 You may take a trooper. for more on Colony Integrity and the Integrity 
+7-8 3-4:	 You may take a scientist. Failure table. 
+
+5-6:	 You may take a scout.
+Each begins with the standard profile. Step 17: Character Event
+
+9-12 You may take a replacement of your 
+choice. Your characters have their own lives when 
+
+they are not on mission. Randomly select one 
+All characters enter with a Loyalty level of character and roll D100 on the Character 
+Committed. Event table (see page 70) to see what 
+If desired for any reason, you may dismiss happens to them.
+characters from your roster at this stage. All characters are potentially eligible even if 
+Dismissed characters cannot be returned to the they are recovering from injuries (adventurers 
+campaign later. rarely keep still just because they have a 
+
+bandaged arm and a broken foot). 
+Step 14: Research If a character is currently absent from the 
+During this step, you receive any Research campaign entirely, such as during the R&R 
+Points (RP) you have earned from any sources event, they cannot be the target of events. 
+this campaign turn, which are added to any (Note that your Administrator does not count as 
+points you had left over from prior campaign a character for event purposes.) 
+turns. In some rare cases, the effects of an event turn 
+Any RP you have accumulated can now out to be impossible to implement. If this 
+be spent, allowing you to research new happens, ignore the event; instead, nothing 
+technologies. This is explained in detail on happens this campaign turn.
+page 91. Grunts cannot be the target of Character Events. 
+
+Step 15: Building Step 17a: Character Roleplay 
+During this step, you receive any Build Points Events (optional rule)
+(BP) you have earned from any sources this 
+campaign turn, which are added to any points If you choose to, you may generate roleplay 
+you had left over from prior campaign turns. events at this stage. Roleplay events have no 
+
+effect on game mechanics but are included for 
+Any BP can now be spent, allowing you to players who wish to flesh out the ongoing story 
+construct new buildings for your colony. This is and for the benefit of those who enjoy writing 
+explained in detail on page 97. up their campaigns online or in a notebook. They 
+You may reclaim one building at this point, can also serve as inspiration for custom scenarios 
+gaining BP equal to half the BP cost of the or side stories.
+building, rounded down. These can be spent To generate roleplay events, see page 72.
+immediately.
+
+69
+
+
+
+The Campaign
+
+Character Event table 
+
+D100 CHARACTER 
+EVENT DESCRIPTION
+
+The character undergoes a training course to hone their 
+01-05 Personal training mission-relevant skills. 
+
+The character gains +2 XP.
+Proficiency is ideally rewarded with improvements in rank and responsibility.
+
+06-10 Minor promotion The character gains a level of Loyalty and +1 XP. If they were already Loyal, 
+gain +2 XP (total).
+
+11-15 Personal The character does a bit of information gathering.
+investigation Randomly choose a Tactical Enemy and receive +1 Enemy Information.
+
+The character comes down with a minor illness.
+16-20 Something in the 
+
+water, I suppose If the character is in sick bay, increase their recovery time by 1 turn. If they are 
+not in sick bay, they get a tummy ache but are otherwise fine.
+
+The character earns some time off world.
+
+The character is gone for 2 campaign turns during which they cannot be 
+21-25 R&R the target of events. They recover completely from any injuries, 
+
+regardless of recovery time.
+If they are Disloyal, roll 1D6: On 1-2, they do not return; on a 3-5, 
+
+they remain Disloyal; and on a 6, they become Committed.
+The character is offered a new assignment.
+
+26-30 Change of Decide if they accept. If they do, they immediately earn 5 XP and are 
+assignment transferred to another Five Parsecs game of your choice. If they decline, 
+
+gain 1 level of Loyalty. 
+
+31-35 Disputes with The character has a heated disagreement with Administration.
+leadership The character loses a level of Loyalty but cannot drop below Disloyal.
+
+The character is satisfied with recent Administration actions and is 
+36-40 Commitment to dedicated to the cause.
+
+the cause
+The character gains a level of Loyalty.
+
+A clash of personalities occurs on the team.
+
+41-45 Dispute Randomly pick a second character. The two have a heated dispute over 
+something and cannot both be assigned to the mission next campaign turn 
+
+unless you are fighting a Pitched Battle.
+Time spent customizing gun sights and ammunition loads pays off.
+
+46-50 Personal 
+calibrations The next time the character is on a mission, select one weapon they carry, 
+
+which receives a +1 hit bonus for the duration of that mission.
+The character falls ill.
+
+51-55 Sickness
+They must spend 2 campaign turns recovering.
+
+70
+
+
+
+The Campaign
+
+D100 CHARACTER 
+EVENT DESCRIPTION
+
+The character has spent some quality time with a random character 
+on your roster.
+
+56-60 Making friends
+They each earn +1 XP and may each roll 1D6: On 5-6, they gain 
+
+one level of Loyalty.
+Something significant happens in the characters life 
+
+61-65 Personal life (marriage, a new baby, a graduation, etc.)
+achievement
+
+Receive 1 Story Point and 1 point of Colony Morale.
+All that fresh air is paying off.
+
+66-70 Excellent health If currently recovering from injuries, reduce the time required by 2 turns.  
+If not injured, the effect can be saved. 
+
+The character injures themselves during work.
+71-75 Accident Roll on the Post-battle Injury table (page 66) to see how badly they are hurt. 
+
+If you roll “Dead”, it instead counts as 5 turns of recovery. 
+After some hard lessons, the character is determined to learn.
+
+76-80 Personal reflection
+The next time they go on a mission, they earn double XP.
+
+81-85 Personal 
+conviction If the last mission was a success, gain one level of Loyalty.
+
+The character has serious disagreements over the mission and 
+86-90 Losing faith how it is being done.
+
+If the last mission was a failure, they lose one level of Loyalty. 
+Something happens to throw the character off their game. 
+
+91-95 Personal tragedy Next campaign turn they forfeit all XP they would have earned that turn.  
+You may opt to keep them out of a mission to avoid losing out on any points. 
+
+The character will sit around the office and mope.
+The character has found something new to do in their spare time (sport, 
+
+amateur band, wood working, miniatures painting).
+96-00 New hobby
+
+They receive +1 XP and will irritate everyone else as they 
+talk about it constantly. 
+
+Step 18: Update Colony Sheet
+Finally, take a moment to ensure you have 
+updated everything to account for the events of 
+this campaign turn. Tidy your Colony Tracking 
+Sheet now, if you need to.
+If you are keeping a campaign diary or are 
+sharing your games online, this is a good time 
+to do so.
+
+71
+
+
+
+The Campaign
+
+14
+
+Character Roleplay Events 
+(Optional Rule)
+
+Roleplay events are included for players Character Roleplay Event table
+who want to flesh out the ongoing story or 
+who enjoy writing up the results of their D100 ROLEPLAY EVENT
+
+campaigns online or in a notebook. They can 01-50 Character roleplay event
+also serve as inspiration for custom scenarios 51-70 News report
+or side stories. 71-85 Current colony trend
+A number of roleplay-oriented tables are 86-90 Character roleplay event and 
+presented below. You can decide to use one  news report
+at random each campaign turn, pick the one 
+
+91-95 Character roleplay event and 
+you are most interested in, cycle through current colony trend
+them each turn, or use multiple tables, if you 96-00 News report and current colony trend
+prefer. These tables are provided for your  
+fun and convenience. Use the following Character Roleplay Event
+table as a start point before consulting the 
+subtables suggested. Randomly select a character (or pick one 
+
+you want to follow), and roll D100 on the 
+subtable below (some results also have a D6 
+follow-up roll). 
+Many events will refer to another character, 
+selected randomly from your roster. Grunts are 
+not usually the target of these events, though 
+you may choose to involve them, if you like.
+
+72
+
+
+
+The Campaign
+
+Character Roleplay Event subtable
+
+D100 ROLEPLAY EVENT
+
+01-05 The character is adapting to colony life and changes some of their habits.
+The character spends some long hours at work finishing a project. Roll D6:
+
+06-10 1:	 It ultimately doesn’t work.
+2-4:	 It succeeds according to plan.
+5-6:	 It succeeds extremely well.
+
+11-15 The character makes a detailed plan for what they will do after their tour of duty or contract ends.
+16-20 The character changes their opinion on something.
+
+The character receives a letter from home. Roll D6: 
+1:	 Bad news
+
+21-25 2-3:	 General life updates
+4-5:	 Heartwarming news
+6:	 Great news
+
+26-30 The character spends a few days in a bit of a funk about life.
+31-35 The character pays another character a visit.
+
+The character gets in an argument with another character. Roll D6:
+1:	 Their relationship worsens.
+
+36-40 2:	 It remains unresolved.
+3-4:	 It gets resolved.
+5:	 Another character resolves it for them.
+6:	 It strengthens their relationship.
+
+41-45 Two characters run into each other in the street and spend some time talking.
+46-50 Another character gets the character a gift.
+51-55 The character decides to pursue a new interest or hobby.
+56-60 The character takes a few days of R&R.
+
+The character goes out for a night on the town with two other characters. Roll D6:
+
+61-65 1:	 They end up getting in trouble.
+2-4:	 They have a fine night.
+5-6:	 They get completely wasted.
+
+66-70 The character makes a fool of themselves at work.
+71-75 The character arranges a movie night with two other characters.
+
+The character is assigned to a special work project with another character. Roll D6:
+
+76-80 1:	 They bicker.
+2-5:	 They work together well.
+6:	 It strengthens their relationship.
+
+81-85 The character has a heart-to-heart talk with another character.
+86-90 The character finds a new passion in life such as music or literature.
+91-95 The character begins writing a book about their experiences. 
+96-00 The character goes out for lunch or dinner with another character.
+
+73
+
+
+
+The Campaign
+
+The News Reports Current Colony Trends
+The progress of your colony will be reported The colonists tend to develop their own 
+back to the Core worlds. Sometimes, this habits. You can roll to determine what the 
+reporting will be for a specific purpose, other current fad is. 
+times it is propaganda, and occasionally it can 
+be mean-spirited. Colony Trend subtable 1
+
+Roll D100 to determine what is being  D100 TREND
+
+reported on: 01-09 Introduction of new slang terms
+10-17 Specific manner of speaking or accent
+
+News Report subtable 1
+18-23 Style of dress
+
+D100 NEWS REPORTS 24-30 Musical style
+01-08 Current construction projects
+09-20 The most recent mission 31-38 Creation of a unique social class 
+
+or relation
+21-28 Profiles of typical colonists 39-44 New culinary habits
+29-40 Profiles in courage: (a random 45-52 Changing social value
+
+character on your roster) 53-57 Adoption of new theology
+41-48 Pop-science story about local wildlife 58-65 New sport or athletic pursuit
+49-56 Pop-science story about local plant life 66-71 Trend in media and entertainment
+57-64 Interview with colony administration 72-77 Health fad
+65-71 Current research projects 78-84 New manner of address or greeting
+72-82 Investigative story about most  85-90 Literary style
+
+pressing colony problem
+91-95 Home decoration principle
+
+83-90 Investigative story about Unity 
+support of colonies 96-00 New personal principles
+
+91-00 Propaganda story about You may roll again to determine how they are 
+colonization project received off-world. This process often takes 
+
+You can roll again to determine the slant of  years to play out and you may prefer waiting for 
+the article: some of these things to be determined later on.
+
+Colony Trend subtable 2
+News Report subtable 2
+
+D100 RECEPTION
+D100 ARTICLE SLANT
+
+01-10 Negative, accurate 01-30 Completely ignored
+
+11-15 Negative, hatchet-job 31-40 Dismissed
+
+16-30 Neutral 41-50 Viewed as quaint
+
+31-45 Multi-faceted 51-60 Viewed as romantic
+
+46-60 Factual 61-75 Becomes adopted by trendsetters 
+and influencers
+
+61-90 Positive, accurate
+91-00 Positive, propaganda 76-90 Becomes adopted by 
+
+counter-culture movement
+91-00 Enters mainstream culture
+
+74
+
+
+
+The Campaign
+
+The Armory
+Your colonists are an exploratory force, not Troopers
+gun-slinging mercenaries expecting to suit Each trooper may be given one weapon 
+up for war, but they must still be ready to requiring Civilian or Trooper training: 
+defend themselves. While the firepower handgun, colonial shotgun, colony rifle, 
+below is limited compared to that presented trooper rifle, assault gun, or flame projector.
+in Five Parsecs from Home and Five Parsecs: 
+Tactics, research and discoveries may yield Grunts
+more advanced weapons as you play the Individual grunts are armed with infantry 
+campaign game. rifles. If you take a fireteam of at least 3, one 
+Note: Some weapons function differently in grunt may take a light machine gun in place 
+Planetfall from similarly-named weapons you of their rifle.  
+may have experienced in other 5X games. Crew
+Each character must be armed for the mission. Crew characters may bring any weapon they 
+Each weapon type is limited to certain classes own (imported from another campaign). 
+only, as indicated in its traits (see the weapon In addition, they may bring one weapon 
+traits list on page 78). requiring Civilian training: handgun, colonial 
+
+shotgun, or colony rifle.
+Civvies, Scientists, and Bots
+Each character from these classes may be 
+given one weapon requiring Civilian training: Campaign Play
+handgun, colonial shotgun, or colony rifle. As you progress in the campaign you will receive 
+

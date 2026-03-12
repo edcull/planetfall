@@ -1,0 +1,500 @@
+it: As you build your colony and explore, you you will face off against multiple foes. You 
+will develop Milestones, representing major will discover these as you play the game, with 
+achievements – scientific, social, and cultural – each being generated randomly the first time 
+in the progress of your colony. you encounter them. As the game progresses, 
+When sufficient Milestones have been reached, you will build a unique encounter list which 
+you will progress to the end game, where you will further change as the lifeforms evolve to 
+will have important decisions to make about fight you.
+the future of the colony and perhaps even life Later in the campaign you will also have to fight 
+on this world! intelligent opposition. These can range from 
+
+pirates to colony separatists to alien invaders. 
+The Tactical Game When they arrive on the world, you will engage 
+
+in combat against these Tactical Enemies.
+Your crew will regularly face dangerous 
+enemies that threaten the safety and future Finally, there are the mysterious threats like the 
+of the colony. This tactical game is where alien Slyn that assail you at every step and the 
+your characters take to the battlefield, face mechanical Sleepers that guard the 
+down the enemy, and hopefully prevail while alien ruins of the world. 
+trying to carry out their mission goals. This Each type of enemy has 
+plays similar to other miniatures games, with its own strengths and 
+measurements, weapon weaknesses and operates 
+ranges, and rolling to hit. in a unique fashion, 
+As these battles are requiring you to 
+both the centerpiece of adapt in order to win 
+campaign turns and the battles against them. 
+wargame action most You can read more 
+players are familiar with, about generating the 
+this rulebook covers those enemies on page 146. 
+rules first.
+
+10
+
+
+
+Introduction
+
+The Campaign Game
+The tactical game is only half the story, Game Markers
+however. The results of tactical missions feed The missions make frequent use of game 
+into the campaign game, just as the results of markers. You can use your own markers or 
+the campaign game determine what forces download a free PDF sheet including the 
+and equipment you can bring on a mission. following from www.fiveparsecs.com:
+Together, the tactical and campaign games 
+create the full experience, as events in one 
+inform your pursuits in the other.
+For example, some tactical missions may ask 
+you to resolve a problem in the main campaign Delve Hazard Delve Device Cloud
+game, while at other times you will be pursuing 
+specific goals in the campaign to bolster your 
+troops in the field. 
+◆	 For rules on beginning your main campaign, Contact Discovery / Recon Objective
+
+the campaign turn sequence, and how to use 
+and expand the armory before each mission, 
+see the Campaign section, page 48.
+
+◆	 As your colony reaches Milestones, copes 
+with Calamities and progresses towards Activated Aid Delaying
+the settlement’s End Game, you’ll need the 
+Campaign Development section, page 155.
+
+The Colony
+The core of Planetfall is your colony. As you play, Poison Stunned Sprawling
+you will construct new facilities, expanding 
+your capabilities and improving your efficiency. Research
+Without a well-developed colony, your 
+expeditions in the field will struggle. The final component of success is Research.  
+
+As you learn more about the world you are now 
+The colony is also where your living in, you will develop new facilities for your 
+characters return between missions. Beyond colony, new weapons to carry into the field, and 
+your crew, it is home to a wide range of even transcend the limitations of the Human 
+support personnel not otherwise tracked in frame itself. 
+the game, such as researchers, mechanics, 
+armorers, and all the civilian personnel Research is a vital part of being successful on 
+required to make a colony function. It’s still the new world and great care must be taken in 
+your job to help them thrive, however! staying up to date on new developments. You 
+
+can read more about Research on page 91.
+The colony might be safe for your characters, 
+but it is not safe from threat: Attacks and 
+disasters can inflict damage, jeopardizing the Getting Started
+integrity of the colony. To learn how to build Ready to begin? If so, generate your first 
+your colony and conduct research towards Colony Crew (page 14), and once you have 
+bigger and better resources, visit the Colonies familiarized yourself with the Combat Rules, 
+section, page 81. head for the Initial Mission (page 44).
+
+11
+
+
+
+Introduction
+
+The Find
+“Are you reading this?” “I don’t think it’s recent...” – he let the AI handle 
+“Affirm. Signal is clear...”. Breaking form, the camera – “...there’s things growing up the 
+Operator added, “...though we have no idea sides. It must have been here quite some time.”
+what it is we’re seeing.” Silence. The base team were conferring. 
+A step closer, the scout panned the helm-cam Eventually, Operator came back, “Science says 
+again. negative to crash site, they think it’s a building.”
+
+“I don’t know either. It looks like some sort of “Yeah, could be,” the scout mused. Data 
+ancient construction. Ship interior, maybe?” summaries scrolling by on his helmet 
+
+display. “AI says it may be built into the rock 
+The rangefinder beeped, the read-out indicating surface itself”.
+that, whatever it was, it was at least a mile long. 
+The scout knelt and tapped his wrist-console, Operators voice crackled once more. “They’re 
+prompting the suit AI to begin processing. also saying origin unknown. Command is 
+
+classifying this location as T-7. You know the drill 
+The comms crackled again. from here on out.”
+“Point your camera at the ground. Science team He grimaced while the camera finished up its 
+wants to see if it’s a crash.” work. It was only then that he saw it: A strange 
+The scout held his hand in front of the camera glow, faint at first, emanating from a structure 
+and gave a thumbs up, then secured himself to below his position. For a moment, his mind 
+a nearby rock formation. Giving the rope a solid remained locked on the procedural implications 
+tug, he slowly leaned forward over the cliffside – investigation, description, categorization – 
+to get the optimal view. 350 meters below, the before, finally, he acknowledged a growing 
+ground was covered in the same violet grass- disquiet, not just there within him, but 
+like growth they’d seen near the landing site. emanating like some ancient susurrus of 
+
+presence from the site itself.
+
+5th Survey Group. Notation to K256 Files. What is stranger is that many of the remains 
+Researcher E. Davison, Senior Analyst. do not appear to serve obvious purposes. 
+“Who lived here and what became of them Initial surveys showed machinery may have 
+is unknown and while galactic remnants are been removed, though our suspicion is that 
+common across the galaxy, the nature and systems are built into the structures themselves. 
+type of construction in the Reach appears More research on site will be required. 
+only here. Many of the structures appear to 
+be dug deep into the world itself or perhaps While the remains on the surface are 
+raised from it. While the decay of time has mainly of interest to archeologists and 
+weathered away most of what must have xenoanthropologists, there are many sites that 
+been major facilities, these worlds surely contain interesting remnants and artifacts. What 
+featured prominently in some grand scheme is more worrying is that these hidden sites 
+of colonization or habitation. are also defended by automated sentinels left 
+
+behind to prevent those artifacts from falling 
+into the wrong hands or perhaps any hands 
+at all. An enhanced Unity security presence is 
+recommended for all colonial expeditions.”
+
+12
+
+
+
+CREWS & 
+COMBAT
+
+	 YOUR COLONY CREW 14 	 COMBAT RULES 28
+	 The Character Roster 14 	 The Battle Round Sequence 28
+	 Initial Character Profiles 18 	 Carrying Out Tasks 31
+	 Character Backgrounds 21 	 AI Enemy Variations 32
+	 The Administrator 25 	 Movement 34
+	 Imported Characters 26 	 Shooting 35
+
+	 Resolving a Hit 37
+	 	 Brawling 39
+
+	 Panic 40
+	 Aid 40
+	 Contacts 41
+	 “The Slyn” 43
+	 PLANETFALL 44
+	 “The Promise” 46
+
+13
+
+
+
+Your Colony Crew
+
+Your Colony 
+Crew
+
+The Character Roster
+Welcome to your new home, Colony background during each episode, but the 
+Administrator! Let’s find out who came along story is ultimately about a small handful of 
+with you to build this new project. In this recognizable people. 
+section of the book, you will create the roster of 
+characters you’ll use to play the game. Classes
+Your colony crew has an initial roster of eight 
+characters, expandable to ten over the course There are three classes available to you: 
+of a campaign (the maximum number of The scout, the scientist, and the trooper. 
+characters available to you). When you take on ◆	 Scientists are the brains of the operation, 
+missions in the tactical game, you will usually helping evaluate the strange and the alien, 
+use a subset of this roster. Note that due to as well as improving the coordination of 
+injuries and deaths, you may well go into your team in the field.
+missions short-handed! 
+
+◆	 Troopers bring the brawn, being trained 
+The roster does not represent every character in heavy weapons and armor. They are 
+of that type. Your colony is assumed to professional soldiers with tactical flexibility.
+have several security personnel, colonists, 
+scientists, engineers, and others, in addition ◆	 Scouts help with the exploration of the 
+to those on your roster. Instead, your roster world and have superior battlefield mobility.
+represents the most important slice of Your roster may contain any combination of 
+your colony. Think of them as the focal these three classes, but you must include at 
+characters in a television show. You might least one of each. If you are uncertain what’s 
+see any number of other individuals in the best for your initial roster, we recommend  
+
+2 scouts, 2 scientists, and 4 troopers. 
+
+Character-driven Stories Note that if you are importing a character 
+from another game, they count against your 
+
+Several events will refer to characters on your roster limit. For example, if you were to bring 
+roster. This always refers to the characters that two characters from a Five Parsecs from Home 
+can gain experience and progress. Incidental campaign, you would have six remaining 
+civilians that are along for a mission – bots and character slots. 
+the military grunts that make up your fireteams 
+– are NOT part of your character roster and can 
+never be selected as the target of an event that 
+affects characters on your roster.
+
+14
+
+
+
+Your Colony Crew
+
+Scientists Troopers
+This class encompasses researchers, biologists, The brawn of the mission, troopers are veteran 
+technicians, and more. While each has a soldiers capable of dealing with an array of 
+specialty they were trained in, they carry AI- battlefield challenges. They not only benefit 
+assisted modules, giving them a wide range from enhanced combat abilities, but are capable 
+of addition AI expertise and instantly available of using a wide range of military weaponry.
+situational analytics. Troopers can use Civilian and Trooper weapons 
+Scientists can only use Civilian and Scientist and equipment. 
+weapons. 
+
+◆	 Trooper Armor: All troopers wear protective 
+◆	 Scientific Mind: When making a Savvy test, armor plating, giving them a 5+ Armor 
+
+scientists may roll the die twice and pick the Saving Throw.
+best score.
+
+◆	 Intense Combat Training: A trooper 
+◆	 Problem Solving: When making a Reaction activated in the Quick Action Phase (see 
+
+roll, you may roll one additional die for page 28) may move and attack as normal 
+each scientist on the table. After assigning or may choose to take two actions (such as 
+initiative dice to your characters, any excess firing twice). If they do, one action happens 
+dice are dropped. in the Quick Action Phase and the second in 
+
+the Slow Action Phase. 
+
+15
+
+
+
+Your Colony Crew
+
+Scouts Grunts
+This class represents the specially trained scouts You also start with 12 common soldiers known 
+that every colonial expedition employs. Scouts as grunts. Should this number drop below 
+can move quickly through a variety of terrain 12, more can be trained, though they are not 
+and excel in flexibility on and off the battlefield. an infinite resource. These common soldiers 
+Scouts can use Civilian and Scout weapons and do not need to be listed separately on your 
+equipment. roster, merely tracked on your Colony Tracking 
+
+Sheet, though you may like to name them in 
+◆	 Flexible Combat Training: Unlike other the 'Notes’ box as you play the campaign – it is 
+
+characters, when a scout activates, they  more interesting to know that Private Estrada is 
+may choose to take their action before or the one that took on an alien beast alone.  
+after moving. You will be accompanied into combat missions 
+
+◆	 Jump Jets: Scouts wear jump modules, by fireteams of such soldiers. These are not 
+allowing short, powered jumps. When as experienced or battle-hardened as your 
+moving, a scout can choose to jump instead troopers, but they are proficient and capable 
+of walking. The distance traversed is equal to military personnel.
+the normal movement speed. Unlike your main characters, grunts do not gain 
+The jump must be in a straight line but experience or progress. Grunts always have the 
+can clear obstacles up to double human same profile and are not tracked individually. 
+height and can be used to jump on and off In the campaign game, they use a simplified 
+things. Scouts can descend from any height casualty table to determine their fates. Grunts 
+without taking damage, but a drop beyond use their own weaponry (usable only by them) 
+their movement speed uses up the entire and cannot be outfitted with other weapons.
+activation. Each mission type will state if it allows the use 
+
+of grunts and, if so, how many you can bring.
+
+16
+
+
+
+Your Colony Crew
+
+Civvies
+Civvies do not appear on your roster but may 
+show up during missions. If you are short on 
+people, you may also opt to bring along civvies 
+to fill any missing positions. 
+Civvies have the basic profile on page 18 and 
+have no special abilities. They can only use 
+Civilian weapons.
+They do not progress in campaign experience, 
+and the same civvy will not typically participate 
+in multiple missions (though for narrative 
+purposes you might decide that, for example, 
+the newly recruited trooper was actually a 
+civvy from a prior mission who has now 
+undergone basic training).
+
+The Colony Bot
+Bots are cybernetic assistants commonly 
+assigned to dangerous missions. They can Bots receive the following abilities:
+stand in for a wide range of crew roles in the ◆	 Made of Metal: Bots receive a 6+ Armor 
+field and are easily repaired if damaged during Saving Throw when hit by attacks.
+a mission. You have a single bot available. It 
+can be named (and Unity soldiers often do give ◆	 Mindless and Strong: When playing 
+their bot compatriots a name) or you can give special scenarios, bots are never affected 
+it a designation of letters and numbers to suit by psionic influences that are not strictly 
+their artificial nature. physical in nature (so a bot cannot be 
+
+mind-controlled but could be knocked over 
+The Incremental Productions Synth-Person by a blow of psionic force). They are never 
+(nicknamed Eypees by Unity troopers, and penalized or slowed down for carrying or 
+more commonly colony bots) were developed hauling heavy items. 
+to be a multi-purpose bot suitable for 
+colonization and exploration efforts. ◆	 Replaceable: Bots do not roll for post-
+
+battle injuries. If a bot becomes a casualty 
+As research shows colonists tend to prefer during the game, it is broken. Your 
+the bots being individually distinguishable, a facilities can repair or replace one bot every 
+number of personality modules are available. campaign turn.
+The basic chassis is humanoid in form. 
+You begin the campaign with the Eypee colony 
+bot. You may opt to bring the bot along with Bot Models
+you on a mission in place of another character, Players of Five Parsecs from Home will note that 
+but the bot cannot gain experience or receive bots have both a different starting profile and 
+any upgrades. This makes it valuable early in a different ways in which they are handled during 
+campaign, but it will eventually be outclassed a Planetfall campaign. This reflects the types of 
+by your other characters. bots assigned to exploration and colonization 
+In combat, the bot can use Civilian weapons. fleets, which are optimized for durability rather 
+
+than combat potential.
+
+17
+
+
+
+Your Colony Crew
+
+Initial Character Profiles
+Each character begins with a starting profile Reactions
+as shown in the table below. Copy this data to A measure of initiative, observation, and 
+the roster on your Colony Tracking Sheet alertness. A character with high Reactions has 
+(see page 190). more flexibility in the combat round sequence. 
+Choose eight profiles from among scientists, Reactions range from 1 to 5, with a typical 
+scouts, and troopers. You will also have civilian having 1.
+12 grunts and one bot. When choosing your Speed
+scientists, scouts, and troopers, you can choose 
+Human sub-species and other non-Human The ability of the character to cover ground in 
+profiles – see page 19. a tactical situation. This is always listed as a 
+
+number of tabletop inches. A typical civilian 
+has a Speed of 4”. 
+
+Ability Scores
+Combat Skill
+
+Each character has a profile with 
+ability scores that provide their basic A measure of weapons training, 
+combat characteristics. Players of fighting ability, and killer instinct. 
+other Five Parsecs games will This is listed as a bonus to  
+recognize that the abilities are combat dice rolls. A typical 
+directly compatible. civilian has +0.
+
+Toughness
+Imported Characters and Difficulty How rugged and tough the 
+A character brought over from another Five character is and how well they 
+Parsecs from Home campaign arrives with can keep fighting despite 
+considerable advantages in terms of XP minor injuries. This ranges 
+gained and items acquired. This will make from 3 to 6, with a 
+the initial game a little easier. They bring typical civilian 
+the abilities they had in that campaign  having 3.
+(as far as those abilities apply to the Savvy
+Planetfall rules). Crew are assumed to be 
+advisors, mercenaries, or Unity-affiliated Wits, logical reasoning, and some 
+agents with particular talents that are technical aptitude. This is used for 
+going to be beneficial to the mission. problem solving and to get out of 
+
+certain sticky situations. It is listed 
+See “Imported Characters” (page 26) as a bonus to a dice roll with a typical 
+for more info. person having a +0.
+
+ABILITY SCORE SCIENTIST SCOUT TROOPER GRUNT CIVVY BOT
+
+Reactions 1 1 2 2 1 2
+Speed 4” 5” 4” 4” 4” 4”
+
+Combat Skill +0 +0 +1 +0 +0 +0
+Toughness 3 3 3 3 3 4
+
+Savvy +1 +0 +0 +0 +0 +0
+
+18
+
+
+
+Your Colony Crew
+
+Human Sub-Species ◆	 Impetuous: When making a Reaction Roll, 
+There are 57 registered sub-species of if you roll a single 1, it must be assigned 
+Humanity according to Unity Survey data. Of to a Feral character, if possible. If you roll 
+these, three are considered of particular value multiple 1s, you are not required to do so.
+to colonists: Feral, Hulkers, and Stalkers. You Hulker
+may opt to include a maximum of one Feral 
+plus one sub-species of choice (Hulker, Stalker, Gene-modded to have massive strength, the 
+or a second Feral). Hulker is an intimidating individual, towering 
+
+over the average Human.
+Select any character on your roster and add the 
+following modifications and abilities. Hulkers begin with Toughness 5.
+
+They receive the following characteristics:
+Feral
+
+◆	
+Genetic uplifts based on various Earth Poor Aim: Hulkers have poor eyesight. They 
+carnivores, Feral most commonly resemble always count as having Combat Skill +0 
+humanoids with fur and wolf-like facial features when shooting and can receive no weapon 
+and tails. While originally developed for military hit bonuses.
+purposes, they can be found throughout ◆	 Great Strength: Hulkers do not suffer a 
+Human space. penalty when using heavy weapons. In 
+Feral have no adjustments to their profile, but brawling combat, they can strike using their 
+receive the following two characteristics: fists (Melee weapon, +1 Damage).
+
+◆	 Keen Senses: All visibility limitations and 
+detection ranges are increased by +1” 
+for a Feral. For example, if something was 
+normally spotted at 6” range, a Feral would 
+spot it at 7” range instead.
+
+19
+
+
+
+Your Colony Crew
+
+Stalker
+A rare gene-mod, the Stalker physically 
+resembles an ordinary Human except for the 
+blue coloration of their skin.
+Stalkers have no adjustments to their profile, 
+but receive the following characteristic:
+◆	 Shift!: Instead of moving normally, the 
+
+Stalker may conduct a short-range teleport. 
+Roll 1D6 and position the figure anywhere 
+within this distance in inches. This is not 
+regular movement, and the figure can shift 
+through terrain and other figures. They may 
+still take a normal action. 
+
+Alien Characters Soulless emissary
+If you own the Five Parsecs from Home core Some colonies have created highly unusual 
+rules or Compendium, you may also select alien partnerships with Soulless who, for 
+characters from those books. These are assumed diplomatic reasons, decided to support the 
+to be specially assigned to the mission and have colony as robotic support and or security. It is 
+been granted Unity citizenship. not uncommon for Souless representatives 
+
+to travel with starship crews, so this does 
+represent an intriguing dilemma for a 
+colony. Do they refuse the help and possibly 
+create tension with a nearby Soulless 
+expedition, or accept the help and risk the 
+Soulless having access to the colonies' data 
+and risk a security breach?
+You may include a single Soulless emissary, 
+taking up a roster slot.
+◆	 Soulless can only occupy the Trooper 
+
+class due to security restrictions. 
+◆	 The Soulless character receives a 6+ 
+
+Saving Throw due to their metal 
+construction and begins the campaign 
+with Toughness 4 and a +1 Savvy score.
+
+◆	 Soulless cannot receive any 
+Augmentations. 
+
+◆	 Due to the need for repairs, they use the 
+normal injury table after missions. They 
+cannot benefit from any accelerated 
+healing and recovery.
+
+20
+
+
+
+Your Colony Crew
+
+Character Backgrounds
+Your roster of eight initial characters includes Prior Experience

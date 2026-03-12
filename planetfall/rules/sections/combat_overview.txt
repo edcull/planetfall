@@ -1,0 +1,201 @@
+roll the same number of D6 as you have player 
+characters on the battlefield. Quick Thinking
+Assign the D6 results to the characters of  Each scientist on your team allows you to roll 
+your choice. one additional die for during the Reaction Roll. 
+
+After assigning one die to each character, any 
+Any character assigned a die equal to or below excess dice are discarded. Scientists do not allow 
+their Reaction score will act in the Quick you to take more actions, they just increase your 
+Action Phase. chances of having characters move before the 
+All other characters act in the Slow Action enemy does. If scientists become casualties, the 
+Phase. extra dice are lost at the start of the next battle 
+
+round. No change happens mid-round.
+Note that all rolled dice must be assigned to a 
+character and each character can receive only 
+one die. Some factors can result in the player 
+rolling more dice than they have characters. 
+After rolling, assign dice to your characters and 
+then discard any excess dice. 
+
+29
+
+
+
+Combat Rules
+
+Player Character Actions
+Delaying Within the Quick and Slow Action Phases, 
+The player may opt to roll fewer dice than they the player can choose the order in which each 
+are allowed. Any character not assigned a die will character will act. Each character carries out 
+act in the Slow Action Phase. their intended actions one at a time. You do 
+Note that a character assigned a die must act in not have to declare any actions in advance: For 
+the phase indicated by the die. example, if one character is going to shoot, you 
+
+can see what the results of that are before you 
+pick the next character to act. 
+
+Fireteams and Initiative Once a character has been activated, they 
+Grunts are organized into fireteams, typically cannot be activated again this round and 
+four to a team, and formed at the point of you cannot take part of an activation, act with 
+deployment. You cannot form or dissolve a a different character, and then go back to a 
+fireteam during a battle, and it cannot include prior character.
+any other character type. The activations work differently depending on 
+Fireteams are treated as a single character the type of character being activated:
+for initiative and activation purposes: They 
+contribute a single die to the pool of initiative Player Character Activations
+dice and are assigned a single die. Each ◆	 Scientist, Bot, Civvy, Crew, Grunts: 
+member of the fireteam will usually activate The character can perform one Move and 
+in the same phase depending on the die they then perform a single action. 
+were collectively assigned. Note that grunts in fireteams are not 
+Fireteams benefit from additional coordination required to all take the same actions. 
+when they are in formation: 
+
+◆	 Scout: The character can perform one 
+If all fireteam members left on the table are Move and one action. Scouts may choose 
+within 2” of each other (forming a chain, blob, to move before or after taking their action, 
+or other formation) they count as having a but the character must complete all of their 
+Reaction score one point higher (i.e. 3 instead movement at one time.
+of a grunt’s usual 2).
+
+◆	 Trooper: Troopers can perform one Move 
+Every fireteam member must be within and then perform a single action. A trooper 
+formation distance during the Reaction Roll assigned to the Quick Action Phase may 
+to get this bonus, and there must be at least instead choose to forego moving and take 
+two grunts left. (A single surviving grunt is one action in each of the Quick and Slow 
+not a formation!) Action Phases (typically allowing them to 
+
+attack twice). 
+
+Player Character-controlled Activations
+In special scenarios you might have non-player 
+characters temporarily fighting alongside the 
+player characters. In this case, they are treated 
+as part of the player’s forces and have Reaction 
+dice rolled normally. A character without a 
+Reaction score does not receive a rolled result, 
+automatically going in the Slow Actions Phase.
+
+30
+
+
+
+Combat Rules
+
+The Actions ◆	 Enemy without ranged weapons or 
+The following actions are generally available who are out of range will simply move, 
+to player characters: (potentially entering Brawling combat –  
+
+see page 39).
+ACTION DESCRIPTION
+
+Carry Out Task Perform a task required Hesitation
+in a scenario. Lifeforms and Tactical Enemies that activate 
+
+Rush Move an additional 2". without an opponent visible to them must 
+roll 1D6. On a 1, they hesitate and do not 
+
+Shoot Fire one weapon you act this Phase.  The Slyn and Sleepers are not 
+are carrying. affected by this.
+
+Aids an ally within 3”. 
+Place an Aid marker on the ally 
+
+Aid if they do not already have one End Phase
+OR remove a Stun marker First, check if any scenario conditions have 
+
+from the ally. been met that would end the battle. A scenario 
+always ends if, during the End Phase, there 
+
+Use Equipment Use a carried item which 
+requires an action. are no player characters on the table. Note 
+
+that an absence of enemy figures does NOT 
+Enemy Actions automatically end the scenario if the scenario 
+
+rules allow for more enemy figures to arrive.
+In the Enemy Actions Phase, the enemy 
+activates all specialists first, then activates all If you are fighting the Slyn, the battle ends if, at 
+remaining figures. In both cases, activate the the end of the round, only a single pair remains 
+enemies closest to the player’s battlefield edge on the table.
+first, then progress backwards across the table. During this phase, check for anything that says 
+Note that only Tactical Enemies have specialists. it should happen at the end of the round.
+
+Enemies only use the Shoot option in normal If you are fighting Lifeforms or Tactical Enemies 
+play. In special scenarios or when playing with and inflicted casualties this round, Panic checks 
+a Game Master, the enemy can perform actions are made now (see page 40). Note that some 
+suitable to the scenario.  enemies are Fearless, such as the Sleeper robot 
+
+species (see page 154).
+◆	 Enemy with ranged weapons move as 
+
+discussed in the movement rules below. If Slyn do not take Panic checks, but if only a 
+they have Line of Sight to an opponent, they single pair remains on the table at this stage, 
+will then take an action to fire at the target. the battle ends immediately as they teleport 
+
+out (see page 152). 
+
+CARRYING OUT Tasks
+Scenario objectives and conditions often typically Savvy. A roll equal to or above the 
+require a Task roll. Characters must be within target number indicated in the scenario is 
+1” of the terrain feature, objective, or similar a success. 
+feature to perform a Task. Unless otherwise stated, a particular Task can 
+To perform the Task, roll 1D6 and add the only be attempted once per battle round.
+ability score mentioned in the scenario, 
+
+31
+
+
+
+Combat Rules
+
+AI ENEMY VariationS 
+(optional rule)
+
+This rule is optional as it adds an additional AI Enemy Variations apply only to Lifeforms and 
+die roll to the game sequence. It is included Tactical Enemies. It does not apply to the Slyn or 
+for players who prefer a more unpredictable Sleeper enemy types. 
+battle where the enemy will not always act 
+as expected. You can use this rule in some To use AI Enemy Variations, roll 1D6 at the start 
+battles and not in others as you see fit. It is not of the Enemy Actions Phase and consult the 
+required that you use it in every encounter. table below. A ploy means one of the enemies 
+
+in the encounter is up to something, but an AI 
+action means one of the enemies gets an idea 
+
+The Enemy are not Idiots into their heads. 
+
+In a game like this, you need to inject a plethora D6 AI VARIATION
+
+of moment-by-moment decisions into moving 1 Roll on the Ploy table
+and positioning enemy forces. If you are 
+uncertain what to do, review the AI guidelines 2-4 Nothing happens
+and if you cannot find a satisfactory answer, 5-6 Roll on the AI Action table 
+randomly pick from the available options. 
+In most cases, defaulting to “the enemy would As the Ploy and AI Action tables also use a D6, 
+pick the most logical approach”, will do just fine. you can speed up the process by rolling two 
+
+differently colored dice at the same time, with 
+When in doubt, remember that the enemy is one color being the AI Variation table and 
+intended to represent people (or creatures or the other color die only being read if you are 
+robots) who are trying to win a fight. An action directed to one of the other tables. If this seems 
+that is sub-optimal is fine: A Human player may too confusing, just roll one at a time. 
+not want a single combatant to engage several 
+opponents, but the AI is happy to do so because There are separate tables for Tactical Enemies 
+it keeps the game moving along. However, and Lifeforms. Ensure you use the correct one.
+the AI should not act in ways that are evidently The ploy or action affects a single enemy figure. 
+suicidal or engineered to give you a cheap win. Randomly select which target figure from those 
+
+present on the table. 
+
+Tactical Enemies Ploys table
+
+D6 PLOY DESCRIPTION
+
+1 Redeploy The target is moved to the nearest terrain feature and placed on the highest point. 
+2 Take charge The next Panic die rolled by the enemy side is ignored. 
+
+The target removes all Stun and Sprawling markers. It then activates normally. 
+3 Recovery Note that the target for this ploy must be an enemy with Stun or Sprawling 
+
+markers. If nobody eligible is on the table, there is no effect.

@@ -1,0 +1,151 @@
+these things. cover. Somewhere out there was its partner, 
+Theodora nodded and they jogged to the keeping it alive.
+entry hatch, which opened as it detected their As the fog cleared for a moment, she couldn’t 
+approach. The blue light of the afternoon sun help but gasp. The high-caliber ammunition 
+gave the scene an oddly serene feel, in spite had torn one of its arms clean off and blood  
+of the chaos unfolding at the perimeter was spraying from the creature’s ruptured 
+guard post. throat. Though they looked like reptiles, they 
+She could see two of the security troopers were humanoid enough that it was not difficult 
+down there, frantically aiming and firing into to envision the same wounds on one of her  
+the fog at hunched shapes. One shape stood  own troopers.
+up and a moment later a searing bolt of light There was no sign of the partner even though 
+arced towards the guard post, shattering part of she knew it must be somewhere nearby. She 
+the barricade. mouthed the word “auto” and the helmet AI 
+“Slyn!”, Theodora shouted to nobody in adjusted her rifle. The hail of fire struck the 
+particular. The lizards had attacked them twelve shattered Slyn and tore it to pieces. As the gore 
+times in the last two months and they didn’t smeared the ground, she thought she saw 
+seem tired of it yet. Jacques fell to one knee another shape fall. That’s how they worked:  
+and started firing into the fog too, the tracer fire They were linked in pairs and as long as one 
+barely perceptible through the roiling mist. survived, the other could keep going despite 
+
+grievous wounds. Up to a point, at least.
+Theodora trusted that Jacques could keep them 
+pinned down and began moving towards the As she ducked back to reload, she gave a bitter 
+guard post. As she ran, two bolts of light flashed smile. You had to admire their loyalty to each 
+past her. They were soundless unless very close, other. She might even do so later when they 
+in which case there came a sort of high-pitched weren’t busy trying to kill her. 
+whine or momentary static noise through the 
+headsets, giving battle communications a 
+strange, choppy ambience.
+
+108
+
+
+
+MIssions & 
+Battles
+
+	 MISSIONS 110 	 BATTLEFIELD SETUP 138
+	 Battlefield Conditions 110 	Preparing a Wargames Table 138
+	 Mission Briefings 114 	 Random Table Setup 143
+	 Post-Mission Finds 134 	 Enemy Generation 146
+	 Alien Artifacts 135
+	 Uncertain Terrain Features 137
+
+109
+
+
+
+Missions
+
+Missions
+
+Battlefield Conditions
+Every planet selected for exploration has its If the roll on the Campaign Condition table 
+own unique environments and phenomena indicates an entry that has been filled out, you 
+that the field teams must contend with. We receive the same Condition again, including 
+refer to these as Campaign Conditions (or any secondary rolls. 
+simply Conditions). Although you generate 
+Conditions as part of mission briefings, you Unless stated otherwise, battlefield conditions 
+should track these local peculiarities as part of apply to the enemy as well as your own troops.
+the ongoing campaign game.
+
+Campaign Condition table
+When you begin the campaign, you will have 
+a Campaign Condition table with 10 blank D100 NO. CONDITION
+
+entries on it. Every time a mission instructs 01-15 1 
+you to determine a Condition, roll D100 and 16-30 2 
+consult the table. 
+
+31-42 3 
+If the roll indicated a blank entry, roll on the 
+Master Condition table below, and follow the 43-52 4 
+instructions (some entries require additional 53-62 5 
+rolls). Write the Condition you have generated 
+into the spot on the Campaign Condition table 63-72 6 
+exactly as you rolled it. Going forward, that 73-82 7 
+result will always be what is written on your 83-90 8 
+Campaign Condition table. 
+
+91-95 9 
+96-00 10 
+
+Note on Variety
+The same Conditions can be added to your 
+Campaign Conditions table more than once. You 
+can either accept this as a common occurrence 
+on your particular world or you can treat the 
+second roll as No Condition. 
+
+110
+
+
+
+Missions
+
+Master Condition table
+
+D100 RESULT DESCRIPTION
+
+01-08 Visibility limits Your vision is limited due to impenetrable darkness, fog, psionic 
+interference, or visual distortions. This seems to defeat all conventional 
+technological solutions. 
+The visibility limit is the maximum range at which you can fire on 
+targets or carry out any other tasks that requires visibility. Research can 
+improve this limit. 
+Roll D100 again:
+01-30	 V ariable by round: Roll 1D6+8 at the beginning of the  
+
+game and again at the end of each battle round to determine 
+the limit in inches next round.
+
+31-70	 Fixed: The limit is 1D6+8”. Roll once to determine what it  
+will be in every instance this condition applies.
+
+71-00	 V ariable by battle: When setting up a battle, roll 1D6+8 
+to determine the visibility limit for this battle.
+
+09-13 Shooting penalties Your ability to track and shoot targets is affected by a natural 
+phenomenon such as psionic disturbances, malfunction due to 
+background “haywire signals”, clouds of gas, or similar. 
+A -1 penalty applies to all ranged attacks in certain circumstances.  
+Roll D100 to determine those circumstances:
+01-35	 R andom by round: Each battle round roll 1D6; on 5-6,  
+
+the penalty applies that round.
+36-65	 Range: All attacks over 15” range are penalized.
+66-00	 C ertain terrain types: When setting up, randomly pick a 
+
+terrain feature. All features of the same broad type (plants, 
+rocks, water, etc.) apply the penalty to any shot that originates 
+from, targets inside, or passes through the feature.
+
+14-19 Movement penalty Due to gravity distortion, slippery surfaces, crumbling ground material, 
+or grasping plants, you are unable to Dash under certain circumstances. 
+Roll D100:
+01-25	 T able surface: Anywhere on the table surface that is not a 
+
+terrain feature. Figures in or on terrain features are not affected.
+26-60	 Terrain features: Anywhere that is in or on a terrain feature.
+61-80	 Climbing: While climbing up or down things.
+81-00	 Crossing obstacles: When crossing any kind of obstacle.
+
+111
+
+
+
+Missions
+
+D100 RESULT DESCRIPTION
+

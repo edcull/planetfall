@@ -1,0 +1,501 @@
+
+attempt to roll 1D6+Savvy. A 5+ means you Patrol Mission
+can choose which Lifeform you are facing. 
+Otherwise, roll randomly on the Campaign Survival on a hostile world requires vigilance. 
+Lifeform Encounters table. If the result is a You send out a team to conduct a patrol near the 
+blank entry, generate the creature now and add colony to keep everyone safe and have a look at 
+it to your encounter table. conditions in the field. 
+
+Objectives Map Location
+If the Slyn are attacking, you are trying to fight Select any map sector within 2 squares of your 
+them off. This prevents you from obtaining any colony. The sector must not be enemy-occupied.
+mission Rewards. Note: You are patrolling a part of the sector that 
+If you are facing Lifeforms, the goal is to kill two your colonists have begun utilizing. The Hazard 
+Lifeforms, then move a figure into base contact and Resource scores are not used in a routine 
+with each, spend an action to transmit the data patrol and completing the patrol does not 
+to the colony and then escape the table. make the sector Exploited.
+
+Ending the Mission Table Setup
+The mission ends when your squad is no longer Use a  3x3-foot table populated with terrain.
+on the table, either due to being casualties Place a few features to represent the colony, 
+or moving off any battlefield edge. You do such as a parked vehicle, building outpost, 
+not have to exit via a specific edge. Typically, fencing, or similar. (A few work robots always 
+once you have completed your tasks, you will help give a fun science fiction vibe.) 
+move to evacuate off the battlefield. Any crew 
+member that leaves the table is assumed to Roll once for Battlefield Conditions. 
+return safely to your vehicle. Uncertain Features should not be used.
+If you are fighting the Slyn, the mission also Mark the 3 terrain features closest to the 
+ends if you drive them off. If the Slyn abandon center as Objectives. 
+the battle, you can claim any remaining 
+objectives that were not claimed already. Player Forces
+
+You will deploy 2 characters from your roster 
+Rewards as well as a single fireteam of up to 4 grunts.
+◆	 If you obtain a sample from two Lifeforms, 
+
+it authorizes you to carry out Bio-Analysis Randomly select a battlefield edge (if your 
+Research (see page 92). table is placed against a wall, just pick from 
+
+the edges you can sit at). Your crew sets up 
+◆	 If you fight the Slyn and drive them off,  anywhere you like within 4” of the selected 
+
+you may roll for a Post-Mission Find (see battlefield edge.
+page 134). After all, they would not be here 
+if there was not something of interest. Opposition
+
+After deploying, roll 2D6:
+Campaign Factors
+If the sector has a Hazard factor roll 1D6.  If the roll is 2-4, you are attacked by the Slyn. 
+On 5-6, it is reduced by 1. The Slyn will set up in randomly selected terrain 
+
+features near the opposite battlefield edge. 
+Special Rules Locate the 6 terrain features closest to that 
+No additional special rules apply. battlefield edge and roll randomly for each Slyn 
+
+pair to see which they deploy into.
+
+121
+
+
+
+Missions
+
+If the roll is 5-12, you are contending with If you are fighting the Slyn, the mission  
+Lifeforms. No Contacts are placed, initially. also ends if you drive them off. If the Slyn  
+
+abandon the battle, you can clear any 
+Objectives remaining objectives. 
+To conduct your patrol, each Objective must 
+be cleared. An Objective is clear if you have a Rewards
+figure within 2” and no enemies are within ◆	 If you complete at least 1 Objective, 
+the same distance. You can clear multiple increase Colony Morale by 1. 
+Objectives in the same round. 
+
+◆	 If you complete all 3 Objectives, roll for a 
+If present the Slyn are here to kill you and will Post-Mission Find (see page 134). 
+ignore the Objectives. 
+
+Campaign Factors
+Any Lifeforms will always ignore the Objectives. None apply.
+Ending the Mission Special Rules
+The mission ends when your squad is no longer 
+on the table, either due to being casualties If fighting Lifeforms, at the end of each battle 
+or moving off any battlefield edge. You do round, one Contact is placed at the center of 
+not have to exit via a specific edge. Typically, a random battlefield edge except the one you 
+once you have completed your tasks, you will entered from.
+move to evacuate off the battlefield. Any crew Contacts can move off the battlefield edge 
+member that leaves the table is assumed to during this mission. Any that do are removed 
+return safely to your vehicle. from the table.
+
+122
+
+
+
+Missions
+
+Skirmish Objective table
+
+D6 SKIRMISH 
+OBJECTIVE OBJECTIVE COMPLETION CONDITIONS
+
+1 Secure End a battle round with only your characters within 3” of the Objective.
+2 Sweep Moving into contact. 
+
+Select one character to carry demo charges. They automatically destroy the 
+3 Destroy Objective by moving into contact. Otherwise, a character in base contact can roll 
+
+1D6 and add the damage value of any Melee weapon carried. 
+On 6+, they destroy the Objective.
+
+4 Search Take an action within 2” and roll 1D6+Savvy. 
+A result of 6+ completes the Objective. 
+
+Select two characters that each carry one of the items to be delivered (beacon, 
+5 Deliver scanning pod, etc.) Either character must move into base contact with the 
+
+Objective to complete it. If you receive two Deliver Objectives, four characters 
+carry the items, and they can be used for to make contact with either Objective.
+
+6 Retrieve Move into base contact with the Objective to retrieve the item. 
+It must then be carried off the table. 
+
+Skirmish Items are sensitive and cannot be voluntarily 
+Enemy activity has been intensifying, and it is dropped or handed off. The enemy always 
+time to fight back. You deploy from your shuttle ignores any items on the ground.
+to take on the enemy directly. Player Forces
+Map Location You may deploy 4 characters from your roster 
+Any map sector that is occupied by the enemy. as well as a full fireteam of 4 grunts.
+
+Randomly select a battlefield edge (if your 
+Table Setup table is placed against a wall, just pick from 
+Use a  3x3-foot table populated with terrain. the edges you can sit at). Your crew sets up 
+Roll 1D6 twice on the Skirmish Objective anywhere you like within 4” of the selected 
+table below to determine what you are here to battlefield edge.
+do. Each objective is placed randomly 1D6+1” 
+from the center of the table. Opposition
+If you wish to use the optional Uncertain The Slyn will not interfere in this mission.
+Features rule, place 2 Uncertain Features on Your opposition is generated normally using 
+the table. the appropriate Tactical Enemy type (see 
+Roll once for Battlefield Conditions. page 148). 
+
+Several Objectives depend on carrying items. Select the 6 terrain features closest to the 
+A character can carry any number of mission opposite battlefield edge from where you set 
+items. If the character is a casualty, the up. For each enemy, roll a D6 to determine 
+item is dropped where they fell and can be which terrain feature they begin the game 
+picked up by moving into base contact with within (directly behind if unable to be placed 
+it. Retrieving or deploying an item does not within the feature).
+require an action.
+
+123
+
+
+
+Missions
+
+Objectives Rescue Mission
+The enemies ignore the Objectives and will 
+focus on killing your squad. Colonists have sent up an SOS signal, and your 
+
+squad is headed out to rescue them before they 
+Ending the Mission get overwhelmed. 
+The mission ends when your squad is no longer Map Location
+on the table, either due to being casualties or 
+moving off any battlefield edge. You do not Select any map sector within 3 squares of  
+have to exit a specific edge, unless a Battlefield your colony. 
+Condition mandates it. Typically, once you Table Setup
+have completed your tasks, you will move to 
+evacuate off the battlefield. Any crew member Use a  2x2-foot table populated with terrain.
+that leaves the table is assumed to return safely Place three colonists in the center of the table 
+to your vehicle. (you can use figures or markers to represent 
+
+them). If possible, place them near a wrecked 
+Rewards vehicle, crater, a piece of machinery, or a small 
+You may roll once on the Post-Mission Finds colony building. 
+table if you complete the mission. The Uncertain Features option is not used.
+Campaign Factors Roll once for Battlefield Conditions. 
+If you complete both Objectives, the enemy 
+will no longer occupy this map sector. If this Player Forces
+was their last sector, they move to a random You may deploy a total of 6 figures which can 
+adjacent sector. Note that you cannot destroy be any combination of characters from your 
+the final map sector occupied by a particular roster and grunts. Grunts are organized into 
+enemy without playing the Assault mission. fireteams normally with any grunts past 4 
+
+forming their own team.
+Special Rules
+The longer the mission takes, the more Your squad deploys from the shuttle directly 
+enemies are likely to arrive. At the end of each into the action. Set up your squad within 3” of 
+battle round, roll 1D6. If you have completed the center of the table. 
+any Objectives, roll an additional D6 for each Opposition
+completed Objective. The Slyn will not interfere in this mission.
+◆	 For every 6 rolled, a regular enemy arrives 
+
+and is placed at the center of a random You are fighting Lifeforms. Place 2 Contacts at 
+battlefield edge. All enemies arriving at the center of each battlefield edge. 
+the same time will arrive from the same The first time a Contact is revealed to be 
+battlefield edge. Since you are in enemy hostile Lifeforms, roll on the Campaign 
+territory, they may deploy behind you. Lifeform Encounters table to determine what 
+
+◆	 If you roll two 6s at once, one of the you encounter. If the result is a blank entry, 
+enemies placed will be a specialist and the generate the creature now and add it to your 
+other a regular enemy. encounter table.
+
+◆	 If you roll three 6s, the enemy receives 
+one regular, one specialist, and one 
+Leader enemy. 
+
+124
+
+
+
+Missions
+
+Objectives Scout Down! 
+The Objective is to save the colonists. A colonist 
+is saved if they exit any battlefield edge and One of your scouts have been shot down with 
+were within 3” of a squad member either at the enemies closing in. You deploy to rescue them. 
+start of that move or at the point of exit. Map Location
+As your shuttle pilot will circle to pick up, you Select any unexplored map sector.
+can exit across any edge.
+
+Table Setup
+A colonist that exits without being near a squad 
+member must roll 1D6. On 5-6, they make it Use a  2x2-foot table populated with terrain.
+to the nearby shuttle and are saved, otherwise Place a scout in the center of the table. If 
+they are killed by animals. possible, place them near a wrecked vehicle or 
+
+crater to represent where they were shot down.
+Ending the Mission
+The mission ends when your squad and the The Uncertain Features option is not used.
+colonists are no longer on the table, either Roll once for Battlefield Conditions. 
+due to being casualties or moving off any 
+battlefield edge. Player Forces
+
+You may deploy a total of 6 characters which 
+Rewards can be any combination of characters from 
+No special rewards. your roster and grunts. Grunts are organized 
+
+into fireteams normally, with any grunts past 4 
+Campaign Factors forming their own team.
+You will lose 1 Colony Morale for each colonist 
+that is not saved. (note that if you opt not to Select any battlefield edge you like. Your squad 
+carry out the mission when generated by the moves on to the table from the edge in the first 
+Scout Discovery table, you lose 3 points, as all battle round. 
+of the colonists are assumed to perish). Opposition
+Squad casualties do not affect Colony Morale Roll 2D6. On 2-3, the Slyn are attacking. 
+during a Rescue mission. The Slyn will set up in randomly selected terrain 
+Special Rules features near the opposite battlefield edge. 
+At the end of each battle round, roll 1D6 Locate the 6 terrain features closest to that 
+for each battlefield edge. On 6, a Contact is battlefield edge and roll randomly for each Slyn 
+placed in the center of that edge. Contacts pair to see which they deploy into.
+cannot exit the table in this mission and will If the Slyn do not attack, you are fighting 
+halt in place instead. Tactical Enemies: Roll for the enemy strength 
+The colonists have civvy stats (see page 18) and normally. The enemy will be whoever is closest 
+act as part of your squad. They do not carry any on the map or can be picked at random.
+weapons though they could pick up a weapon In the event you do not have any Tactical 
+from one of your casualties if you choose to Enemies on the game map, randomly pick an 
+allow this. encounter from the Tactical Enemies list (see 
+
+page 149). This does not add that enemy to 
+your map – you are fighting a small raiding 
+party or patrol group.
+
+125
+
+
+
+Missions
+
+The enemy moves onto the table from the Pitched Battle
+opposite battlefield edge to yours during the 
+Round 1. Divide the enemy force into three The enemy is launching an attack on you and 
+roughly equal-size groups; each arrives spaced will have to fight to see them off. Significant 
+roughly equally along their battlefield edge. damage to the colony can ensue.
+
+Objectives Map Location
+Save the crashed scout by rescuing them off Your colony sector.
+any battlefield edge. Table Setup
+Ending the Mission Table size: A 3x3-foot table populated with 
+The mission ends when your squad and the terrain.
+scout have left the table, either as casualties or The table should have several colony-style 
+by moving them off any battlefield edge. features such as buildings, parked vehicles, 
+
+cultivated fields and similar.
+Rewards
+No special rewards. The Uncertain Features option is not used.
+
+As the battle takes place within the colony 
+Campaign Factors perimeter, Battlefield Conditions are not used. 
+If the scout is not on your roster, you receive  
+1 point of Colony Morale for saving them. Player Forces
+If the map sector is not already Explored, it You may deploy up to 4 characters from your 
+becomes so. Generate the Resource and roster and up to 8 grunts, formed into two 
+Hazard levels normally (see page 60). fireteams.
+
+Squad casualties do not affect Colony Morale Select any battlefield edge you like. Set up 
+during a Scout Down! mission. anywhere within 8” of that battlefield edge. 
+
+You may place small barricades or fox holes for 
+Special Rules your characters to set up within. 
+◆	 The enemy rolls 1D6 at the end of each Opposition
+
+battle round. On 6, they receive one 
+standard enemy soldier at the center of You are fighting Tactical Enemies. The Slyn  
+their battlefield edge. will not interfere in this mission.
+
+◆	 If using a scout from your roster, they have The enemy will consist of two enemy forces 
+their normal profile and carry your choice of each with their own leaders and specialists. 
+Scout weapons. For an unknown scout, use Each force is generated normally using the 
+the base profile and add a scout pistol. Tactical Enemies rules (see page 148).
+
+◆	 The injured scout; they can either move OR When rolling for the first force, reduce the 
+take an action each round but not both. number encountered by 1. 
+
+◆	 The scout begins the scenario undetected. When rolling for the second force, increase it 
+They become detected if they fire a weapon, by 1.
+are spotted out of cover or move more than The enemy moves onto the table from the 
+2” in one action. opposite battlefield edge from where you set 
+
+◆	 Until they are detected, the enemy will up. Divide the battlefield edge with 3 markers 
+ignore them. fairly equally distanced from each other.
+
+126
+
+
+
+Missions
+
+Campaign Consequences table
+
+ROLL DAMAGE 
+OUTCOMES CONSEQUENCE
+
+01-20 Colony damage Your colony suffers extensive damage as it is wrecked by the attackers. 
+Reduce Integrity by 1D6+2 points. If you have Colony Defenses, 
+
+roll 1D6 for each point, with a 4+ negating it.
+21-40 Interruption The attack disrupts your projects. All building and research projects that 
+
+are only partially completed lose all progress.
+41-60 Morale loss The colonists are dismayed at the carnage. 
+
+Reduce Morale by 1D6+2 points.  
+If you have Colony Defenses, roll 1D6 for each point, with a 4+ negating it.
+
+61-80 Attrition You suffer losses as your military squads counter-attack.  
+Remove 2 grunts from your Colony Tracking Sheet.
+
+81-00 Prolonged battle In the fighting, as your colonists repel the intrusion, 2 random characters 
+on your roster must roll on the Post-Battle Injury table. 
+
+Characters injured during the mission cannot be selected.
+
+At the start of the first Enemy Phase, one enemy Strike Mission
+force arrives at a random marker. That marker is 
+then removed. You have detected the location of an enemy 
+
+leader and are launching a raid to capture them.
+At the start of the second Enemy Phase, the 
+second enemy force arrives at a random Map Location
+remaining marker. The markers are then Adjacent to any enemy-occupied sector.
+removed.
+
+Table Setup
+Objectives Use a  3x3-foot table populated with terrain.
+This is a fight to the end. You must kill or drive 
+off every enemy. You may wish to place a number of buildings, 
+
+camp features, and similar around the table 
+Ending the Mission near the center, representing an enemy 
+The mission ends when your squad is no longer encampment or work site.
+on the table, either due to being casualties or If using the Uncertain Terrain Features optional 
+every enemy has been killed or panicked. rule (see page 137), place 2 Uncertain 
+
+Features on the table.
+Rewards
+If you win, in addition to avoiding the negative Battlefield Conditions are used normally.
+effects of an attack, each survivor receives  Player Forces
+1 additional XP. You may use up to 6 characters from your 
+Campaign Factors roster and up to 4 grunts formed into a single 
+If you fail, roll D100 and consult the Campaign fireteam.
+Consequences table above. You set up AFTER the enemy has been placed. 
+
+Choose any battlefield edge you like and set up 
+Special Rules within 3”. 
+No special rules. This is a fight to the bitter end. 
+
+127
+
+
+
+Missions
+
+Opposition Rewards
+You are fighting Tactical Enemies. The Slyn  ◆	 If you secure the data from a Boss, you 
+will not interfere in this mission. now know the location of the enemy 
+Roll normally for the enemy numbers, then Strongpoint. 
+add 2 additional enemies to the number ◆	 If you secure the data from a Leader, 
+generated. you receive one additional Enemy 
+If you have tracked an enemy Boss using Information. 
+Enemy Information, the enemy will be Campaign Factors
+accompanied by a Boss who is in addition to 
+the regular opposition. The Boss is a leader with No special effects.
+2 KP, +1 Combat Skill and +1 Toughness. Special Rules
+If the Strike mission is in response to an enemy Any squad member that only moves but does 
+patrol, you will face the normal number of not take an action is Undetected, until they 
+enemies. There will always be one Leader. either take an action or an enemy has Line of 
+The Boss, if present, sets up in the center of Sight to them outside of cover at any point.
+the table. If a Boss is not present, the Leader The enemy AI works differently in this mission. 
+is set up in the center instead. Set up a third Enemies will fight defensively remaining in 
+of the remaining enemies within 3” of the cover and firing on you. Enemies that are out of 
+centers, then set up the rest in pairs with range will move towards positions where they 
+each pair placed 2D6” from the center in a can get lines of fire and then halt there while 
+random direction. they are in range and sight.
+
+Objectives The enemy will ignore Undetected squad 
+You must either defeat the Boss (if present) members for all purposes. 
+or Leader (otherwise) in a brawl or kill them 
+and move a character to the location where Assault Mission
+they fell. This allows you to secure the required 
+data. You may then end the mission by It is time. You have tracked down the enemy 
+retreating or fighting it out. You do not have to Strongpoint and are ready to take it by storm. 
+move the character that collected the data to a Check the ammunition one last time – it will be 
+battlefield edge. a hot landing.
+
+If the enemy Boss/Leader becomes a casualty, Map Location
+during each Enemy Phase, the nearest enemy A sector containing the enemy Strongpoint.
+will try to move to where they fell. An enemy 
+reaching the casualty location picks up the data Table Setup
+and will then move as fast as possible towards Use a  3x3-foot table populated with terrain.
+the nearest battlefield edge to escape. The table will look best if it features a lot 
+Ending the Mission of structures and signs of habitation such 
+The mission ends when your squad is no as crates, barrels, camp site elements, and 
+longer on the table, or every enemy has  machinery. Alternatively, military-style terrain 
+been defeated. such as trenches, barricades, and sandbag walls 
+
+also work well, and both can be combined for a 
+war-like table feel. 
+
+128
+
+
+
+Missions
+
+If you have floor tiles available, you could Campaign Factors
+make part of the scenario take place indoors or If you win, you eliminate this enemy from 
+underground as well. the campaign. All sectors they occupy are 
+Mark off roughly 12”x12” as the core of the relinquished. You may also immediately roll for 
+enemy base. This should be the most densely the Resource and Hazard values of this map 
+populated with urban style terrain. sector, as if it had just been Explored.
+
+Uncertain Features and Battlefield Conditions If you are defeated or retreat off the table, the 
+are not used in this scenario. mission is a failure. The enemy will be restored 
+
+to full strength the next time you attack them. 
+Player Forces In addition, a random map sector adjacent to 
+You may deploy up to 6 characters from your the enemy Strongpoint becomes immediately 
+roster and up to 8 grunts formed into two occupied by the enemy you attacked. 
+fireteams. 
+
+Special Rules
+You set up AFTER the enemy has been placed. 
+Choose any battlefield edge you like and set up ◆	 At the start of the first Enemy Phase, the 
+within 3”. enemy is checked for their state of readiness.
+
+◆	 Any enemy that had a Line of Sight to a crew 
+Opposition figure that fired a weapon or could see a 
+You are fighting Tactical Enemies. The Slyn will crew member with no intervening cover at 
+not interfere in this mission. any point is ready and may activate normally.
+There is no roll for the enemy numbers. ◆	 Any enemy that did not meet one of those 
+Start with the maximum enemy encounter conditions is not ready and cannot activate 
+size (for example if this is normally 1D3+5, it in the first game turn. They are either still 
+would be 8). Then add 2 additional regular scanning for targets, unaware of the attack or 
+enemies, 2 additional specialists, and 1 confused about what is going on. 
+additional leader. The additional leader ◆	 From battle round two onwards every enemy 
+receives +1 KP. becomes ready and will fight normally. 
+The enemy is deployed fairly evenly throughout All enemy Panic ranges are reduced by 1 as 
+the central 12”x12” area, in positions of cover. they are defending their home turf. 
+They should cover each approach evenly as if The enemy AI is defensive in this mission:
+positioned as sentries. 
+
+◆	 Enemies will remain in cover and fire on 
+Objectives you when possible. Enemies that are out of 
+The mission is a straight fight to the death. Kill range will move towards positions where 
+or drive off everybody you encounter. they can get lines of fire and then halt there 
+
+while they are in range and sight.
+Ending the Mission ◆	 The enemy will try to defend their initial 
+The mission ends when your squad is no longer positions. They will move to brawl if they 
+on the table or every enemy has been defeated. have a higher combat bonus and you are 
+
+within one move. 
+Rewards
+You may roll twice on the Post-Battle Finds ◆	 Should the enemy be taking fire from 
+table if you complete the mission. unreachable opponent, they will try to move 
+
+to positions where they cannot be seen. 
+
+129
+
+
+

@@ -1,0 +1,151 @@
+
+trooper class.
+◆	 A single character may be given the  
+
+scientist class.
+◆	 A single character may be given the  
+
+scout class.
+To qualify, the character must pass the Unity 
+Field Aptitude Test. If the character has a 
+background or history that fits in the related 
+class (military for troopers, academic for 
+scientists, exploration and wilderness for 
+scouts), they automatically qualify due to prior 
+experience.
+◆	 Trooper Backgrounds: Military Brat,  
+
+War-Torn Hell Hole
+◆	 Trooper Classes: Soldier, Mercenary, 
+
+Enforcer
+◆	 Scientist Backgrounds: Tech-guild, 
+
+Research outpost
+◆	 Scientist Classes: Scientist, Technician, 
+
+Hacker
+
+26
+
+
+
+Your Colony Crew
+
+◆	 Scout Backgrounds: Long Term Space any character that leaves the Planetfall 
+Mission, Drifter campaign could be imported into another 
+
+◆	 Scout Classes: Explorer, Scavenger, Five Parsecs game. 
+Negotiator You may retire characters from Planetfall if 
+
+You may also attempt to pass the test manually. you want. For example, you might decide that 
+Each character can only test once. The test is some of your characters want to strike out on 
+conducted by a series of examiners and AI their own.
+modules which will assess the qualities of a Imported Equipment
+given candidate with their psych profile and 
+current operational needs. Roll 1d6: Tactics and Bug Hunt characters do not normally 
+
+carry their equipment with them (it is, after all, 
+D6 RESULT military property).
+
+1-2 The character fails the aptitude test and Five Parsecs from Home characters may carry 
+is not approved for class training. over any personal equipment, provided it 
+
+The character is approved for a random has a rules function within the game. For 
+3 class. Roll 1D6 again: 1-2 is trooper,  example, as Planetfall does not have a Seize 
+
+3-4 is scientist, 5-6 is scout. the Initiative roll, items that affect this will not 
+
+4-6 The character is approved for a class have any effect. 
+of your choice. What constitutes a character’s personal 
+
+equipment is left to the player to decide. The 
+Progression for Imported Characters intention is not to let one character make off 
+Players of other Five Parsecs from Home with everything the crew owned. 
+rule sets should note that progression works Note that some weapons have different 
+differently in Planetfall. You are encouraged to profiles in Planetfall. Characters may either 
+use the new progression system while in the retain the original version or acquire the 
+Planetfall campaign. Planetfall counterpart.
+Characters are always brought in with the Characters transferring out of Planetfall may 
+profiles they had in their parent system. Any keep their weaponry. They can only bring 
+unused XP is kept but other advancement reasonably personal equipment – you cannot 
+values, such as Bug Hunt’s Reputation, have no load up with 20 pistols and give them to 
+value in Planetfall. The same applies in reverse your new Five Parsecs from Home crew. 
+when moving to another campaign. Planetfall-specific weapons, including ones 
+Intangibles such as Patrons and Rivals do not gained from research, cannot be replaced in 
+matter in Planetfall. another campaign.
+
+Credits have no value in Planetfall, and no 
+Multiple Campaigns at Once Credits can be earned during the campaign for 
+A character can only be in one place at once. use elsewhere.
+If a character moves to Planetfall, they can no 
+longer adventure with their old crew or squad, 
+for example.
+At the end of a campaign (or if a character 
+leaves a campaign for any reason) characters 
+can transfer campaigns. For example, 
+
+27
+
+
+
+Combat Rules
+
+Combat 
+rules
+
+Introduction to Combat
+This chapter provides all the rules and Veteran Players
+information needed to conduct the tactical Veterans of other Five Parsecs game titles 
+miniatures game using a tabletop battlefield. should read the combat rules carefully. Some 
+The Campaign rules (page 48) cover how to rules have been tailored to the characters and 
+determine the enemies you face and what combat environments of Planetfall.  
+troops you will have available. 
+
+The Battle Round Sequence
+The game is played in a series of battle rounds Reaction Roll
+(or simply ‘rounds’), during which every figure The player rolls and assigns Initiative dice. 
+on the table has a chance to act. Each round is 
+subdivided into phases, during each of which Quick Actions Phase
+certain activities take place. Any player-controlled character assigned an 
+Carry out each phase in order, completing all Initiative die equal to or below their Reaction 
+activities before moving on to the next one. score acts in this phase. The player can choose 
+
+the order in which these characters act.
+1.	 Start Phase Enemy Actions Phase
+2.	 Reaction Roll All hostile forces act in this phase, including any 
+3.	 Quick Actions Phase presented by Contact markers. 
+
+4.	 Enemy Actions Phase Slow Actions Phase
+5.	 Slow Actions Phase Any player-controlled character assigned an 
+
+Initiative die higher than their Reaction score 
+6.	 End Phase acts in this phase. In the event a character lacks 
+
+an Initiative die for any reason, they also act in 
+Start Phase this phase. The player can choose the order in 
+Any activities described as occurring at the which these characters act.
+start of a round take place in this phase. If End Phase
+multiple Start Phase events are taking place 
+simultaneously, resolve them in any order In this phase, you check to see if the battle is 
+you like. at an end, whether due to no player-controlled 
+
+forces remaining on the table or because the 
+
+28
+
+
+
+Combat Rules
+
+scenario rules dictate that it is over.  If not, any An easy way to avoid losing track is leaving the 
+activities described as happening at the end of die next to each character until they have acted. 
+a round take place now. If multiple End Phase Turn the Quick Actions to show a 1 and the Slow 
+events are taking place simultaneously, resolve Actions to show a 6, then remove the die once 
+them in any order you like. that character acts. 
+
+Note that the enemy does NOT roll for 
+The Reaction Roll Reactions. All opposing forces act in the Enemy 
+The Reaction Roll determines the phase in Action Phase.
+which player-controlled characters will act. First, 
+roll the same number of D6 as you have player 

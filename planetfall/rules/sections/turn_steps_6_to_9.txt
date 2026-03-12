@@ -1,0 +1,401 @@
+
+access to improved weaponry. Note that having 
+Scouts access to improved items does not remove 
+Each scout may be given one weapon the original items. Not every upgraded item is 
+requiring Civilian or Scout training: handgun, strictly better in every regard, and you are free to 
+colonial shotgun, colony rifle, or scout pistol. use either option for a mission.
+
+75
+
+
+
+The Campaign
+
+Campaign Armory Standard Weapon Types
+As you progress in the campaign you will Handgun 
+receive access to interesting new weapons and A standard issue semi-automatic pistol with a 
+gear. Some of these are based on technologies high-capacity magazine. 
+you discover on the new world, others are 
+improvisations made from locally available Range:	 6”
+hardware. Where this is the case, new options Shots:	 1
+list the prerequisites to develop them. This is Damage:	 +0
+both the research required to develop the item Trait:	 Civilian, Pistol
+and the Item Tier it belongs to. Colonial shotgun 
+Tier 1 upgrades require that you have built the Shotguns have limited range, but the blast of 
+Advanced Manufacturing Plant (see page 98), pellets can inflict significant damage at close 
+while Tier 2 upgrades also require the High- range. 
+Tech Manufacturing Plant (page 100). Range:	 12”
+Once these conditions are met, the weapon Shots:	 1
+is available for use immediately and in any Damage:	 +0
+quantity needed. Trait:	 Civilian, Critical
+Some characters do not have the training to be 
+granted some weapons during a mission load- Colony rifle 
+out. Each item has a class type (or types) listed A mass produced semi-automatic rifle issued to 
+as a trait (Civilian, Scout, Trooper, etc). Check the colonists for self-defense and hunting.
+weapon trait listing (page 78), as some classes Range:	 18”
+can use weapons with traits other than just Shots:	 1
+their own class title (for example, troopers can Damage:	 +0
+use Trooper and Civilian weapons). Trait:	 Civilian
+Note: while some new weapons are modified 
+versions of existing ones, weapons are not Scout pistol 
+replaced in the campaign, and you can always A long barrel, stabilized handgun used by the 
+pick and choose for each character and mission. explorer service. 
+
+While many new weapons are superior, Range:	 9”
+some have new drawbacks or are superior Shots:	 1
+situationally but not universally. Damage:	 +0
+
+Trait:	 Scout, Pistol, Stabilized
+Each weapon has the following profile:
+Range: The range in tabletop inches. Targets Infantry rifle 
+cannot be selected beyond this range. Standard Unity automatic rifle. Renowned for 
+
+being “soldier proof” in terms of ruggedness 
+Shots: How many attack dice are rolled. and reliability.
+Damage: This is added to the die roll when Range:	 24”
+rolling to overcome the target’s Toughness. Shots:	 1
+Traits: Some weapons have additional Damage:	 +0
+traits that modify their function or define Trait:	 Grunt
+prerequisites. These weapons traits are defined 
+at the end of the weapons list.
+
+76
+
+
+
+The Campaign
+
+Light machine gun Tier 1 Upgrades
+Automatic weapon fed from an ammunition 
+box or belt. Capable of long-range fire due  Shard pistol  
+to bipod attachment and effective against  Fires a hail of microscopic shrapnel, cutting the 
+both groups of enemies and individual target to shreds.  
+tough targets. Range:	 9”
+Range:	 36” / 12” Shots:	 2
+Shots:	 3 / 4 Damage:	 +1
+Damage:	 +0 Traits:	 Trooper, Tier 1, Focused, Pistol
+Trait:	 Grunt, Cumbersome, Hail of Fire Ripper pistol 
+Trooper rifle A needle-based modification based on the 
+High precision military rifle that fires a range existing Scout pistol. Optimizes firing speed at 
+of small caliber ammunition at a high rate the cost of accuracy.
+of fire. The version issued to expeditionary Range:	 9”
+forces features “Slammer” armor piercing Shots:	 2
+ammunition. The recoil is fierce, but it is Damage:	 +0
+capable of bringing down even the  Traits:	 Scout, Tier 1, Pistol
+toughest targets. 
+Range:	 30” Kill-Break shotgun 
+Shots:	 1 A massive shotgun firing a gravity-charged 
+Damage:	 +0 slug. 
+Trait:	 Trooper, AP Ammo Range:	 12”
+
+Shots:	 1
+Assault gun Damage:	 +2
+Support weapon carried by troopers and Traits:	 Trooper, Tier 1, Knockback
+usually fired from an arm or hip mounted 
+attachment making the recoil (barely) Steady rifle 
+manageable. Fires bursts from an ammunition Anti-recoil mechanisms added to the standard 
+box or belt. colony rifle to make them more capable field 
+Range:	 18” weapons. 
+Shots:	 2 Range:	 24”
+Damage:	 +0 Shots:	 1
+Trait:	 Trooper Damage:	 +0
+
+Traits:	 Civilian, Tier 1, Stabilized
+Flame projector 
+A favorite for bug hunting, this unleashes a Carver blade 
+stream of burning chemicals that can melt A heavy cutting blade for hand-to-hand combat.
+through almost any type of armor plating or 
+bug hide. Range:	 brawling only
+
+Shots:	 –
+Range:	 6” Damage:	 +2
+Shots:	 – Traits:	 Civilian, Tier 1, Flexible, Melee
+Damage:	 +1
+Traits:	 Trooper, Stream, Burning
+
+77
+
+
+
+The Campaign
+
+Tier 2 Upgrades Weapon Traits
+Bio-gun AP Ammo: If stationary, the shooter may add 
+Genetically targeted area of effect bio-weapon. +1 to damage. 
+Best of all the ammunition is made completely 
+organically with no use of pesticides. Area: Select a target point in range and sight. 
+
+Each enemy within 2” is hit on a D6 roll of 4+. 
+Range:	 12” Cover provides no protection. The bio-gun does 
+Shots:	 Special not affect your own characters.
+Damage:	 +1
+Traits:	 Trooper, Tier 2, Area Armor-piercing: Ignore Armor Saving Throws.
+
+Burning: Negates Saving Throws.
+Mind-link pistol 
+A pistol that is bio-linked to the mind of Civilian: Open to all classes except grunts.
+someone capable of interpreting para-psionic Critical: A natural 6 to hit inflicts 2 hits on the 
+flows below 2.7 KX units. In other words, nerds. target figure. 
+Range:	 9” Cumbersome: Range is reduced to 12” when 
+Shots:	 1 moving and firing.
+Damage:	 +0
+Traits:	 Scientist, Tier 2, Mind-link Flexible: A character with this weapon can carry 
+
+a handgun at the same time.
+Phase rifle Focused: Both shots must be fired at the same 
+A rapid-fire rifle relying on ammunition that target.	
+can phase through minor obstacles. Grunt: Restricted to grunt-class characters.
+Range:	 16”
+Shots:	 1 Hail of Fire: If all shots are aimed at the same 
+Damage:	 +1 target figure, 4 shots may be fired.
+Traits:	 Scout, Tier 2, Phased Fire Hyperfire: If a hit does not destroy the target, 
+
+the trooper may immediately fire again at the 
+Dart pistol same target. Continue until a shot misses or the 
+The use of bio-flechettes allow this sidearm target is destroyed.
+to be compact, easy to use and capable of 
+penetrating almost any protection. Knockback: A target that survives a hit is 
+
+knocked Sprawling (see page 38).
+Range:	 9”
+Shots:	 1 Melee: +2 bonus when used as a brawling 
+Damage:	 +1 weapon.
+Traits:	 Civilian, Tier 2, Armor-piercing Mind-link: Roll to hit using Savvy instead of 
+
+Combat Skill. As this is a Savvy test, a scientist 
+Hyper-rifle may roll twice and pick the best.
+By linking bio-signatures to the weapon, hails 
+of devastating fire are possible. Phased fire: The target receives no benefits 
+
+from cover or scatter terrain. The target must be 
+Range:	 16” visible, however.
+Shots:	 1
+Damage:	 +1 Pistol: +1 weapon bonus when brawling.
+Traits:	 Trooper, Tier 2, Hyperfire Scout: Restricted to scout-class characters.
+
+78
+
+
+
+The Campaign
+
+Stabilized: If the shooter does not move,  Ammo packs 
++1 to hit. The difficulty of supplying long range missions 
+Stream: Draw a straight line 6” long and 1” leads to new methods for transporting 
+wide from the firer. Any figure (including allies) ammunition.
+that is touched by the line is hit automatically Prerequisite: Military barracks, Grunt
+with no roll required. Once per battle you may roll an extra die to hit 
+Tier 1: To access this, your colony must have for every grunt in the fireteam. The bonus die 
+built the Advanced Manufacturing Plant. must be used in the same battle round; you 
+Tier 2: To access this, your colony must have cannot save it up for some grunts and use it 
+built the High-Tech Manufacturing Plant. for others.
+
+Trooper: Restricted to trooper-class characters. Side arms 
+The danger of wildlife necessitates the carrying 
+
+Grunt Upgrades of personal weaponry for all ranks.
+
+These items benefit your grunt fireteams Prerequisite: Shard pistol, Grunt
+and become available when their listed All grunts carry a handgun in addition to their 
+prerequisites – often a Building or Research normal weapons.
+type – are met.
+
+Sergeant weaponry 
+Sharpshooter sight Soldiers worried about aggressive bio-forms 
+Simple optical sight, modified to resist the begin to copy boarding teams in carrying blade 
+volatile environment. weapons whenever possible.
+Prerequisite: Early warning system, Grunt Prerequisite: Carver blade, Grunt
+One grunt per fireteam may have a gun sight. One grunt per fireteam receives a Damage 
+This adds +1 to hit when stationary. +1 Melee weapon in addition to their other 
+May be fitted to military rifle only. weapons.
+
+Adapted armor 
+Local plant material modified into providing Compatibility Notes
+effective protection against local hazards. Players of other Five Parsecs titles will notice 
+Prerequisite: Locally adapted food production that the weapons given do not always have the 
+site, Grunt same profile and traits as in other titles. This 
+All grunts receive a 6+ Saving Throw. is intentional, representing modified versions 
+
+issued to colonist expeditions.
+Bolstered survival kit 
+Local biomaterial which can be adapted into 
+emergency medical supplies.
+Prerequisite: Immune System Bio-delineation, 
+Grunt
+When testing for post-mission grunt survival, 
+only a roll of a 1 is counted as a permanent 
+casualty.
+
+79
+
+
+
+The Campaign
+
+Enemies Among Us
+Theodora called up the depot’s inventory report She pushed the button on her wrist 
+again. It was clever, she had to admit. communicator. A moment later, Simmons 
+The missing items didn’t look suspicious at strode in, looking somewhat self-conscious in 
+first: Petty things, black market resalable value, an ill-fitting uniform. 
+but in small enough quantities not to awake “Ma’am, what can…” he began. Theodora cut 
+suspicion. Warehouse workers usually got by on him off with a hand-wave.
+graft, but among the regular minor stuff, these 
+other items added up to improvised explosives “Run the shuttle crash report by me again”
+– and a disconcerting amount, too. Running the “Ma’am, the data is—”
+numbers for the past quarter, there was enough 
+missing to demolish an entire building. Theodora beetled her eyebrows – enough to 
+
+stop him. The young man sighed and recited 
+She closed the database and reached for her the information again. Young field agents were 
+pen and notepad. Her Agency coworkers had always so diligent. 
+made fun of her for keeping an old-fashioned 
+habit, but it was the one thing that couldn’t “Shuttle struck by small arms ground fire 
+be hacked. If the colony was housing a terror and crashed ... No survivors found ... Pirates 
+group, that would be an essential precaution. suspected.” As Simmons rattled off the 
+
+information, Theodora doodled on the notepad, 
+The obvious question was “Who?”, but time and raising her gaze only when the report was done.
+data would provide clues. The real question was 
+“Why?” Separatists? Zealots of some type? Both “So, what’s your conclusion, Simmons?”
+were possible, but something wasn’t adding Simmons worked up some courage: “I think the 
+up. Terror groups would usually aim to strike a security report is wrong. They said pirates but... I 
+population center, but the suspicious sightings checked the logs. No off-world jump signal”.
+were all transport and communications related. Theodora nodded, folding the notepad, and 
+Corporate sabotage? Unlikely. A hostile takeover slowly stood up. 
+of a Unity-funded colony was bold, even for a 
+mega-corp. They’d want the facilities intact, too. “Simmons, requisition a scout drop. We’re 
+
+going to have a look for ourselves.”
+
+80
+
+
+
+Colonies
+
+Colonies
+
+A Colonial Briefing
+Colonization, as defined by Unity law, is the Cost and Scale
+process of establishing a new, permanent 
+population base on a world with no current The cost and effort involved in colonization 
+sentient life. This does not mean that is immense. If terraforming is required, the 
+settlements are not created on populated staggering costs are usually associated with 
+worlds, but those fall under either co- either strict major power control or mega-
+existence agreements, hostile acquisition, or corporate ownership leading to a de-facto 
+flat-out invasion. corporate state when the colony is founded.
+
+Colonization can occur for several reasons Often, secondary settlement agreements are 
+but, unless a prospective world happens to sold off to interested parties, typically dispersed 
+be supportive of the species in question, across the planetary surface. Independent 
+terraforming is required, demanding a groups, usually with a wealthy benefactor, can 
+substantial amount of monetary investment. pool together resources to acquire colonization 
+Most colonization is planned by mega rights on an already inhabitable planet, but 
+corporations or major galactic power bases it is more common to purchase settlement 
+who can fund the effort in expectation of future on a corporate world. This is a popular option 
+returns on that investment. with splinter groups, political renegades and 
+
+religious communities.
+The major galactic powers lay claim to several 
+unpopulated systems in anticipation of future When worlds are assessed for terraforming 
+colonization and, while treaties are clear viability, they are given a numerical grade from 
+regarding the legality of such claims, a general 0 to 100 indicating the effort required to make 
+level of localized military action is accepted in them viable for organic habitation. This roughly 
+galactic politics. In practice, a claim is rarely corresponds to 1 year of required terraforming 
+stronger than the ability and willingness of for every point short of 100.
+a galactic power to enforce it, and resolution While not every species has the same life 
+through military action is often seen as support requirements, the species of the 
+preferable to a drawn-out legal process. The major powers share sufficiently common 
+K’Erin, in particular, often engage in military characteristics that terraforming machinery is 
+action to contest land claims. This can be a rarely species-specific (customers can request 
+dangerous gamble as the colonists are as likely specialized modules).
+to fight their brethren as they are any Human 
+claimants, but the K’Erin don’t necessarily view A world with some traces of atmosphere and 
+the ensuing war as a negative outcome. gravity within typical parameters (0.8 to 1.2 G 
+
+by Earth measurements) is usually assessed at 
+a rating of 70-75.
+
+81
+
+
+
+Colonies
+
+Opposition This is not the only reason a world can fall 
+Colonial settlements can meet opposition from under interdiction. Whether to contain an 
+a range of sources: There are many Pristine outbreak of a virulent disease or for more 
+Galaxy and de-humanization movements that clandestine reasons, Unity may place a 
+seek to limit expansion of colonies, some of world under quarantine, enforced by sentry 
+which are willing to turn to terrorist acts to platforms or active naval patrols. While this is 
+achieve their aims. Meanwhile, the mixture of typically intended to be for a distinct length 
+political and corporate interests can make any of time, requests to lift the quarantine often 
+specific settlement hotly contested. Shooting go unnoticed in the Bureaucracy and, in a few 
+wars between corporate armies for the fate of a instances, a fully inhabited colony has found 
+promising chunk of rock are not uncommon. itself mistakenly interdicted, functionally 
+
+isolating it from the rest of the galaxy.
+
+Hostile Zones Colony Types
+Settlement along the K’Erin / Unity boundaries 
+are almost always contested militarily and Colonies are constructed for an array of 
+any new colonization attempt must be purposes but can broadly be categorized  
+accompanied by considerable military force. as follows:
+The fact that distinguishing between “civilian Resource Extraction
+colony” and “heavy armed military base” 
+is difficult in K’Erin space has led to several The most immediate way of getting a return 
+shooting wars in the past. on investment is through the extraction of 
+
+resources, mineral or otherwise. Due to the 
+The Precursors maintain a sector of space near significant cost of transporting large amounts 
+the galactic center into which they strictly of materials off world, this is primarily of value 
+prohibit incursions. The reason this area on planets where rare resources can be found 
+is being safeguarded is only known to the in large quantities, though many colonies 
+highest-ranking members of the Precursor begin as resource extraction facilities before 
+navy, but any attempts to cross the sector transitioning into a different type over time.
+boundaries in either direction are met with 
+immediate attack, if detected. Production
+Whatever the reason, a Precursor naval Manufacturing allows the creation of an 
+officer can only ever do a single two-year economic basis for a colony and is often one of 
+tour of duty in the region. As a result, in the earliest functions to be established. Many 
+recent years, Soulless ships have been seen colonies are primarily industrial hubs, and 
+carrying out patrols as well, seemingly with some remain that way indefinitely.
+the understanding and cooperation of the In some cases, planetary conditions can aid 
+Precursors. manufacture of specific goods, allowing the 
+Worlds that are near Horde- or Converted- new colony a competitive advantage. Of course, 
+contested space are not typically approved for being able to manufacture legally or ethically 
+colonization and access to such worlds may suspect goods well out of sight is a competitive 
+be subject to Unity naval interdiction. After all, advantage all on its own, leading to many 
+each failed colony means more resources and mysterious industrial outposts heavily patrolled 
+recruits for the enemy. This does not stop the by corporate troops.
+foolhardy, however, and rogue expeditions are 
+not unheard of.
+
+82
+
+
+
+Colonies
+
+16
+
+Population Outpost
+Some colonies are established primarily for the Outposts can serve several purposes, but the 
+purpose of new living space, especially when term generally refers to an installation with 
+established by government bodies. This is also a limited population and not designed to 
+the primary type of independent colony found produce anything of financial or intellectual 
+across the galaxy. Most colonies will transition value. They are often military refueling bases 
+to this type over time when a significant or staging grounds, various scanning and 
+population base has started to develop, and a communication facilities, and similar. A wide 
+more nuanced economy exists. array can be found almost anywhere you look 
+
+in space, with many being installed on moons 
+Research or particularly large asteroids for ease of access.
+As the cost of establishing an advanced 
+laboratory in a remote location is considerable, Isolation
+this tends to be of interest mainly if the planet A key factor for many minor and independent 
+has promising or peculiar characteristics colonies is the desire to be where nobody 
+or resides in a system with strange cosmic else is around. Isolationist enclaves, zealot 
+phenomena. Unity-founded research facilities organizations, and all manner of idealistic 
+can be found littering all manner of worlds in communities gather everything they have and 
+a perpetual attempt to catalogue everything find a piece of rock to call their own.

@@ -1,0 +1,151 @@
+
+
+
+Combat Rules
+
+A character is in Cover if there is terrain 
+Cover Example 1: between them and the firer which would 
+Figure (B) is at the edge of a forested Area obscure their position.
+feature while figure (A) is in the open.  
+Figure (B) receives Cover. Figure (A) does  Characters within forest, bush, and similar 
+not receive Cover when fired upon by (B). vegetation (all Area features) can only see 
+
+outside and can only be seen from the outside 
+No Cover if they are at the edge of the terrain feature 
+
+(and then only to the side on which they are 
+A placed). Characters within the same vegetation 
+
+feature can see each other if they are within 
+3” of each other. Treat all characters within 
+
+B vegetation as having Cover. 
+ Has Cover
+
+A Linear obstacle such as a wall does not count 
+if the shooter is within 1” of it, as the shooter 
+
+Cover Example 2: can fire over it with ease. (Assume walls are low 
+Figure (C) is within 1" of a waist-high wall. enough to fire over unless suggested otherwise 
+Figure (D) is 10" away from the wall. by a scenario or specific terrain piece.)
+When (D) fires on (C), (C) will receive Cover High ground provides an advantage when 
+as it crosses the obstacle. When (C) fires firing. A target on lower ground only receives 
+on (D), (D) does not have Cover since the the benefits of Cover if they are within 1” of 
+shooter is within 1” of the linear obstacle. the far side of a terrain feature between them 
+
+and the shooter. For example, a shooter on a 
+D hill could shoot at targets on the other side of a 
+
+wall without counting them as being in Cover, 
+unless they are within 1” of the wall. 
+
+Within 1" = 
+C receives Cover
+
+Cover
+
+36
+
+
+
+Combat Rules
+
+Scatter Terrain Rolling to Hit
+Individual terrain pieces that are roughly For each shot on the weapon profile, roll 1D6 
+the size of one figure, such as single trees, and add the Combat Skill of the shooter, along 
+boulders, strange crystals, and so on, are with any modifiers that might apply. If the roll 
+designated Scatter terrain. is equal to or above the target number in the 
+Scatter terrain does not provide regular cover. table below, you have scored a hit; otherwise, 
+Instead, if LoS crosses one or more pieces of the shot is a miss. Misses have no effect.
+Scatter terrain, a die roll of exactly the score Please note that it is possible for a shot to have 
+needed to hit the target indicates that the no chance of missing (or no chance of hitting)  
+Scatter terrain has taken the hit: Move it from if the modifiers get sufficiently large. 
+play; the shot has no other effect. Target is within 6” and in the open	 3+
+If Scatter terrain is within the affected area 
+of an Area or Stream weapon, roll 1D6 Target is in the open	 5+
+per terrain piece with a 6 indicating it was Target has the benefit of Cover	 6+
+destroyed. This will absorb the effect of the 
+attack if a figure is on the other side. (Apply 
+common sense here.)
+
+RESOLVING A HIT
+Armor Throw that is one step better than the single 
+Some characters and creatures have armor lowest Saving Throw. For example, a character 
+either due to natural protection such as scales with a 5+ save and two 6+ saves would receive 
+or due to wearing body armor. This gives them a single combined 4+ Saving Throw.
+additional protection from weapon strikes and Trooper Armor and Bots
+animal claws. All characters of the trooper class wear armor, 
+Characters with armor receive a Saving Throw giving them a 5+ Saving Throw.
+listed as a dice target number such as 5+ or 
+6+. Each time that character is hit for any As bots are made of metal, they receive a  
+reason, roll 1D6: 6+ Saving Throw.
+
+Other character types including scouts, 
+◆	 A roll equal to or above the Saving Throw 
+
+number negates the hit: The character does scientists, civvies, and grunts do not receive a 
+not have to roll against their Toughness Saving Throw unless a rule or item grants one. 
+value and is not Stunned.
+
+◆	 A roll below the Saving Throw has no effect: Rolling for Damage
+Either the attack broke through the armor or For each shot that hits, roll 1D6 for damage, 
+struck an unprotected area. adding the weapon’s Damage rating to  
+
+Some attacks may state that they ignore Saving the roll.
+Throws outright. ◆	 If the roll is above the Toughness of the 
+In the event a character has access to more target, they become a Casualty.
+than one Saving Throw, do not roll separately: ◆	 If the roll is equal to the Toughness of the 
+Instead, they receive a single combined Saving target, they are knocked Sprawling.
+
+37
+
+
+
+Combat Rules
+
+◆	 If the roll is below the Toughness of the The Aid action can be used to allow an ally 
+target, they are Stunned. within 3” to remove a Stun marker.
+
+◆	 If a character takes multiple hits from a Stunned enemies will move to cover or out of 
+single attack, roll damage for each: sight if they have no ranged attack or are not 
+If the target has Kill Points (see below), they in range, otherwise they will always choose to 
+lose 1 KP for each roll above Toughness. remain in place and fire on you. 
+
+Otherwise, apply the single highest result. Sprawling
+Casualties are removed from play. They are Sprawling figures can be marked with a 
+either badly wounded, knocked unconscious, suitable counter or laid down on the table. 
+or dead, and will play no further part in this If a character has been knocked Sprawling, 
+engagement. they can perform no actions of any kind next 
+
+activation except to regain their footing and 
+Stunned bearings when they activate. After their next 
+If a figure is Stunned, place a marker next activation, they are recovered.
+to them. A character can receive a total of 3 
+Stun markers at a time. Ignore any additional If a character moves into base contact and 
+markers. When the character activates next, spends their action helping them up, the 
+they can either move OR take an action/attack Sprawling character can take an action upon 
+but cannot do both. (5PFH players should their own activation (but cannot Move).
+note that characters are not knocked out upon A Sprawling character can be moved through 
+receiving a third Stun marker.) (stepped over) by allies but not enemies. 
+Events in the game such as being struck by You cannot end a move overlapping the 
+attacks will result in a character being Stunned. Sprawling character.
+
+A Stunned character is at a penalty if engaged While Sprawling, a character foregoes any 
+in brawling combat. Saving Throw they would receive and their 
+
+Toughness is considered 1 point lower.
+When the character activates, they may Move 
+OR perform a single action, but not both. Kill Points (KP)
+Stunned Troopers cannot use their special Many creatures are too powerful to be brought 
+ability to perform actions in both phases. down by a single burst of fire. Likewise, the 
+Enemies may Move OR attack while Stunned. most experienced and battle-hardened heroes 
+
+often have a knack for surviving unlikely 
+After a figure completes its activation, a single events. We represent this using Kill Points 
+Stun marker is removed from the figure. (KP). If a creature has KP listed in its profile, 
+
+each damage roll that exceeds Toughness 
+will remove 1 KP. Once all KP are gone, any 
+
+Five Parsecs: Tactics Note additional hit that exceeds Toughness will 
+The Tactics rulebook assigns all figures a KP result in a Casualty just as it does normally.

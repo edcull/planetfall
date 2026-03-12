@@ -1,0 +1,301 @@
+Slyn appear to have been good stewards of the 
+worlds they inhabit, and resource depletions 
+have not been witnessed.
+While their remote position has generally 
+allowed these migrations to occur peacefully, 
+both Unity and the K’Erin have recently 
+fought engagements with Slyn scouts to 
+prevent incursions. Note these  
+engagements have been classified 
+Black Clearance. Currently the Slyn seem to 
+be scouting near the Kensington Reach, their 
+normal level of hostility greatly enhanced 
+by some factor. The 2nd Fringe and 
+27th Reserve Fleet Tactical 
+Commands have been 
+made aware of relevant 
+information to help combat 
+these incursions. 
+
+43
+
+
+
+Planetfall
+
+PLANETFALL
+
+The Initial Missions
+Before the campaign begins proper, you need ◆	 Place 3 Beacon locations on any 
+to establish the landing site. Do so by playing raised ground on the table. If you 
+through the following three missions, one for have no raised ground, place these 
+each of the specialties on your roster. You may locations in terrain features of your choice. 
+play these missions in any order, though the 
+recommended one is given below: ◆	 Randomly determine which battlefield edge 
+
+you will set up near and deploy any scouts 
+from your roster within 1”.
+
+◆	 Beacons (Scout Mission)
+◆	 Analysis (Scientist Mission) Objective
+
+The scouts must move to each of the Beacon 
+◆	 Perimeter (Trooper Mission) locations. When a scout ends an activation 
+These missions will introduce you to the on the location, a Beacon has been deployed. 
+various elements of the game systems and Once a Beacon is deployed on each location, 
+combat mechanics. Once all three have been the mission is completed.
+completed, proceed to Campaign Setup Obstacles
+(see page 52). At the start of each Enemy Phase, a 
+Each mission is played on a 2x2-foot table, with storm cluster spawns at the center 
+terrain placed around the table in any manner of the table unless there are currently 
+you see fit. 5 storm clusters on the table (use markers for 
+Casualties during the initial missions do not the center of these). Each storm cluster moves 
+require injury rolls. 1D6” in a random direction during the Enemy 
+
+Phase. Any that leave the table are removed. 
+
+Beacons (Scout Mission) A scout that is contacted by a storm cluster as it 
+moves takes a +0 Damage hit. 
+
+The first to land are the scouts, establishing the 
+beacons required for the rest of the colonization Reward
+fleet to begin deploying. The scouts must brave If you place all 3 Beacons successfully, the 
+terrible storms to complete their mission. mission ends immediately and when you 
+To play this mission you will need to learn how establish your colony, you receive 2 units of 
+the Battle Round Sequence (page 28) and Raw Materials as a bonus.
+Movement rules work (page 34). If the mission is a failure, you do not receive 
+
+the bonus but may still proceed to the next 
+mission, as a second wave of scouts succeeds.
+
+44
+
+
+
+Planetfall
+
+Analysis (Scientist Mission) Perimeter (Trooper Mission)
+The second landing is by the Science Team, The third landing is by the troopers of the 
+establishing the parameters of the mission site team, establishing a defensive perimeter as 
+and conducting detailed scientific scans. hostile Lifeforms are rapidly headed towards 
+You will need to read the Contact rules to play your drop site.
+this mission (see page 41). You will need to read all the rules for combat to 
+◆	 Place 6 Contact markers fairly play this mission.
+
+evenly around the table, then ◆	 Set up any troopers from your roster. Each is 
+randomly select a battlefield edge. armed with the standard trooper rifle from 
+
+◆	 Deploy your scientist characters within 1” the Armory (see page 77). You may set up 
+of the selected battlefield edge. anywhere on the table you like.
+
+◆	 After setting up, place 6 Lifeform miniatures 
+Objective (you can use anything you like, but insects 
+You must uncover at least 4 Contacts to and lizards will tend to look good) along 
+complete the mission. Contacts that leave a randomly selected battlefield edge with 
+the table count against you, unlike in regular their figures placed within 1” of it.
+missions. Note that in this mission, revealing a 
+Contact simply removes it. You do not have to Objective
+roll on the Contact Reveal table. You must kill all 6 to complete the mission.
+
+Reward Obstacles
+If you successfully complete the mission, you The Lifeforms move 5” per action, have a +1 
+will begin the campaign with 2 Research Combat Skill and Toughness 4. They will 
+Points as a bonus (increased to 3 if you reveal move as directly as possible to attack you in 
+all 6 Contacts). brawling combat and will strike with  
+If the mission is a failure, you do not receive +0 Damage if they do.
+the reward as your initial scans are not They are not subject to Panic tests.
+sufficiently detailed, but you may progress 
+to the next mission. Reward
+
+Killing all 6 Lifeforms earns you +3 Colony 
+Morale to begin the campaign (record this 
+
+on your Colony Tracking Sheet). If you 
+fail the mission, your troopers are 
+evacuated, and a squad of grunts 
+clears up the site. You may proceed to 
+Campaign Setup in both cases  
+
+(see page 52).
+
+45
+
+
+
+Planetfall
+
+The Promise
+Executive Briefing [Excerpt] to provide localized presence and protection 
+Unity Survey Sector KS092345 of the most valuable assets. The 2nd Fringe 
+“Along the far edges of Unity-controlled Fleet reports long range K’Erin conquest 
+space lie several sectors known officially as and settlement attempts, with bloody but 
+the Kensington Reach and unofficially as The ultimately decisive skirmishes across the 
+Promise. This region is noted for having a sectors and Unity success in all cases. Most 
+particularly high concentration of habitable galactic powers have been allowed to operate 
+worlds, many of which already contain lifeforms, at least one research station or scientific facility 
+though no sapient inhabitants. within The Promise to aid our efforts under the 
+Initial planetary surveys conducted by the  Neptune 30 Treaty, but colonization is strictly 
+5th Survey Group revealed rich mineral wealth limited to our Unity program. Despite this, 
+and moderate climates suitable for habitation. continued land rights negotiations by Precursor 
+Reports from early scout landings found signs  and K’Erin ultra-corporations have been 
+of extensive prior terraforming, which appears presented, although the DiploCorp forecast 
+to have been abandoned at various points that this will take at least 3 Core years to allow 
+along the process thousands of years ago. fast-tracking time of colonization.  
+
+Orbital scans indicate that the surfaces of Initial Colonization has been slow, with 
+multiple worlds have a high density of ruins and permissions granted only after careful 
+structures, some protruding from the ground consideration by the Colonial Settlement 
+and others hovering over the surface through Bureau. Our recommendation is to fast-track all 
+as-yet unidentified means. Recommendations Unity-approved organizations to maximize our 
+are for colony expeditions to handle on-the- ownership of vital assets. It is recommended 
+ground research to free up 5th Survey Group to that settlement within The Promise be shown 
+continue scans of the Kensington Reach. to be a high-prestige project with the colonies 
+
+intended to act as ideal showcases in order to 
+Precursor psi-veyers from P1 Division have increase applications. This presents some risk 
+noted that the worlds appear to be psionically given the known dangers of technologies and 
+dampened by unseen means. Not only do lifeforms, but UnityComms are confident this 
+the worlds not appear to long-range psionic can be managed in public media.
+detection, but they are shrouded in a nullifying 
+field which prevents many psionic abilities. Several special authorizations have been issued, 
+Interestingly, some species and lifeforms can allowing colonies to be established in the 
+function normally despite this dampening, marked sectors in your report which until now 
+while it appears to inhibit most typical have been considered medium- and even high-
+Precursor-derived psionic disciplines. (Note for risk. We have provided a list of capable crews 
+Executive: this forms the basis for most psionics who have been identified in Schedule 37C. 
+currently tracked in the galactic community.) Whilst they would normally not be considered 
+
+for official Unity sanctioned programs, these 
+Significant Unity fleet assets from the 2nd crews have been noted to be very successful in 
+Fringe Fleet and 27th Reserve Fleet were the dangerous fringe. With the right support 
+deployed to provide a Stage 2 Cordon for the and controls, we feel they will be suitable 
+region interdicting major routes. Note that candidates for these risky missions and will also 
+a Stage 4 interdiction would require at least act as deniable assets should these worlds prove 
+70% of current Fleet Assets. It is recommended to be too dangerous.”
+to advance the Magenta Colonization Plan 
+
+46
+
+
+
+CAMPAIGNS & 
+COLONIES
+
+	 THE CAMPAIGN 48 	 COLONIES 81
+	 Beginning Your Campaign 48 	 A Colonial Briefing 81
+	 Tactical Enemies 50 	Colony Integrity and Damage 87
+	 Campaign Setup 52 	 Colony Morale 89
+	 Other Colony Statistics	  55 	 Research 91
+	 Story Points 56 	 Buildings 97
+	 Campaign Turn Sequence 58 	 Genetic Augmentation 105
+	 Character Roleplay Events 72 	 Tech Tree 106
+	 The Armory 75 	 “Close Encounters” 108
+	 “Enemies Among Us” 80
+	
+
+47
+
+
+
+The Campaign
+
+The 
+Campaign
+
+Beginning your Campaign
+Once you have introduced yourself to the Campaign Overview
+tactical game rules in the Planetfall missions 
+(page 44), you are ready to start the main Campaigns are played as a series of campaign 
+campaign game. turns (or simply “turns”). During each turn 
+
+you will play one or more tabletop missions, 
+You don’t have to prepare your next battlefield whether planned or unplanned. 
+just yet, but if you don’t have them to hand 
+already, make sure you have: Once you are situated, your colonists will 
+
+start exploring the world, researching new 
+◆	 pencils, erasers, dice (of course)... and a nice technology, and constructing your home 
+
+mug of tea or other drink of choice base. Each campaign turn you will undertake 
+field missions to exploit the resources of the 
+
+◆	 copies of the Colony Tracking Sheet planet or to carry out other missions as they 
+◆	 a notebook (analog or digital) for note taking suggest themselves. 
+
+and various incidental record keeping; and The campaign is ultimately self-paced. You 
+◆	 a method for creating a map, whether will reach Milestones through construction of 
+
+drawing freehand or using a digital resource. particular buildings and by achieving important 
+research, eventually leading to the campaign’s 
+End Game. However, you may also continue 
+
+Campaign Character Miniatures playing as long as you like, if you prefer to 
+You may already have miniatures you would continue building your own story. 
+like to use. If not, Miniatures are discussed in Milestones also function as a sort of game 
+more detail in the Appendices, page 177. Some calendar. Each time you develop a new 
+players prefer waiting until after they have Milestone, the campaign advances and events 
+created their characters to decide on this. occur such as new foes appearing and new 
+
+resources becoming available to you. This 
+Milestone System is discussed in detail on 
+page 156. 
+To access the End Game, you must complete a 
+total of 7 Milestones. 
+
+48
+
+
+
+The Campaign
+
+Hostile Forces ◆	 The Slyn. These enigmatic, highly aggressive 
+The manpower you have to draw upon is and hostile alien species are intent on 
+limited, making it increasingly difficult to attacking your colony. Their motivations are 
+replace losses as the campaign goes on. The difficult to discern, and your only hope is to 
+core worlds will support you but will demand fend them off long enough for the colony to 
+progress to grant additional support (in the achieve its destiny. 
+form of Milestone achievements) so you 
+must balance the desire to improve your If the campaign seems overwhelming, don’t 
+colony with the desire (or need) to progress worry, completely messing up is difficult. Take 
+in the campaign. a look at the options you have available to you 
+
+at any given time and pick one that sounds 
+As you play the game, you will encounter three interesting, fun, or which seems to pertain 
+types of hostile forces: to whatever you are hoping to achieve at this 
+
+particular moment. As you take campaign turns 
+◆	 Animal Lifeforms that are native to the 
+
+world. You will generate the exact types of and develop a feeling for the rhythm of the 
+animals randomly, and will often have to game, you will start to form your own goals and 
+contend with hostile lifeforms in the field. personal objectives.
+
+◆	 Tactical Enemies. Ranging from raiders to 
+saboteurs, these are forces trying to attack or Animal Lifeforms
+destroy your colony. You will engage them in 
+tactical battles. As the campaign progresses, In other 5X games, the term ‘lifeform’ has been 
+you will gradually eliminate these threats. used in the wider sense, covering intelligences 
+
+from animal up to spacefaring species. In the 
+context of Planetfall, ‘Lifeforms’ – capital L – is  
+used only as the context of animal lifeforms  
+and non-civilized native species.
+
+49
+
+
+
+The Campaign
+
+Tactical Enemies
+Over the course of the campaign, hostile As the enemy is stronger than you, fighting 
+forces will emerge on the world, whether from mile after mile is not viable. Instead, you will 
+internal rebellion or external invaders, seeking have to track down and destroy their leadership 
+to damage and pillage your colony. with a daring strike to win the day.
+In total you will have to contend with three 
+such groups of what we call Tactical Enemies. Enemy Occupied Sectors
+They are distinguished from the various 
+lifeforms you encounter by being sapient Initially, each enemy occupies a single sector of 
+humanoids who (mostly) fight with weapons the campaign map, selected at random when 
+similar to a military force. These groups are they arrive in the campaign (see page 52).  
+detailed as part of the Enemy Generation Occupied sectors are areas that the enemy 

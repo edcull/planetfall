@@ -1,0 +1,301 @@
+Your roster of eight initial characters includes Prior Experience
+four experienced characters who have had Prior experience details what earlier careers 
+longer careers behind them and bring a wider or life paths the character may have followed. 
+range of talents into the colonization project. Experienced characters roll on this table. If 
+If you have now chosen your eight roster you want a more detailed story, roll twice, 
+characters, select which characters to define as treating the first roll as history just after 
+experienced. adulthood and the second roll as history just 
+For each experienced character, roll on each of prior to being recruited. Claim the bonus for 
+the three tables below – Motivations, Prior the second roll only. 
+Experience, and Notable Event – and track any Note that prior experience does not have to 
+modifications listed. line up with the class chosen (though you are 
+The four inexperienced characters are welcome to do so). The colonization programs 
+straight out of their professional training screen for mindset as much as for skills, and 
+programs. They will roll on the Motivation someone with an army career may well have 
+table only. the outlook that the scientific teams need. After 
+
+all, practical experience can be accelerated 
+Motivations through Hyper-Learning Implants. The long 
+What compels someone to leave everything and the short of it is that you are free to make 
+they know behind and set out on a dangerous interesting character combinations if you like. 
+and uncertain path among the stars? The Inexperienced characters do not receive any 
+motivations of a character will become bonuses from this table. By default, they do not 
+important in the campaign endgame. roll on it but, if you prefer to add a bit of flavor, 
+Both experienced and inexperienced characters you can do so. They are assumed to have only 
+roll on this table. been in that career or path for a brief period 
+
+before being recruited.
+Motivation table
+
+D100 MOTIVATION NOTES
+
+01-11 Curiosity If you didn’t go, someone else would get to see all the 
+cool stuff instead.
+
+12-22 Personal Achievement Promotion, glory, or a place in the history books. 
+23-34 Loyalty Doing your duty for your organization.
+35-41 Danger It’s not a death-wish if you survive.
+42-50 Independence Striking out on your own.
+51-56 Circumstance This is where you ended up.
+57-63 Progress The advancement of the Human species. 
+64-72 Adventure Excitement, amazing sights, and thrills.
+73-82 Exploration Mapping out the galaxy one world at a time.
+83-89 Greater Cause Being part of something much greater than yourself. 
+90-95 Escape Getting away from something or someone.
+96-00 Obligation Fulfilling a responsibility, promise, or expectation.
+
+21
+
+
+
+Your Colony Crew
+
+Any listed ability score increases are added 
+to the basic starting profile. Story Points are 
+added to the total for the campaign. Bonus XP 
+are tracked for the character on the roster. 
+
+Prior Experience table
+
+D100 PRIOR 
+EXPERIENCE NOTES BONUS
+
+01-05 Army Unity armed forces or a mercenary outfit +1 Reactions
+
+06-11 Freelancer Salvage missions, questionable jobs, and a bit of 
+light mercenary work +1 Reactions
+
+12-21 Researcher Science, information gathering, and analysis 
+(often corporate in nature) +1 Savvy
+
+22-27 Trader Independent space merchant or 
+sector-level corporation +3 XP
+
+28-37 Orphan Utility 
+program Raised and given an education by Unity Loyalty begins as 
+
+Loyal
+
+38-44 Unity Agent Affiliated with one of the many clandestine covert Loyalty begins as 
+operations programs maintained by Unity Loyal
+
+45-48 Bug Hunter Served in one of the Bug Hunting squads; 
+flinches when motion trackers beep +1 KP
+
+49-56 Administration Dutiful work in sector administration or the  Loyalty begins as 
+Unity Bureaucracy itself Loyal
+
+57-61 Corporate Worked for one of the giga-corporations +1 Savvy
+62-70 Explorer Independent explorer or part of the Unity scout fleet +1 Speed
+71-77 Adventurer Often driven by thrills and the promise of riches Begins with 3 XP
+
+78-82 Records Deleted No records found: please contact sector-level 
+Enforcement Command for details +1 Toughness
+
+83-87 Enforcer Sector-level law enforcement or Unity Security +1 Toughness
+88-96 Fleet Officer or enlisted on a Unity military vessel +3 XP
+
+97-00 Access Denied Please insert Unity ID chip of security level 5Z or Begin with 
+adjacent. Unauthorized access is prohibited. 1 additional 
+
+Story Point
+
+Notable Event Inexperienced characters normally have not 
+Each experienced character will have a Notable been around long enough to have experienced 
+Event that occurred in their life. If you want any Notable Event, though if you roll multiple 
+more detailed characters, you can roll up times for the experienced characters you may 
+to three times, with events occurring in the want to roll once for inexperienced characters. 
+order you rolled them. A colorful option is to 
+interweave the results with the former table. Rolls on this table do not affect gameplay. 
+
+22
+
+
+
+Your Colony Crew
+
+Notable Event table
+
+D100 NOTABLE EVENT NOTES
+
+01-05 Journey You went somewhere far from home.
+06-10 Establish family You established or expanded your family, adopted or otherwise.
+11-15 Betrayal Someone betrayed you or you betrayed someone.
+16-20 Personal advancement You made great strides as a person.
+21-25 Disaster struck A dreadful disaster struck you, your organization, or your home.
+26-30 Injured You were seriously injured or sick.
+31-35 Joined a group You joined an organization, community, or philosophical movement.
+36-40 Changed perspective Life changed how you look at things.
+41-45 Went missing You spent a period of time when nobody knew where you were.
+46-50 Did a good deed Without expecting a reward, you did the right thing.
+51-55 Became a student You decided to learn a new skill or career.
+56-60 Was framed You did nothing but you got blamed regardless.
+61-65 Made a mistake You screwed up and it got noticed.
+66-70 Progressed a career You made advances in your career.
+71-75 Good luck Something lucky and unlikely happened.
+76-80 Confrontation You had a showdown with a rival or threat.
+81-85 Great danger You experienced great physical danger.
+86-90 Narrow escape Once arrested, destitute, or nearly dead, you eventually came out ahead.
+91-95 Second chance Someone gave you a second chance.
+96-00 Change of lifestyle You changed something fundamental about your lifestyle.
+
+Example: perspective”), after which they transferred to 
+For one of my characters, I roll the following: one of the minor galactic corporations before 
+
+enlisting in a colonization effort (“Trader”). 
+◆	 Motivation: Danger
+◆	 Prior experience: Explorer / Trader
+◆	 Notable events: Good luck / Went missing Equipment
+
+/ Changed perspective. At the outset, the colony operates a central 
+As my character is obviously a thrill seeker equipment store rather than characters owning 
+(“Danger”), I’m going to rationalize these as: individual items. Characters are assigned 
+They were offered a spot on an exploration standard equipment when a mission begins, 
+mission (“Explorer”) by an officer that with options according to class-based training. 
+happened to notice them at the academy When creating your roster, leave the character 
+(“Good luck”). During one of the long-range items blank, and fill out this section once your 
+missions, their ship was lost and recovered after characters receive the mission briefing (during 
+drifting in space for weeks (“Went missing”). the ‘Lock and Load’ step of the campaign turn, 
+The brush with death caused their family to page 65). The Armory section on page 75 
+demand they choose a safer job (“Changed details the standard colonial weapons.
+
+23
+
+
+
+Your Colony Crew
+
+Voice Note 2144.Alpha. 
+Scout Ship Taurine, 5th Survey Group.
+“As you can see, the landscape is dotted 
+with strange ruins and collapsed structures, 
+potentially dating back thousands of years. Some 
+are completely overgrown, while others jut into 
+the sky. Their construction varies, some jet-black 
+stone, others showing clear signs of extensive 
+circuitry and power conduits. Deep penetration 
+scans are inconclusive about what lurks within 
+these ruins. Based on previous reports, we’ve 
+been careful not to disturb any sentinels. And Character Loyalty
+this is just one valley, repeated across the world. 
+Whatever was here before was on a huge scale.” Characters can exhibit three stages of loyalty to 
+
+the administration:
+◆	 Loyal: They believe strongly in the mission 
+
+Experience and are unlikely to be a security risk.
+As you undertake missions and train, your ◆	 Committed: This is the default state and 
+characters will build up their Experience represents the character just trying to do 
+Points (XP) which are tracked individually for their job.
+each character.
+
+◆	 Disloyal: They believe that the 
+The XP you earn can be cashed in for upgrades administration is leading them down a 
+that will improve character performance. poor path or has begun associating with 
+Progressing an already talented character can dissident groups.
+really improve your chances, but players should 
+take care not to over-specialize: The unexpected Your rolls on the character creation tables may 
+death of an elite character can leave a serious result in some characters being Loyal. Imported 
+hole in your line up if your replacements are all characters also begin the campaign Loyal. 
+green recruits straight out of the Academy. You Everyone else should be marked as Committed.
+may find that it advantageous to bring along Note: Grunts do not have Loyalty ratings and 
+a rookie or two on a mission, so they can get are never affected by events or factors that 
+some experience under their belts. modify Loyalty.
+
+24
+
+
+
+Your Colony Crew
+
+Name your Characters
+Name Mage
+
+Finally, name your characters to help bring nta Calvin XP 3
+Rea
+
+them to life and to make it all the more ctions 1 Class Scout
+poignant when you lose them [yes, when, Speed 5" Sub-species Human
+not if…]. Combat +0 Loyalty ✓ KP 0
+
+T
+When you have eight characters on your roster, ough. 3 Upgrades
+and have read the Combat Rules (page 28), Savvy +0
+play some initial missions (see ‘Planetfall’, Items/Notes
+page 44) before starting a full campaign. Motivation: Danger
+
+The Administrator
+The Administrator represents you in the Typically, they will be on the colony to direct 
+campaign. When decisions are being made things in person, but they could also be located 
+about the colony, they come from the in an orbiting station.
+Administrator and reflect your priorities and 
+decisions in the campaign. Unlike the other To determine the Administrator past history for 
+characters, there are no stats or miniatures. flavor purposes, roll or pick on the table below.
+The Administrator does not take the field in You may choose to take this career 
+missions and cannot engage in combat. into account when making 
+Many players will want to paint a miniature to decisions. For example, a prior 
+represent their Administrator. You can leave military Administrator may prefer 
+it sitting at the side of the table for good luck a strong military presence. 
+when playing a tabletop battle, or leave a dice However, you are not 
+next to it to show the campaign turn. required to do so and 
+
+can make your own 
+You should decide the physical presence of decisions at any time.
+your Administrator for roleplay purposes. 
+
+D100 CAREER PAST HISTORY
+
+01-08 Unity armed forces Former officer in Unity ground forces
+09-21 Exploration service Officer of prolonged survey mission
+22-37 Colonial Prior experience colonizing new worlds
+38-48 Unity field agent Former special agent (all classified!)
+49-56 Corporate Rose through the ranks of a mega-corp
+
+57-67 Unity Bureaucracy From administration of a Core world to 
+administration of a colony
+
+68-76 Diplomatic Handled sensitive political conditions 
+between galactic powers
+
+77-88 Unity fleet Former Unity military ship commander
+
+89-00 Scientist Worked on a colonization-relevant 
+scientific project
+
+25
+
+
+
+Your Colony Crew
+
+Imported Characters
+Treat any character brought in from another Five Parsecs Bug Hunt characters
+Five Parsecs game as Crew: Specialists with 
+unique skills now attached to the mission. ◆	 All ability scores remain the same. Tech is 
+
+converted to Savvy (or vice versa).
+Five Parsecs from Home characters Five Parsecs Tactics characters
+◆	 All ability scores remain the same. 
+
+◆	 Ability scores except Kill Points and Training 
+◆	 They will retain any combat abilities they remain the same.
+
+had in that game.
+◆	 Reduce Kill Points by 1 to match how they 
+
+◆	 Characters with Luck points receive 1 Kill are calculated in Planetfall. 
+Point per Luck point they would have had. 
+
+◆	
+Kill Points are explained in the combat Training is not used in Planetfall.  
+rules (see page 39). Optionally, you may ◆	 Veteran Skills are retained when applicable 
+prefer using the Luck system from the to Planetfall rules set.
+original rules.
+
+Class Training
+Some promising individuals will be given 
+expanded training when attached to a mission. 
+If you are importing characters, you may train 
+up to three characters as follows:
+◆	 A single character may be given the  
+

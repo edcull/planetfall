@@ -1,0 +1,1165 @@
+"""Rich terminal output for Planetfall CLI."""
+
+from __future__ import annotations
+
+import os
+
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+from rich.text import Text
+from rich import box
+
+from planetfall.engine.models import GameState, Character, TurnEvent, STARTING_PROFILES
+
+console = Console()
+
+
+def clear_screen():
+    """Clear the terminal screen."""
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+_TITLE_ART = r"""[bold cyan]
+ ____  _       _    _   _ _____ _____ _____ _    _     _
+|  _ \| |     / \  | \ | | ____|_   _|  ___/ \  | |   | |
+| |_) | |    / _ \ |  \| |  _|   | | | |_ / _ \ | |   | |
+|  __/| |__ / ___ \| |\  | |___  | | |  _/ ___ \| |__ | |__
+|_|   |____/_/   \_|_| \_|_____| |_| |_|/_/   \_|____|____|[/bold cyan]
+[dim]       Adventure Wargaming on Alien Worlds - AI Game Master[/dim]"""
+
+
+def print_title():
+    """Print the game title with ASCII art."""
+    console.print(_TITLE_ART)
+    console.print()
+
+
+def print_colony_status(state: GameState):
+    """Print a summary of the colony status."""
+    colony = state.colony
+    res = colony.resources
+
+    table = Table(
+        title=f"[bold]{colony.name}[/bold] — Turn {state.current_turn}",
+        box=box.ROUNDED,
+        border_style="blue",
+        show_header=False,
+        pad_edge=True,
+    )
+    table.add_column("Stat", style="cyan", width=20)
+    table.add_column("Value", style="white", width=10)
+    table.add_column("Stat", style="cyan", width=20)
+    table.add_column("Value", style="white", width=10)
+
+    morale_style = "green" if colony.morale >= 0 else "red"
+    integrity_style = "green" if colony.integrity >= 0 else "red"
+
+    table.add_row(
+        "Colony Morale", f"[{morale_style}]{colony.morale}[/{morale_style}]",
+        "Colony Integrity", f"[{integrity_style}]{colony.integrity}[/{integrity_style}]",
+    )
+    table.add_row(
+        "Story Points", str(res.story_points),
+        "Colony Defenses", str(colony.defenses),
+    )
+    table.add_row(
+        "Build Points", str(res.build_points),
+        "Research Points", str(res.research_points),
+    )
+    table.add_row(
+        "Raw Materials", str(res.raw_materials),
+        "Augmentation Pts", str(res.augmentation_points),
+    )
+    table.add_row(
+        "Grunts", str(state.grunts.count),
+        "Bot", "Operational" if state.grunts.bot_operational else "[red]Damaged[/red]",
+    )
+    table.add_row(
+        "Roster Size", f"{len(state.characters)}/8",
+        "Agenda", state.settings.colonization_agenda.value.title(),
+    )
+    console.print(table)
+
+    # Research progress
+    if state.tech_tree.theories or state.tech_tree.unlocked_applications:
+        from planetfall.engine.campaign.research import THEORIES, APPLICATIONS
+        lines = []
+
+        # Theories in progress / completed
+        for tid, theory in state.tech_tree.theories.items():
+            tdef = THEORIES.get(tid)
+            if tdef:
+                if theory.invested_rp >= tdef.rp_cost:
+                    lines.append(f"  [green]✓ {tdef.name}[/green] [dim](completed)[/dim]")
+                else:
+                    lines.append(f"  [yellow]◦ {tdef.name}[/yellow] [dim]({theory.invested_rp}/{tdef.rp_cost} RP)[/dim]")
+
+        # Unlocked applications
+        for app_id in state.tech_tree.unlocked_applications:
+            adef = APPLICATIONS.get(app_id)
+            if adef:
+                lines.append(f"  [cyan]• {adef.name}[/cyan] [dim]— {adef.description}[/dim]")
+
+        if lines:
+            console.print("\n[bold]Research & Applications[/bold]")
+            for line in lines:
+                console.print(line)
+
+    # Buildings
+    if state.colony.buildings:
+        console.print("\n[bold]Buildings[/bold]")
+        for b in state.colony.buildings:
+            effects_str = f" [dim]— {', '.join(b.effects)}[/dim]" if b.effects else ""
+            console.print(f"  [cyan]• {b.name}[/cyan]{effects_str}")
+
+
+def print_roster(state: GameState):
+    """Print the character roster."""
+    table = Table(
+        title="[bold]Colony Roster[/bold]",
+        box=box.SIMPLE_HEAVY,
+        border_style="green",
+    )
+    table.add_column("Name", style="bold white")
+    table.add_column("Class", style="cyan")
+    table.add_column("React", justify="center")
+    table.add_column("Speed", justify="center")
+    table.add_column("Combat", justify="center")
+    table.add_column("Tough", justify="center")
+    table.add_column("Savvy", justify="center")
+    table.add_column("XP", justify="center")
+    table.add_column("KP", justify="center")
+    table.add_column("Status", style="dim")
+
+    for char in state.characters:
+        status = "[green]Ready[/green]"
+        if char.sick_bay_turns > 0:
+            status = f"[red]Sick Bay ({char.sick_bay_turns}t)[/red]"
+
+        table.add_row(
+            char.name,
+            char.char_class.value.title(),
+            str(char.reactions),
+            f"{char.speed}\"",
+            f"+{char.combat_skill}",
+            str(char.toughness),
+            f"+{char.savvy}",
+            str(char.xp),
+            str(char.kill_points),
+            status,
+        )
+
+    console.print(table)
+
+
+def pause_and_clear():
+    """Pause for user input, then clear the screen."""
+    from planetfall.cli.prompts import pause
+    pause()
+    clear_screen()
+
+
+def print_step_header(step: int, name: str, state: GameState | None = None):
+    """Print a campaign turn step header, optionally with colony status."""
+    pause_and_clear()
+    if state is not None:
+        print_colony_status(state)
+        print_map(state)
+    console.print()
+    console.rule(f"[bold yellow]Step {step}: {name}[/bold yellow]")
+
+
+def print_events(events: list[TurnEvent]):
+    """Print turn events."""
+    for event in events:
+        icon = _event_icon(event.event_type.value)
+        console.print(f"  {icon} {event.description}")
+        for roll in event.dice_rolls:
+            console.print(
+                f"    [dim]{roll.label}: {roll.values} = {roll.total}[/dim]"
+            )
+
+
+def print_mission_options(options: list[dict]):
+    """Print available mission choices with rewards and target info."""
+    table = Table(
+        title="[bold]Available Missions[/bold]",
+        box=box.SIMPLE,
+        show_header=True,
+    )
+    table.add_column("#", style="bold cyan", width=3)
+    table.add_column("Mission", style="white", min_width=14)
+    table.add_column("Description", style="dim")
+    table.add_column("Rewards", style="green")
+
+    for i, opt in enumerate(options, 1):
+        forced = " [red](FORCED)[/red]" if opt.get("forced") else ""
+        mission_name = opt["type"].value.replace("_", " ").title() + forced
+
+        desc = opt["description"]
+        targets = opt.get("target_sectors")
+        if targets and len(targets) > 1:
+            details = opt.get("target_details")
+            if details:
+                desc += f"\n[dim]  Sectors: {', '.join(details)}[/dim]"
+
+        rewards = opt.get("rewards", "")
+
+        table.add_row(str(i), mission_name, desc, rewards)
+
+    console.print(table)
+
+
+def _sector_symbol_parts(sector, colony_id: int) -> tuple[str, str]:
+    """Get the display symbol and style for a sector as (text, style)."""
+    if sector.sector_id == colony_id:
+        return ("H", "bold green")
+    elif sector.enemy_occupied_by:
+        return ("X", "red")
+    elif sector.has_ancient_site:
+        return ("A", "yellow")
+    elif sector.has_investigation_site:
+        return ("?", "cyan")
+    elif sector.has_ancient_sign:
+        return ("S", "magenta")
+    elif sector.status == SectorStatus.EXPLORED:
+        return (".", "dim")
+    elif sector.status == SectorStatus.EXPLOITED:
+        return ("+", "green")
+    return ("-", "dim")
+
+
+def print_map(state: GameState, cols: int = 6):
+    """Print the campaign map as a fixed-width grid with box-drawing borders."""
+    sectors = state.campaign_map.sectors
+    colony_id = state.campaign_map.colony_sector_id
+    total = len(sectors)
+    rows = (total + cols - 1) // cols
+
+    CELL_W = 7
+    LABEL_W = 3
+
+    B = _BOX_UNICODE if _detect_unicode_support() else _BOX_ASCII
+
+    # -- Title --
+    console.print(f"\n  [bold]Campaign Map[/]")
+
+    # -- Column header --
+    header = Text()
+    header.append(" " * LABEL_W + " ")
+    for c in range(cols):
+        col_str = str(c).center(CELL_W)
+        header.append(col_str, style="bold cyan")
+        if c < cols - 1:
+            header.append(" ")
+    console.print(header)
+
+    # -- Border helpers --
+    def h_border(left: str, mid: str, right: str) -> str:
+        return (" " * LABEL_W) + left + mid.join(
+            [B["h"] * CELL_W] * cols
+        ) + right
+
+    top_border = h_border(B["tl"], B["mt"], B["tr"])
+    mid_border = h_border(B["ml"], B["cx"], B["mr"])
+    bot_border = h_border(B["bl"], B["mb"], B["br"])
+
+    console.print(top_border, style="dim")
+
+    for r in range(rows):
+        line1 = Text()  # sector symbol
+        line2 = Text()  # resource/hazard
+
+        row_label = str(r).rjust(LABEL_W - 1) + " "
+        line1.append(row_label, style="bold")
+        line2.append(" " * LABEL_W)
+
+        for c in range(cols):
+            idx = r * cols + c
+
+            line1.append(B["v"], style="dim")
+            line2.append(B["v"], style="dim")
+
+            cell1 = Text()
+            cell2 = Text()
+
+            if idx < total:
+                sector = sectors[idx]
+                sym, sym_style = _sector_symbol_parts(sector, colony_id)
+
+                # Line 1: centered symbol
+                cell1.append(f"  {sym}  ", style=sym_style)
+
+                # Line 2: resource/hazard for explored sectors
+                if (sector.status != SectorStatus.UNKNOWN
+                        and sector.sector_id != colony_id
+                        and (sector.resource_level > 0 or sector.hazard_level > 0)):
+                    cell2.append(" ", style="")
+                    cell2.append(f"R{sector.resource_level}", style="blue")
+                    cell2.append(" ", style="")
+                    cell2.append(f"H{sector.hazard_level}", style="red")
+
+            _pad_cell(cell1, CELL_W)
+            _pad_cell(cell2, CELL_W)
+            line1.append(cell1)
+            line2.append(cell2)
+
+        line1.append(B["v"], style="dim")
+        line2.append(B["v"], style="dim")
+
+        console.print(line1)
+        console.print(line2)
+
+        if r < rows - 1:
+            console.print(mid_border, style="dim")
+
+    console.print(bot_border, style="dim")
+
+    # -- Legend --
+    console.print(
+        "  [dim]Sectors:[/] "
+        "[bold green]H[/]=Colony  "
+        "[cyan]?[/]=Investigation  "
+        "[magenta]S[/]=Sign  "
+        "[yellow]A[/]=Ancient  "
+        "[red]X[/]=Enemy  "
+        "[dim].[/]=Explored  "
+        "[green]+[/]=Exploited  "
+        "[dim]-[/]=Unknown"
+    )
+    console.print(
+        "  [blue]R#[/]=Resource  [red]H#[/]=Hazard  "
+        "[dim]Coordinates: row,col (e.g. 2,3)[/dim]"
+    )
+    console.print()
+
+
+def _stat_increases(char: Character) -> list[str]:
+    """Return list of stat increases over the class baseline."""
+    base = STARTING_PROFILES.get(char.char_class, {})
+    increases = []
+    stat_labels = [
+        ("reactions", "React"),
+        ("speed", "Spd"),
+        ("combat_skill", "CS"),
+        ("toughness", "Tough"),
+        ("savvy", "Savvy"),
+    ]
+    for field, label in stat_labels:
+        current = getattr(char, field, 0)
+        baseline = base.get(field, 0)
+        diff = current - baseline
+        if diff > 0:
+            increases.append(f"{label} +{diff}")
+        elif diff < 0:
+            increases.append(f"{label} {diff}")
+    if char.xp > 0:
+        increases.append(f"XP {char.xp}")
+    if char.kill_points > 0:
+        increases.append(f"KP {char.kill_points}")
+    return increases
+
+
+import re
+
+_NARRATIVE_HEADER_RE = re.compile(
+    r"^\*\*[A-Z ]+:?\*\*\s*$|^\*\*[A-Za-z ]+:?\*\*\s*$|^#+\s",
+)
+
+# Inline bold labels like **Distinctive trait:** at start of a line
+_INLINE_BOLD_LABEL_RE = re.compile(r"^\*\*[A-Za-z ]+:?\*\*\s*")
+
+
+def _clean_narrative(text: str) -> str:
+    """Strip markdown headers and bold section labels from narrative text."""
+    lines = text.strip().split("\n")
+    cleaned = []
+    for ln in lines:
+        stripped = ln.strip()
+        # Skip lines that are just bold headers like **PERSONALITY SKETCH**
+        if _NARRATIVE_HEADER_RE.match(stripped):
+            continue
+        # Strip inline bold labels like **Distinctive trait:** from start of line
+        stripped = _INLINE_BOLD_LABEL_RE.sub("", stripped)
+        # Skip empty lines that follow removed headers
+        if not stripped and cleaned and not cleaned[-1]:
+            continue
+        if stripped:
+            cleaned.append(stripped)
+        else:
+            cleaned.append(ln)
+    return "\n".join(cleaned).strip()
+
+
+def print_character_backgrounds(state: GameState):
+    """Print character backgrounds with formatted motivation, experience, and stats."""
+    console.print("\n[bold]Character Backgrounds[/bold]")
+    for char in state.characters:
+        # Header: title + name + role + class
+        name_parts = []
+        if char.title:
+            name_parts.append(f"[bold white]{char.title}[/bold white]")
+        name_parts.append(f"[bold cyan]{char.name}[/bold cyan]")
+        if char.role:
+            name_parts.append(f"[dim italic]{char.role}[/dim italic]")
+        header = f"  {' '.join(name_parts)} — [dim]{char.char_class.value.title()}[/dim]"
+        console.print(header)
+
+        # Motivation + Prior Experience + Notable Event + Stat increases — one line
+        tags = []
+        if char.background_motivation:
+            tags.append(f"[green]{char.background_motivation}[/green]")
+        if char.background_prior_experience:
+            tags.append(f"[dark_orange]{char.background_prior_experience}[/dark_orange]")
+        if char.background_notable_event:
+            tags.append(f"[yellow]{char.background_notable_event}[/yellow]")
+        increases = _stat_increases(char)
+        for inc in increases:
+            tags.append(f"[blue]{inc}[/blue]")
+        if tags:
+            console.print(f"    {' | '.join(tags)}")
+
+        # Narrative background (strip headers and bold section labels)
+        if char.narrative_background:
+            bg = _clean_narrative(char.narrative_background)
+            if bg:
+                console.print(f"    [dim italic]{bg}[/dim italic]")
+
+        console.print()
+
+
+def print_turn_summary(events: list[TurnEvent]):
+    """Print end-of-turn summary."""
+    console.print()
+    console.print(Panel(
+        "\n".join(f"  {e.description}" for e in events),
+        title="[bold]Turn Summary[/bold]",
+        border_style="blue",
+        box=box.ROUNDED,
+    ))
+
+
+def _event_icon(event_type: str) -> str:
+    """Get a text marker for event types."""
+    icons = {
+        "recovery": "[green]>[/green]",
+        "repair": "[blue]>[/blue]",
+        "scout_report": "[cyan]>[/cyan]",
+        "enemy_activity": "[red]>[/red]",
+        "colony_event": "[yellow]>[/yellow]",
+        "mission": "[magenta]>[/magenta]",
+        "injury": "[red]>[/red]",
+        "experience": "[green]>[/green]",
+        "morale": "[yellow]>[/yellow]",
+        "replacement": "[cyan]>[/cyan]",
+        "research": "[blue]>[/blue]",
+        "building": "[blue]>[/blue]",
+        "character_event": "[magenta]>[/magenta]",
+        "combat": "[red]>[/red]",
+        "narrative": "[dim]>[/dim]",
+    }
+    return icons.get(event_type, ">")
+
+
+# Need the import for print_map
+from planetfall.engine.models import SectorStatus
+
+
+# --- Battlefield Grid Renderer ---
+
+from planetfall.engine.combat.battlefield import (
+    Battlefield, Figure, FigureSide, FigureStatus, TerrainType,
+)
+
+_TERRAIN_SYMBOL = {
+    TerrainType.OPEN: "..",
+    TerrainType.LIGHT_COVER: "~~",
+    TerrainType.HEAVY_COVER: "##",
+    TerrainType.HIGH_GROUND: "^^",
+    TerrainType.IMPASSABLE: "XX",
+}
+
+_TERRAIN_STYLE = {
+    TerrainType.OPEN: "dim",
+    TerrainType.LIGHT_COVER: "yellow",
+    TerrainType.HEAVY_COVER: "yellow",
+    TerrainType.HIGH_GROUND: "cyan",
+    TerrainType.IMPASSABLE: "red",
+}
+
+
+def _weapon_abbrev(weapon_name: str) -> str:
+    """Generate 2-letter weapon type abbreviation from weapon name."""
+    _ABBREVS = {
+        "rattle gun": "RG",
+        "military rifle": "MR",
+        "colony rifle": "CR",
+        "auto rifle": "AR",
+        "hunting rifle": "HR",
+        "scrap gun": "SG",
+        "hand cannon": "HC",
+        "blade": "BL",
+        "ripper sword": "RS",
+        "shatter axe": "SA",
+        "shotgun": "SH",
+        "infantry rifle": "IR",
+        "trooper rifle": "TR",
+        "assault gun": "AG",
+        "light machine gun": "LM",
+        "flame projector": "FP",
+        "handgun": "HG",
+        "colonial shotgun": "CS",
+        "scout pistol": "SP",
+        "natural weapons": "NW",
+        "unarmed": "UA",
+    }
+    key = weapon_name.strip().lower()
+    if key in _ABBREVS:
+        return _ABBREVS[key]
+    # Fallback: first letters of first two words, or first two chars
+    parts = weapon_name.split()
+    if len(parts) >= 2:
+        return (parts[0][0] + parts[1][0]).upper()
+    return weapon_name[:2].upper()
+
+
+# Counters for assigning sequential figure numbers within a battle
+_enemy_label_map: dict[str, str] = {}
+_enemy_counter: int = 0
+_player_label_map: dict[str, str] = {}
+_player_counter: int = 0
+
+
+def _name_abbrev(name: str) -> str:
+    """Generate 2-letter abbreviation from a figure name.
+
+    Multi-word: first letter of each of first two words (e.g. "Sarah Chen" -> "SC").
+    Single word: first two letters (e.g. "Bot" -> "BO").
+    """
+    parts = name.split()
+    if len(parts) >= 2:
+        return (parts[0][0] + parts[1][0]).upper()
+    return name[:2].upper()
+
+
+def get_figure_map_label(fig: Figure) -> str:
+    """Return the short map label (e.g. '3BF') for a figure, allocating one if needed."""
+    global _enemy_counter, _player_counter
+    if fig.side == FigureSide.ENEMY:
+        if fig.name not in _enemy_label_map:
+            _enemy_counter += 1
+            abbrev = _weapon_abbrev(fig.weapon_name)
+            _enemy_label_map[fig.name] = f"{_enemy_counter}{abbrev}"
+        return _enemy_label_map[fig.name]
+    else:
+        if fig.name not in _player_label_map:
+            _player_counter += 1
+            abbrev = _name_abbrev(fig.name)
+            _player_label_map[fig.name] = f"{_player_counter}{abbrev}"
+        return _player_label_map[fig.name]
+
+
+def reset_enemy_labels():
+    """Reset all figure label assignments (call at start of each battle)."""
+    global _enemy_label_map, _enemy_counter, _player_label_map, _player_counter
+    _enemy_label_map = {}
+    _enemy_counter = 0
+    _player_label_map = {}
+    _player_counter = 0
+
+
+def _fig_label(fig: Figure) -> str:
+    """3-char label for a figure on the grid.
+
+    All figures use XYY format: X=sequential number, YY=abbreviation.
+    Enemies: YY = weapon abbreviation. Players: YY = name initials.
+    """
+    global _enemy_counter, _player_counter
+
+    if fig.is_contact:
+        return "[bold red]??[/]"
+
+    if fig.side == FigureSide.ENEMY:
+        if fig.name not in _enemy_label_map:
+            _enemy_counter += 1
+            abbrev = _weapon_abbrev(fig.weapon_name)
+            _enemy_label_map[fig.name] = f"{_enemy_counter}{abbrev}"
+        code = _enemy_label_map[fig.name]
+    else:
+        if fig.name not in _player_label_map:
+            _player_counter += 1
+            abbrev = _name_abbrev(fig.name)
+            _player_label_map[fig.name] = f"{_player_counter}{abbrev}"
+        code = _player_label_map[fig.name]
+
+    if fig.status == FigureStatus.STUNNED:
+        code += "~"
+    elif fig.status == FigureStatus.SPRAWLING:
+        code += "_"
+    elif fig.status == FigureStatus.CASUALTY:
+        code += "X"
+    if fig.aid_marker:
+        code += "+"
+
+    if fig.side == FigureSide.PLAYER:
+        return f"[bold bright_green]{code}[/]"
+    # Storm clusters = yellow
+    if fig.char_class == "storm":
+        return f"[bold yellow]{code}[/]"
+    # Slyn = cyan, Sleepers = magenta, normal enemies = red
+    if fig.char_class == "slyn":
+        return f"[bold cyan]{code}[/]"
+    if fig.char_class == "sleeper":
+        return f"[bold magenta]{code}[/]"
+    return f"[bold red]{code}[/]"
+
+
+def _build_movement_map(
+    bf: Battlefield, fig: Figure,
+) -> dict[tuple[int, int], str]:
+    """Build a zone -> background style map showing movement range.
+
+    - Active zone: green
+    - Standard move: bright green
+    - Rush range: darker green
+    - Speed 1-2: no standard move, only rush (1 zone, dark green)
+    - Speed 3-4: 1 zone move, no rush
+    - Speed 5-6: 1 zone move, rush to 2 zones
+    - Speed 7-8: 2 zone move, no rush
+    - Scouts: jump jets (straight-line, can land on impassable)
+    """
+    from planetfall.engine.combat.battlefield import (
+        move_zones as calc_move_zones,
+        rush_available,
+        rush_total_zones,
+    )
+
+    GREEN_MOVE = "on rgb(20,80,30)"      # bright green — standard move
+    GREEN_RUSH = "on rgb(12,50,20)"      # dark green — rush only
+
+    movement: dict[tuple[int, int], str] = {}
+    movement[fig.zone] = "on dark_green"
+
+    is_scout = fig.char_class == "scout"
+    adj_zones = bf.adjacent_zones(*fig.zone)
+    num_move = calc_move_zones(fig.speed)
+
+    # Standard move zones
+    std_zones: set[tuple[int, int]] = set()
+    if num_move > 0:
+        if is_scout:
+            for z in bf.jump_destinations(*fig.zone, num_move):
+                std_zones.add(z)
+        elif num_move >= 2:
+            for dr in range(-num_move, num_move + 1):
+                for dc in range(-num_move, num_move + 1):
+                    nr, nc = fig.zone[0] + dr, fig.zone[1] + dc
+                    if (0 <= nr < bf.rows and 0 <= nc < bf.cols
+                            and max(abs(dr), abs(dc)) <= num_move
+                            and (nr, nc) != fig.zone):
+                        if bf.get_zone(nr, nc).terrain != TerrainType.IMPASSABLE:
+                            std_zones.add((nr, nc))
+        else:
+            for z in adj_zones:
+                if bf.get_zone(*z).terrain != TerrainType.IMPASSABLE:
+                    std_zones.add(z)
+
+    for z in std_zones:
+        if bf.zone_has_capacity(*z, fig.side):
+            movement[z] = GREEN_MOVE
+
+    # Rush zones (beyond standard move)
+    if rush_available(fig.speed):
+        rush_reach = rush_total_zones(fig.speed)
+        for r in range(bf.rows):
+            for c in range(bf.cols):
+                pos = (r, c)
+                if pos in movement or pos == fig.zone:
+                    continue
+                dist = bf.zone_distance(fig.zone, pos)
+                if 0 < dist <= rush_reach:
+                    zone = bf.get_zone(r, c)
+                    if (zone.terrain != TerrainType.IMPASSABLE
+                            and bf.zone_has_capacity(r, c, fig.side)):
+                        movement[pos] = GREEN_RUSH
+
+    return movement
+
+
+def _build_shooting_map(
+    bf: Battlefield, fig: Figure,
+) -> dict[tuple[int, int], str]:
+    """Build a zone -> background style map showing weapon range and hit bands.
+
+    - Active zone: green
+    - Close range (<=6", 3+ to hit): bright red/orange
+    - Medium range (>6", 5+ to hit): medium red
+    - In range but 6+ (cover): dark red
+    - Out of range: no entry
+    """
+    from planetfall.engine.combat.battlefield import ZONE_INCHES
+
+    RED_CLOSE = "on rgb(120,30,20)"     # bright — close range (3+)
+    RED_MEDIUM = "on rgb(80,20,15)"     # medium — standard range (5+)
+    RED_COVER = "on rgb(50,15,10)"      # dark — in cover (6+)
+
+    shooting: dict[tuple[int, int], str] = {}
+    shooting[fig.zone] = "on dark_green"
+
+    for r in range(bf.rows):
+        for c in range(bf.cols):
+            pos = (r, c)
+            if pos == fig.zone:
+                continue
+            los = bf.check_los(fig.zone, pos)
+            if los == "blocked":
+                continue
+            dist = bf.zone_distance(fig.zone, pos)
+            approx_inches = dist * ZONE_INCHES
+            if approx_inches > fig.weapon_range:
+                continue
+
+            target_has_cover = bf.has_heavy_cover(pos)
+            if target_has_cover and not bf.shooter_on_high_ground(fig.zone, pos):
+                shooting[pos] = RED_COVER
+            elif approx_inches <= 6:
+                shooting[pos] = RED_CLOSE
+            else:
+                shooting[pos] = RED_MEDIUM
+
+    return shooting
+
+
+def _build_vision_map(
+    bf: Battlefield, active_zone: tuple[int, int],
+) -> dict[tuple[int, int], str]:
+    """Build a zone -> background style map showing LoS and detection ranges.
+
+    Detection ranges (from battlefield constants):
+    - Close (1-2 zones): auto-detect clear LoS, D6 4+ obscured
+    - Far (3-4 zones): auto-detect clear LoS only
+    - Extreme (5-6 zones): D6 4+ if clear LoS
+
+    Returns a dict of (row, col) -> Rich background style string:
+    - Active figure's zone: "on dark_green"
+    - Close range (1-2 zones, has LoS): "on navy_blue"
+    - Far range (3-4 zones, clear LoS): "on blue"
+    - Far range (3-4 zones, obscured LoS): "on grey19"
+    - Extreme range (5-6 zones, clear LoS): "on grey19"
+    - Blocked or beyond 6 zones: no entry
+    """
+    from planetfall.engine.combat.battlefield import (
+        CONTACT_CLOSE_RANGE, CONTACT_FAR_RANGE, CONTACT_EXTREME_RANGE,
+    )
+
+    # Three shades of blue: bright → mid → dark
+    BLUE_CLOSE = "on rgb(30,60,120)"     # bright blue — close range
+    BLUE_FAR = "on rgb(20,40,85)"        # medium blue — far range (clear)
+    BLUE_EXTREME = "on rgb(12,25,55)"    # dark blue — extreme or obscured
+
+    vision: dict[tuple[int, int], str] = {}
+    vision[active_zone] = "on dark_green"
+
+    for r in range(bf.rows):
+        for c in range(bf.cols):
+            pos = (r, c)
+            if pos == active_zone:
+                continue
+            los = bf.check_los(active_zone, pos)
+            if los == "blocked":
+                continue
+            dist = bf.zone_distance(active_zone, pos)
+
+            if dist <= CONTACT_CLOSE_RANGE:
+                # Close: auto-detect clear, D6 4+ obscured
+                vision[pos] = BLUE_CLOSE
+            elif dist <= CONTACT_FAR_RANGE:
+                # Far: auto-detect clear only
+                if los == "clear":
+                    vision[pos] = BLUE_FAR
+                else:
+                    vision[pos] = BLUE_EXTREME  # obscured, no auto-detect
+            elif dist <= CONTACT_EXTREME_RANGE:
+                # Extreme: D6 4+ clear only
+                if los == "clear":
+                    vision[pos] = BLUE_EXTREME
+                # obscured at extreme = no detection
+
+    return vision
+
+
+# Overlay mode constants
+OVERLAY_VISION = "vision"
+OVERLAY_MOVEMENT = "movement"
+OVERLAY_SHOOTING = "shooting"
+OVERLAY_MODES = [OVERLAY_VISION, OVERLAY_MOVEMENT, OVERLAY_SHOOTING]
+
+# Legend text per overlay mode
+_OVERLAY_LEGENDS = {
+    OVERLAY_VISION: (
+        "  [dim]Vision:[/] "
+        "[on dark_green]  [/]=Active  "
+        "[on rgb(30,60,120)]  [/]=Close 1-2z  "
+        "[on rgb(20,40,85)]  [/]=Far 3-4z  "
+        "[on rgb(12,25,55)]  [/]=Extreme/Obscured  "
+        "[dim]dark=Blocked[/]"
+    ),
+    OVERLAY_MOVEMENT: (
+        "  [dim]Movement:[/] "
+        "[on dark_green]  [/]=Active  "
+        "[on rgb(20,80,30)]  [/]=Move (1 zone)  "
+        "[on rgb(12,50,20)]  [/]=Dash/Jump  "
+        "[dim]dark=Blocked[/]"
+    ),
+    OVERLAY_SHOOTING: (
+        "  [dim]Shooting:[/] "
+        "[on dark_green]  [/]=Active  "
+        "[on rgb(120,30,20)]  [/]=Close 3+  "
+        "[on rgb(80,20,15)]  [/]=Range 5+  "
+        "[on rgb(50,15,10)]  [/]=Cover 6+  "
+        "[dim]dark=Out of range[/]"
+    ),
+}
+
+
+def build_overlay(
+    bf: Battlefield, fig: Figure, mode: str = OVERLAY_VISION,
+) -> dict[tuple[int, int], str]:
+    """Build a zone overlay map for the given mode and figure."""
+    if mode == OVERLAY_MOVEMENT:
+        return _build_movement_map(bf, fig)
+    elif mode == OVERLAY_SHOOTING:
+        return _build_shooting_map(bf, fig)
+    return _build_vision_map(bf, fig.zone)
+
+
+def print_battlefield(
+    bf: Battlefield,
+    title: str = "Battlefield",
+    active_fig: "Figure | None" = None,
+    overlay_mode: str = OVERLAY_VISION,
+    slyn_unknown: bool = False,
+    highlighted_enemies: "set[str] | None" = None,
+):
+    """Render the battlefield grid using box-drawing chars and Rich Text.
+
+    Fixed-width cells (7 chars) with ASCII grid lines (auto-upgrades to
+    Unicode box-drawing on UTF-8 terminals). Two lines per cell:
+    terrain+objective on top, figures below.
+    slyn_unknown: If True, label Slyn as "Unknown Alien" in legend (first encounter).
+
+    Args:
+        active_fig: If set, highlights this figure's zone with an overlay.
+        highlighted_enemies: Set of enemy figure names to highlight (in-range targets).
+        overlay_mode: One of OVERLAY_VISION, OVERLAY_MOVEMENT, OVERLAY_SHOOTING.
+    """
+    CELL_W = 7   # inner character width per cell
+    LABEL_W = 3  # row label width (space + digit + space)
+
+    B = _BOX_UNICODE if _detect_unicode_support() else _BOX_ASCII
+
+    # Build overlay if we have an active figure
+    vision: dict[tuple[int, int], str] = {}
+    if active_fig and active_fig.is_alive:
+        vision = build_overlay(bf, active_fig, overlay_mode)
+
+    # -- Title --
+    console.print(
+        f"\n  [bold]{title}[/] ({bf.rows}x{bf.cols}, 4\" zones)"
+    )
+
+    # -- Column header --
+    header = Text()
+    header.append(" " * LABEL_W + " ")  # align with left border
+    for c in range(bf.cols):
+        col_str = str(c).center(CELL_W)
+        header.append(col_str, style="bold cyan")
+        if c < bf.cols - 1:
+            header.append(" ")  # separator gap
+    console.print(header)
+
+    # -- Border helpers --
+    def h_border(left: str, mid: str, right: str) -> str:
+        return (" " * LABEL_W) + left + mid.join(
+            [B["h"] * CELL_W] * bf.cols
+        ) + right
+
+    top_border = h_border(B["tl"], B["mt"], B["tr"])
+    mid_border = h_border(B["ml"], B["cx"], B["mr"])
+    bot_border = h_border(B["bl"], B["mb"], B["br"])
+
+    console.print(top_border, style="dim")
+
+    for r in range(bf.rows):
+        # Two content lines per row
+        line1 = Text()  # terrain + objective
+        line2 = Text()  # figures
+
+        # Row label on line 1; blank on line 2
+        row_label = str(r).rjust(LABEL_W - 1) + " "
+        line1.append(row_label, style="bold")
+        line2.append(" " * LABEL_W)
+
+        for c in range(bf.cols):
+            zone = bf.zones[r][c]
+            figures = bf.get_figures_in_zone(r, c)
+
+            # Vision overlay takes priority over terrain background
+            if (r, c) in vision:
+                bg = vision[(r, c)]
+            else:
+                bg = _TERRAIN_BG.get(zone.terrain, "")
+
+            # Left border
+            line1.append(B["v"], style="dim")
+            line2.append(B["v"], style="dim")
+
+            # -- Line 1: terrain symbol + objective --
+            cell1 = Text()
+            t_sym = _TERRAIN_SYMBOL[zone.terrain]
+            t_style = _TERRAIN_STYLE[zone.terrain]
+            if bg:
+                t_style = f"{t_style} {bg}"
+
+            if zone.objective_label:
+                # Compact: no leading space to fit "tt *OBJ" in 7 chars
+                cell1.append(t_sym, style=t_style)
+                cell1.append(" ", style=bg)
+                obj_label = f"*{zone.objective_label[:3]}"
+                cell1.append(obj_label, style="bold bright_white on dark_red")
+            else:
+                cell1.append(f" {t_sym}", style=t_style)
+            _pad_cell(cell1, CELL_W, bg)
+            line1.append(cell1)
+
+            # -- Line 2: figures (up to stacking limit) --
+            cell2 = Text()
+            alive_figs = [f for f in figures if f.is_alive]
+            dead_figs = [f for f in figures if not f.is_alive]
+            display_figs = alive_figs[:3]  # show alive first
+            if len(display_figs) < 3 and dead_figs:
+                display_figs.extend(dead_figs[:3 - len(display_figs)])
+
+            if len(display_figs) <= 1:
+                cell2.append(" ", style=bg)  # leading pad when room
+
+            for i, fig in enumerate(display_figs):
+                if i > 0:
+                    cell2.append(" ", style=bg)
+                label, style = _fig_label_parts(fig)
+                # Active figure gets highlighted label
+                if active_fig and fig.name == active_fig.name:
+                    style = f"bold bright_white {bg}"
+                # Highlight in-range enemies
+                elif highlighted_enemies and fig.name in highlighted_enemies:
+                    style = f"bold bright_white on dark_red"
+                cell2.append(label, style=style)
+            if len(figures) > 3:
+                cell2.append(f"+{len(figures) - 3}", style="dim")
+            _pad_cell(cell2, CELL_W, bg)
+            line2.append(cell2)
+
+        # Right border
+        line1.append(B["v"], style="dim")
+        line2.append(B["v"], style="dim")
+
+        console.print(line1)
+        console.print(line2)
+
+        # Row separator or bottom border
+        if r < bf.rows - 1:
+            console.print(mid_border, style="dim")
+
+    console.print(bot_border, style="dim")
+
+    # -- Legend --
+    legend_terrain = (
+        "  [dim]Terrain:[/] "
+        "[dim]..[/]=Open  "
+        "[yellow]~~[/]=Scatter  "
+        "[yellow on grey15]##[/]=Heavy Cover  "
+        "[cyan]^^[/]=High Ground  "
+        "[red]XX[/]=Impassable"
+    )
+    # Build dynamic figure legend based on what's on the battlefield
+    _special_classes = ("slyn", "sleeper", "storm")
+    has_player = any(f.side == FigureSide.PLAYER and f.is_alive for f in bf.figures)
+    has_enemy = any(
+        f.side == FigureSide.ENEMY and f.is_alive
+        and not f.is_contact
+        and getattr(f, "char_class", "") not in _special_classes
+        for f in bf.figures
+    )
+    has_contact = any(f.is_contact and f.is_alive for f in bf.figures)
+    has_storm = any(
+        getattr(f, "char_class", "") == "storm" and f.is_alive for f in bf.figures
+    )
+    has_slyn = any(
+        getattr(f, "char_class", "") == "slyn" and f.is_alive for f in bf.figures
+    )
+    has_sleeper = any(
+        getattr(f, "char_class", "") == "sleeper" and f.is_alive for f in bf.figures
+    )
+    has_objective = any(
+        bf.zones[r][c].has_objective
+        for r in range(bf.rows)
+        for c in range(bf.cols)
+    )
+
+    fig_parts: list[str] = ["  [dim]Figures:[/] "]
+    if has_player:
+        fig_parts.append("[bright_green]1AB[/]=Player  ")
+    if has_enemy or has_contact:
+        fig_parts.append("[red]1AB[/]=Enemy  ")
+    if has_storm:
+        fig_parts.append("[yellow]1AB[/]=Storm  ")
+    if has_slyn:
+        if slyn_unknown:
+            fig_parts.append("[cyan]1AB[/]=Unknown  ")
+        else:
+            fig_parts.append("[cyan]1AB[/]=Slyn  ")
+    if has_sleeper:
+        fig_parts.append("[magenta]1AB[/]=Sleeper  ")
+    if has_contact:
+        fig_parts.append("[red]??[/]=Contact  ")
+    fig_parts.append("[dim]~Stun _Sprawl +Aid[/]  ")
+    if has_objective:
+        fig_parts.append("[bold bright_white on dark_red]*OBJ[/]=Objective")
+    legend_figs = "".join(fig_parts)
+    console.print(legend_terrain)
+    console.print(legend_figs)
+    if active_fig and overlay_mode in _OVERLAY_LEGENDS:
+        console.print(_OVERLAY_LEGENDS[overlay_mode])
+
+
+def _fig_label_parts(fig: Figure) -> tuple[str, str]:
+    """Return (label_text, rich_style) for a figure — no markup wrapper.
+
+    All figures use XYY format: X=sequential number, YY=abbreviation.
+    Enemies: YY = weapon abbreviation. Players: YY = name initials.
+    """
+    global _enemy_counter, _player_counter
+
+    if fig.is_contact:
+        return ("??", "bold red")
+
+    if fig.side == FigureSide.ENEMY:
+        if fig.name not in _enemy_label_map:
+            _enemy_counter += 1
+            abbrev = _weapon_abbrev(fig.weapon_name)
+            _enemy_label_map[fig.name] = f"{_enemy_counter}{abbrev}"
+        code = _enemy_label_map[fig.name]
+    else:
+        if fig.name not in _player_label_map:
+            _player_counter += 1
+            abbrev = _name_abbrev(fig.name)
+            _player_label_map[fig.name] = f"{_player_counter}{abbrev}"
+        code = _player_label_map[fig.name]
+
+    if fig.status == FigureStatus.STUNNED:
+        code += "~"
+    elif fig.status == FigureStatus.SPRAWLING:
+        code += "_"
+    elif fig.status == FigureStatus.CASUALTY:
+        code += "X"
+
+    if fig.side == FigureSide.PLAYER:
+        return (code, "bold bright_green")
+    if fig.char_class == "storm":
+        return (code, "bold yellow")
+    if fig.char_class == "slyn":
+        return (code, "bold cyan")
+    if fig.char_class == "sleeper":
+        return (code, "bold magenta")
+    return (code, "bold red")
+
+
+# Background tints per terrain type (subtle, for zone fill)
+_TERRAIN_BG = {
+    TerrainType.OPEN: "",
+    TerrainType.LIGHT_COVER: "on grey11",
+    TerrainType.HEAVY_COVER: "on grey15",
+    TerrainType.HIGH_GROUND: "on grey7",
+    TerrainType.IMPASSABLE: "on grey19",
+}
+
+
+def _pad_cell(cell: Text, width: int, bg_style: str = "") -> Text:
+    """Pad a Rich Text cell to exact display width, filling with bg style."""
+    gap = width - cell.cell_len
+    if gap > 0:
+        cell.append(" " * gap, style=bg_style)
+    return cell
+
+
+def _detect_unicode_support() -> bool:
+    """Check if the terminal can handle Unicode box-drawing characters."""
+    import sys
+    try:
+        encoding = sys.stdout.encoding or ""
+        return encoding.lower().replace("-", "") in (
+            "utf8", "utf16", "utf32", "utf8sig",
+        )
+    except Exception:
+        return False
+
+
+# Box-drawing character sets
+_BOX_UNICODE = {
+    "h": "\u2500", "v": "\u2502",
+    "tl": "\u250c", "tr": "\u2510", "bl": "\u2514", "br": "\u2518",
+    "ml": "\u251c", "mr": "\u2524", "mt": "\u252c", "mb": "\u2534",
+    "cx": "\u253c",
+}
+_BOX_ASCII = {
+    "h": "-", "v": "|",
+    "tl": "+", "tr": "+", "bl": "+", "br": "+",
+    "ml": "+", "mr": "+", "mt": "+", "mb": "+",
+    "cx": "+",
+}
+
+
+def print_reaction_roll(reaction: dict):
+    """Print the reaction roll results: dice, assignments, quick/slow split."""
+    dice = reaction.get("dice", [])
+    assignments = reaction.get("assignments", {})
+    quick = reaction.get("quick", [])
+    slow = reaction.get("slow", [])
+
+    console.print(f"\n  [bold]Reaction Roll:[/bold] {dice}")
+
+    parts = []
+    for name, die in assignments.items():
+        if name in quick:
+            parts.append(f"[green]{name}={die}(Q)[/green]")
+        else:
+            parts.append(f"[yellow]{name}={die}(S)[/yellow]")
+    if parts:
+        console.print(f"  Assignments: {', '.join(parts)}")
+
+    if quick:
+        console.print(f"  [green]Quick:[/green] {', '.join(quick)}")
+    if slow:
+        console.print(f"  [yellow]Slow:[/yellow] {', '.join(slow)}")
+
+
+def print_combat_phase(phase: str, round_number: int):
+    """Print a combat phase header."""
+    labels = {
+        "quick_actions": "Quick Actions Phase",
+        "enemy_phase": "Enemy Actions Phase",
+        "slow_actions": "Slow Actions Phase",
+        "end_phase": "End of Round",
+    }
+    label = labels.get(phase, phase.replace("_", " ").title())
+    console.print()
+    console.rule(f"[bold yellow]Round {round_number} — {label}[/bold yellow]")
+
+
+def print_combat_log(log_lines: list[str]):
+    """Print recent combat log entries."""
+    for line in log_lines:
+        if line.startswith("===") or line.startswith("---"):
+            continue  # skip internal separators
+        console.print(f"    [dim]{line}[/dim]")

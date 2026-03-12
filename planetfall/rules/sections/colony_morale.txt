@@ -1,0 +1,151 @@
+
+20-25 Uncertain terrain Long range scans are particularly unreliable here.
+features If you use the Uncertain Terrain Features optional rule (see page 137), 
+
+add 1 additional Uncertain feature. If you do not use this rule, this 
+result is instead treated as “Unstable Terrain,” below.
+
+26-30 Unstable terrain Many seemingly solid features seem extremely unstable, and the 
+slightest noise could collapse them.
+When setting up, randomly select a terrain feature. All features of 
+the same general type (rock, plant, etc.) are unstable. Each time a  
+figure moves adjacent to or on the feature, or is fired upon while on  
+the feature, roll 1D6. On a 1, the feature collapses and is removed 
+from the table. Any figures that were in or on the feature will be 
+knocked Sprawling.
+
+31-35 Shifting terrain At the end of each battle round, randomly select a terrain feature and 
+then move it 1D6” in a random direction. Features can move off the 
+table, in which case they are simply gone. Figures in or on the feature 
+move with it but must each roll 4+ on 1D6 or be knocked Sprawling 
+(see page 38). 
+Features will stop if they would otherwise collide with each other.
+
+36-41 Hazardous Randomly select two terrain features which become Impassable.
+environment
+
+42-49 Resource rich If you win the mission, roll one additional time on the Post Mission 
+Find table.
+This roll CAN be a duplicate of a result you obtained from any rolls 
+normally awarded by a mission.
+
+50-55 Heavy scanner signals If the mission uses Contacts, place one additional Contact marker 
+initially. This has no other effect.
+
+56-61 Unusual activity levels The area is particularly hostile or relaxed. If using Contacts, 
+roll D100 again.
+01-55	 Modify the Aggression die by +1 when testing for Contacts.
+56-00	 Modify the Aggression die by -1 when testing for Contacts.
+This has no other effect.
+
+62-68 Enemy activity The area is heavily patrolled, or the enemy is not here in great numbers.
+This affects the enemy number encountered when fighting Tactical 
+Enemies. Roll D100 again:
+01-45	 Encounter sizes reduced by 1.
+46-00	 Encounter sizes increased by 1.
+
+112
+
+
+
+Missions
+
+D100 RESULT DESCRIPTION
+
+69-75 Drifting clouds Great clouds of gas, vapor, or pollen drift through the area.
+When setting up the battle, place three cloud markers 6” from the 
+center of the table in random directions. Each produces a 2” radius 
+cloud. These clouds cannot be fired through. Figures within a cloud  
+can fire and be fired upon but it counts as cover. 
+At the end of each round, roll 1D6” and a random direction. Every cloud 
+drifts the same distance and direction.
+When first generating this condition, roll D100 again:
+01-70	 Safe: The clouds interfere with visibility, but are not dangerous.
+71-85	 T oxic: Each battle, roll two D6 and pick the highest of the 
+
+results to determine the toxin level. Any non-Lifeform figure 
+that makes base contact with a toxic cloud at any point must 
+roll 1D6 and on a roll equal to or above the toxin level, they 
+become a Casualty / lose 1 KP.
+
+86-00	 Corrosive: Anyone that activates within a cloud takes a hit  
+with +0 to the damage roll.
+
+76-82 Clear escape paths Once per battle round, you may select any one character that escapes 
+the battle just as if they had moved off a battlefield edge.
+
+83-90 Confined spaces Randomly select two points on the battlefield edge when you set up 
+terrain. The table can only be entered or exited at these two points.
+
+91-00 No Conditions All clear! No special conditions apply.
+
+113
+
+
+
+Missions
+
+Mission Briefings
+
+Mission Types Enemy figures should always set up as if they 
+A mission, in game terms, means that you are ready for combat. This means they should 
+will be playing out a tabletop battle with your be set up in or behind cover or behind terrain 
+miniatures. Some missions are selected by features that conceal them, whenever possible. 
+you while others are mandated by events If there are positions of cover within 3” of the 
+in the game. If you end up with multiple intended deployment point, set them up in the 
+mandated missions, randomly pick which one covered position instead.
+you will be playing. If there is high ground available for the enemy 
+When conducting a mission, you will assemble to deploy on, try to position about a third of the 
+a team of characters from your roster, as enemy on raised positions. The same 3” rule 
+explained in the “Lock and Load” step of the can be applied here. 
+campaign turn sequence (see page 65). The If you are setting up the enemy after placing 
+number of characters will depend on the your own figures, all enemies should be placed 
+mission in question. so they are in cover or out of sight.
+There is always one primary mission every When placing individual figures in a group, 
+campaign turn. If none are mandated, you place them with figures about 1” apart. 
+must select a mission to play. Specialists and leader figures should be about 
+
+1” behind the regular grunts. 
+Enemy Deployments Enemies arriving during the game are usually 
+Each mission gives a general guide to how the placed at the center of a battlefield edge. They 
+enemy is set up, but this is provided in broad will arrive at that location even if it otherwise 
+terms since it has to fit on a near-infinite array lacks cover or puts them directly in sight of 
+of gaming tables. your characters. If multiple characters arrive at 
+
+the same time, deploy them in a line with 1” 
+As the player you are responsible for the between figures and the midpoint of the line 
+exact placements of each enemy figure. A being on the center of the battlefield edge.
+few guidelines can be kept in mind when 
+you are deploying to prevent the game from 
+becoming unsatisfactory.  Terrain Placement
+
+Each mission will indicate if any particular 
+features must be placed on the table. You 
+can consult page 138 for general guidelines 
+
+Objectives and LoS on how to build a good wargames table and 
+page 143 if you want to randomly roll up your 
+
+The Mission descriptions below tabletop terrain.
+include Objectives, an object or location usually 
+represented on the table by an Objective 
+marker. Note that Objective markers themselves 
+do not “exist” within the game world: They do 
+not affect Line of Sight or movement in any way, 
+though any terrain feature they are placed within 
+will have the normal effects on Line of Sight. 
+
+114
+
+
+
+Missions
+
+Investigation Mission Player Forces
+Long range scans show interesting sights in this You will deploy 4 characters from your roster. 
+sector. Your team is being deployed to search Select a battlefield edge and roll 1D6. On 4+, 
+the area, look for features of interest, and secure you may arrive from this edge, otherwise pick 
+any valuable finds. You are going in quick with randomly from the remaining edges. 
+a smaller team, trying to avoid detection by any 
+potential hostiles. Your crew sets up within 1” of each other and 
+

@@ -1,0 +1,301 @@
+many Research Points you have invested f 2 ✓3
+2   Remote
+
+RP Investment o ities
+towards acquiring a given Theory, and which ✓3 ut facil
+
+   Sco
+ demarcation  
+
+ted post-organic
+Applications you have bought with further  3  Integra
+
+Research Points. (Application costs are shown  nter
+rming control ce
+
+3  Terrafo
+t
+
+within the checkboxes.)  tation  GR
+Environmental Adap  Bolstered survival ki
+
+3
+1 3  ation  
+
+ RP Investment of  GR Immune system bio-deline
+3   
+
+  enter
+104  4  Advanced medical c
+
+ld installation
+Genetic Advancement    protective shie
+
+4  Adapted
+RP Investment of 4  search site
+
+al adaptation re
+4 Biologic
+
+ ation  
+ n facility
+
+High-Level Adapt
+4  Genetic adaptatio
+
+ RP Investment 4
+ of  
+
+ personality integration
+
+ 4  Psionic
+
+Psionic Engineering  nts:
+ f 4 Augmentation Poi
+
+RP Investment o
+be bought using 
+
+nhanced mobility
+gmentations may 
+
+Claws   E
+The following Au
+
+Boosted recovery   onic cohesion
+
+ision making   ental links   Psi
+
+ Boosted dec
+Inherent protection   M
+
+onal use only.
+
+d vision   is page for pers
+ to replicate th
+
+ Enhance
+Permission is granted
+
+106
+
+
+
+Colonies
+
+Genetic Augmentation
+As you explore and research this new world, Claws
+you can adapt to it using genetic modification. Retractable claws are convenient for labor tasks 
+Unity scientists have long perfected “online as well as enhancing defensive capabilities.
+gene modding” – allowing the physical frame 
+to be modified and rewritten to add new All characters count as having a Damage +0 
+features to a person’s physical form. Melee weapon which cannot be lost in any way.
+
+While primary uses have been medicinal and Enhanced Mobility
+fashion-oriented, this ability an be taken to new Adaptation of animal DNA to improve short-
+heights when fighting on an alien world. term running speed.
+Several Research applications and buildings Characters moving in a straight line may 
+grant you Augmentation Points. You can increase their base move by 1”. Character Dash 
+used these to purchase Augmentations from moves are now 3” instead of the customary 2”.
+the options below at any point when you have 
+accumulated the required points. However,  Enhanced Vision
+you can buy only one per campaign turn. In addition to improving conventional vision, 
+The cost is always equal to the number of genetic enhancement improves latent psionic 
+Augmentations you already have, including senses, adapting them to local conditions.
+the current selection. For example, the first All visibility limits are increased by +3”.
+Augmentation in the campaign costs  
+1 Augmentation Point, the second costs  Inherent Protection
+2 Augmentation Points, and so forth. Adaptive skin that can harden in response to 
+Once selected, an Augmentation applies to minor injuries, halt bleeding and otherwise 
+every current and future character you have, prolong combat endurance.
+starting from the following campaign turn. All characters receive a 6+ Saving Throw 
+Bots are unaffected (and if importing characters against incoming damage. The normal rules 
+from other campaigns, neither are Soulless). for combined Saving Throws apply. 
+Note: You typically will not achieve every Mental Links
+Augmentation in a single campaign. Connecting individuals together in a manner 
+Boosted Decision Making that allows rapid, consensus-based decision 
+Psionic engineering improves preternatural making. A first step towards a new future?
+senses. This counts as a Milestone for campaign 
+Each battle round, you may pick up and reroll completion purposes.
+one of your Initiative dice. Selecting this also adds 1 Story Point. 
+
+Boosted Recovery Psionic Cohesion
+Implantation of carefully selected plant DNA Finding ways to improve psionic connections 
+accelerates recovery from injury and illness. despite the natural dampening effect can 
+When a character is sent to Sick Bay, reduce the greatly increase cohesion and morale. 
+initial recovery time by 1 turn. This has no effect Any character that would lose a level of Loyalty 
+on Grunt characters. rolls 1D6. On 5-6, they do not lose a level.
+
+105
+
+
+
+Colonies
+
+Tech Tree
+This diagram illustrates the routes to progress Theory CB
+your colony technologies. It excludes Research-   Colony Bot Upgrade
+
+derived bonuses to in-game currencies such as Secondary Theory TR
+  Trooper Upgrade
+
+Colony Morale or Augmentation Points, which Milestone GR
+  Grunt Upgrade
+
+are included together with costs and further  
+details in the Research, Buildings, Genetic Building  New Weapon  
+Augmentation, or Armory chapters.
+		  3   High-tech manufacturing plant C
+
+  +
+B
+
+    1 KP
+Advanced Manufacturing 		  3   Damage containment center
+
+RP Investment  of 3
+		  3   Orbital facility
+
+		  4   AI-assisted school   +   CB Combat Skill +1
+AI Theories 		  4   Bot maintenance bay
+
+RP Investment  of 4
+		  4   Cybernetics facility CB
+
+  +    Speed 6"
+
+		  3   Hardened life support system
+
+		  3   Locally adapted food production site    +
+GR
+
+    Adapted armor
+Environmental Research 		  3   Remote extraction site
+
+RP Investment  of 2
+		  3   Remote research station
+
+		  3   Scout facilities
+
+		  3   Integrated post-organic demarcation 	
+	 Environmental Adaptation 	 3   Terraforming control center
+
+RP Investment  of 3
+		  3   GR Bolstered survival kit
+
+		  3   GR Immune system bio-delineation 	
+Genetic Advancement 		  4   Advanced medical center
+
+RP Investment  of 4
+		  4   Adapted protective shield installation
+
+	 High-Level Adaptation 	 4   Biological adaptation research site
+RP Investment  of 4
+
+		  4   Genetic adaptation facility
+
+	 Psionic Engineering 	 4   Psionic personality integration
+RP Investment  of 4
+
+The following Augmentations may be bought using Augmentation Points:
+  Boosted decision making     Boosted recovery     Claws     Enhanced mobility
+
+  Enhanced vision     Inherent protection     Mental links     Psionic cohesion
+
+106 Permission is granted to replicate this page for personal use only.
+
+
+
+Colonies
+
+  		  2   Carver blade GR
+  +    Sergeant weaponry
+
+		  2   Kill-break shotgun
+Infantry Equipment 		  2   Ripper pistol
+RP Investment  of 2
+
+		  2   Shard pistol   +
+GR
+
+    Side arms
+
+		  2   Steady rifle CB
+  +    Trooper weapons
+
+		  2   Bio-gun  
+		  2   Dart pistol  
+	 Adapted Combat Gear 	 2   Hyper-rifle
+
+RP Investment  of 2
+		  2   Mind-link pistol  
+		  2   Phase rifle
+
+		  3   Early warning system   +
+GR
+
+    Sharpshooter sight
+Military Doctrine 		  3   Med-evac shuttle facility
+
+RP Investment  of 3
+		  3   Military barracks GR
+
+  +   Ammo packs TR 
+  +  Handguns
+
+		  3   Rapid response network
+
+		  3   Recreational facility
+Social Theories 		  3   Satellite launch facility
+
+RP Investment  of 3
+		  3   Frontier world doctrines
+
+		  3   Environmental control facility
+Theoretical Physics 		  3   Research laboratory C
+
+  +
+B
+
+    5+ Saving Throw
+RP Investment  of 4
+
+		  3   School of theoretical sciences  
+		  3   Galactic comms relay
+
+		  3   Scientific training facility  
+	 Non-Linear Physics 	 3   Colony shield network  
+
+RP Investment  of 4
+		  3   Academy   +
+
+CB
+    Reactions 3
+
+The following buildings have no prerequisites:
+  Advanced manufacturing plant     Civilian market
+
+  Drone turret network     Expanded living facility     Heavy construction site
+
+  Military training facility     Militia training camp     Patrol base
+
+  Protective shelter     Resource processing     Scout drone network  
+Permission is granted to replicate this page for personal use only. 107
+
+
+
+Colonies
+
+Close Encounters
+“We have a lot of contacts out here!” As she slid into cover besides the troopers, 
+The voice in the headset was calm on the Theodora levelled her rifle at a shape in the fog 
+surface, but Theodora knew the tone. They and squeezed the trigger. The gun’s computer 
+wouldn’t have called it in if they didn’t think it micro-calibrated the aim and followed up 
+was a serious problem. the shot with two more rounds. The shape 
+
+staggered as the projectiles hit home, but the 
+“Hold your position. Me and Jacques will be Slyn remained standing. They always did for  
+there in a moment!” the first strike. 
+She picked up her rifle. Jacques looked over, Theodora spat on the ground and tried to follow 
+his own rifle in hand. He always had a sense for the wounded creature as it staggered towards 
+these things. cover. Somewhere out there was its partner, 

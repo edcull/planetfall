@@ -1,0 +1,201 @@
+through this area or firing a weapon into, out of, or through the 
+area must roll 1D6. On 6, the area partially collapses. All figures 
+
+in the area take a Damage +0 hit and the ground is Difficult  
+for the rest of the mission. A second collapse makes it  
+
+Impassable and causes all in the area to become casualties. 
+Scouts can move through an unstable area without risk but 
+
+must roll if they begin or end a move in the area.
+40-50 Shock discharge Place a marker where the Delve Hazard was. Immediately and at 
+
+the start of each Enemy Phase, roll 1D6. All characters within that 
+distance in inches, regardless of intervening terrain, are unable 
+to move or take any actions when next activated. Sleepers and 
+
+bots also take a +0 Damage hit, ignoring Saving Throws. 
+A roll of 6 for the distance ends the Shock discharge.
+
+51-67 Toxic fog The fog expands 2” in every direction (blocked by solid walls) 
+and moves at the end of each Enemy Phase 1D6” in a random 
+direction, moving along walls if it would otherwise be stopped. 
+
+Any non-Sleeper/bot character touched by the fog takes a  
++1 Damage hit, ignoring Saving Throws.  
+
+Scouts are hit for +0 Damage instead.
+68-79 Sleeper reset All Sleepers on the table are unable to activate in the next  
+
+Enemy Phase. At the end of that Phase, place an additional 
+Sleeper in the center of two random battlefield edges. 
+
+80-88 Collapse The marker is replaced with rubble, blocking all access.  
+If the rubble falls in a corridor, it blocks the width of the corridor. 
+
+If it falls in a room or open space, it blocks an area 
+1.5” radius centered on that location. 
+
+Any figure within the blocked area can leap out of the way. 
+89-00 Radiation build-up The area within 3” and Line of Sight of the Delve Hazard 
+
+is radioactive. Any non-Sleeper/bot that begins or ends an 
+activation in the area takes a Damage +0 hit, ignoring any 
+
+existing Saving Throws. Instead, a special Saving Throw is 
+allowed for scouts (5+) and scientists (4+).
+
+132
+
+
+
+Missions
+
+Objectives Ending the Mission
+You must move to base contact with each of The mission ends when you have no characters 
+the Delve Devices and take an action. Roll 1D6 left on the table. To leave the mission you must 
+on the table below. If you roll a result you have move to either your initial entrance or the exit 
+already had, take the first result you have not. discovered in the first round. Characters do not 
+
+have to leave through the same exit. 
+D6 RESULT
+
+1 Unusable: Ignore this Device. Rewards
+Time based activation: A character must You receive a random Alien Artifact if you 
+
+2-3 be within 1” for two consecutive battle find the Artifact during the mission. As the 
+rounds to activate the device. Artifact is extracted by drone, you may keep 
+
+4-5 Automatic activation: No actions it even if your crew becomes casualties in the 
+are required. process of escaping. 
+
+Skill-based activation: A character must You also receive 2 Research Points and  
+6 take an action and roll 1D6+Savvy 2 Build Points for completing the Delve. 
+
+scoring a 4+.
+Campaign Factors
+
+When you have performed 3 activations (not Once you acquire the Artifact, the Alien Site  
+counting an “Unusable” result on the table), is removed.
+you unlock the location of the Artifact. It is 
+placed 2D6” randomly from the center of the You also receive 2 Research Points and  
+table. Any character can pick it up by moving 2 Build Points for completing the Delve. 
+into base contact. Campaign Factors
+
+Once you acquire the Artifact, the Alien Site  
+is removed.
+
+133
+
+
+
+Missions
+
+Post-Mission Finds
+If directed to by the mission rules, you may Exploitation
+receive a number of rolls on this table after 
+winning an encounter. Finds can include Completing an Exploration mission that 
+actual materials found in the battle area or it reduces the Resource level to 0 will mark a 
+can represent the less substantial gains of a sector as Exploited. Unless it is repopulated 
+successful field mission. again, it cannot be the subject of another 
+
+Exploration mission.
+Each mission will detail how many Find rolls 
+you are permitted. This does not affect any other sources of Finds 
+
+or other mission types.  
+Some finds will indicate a bonus for having a 
+scientist or scout on the mission. This requires 
+at least one must still be on their feet at the end 
+of the battle and not a casualty.
+
+Finds table
+
+D100 FIND DETAILS
+
+01-25 Scientific You collect samples that would be of interest to the research team.
+curiosities Receive 2 Research Points.
+
+26-35 Building You find a cache of valuable materials that you can dispatch a team to collect. 
+materials Receive 2 Build Points.
+
+36-60 Raw materials Receive 3 units of Raw Materials. 
+61-70 Hints of  You find ruins, artifacts, or signs that could help unveil the history 
+
+planetary history of this world. 
+
+Receive 1 Story Point.
+If your squad included any scientists, add 1 Research Point as well. 
+
+71-80 By the book Despite some hardships, it was a solid mission, and everyone performed well.
+victory Pick one character to have been the cornerstone behind it all. 
+
+They receive +1 XP.
+If your squad included any scouts claim 1 unit of Raw Materials as well.
+
+81-95 Decisive victory Success in the field will no doubt reassure the colonists.
+
+Receive +1 Colony Morale.
+If your squad included any scouts claim 1 unit of Raw Material as well.
+
+96-00 Ancient Sign You dig up an artifact of decidedly unknown origin.
+
+Gain 1 Ancient Sign.  
+If your squad included any scientists claim 1 Research Point as well.
+
+134
+
+
+
+Missions
+
+Alien Artifacts
+Searching Ancient Sites may allow you to locate 
+an Alien Artifact. If permitted, roll D100 on the Truly Unique Artifacts 
+Artifacts table below to determine what you (optional rule)
+have located. Only one roll is made per Ancient 
+Site you successfully investigate. Each Artifact can be found only once... ever! 
+
+If you begin a new campaign, all Artifacts you 
+Artifacts can belong to one of three types: found in prior campaigns remain unavailable.
+Single-Use: Once they have been activated to You may decide when to reset this (if at all). In 
+receive the bonus in question, they are gone. the event you find every artifact, future Artifact 
+You can choose when to use them, however Finds are treated as 1 Research Point, 1 Build 
+and can hang on to the item as long as you like. Point, and 1 unit of Raw Materials.
+
+Equipment: Artifact equipment is given to 
+a specific character and cannot be traded Artifacts table
+
+away later. If the character dies or leaves the D100 ARTIFACT
+campaign, the item is lost. 01-03 Flex-rigid armor vest (Equipment)
+Artifact weapons can be used by any character, The character receives a 
+regardless of class. 4+ Armor Saving Throw.
+Colony item: The Artifact becomes part of your 04-07 Preventative nano deployment 
+colony. Think of it as a type of building. (Colony Item)
+
+As Artifacts can take almost any form, they are Increase the Colony Repair Rate by +1.
+described by the letter assigned by the research 08-10 Ancient AI chip (Colony Item)
+department and not their form or appearance. Gain one additional Research Point 
+You are free to imagine each Artifact taking per campaign turn.
+whatever form fits your campaign world the 11-13 Inherent core principal carbine 
+best, from a tiny orb of coalesced psionic (Equipment)
+energy to a rune-carved pedestal in a temple.  Range 15”, Damage 2, Shots 1, 
+Artifacts are Unique +1 to hit.
+
+Each Artifact can be found only once in a 14-16 Mutative nano materials (Colony Item)
+campaign. If you roll an artifact you have Gain one additional Build Point 
+previously found, you instead receive the next per campaign turn.
+item down on the list (wrapping back around to 17-19 Short-range phase displacer 
+the beginning if needed). (Equipment)
+
+When moving, the character may teleport 
+Bringing Artifacts to other Campaigns to any location within their movement 
+Unused Single-Use Artifacts can be brought range instead of moving normally.
+along to a future Planetfall campaign. 20-22 Adjusted bio-targeting array 
+Artifact Equipment can be brought along into (Colony Item)
+any campaign the character is later exported to. Increase Colony Defenses by +1.
+Colony Item artifacts cannot be carried over into 23-26 Altered psi-wave emitter (Single-Use)
+any other campaign. All characters in Sick Bay immediately 
+
+recover completely.
+

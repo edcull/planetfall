@@ -1,0 +1,201 @@
+while others will prefer playing and exploring I suspect that, in the end, most players would 
+the game before eventually stumbling into prefer having more creatures and events in 
+the End Game. Both are completely fine and the rulebook than a more iron-clad “security” 
+depend more on your interests as a player. system in the campaign.
+The various enemy types are designed to You will no doubt find some options more 
+provide different experiences, each of which effective than others, actions that have better 
+may feel familiar to players of the existing payoffs, or even an optimal path through the 
+games. Tactical enemies are engaged in small game’s Milestones. Should you take them? 
+arms combat, much as may be familiar to you That’s up to you. Some players enjoy figuring 
+from Five Parsecs from Home, while animals out how to “beat the system”. Others are into 
+roam around the countryside much like foes in it for a story, or they just want to roll dice and 
+Bug Hunt (although, mercifully, far fewer tend see what happens. If you manage to solve the 
+to show up here). game in the most efficient way, congratulate 
+
+yourself and have a cup of tea. I bet that took a 
+lot of thinking and experimenting, and it can 
+be fun to find the best routes. 
+
+188
+
+
+
+Appendices
+
+It is up to you whether to then restrict yourself stories and the events in the game, a picture 
+to only those options or if you want to widen should begin to emerge but, as is always the 
+your scope further. Maybe go back and try case with Five Parsecs titles, the details remain 
+again with some of the sub-optimal options or up to you. From experience, about a third of the 
+try for a different play style. players seem to be really into the Unified Space 
+Over the years, many players come to these setting, a third prefer inventing their own or 
+games come from backgrounds other than adapting a setting from other media, and the 
+miniatures gaming, such as board games or last third use some parts and mix in their own. 
+roleplaying games and, to be sure, the game It is a bit of an art form to try to balance these 
+has elements of all of them. I find that many approaches, and you must be the judge of 
+questions about the reason things are done in whether it has succeeded.
+certain ways can be answered by remembering Planetfall is a bold and ambitious game. I 
+that it is, at its heart, a miniatures game. had to draw on ideas and experiences that I 
+The purpose of the campaign is to build a story, had never seen before in a miniatures game, 
+have fun, and to do exciting things, but it is also though I would not be so bold as to assume 
+to move miniatures around a tactical setting, nobody has had the same ones at all. After all, 
+shooting at an array of different enemies. it is a sprawling hobby. I hope you enjoy the 
+
+adventure. Who knows what might lurk in the 
+The campaign narrative is painted with a broad next map sector? 
+brush, perhaps even a broader one than usual. 
+If you pay attention to the background, the Love and peace, Ivan Sørensen.
+
+Inspirations
+The Five Parsecs setting (known as Unified ◆	 Miniatures Games: Warzone 1st and 2nd 
+Space) was inspired by books, television, edition; Beamstrike; Slammer; Stargrunt 2;  
+tabletop, and video game experiences both old Laserburn / Imperial Commander; 
+and new that stood out to me. Those mentioned Inquisitor; 5150; Warhammer 40,000 
+below includes a number of things that were (Rogue Trader and 2nd edition).
+not foundational experiences for me, but which 
+I think you will either enjoy or find inspiring. ◆	 Roleplaying Games: Rymd; Mutant 
+
+Chronicles; Traveller.
+◆	 Films: Soldier; Blade Runner; 
+
+the Alien franchise ◆	
+; Edge of Tomorrow; and Comic Books: Valerian; Nemesis;  
+
+Valerian and the City of a Thousand Planets. Strontium Dogs.
+
+◆	 Television shows: The ◆	
+ Trigun and Ghost Novels: Armor; Forever War / Forever Peace; 
+
+in the Shell animated series; Farscape; Jon Bing’s “Alexandria” series ...and various 
+Battlestar Galactica; The Expanse; Blakes 7; science fiction books I got from the library 
+Space 1999; Star Trek; Doctor Who. as a child and barely understood, but which 
+
+left much of an impression. 
+◆	 Video Games: The Mass Effect series; 
+
+◆	
+Star Control 1/2; Doom 1/2; Quake 2/4; Music: Dvne – particularly Asheran; Slough 
+Unreal / Unreal Tournament; Final Feg – Traveller; Miseration – The Mirroring 
+Liberation; UFO / XCOM; Battle Isle series, Shadow; Gary Numan – Savage; Tactical Sekt 
+especially Incubation; Hired Guns;  – Geneticide; VNV nation – Empires; plus 
+Alien Breed; Alpha Centauri. soundtracks to Command&Conquer, Final 
+
+Liberation, Unreal Tournament, and more.
+189
+
+
+
+Colony Tracking Sheet
+
+Colony Tracking Sheet
+COLONY name Campaign Turn 1
+Roster Size 8 Colony Morale 0 Campaign Milestones 0
+Build Points / Turn 1 Build Points 0 Story Points 5
+Research Points / Turn 1 Research Points 0 Ancient Signs 0
+Repair Capacity 1 Augmentation Points 0 Enemy Information 0
+Colony Defenses 0 Raw Materials 0 Mission Data 0
+Colony Integrity 0 Calamity Points 0 Grunts 12
+
+Campaign Condition table
+NOTES
+
+D100 NO. CONDITION
+
+01-15 1 
+16-30 2 
+31-42 3 
+43-52 4 
+53-62 5 
+63-72 6 
+73-82 7 
+83-90 8 
+91-95 9 
+
+Campaign Lifeform Encounters table 96-00 10 
+
+D100 NO. ENTRY
+
+01-18 1
+
+19-32 2 
+
+33-44 3 
+
+45-54 4 
+
+55-64 5 
+
+65-73 6 
+
+74-82 7 
+
+83-89 8 
+
+90-95 9 
+
+96-00 10 
+
+190 Permission is granted to replicate this form for personal use only.
+
+
+
+Colony Tracking Sheet
+
+Name XP Name XP
+Reactions Class Reactions Class
+Speed Sub-species Speed Sub-species
+Combat Loyalty KP Combat Loyalty KP
+Tough. Upgrades Tough. Upgrades
+Savvy Savvy
+Items/Notes Items/Notes
+
+Name XP Name XP
+Reactions Class Reactions Class
+Speed Sub-species Speed Sub-species
+Combat Loyalty KP Combat Loyalty KP
+Tough. Upgrades Tough. Upgrades
+Savvy Savvy
+Items/Notes Items/Notes
+
+Name XP Name XP
+Reactions Class Reactions Class
+Speed Sub-species Speed Sub-species
+Combat Loyalty KP Combat Loyalty KP
+Tough. Upgrades Tough. Upgrades
+Savvy Savvy
+Items/Notes Items/Notes
+
+Name XP Name XP
+Reactions Class Reactions Class
+Speed Sub-species Speed Sub-species
+Combat Loyalty KP Combat Loyalty KP
+Tough. Upgrades Tough. Upgrades
+Savvy Savvy
+Items/Notes Items/Notes
+
+Name XP Name XP
+Reactions Class Reactions Class
+Speed Sub-species Speed Sub-species
+Combat Loyalty KP Combat Loyalty KP
+Tough. Upgrades Tough. Upgrades
+Savvy Savvy
+Items/Notes Items/Notes
+
+Permission is granted to replicate this form for personal use only. 191
+
+
+
+Index
+
+index
+
+A Biological Adaptation 	 motivations  21 Crew  26 
+ability scores  18 Research Site  95, 99 Civilian (trait)  78 	 Crew weapons  75
+absolute timing  175 bolstered survival kit  79, 94 Civilian Market  99 crew sheet  see Colony 
+Academy  96, 98 Boosted Decision Making  105 Civil Preparation Drills  95 Tracking Sheet
+actions  30, 31 Boosted Recovery  105 Civvies  17, 75 Crisis  89
+adapted armor  79, 94 Bot Maintenance Bay  93, 99 	 heroic promotion  68 Crisis Check  89
+Adapted Combat Gear  94 Bots  17, 75 Claws  105 Critical (trait)  78
+Adapted Protective Shield 	 colony bot  17 “Close Encounters”  108 Cumbersome (trait)  78
+
+Installation  95, 98 Brawling  34, 39 Clusters  see terrain Cybernetics Facility  93, 100
+Administrator  25 Buildings  97 colony crew  see characters

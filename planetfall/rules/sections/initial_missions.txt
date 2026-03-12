@@ -1,0 +1,251 @@
+vehicles, they can always reach any destination fill up with information:
+on the map regardless of intervening terrain. Resource Level
+Initial Placements This value determines how likely it R3
+Pick a home sector (or roll randomly) to is that mineral wealth will be found 
+determine where your colony starts out. The in the area. Write this into a sector 
+colony always takes up a single sector and all before the Hazard level.
+buildings you construct will fit within the same Hazard Level
+sector. Mark it with a capital ‘H’ or a star. This value determines how R3
+Next, mark 10 sectors on the map as dangerous the area is in terms of 
+Investigation Sites. You can write a capital wildlife and natural hazards. Write H5
+“I” or “?” in those sectors or use a map symbol this into a sector after the Resource level. 
+of your own creation. Determine the sectors 
+randomly, but if you roll a sector that already Resource and Hazard Levels are discussed 
+has been selected, pick any empty sector further on page 60.
+adjacent instead. Enemy Occupation
+Initial scans returned these sites as particularly If the sector is under enemy control, 
+noteworthy for exploration. Many show signs this prevents you from carrying out ψ
+of strange but ancient construction, unusual any other missions in the area. Mark 
+bio-signals, or evidence of high concentrations the sector in an appropriate manner such as 
+of valuable resources. using a specific color or symbol for each enemy.
+All other map sectors are simply “unexplored” Enemy Strongpoint
+for now. Once located, an enemy Strongpoint 
+
+represents the headquarters and ψ
+? ? hideout of a particular enemy type.  
+
+It must be assaulted and destroyed to put 
+? H ? an end to that threat. Mark a Strongpoint by 
+
+shading its sector in the appropriate color or 
+marking it with an “S”.
+
+? Strongpoints are discussed further on page 51.
+
+? Ancient Signs
+Scans and scout reports suggest that 
+
+? ? ? something unusual is located here. A
+An Ancient Sign may turn out to be 
+
+? alien ruins, a strange natural feature, or similar. 
+It can be investigated, provided the area has 
+already been explored and cleared of enemies.
+Mark this sector with an “A”.
+Ancient Signs are discussed further on 
+page 61.
+
+53
+
+
+
+The Campaign
+
+Map Terrain features and so on. It is helpful to try to focus 
+The map will also need to be populated with the map on the type of terrain features you 
+terrain. This can be broken out into broad already have available in your collection, 
+types but should be interesting to look at, with though you may enjoy a challenge or an excuse 
+mountain ranges and forests to explore. You to build more terrain.
+may even have a map available that you would 
+like to use such as a real-world map or a map Investigation, Exploration,  
+from a science fiction world. and Exploitation
+During the campaign, the map serves to help Investigation sites can be subjected to an 
+inform your choice of terrain features when Investigation Mission during the campaign. 
+playing a game. If a mission takes place in a This removes the Investigation marker and, 
+forested area, you should have lots of forest as part of the campaign, allows your scouts 
+
+to determine the Resource and Hazard levels 
+of the sector. The sector’s status becomes 
+Explored and eligible for an Exploration 
+Mission.
+
+Exploration Missions will reduce the 
+Resource levels of a sector. Once Resources 
+
+reach 0, the sector’s status changes 
+to Exploited and, unless an event 
+
+repopulates it, it will not furnish 
+additional rewards.
+To find out more about Exploration 
+
+Missions, see page 117.
+
+54
+
+
+
+The Campaign
+
+Other Colony Statistics
+
+Colony Morale Campaign Resources
+Your Colony Morale score measures how well As you play the campaign, you will obtain 
+the colonists think you are doing. At the start various resources representing raw materials, 
+of the campaign, it is set at 0 and can go both strange animal, plant, and mineral samples, 
+up and down. There is no limit to how high and other data. Once sourced, resources can 
+Morale can go. be saved up as long as you like. There is no 
+Any time Morale drops to -10 or lower, set maximum to the number of resources of any 
+Colony Morale back to 0, but roll for a Morale type that you can have stored at a given time.
+Incident. You begin with the following resources set to 0: 
+For more on Morale, see page 89. Raw Materials
+
+These can be processed into Build Points for 
+Campaign Milestones construction purposes or be used to repair 
+The campaign rules use Milestones to damage to the colony. Up to 3 units of Raw 
+determine your progress. These milestones are Materials can be used for each of these 
+attained by achieving certain factors of scientific purposes per campaign turn. 
+and colony development and are self-paced. For more on Raw Materials, see page 88.
+If you prefer a more competitive experience, 
+track how many campaign turns it takes you Research Points (RP)
+to complete the campaign game by achieving These represent scientific finds that can be 
+every Milestone. used to develop new weapons, equipment, 
+If you prefer a more story-oriented experience, and medical cures. They are used to 
+you may not worry about the Milestones much conduct research.
+or at all. If you prefer to just play to see what For more on Research, see page 91.
+happens, they are not mandatory. 
+
+Build Points (BP)
+For more on Milestones, see page 156. These represent ready-to-use materials that 
+
+either have already been processed or which 
+Colony Capabilities require minimal processing. They are used to 
+Your colony is measured in a number of construct new buildings.
+different abilities and capabilities, tracked For more on Buildings, see page 97.
+on your Colony Tracking Sheet. If you are just 
+starting your campaign, the default values are: Augmentation Points (AP)
+◆	 Initial Colony Roster size is 8. These represent the degree to which your 
+
+colonists can adapt their biology to the 
+◆	 Build Points per turn is 1. new environment. Use AP to purchase 
+◆	 Research Points per turn is 1. Augmentations.
+
+◆	 Building Repair Capacity is 1. For more on Genetic Augmentation,  
+see page 105.
+
+◆	 Colony Defenses are 0. 
+◆	 Colony Integrity is 0. 
+
+55
+
+
+
+The Campaign
+
+Story Points
+A randomly generated adventure means ◆	 Roll 2D6, pick the highest of the dice, and 
+experiencing the unpredictable, with various take any combination of Research Points, 
+tables and events coming together to form an Build Points, or Raw Materials that add up to 
+amazing and exciting story. However, there is the highest die.
+always the threat that something irrational and 
+irritating gets generated when you know just ◆	 Ignore a roll on the post-battle injury table.
+what would make total sense. 
+Of course, you could just change what happens. Narration
+After all, it is your game, and you know better There is another way to use Story Points: To tell 
+than anyone else what would be the most fun a story.
+for you. However, some players balk at this, 
+either because it feels like cheating or because If you have an idea for something that would 
+they worry they might get carried away (the really make sense, you can pay a Story Point 
+power of a Colony Administrator is enough, to make that happen. Whether it is a character 
+without becoming godlike!) customizing their gun to get a small bonus, 
+
+developing a special skill to reflect how much 
+Others enjoy the challenge of the random they hate the Slyn after almost dying in battle, 
+environment but would appreciate just a tiny or simply having a specific event occur, the 
+bit of direction and control. Story Points are choice is up to you. 
+the solution. You will want to keep the event roughly along 
+When your campaign begins, you typically start the scale of events that are already in the game, 
+with a total of 5 Story Points – note this down if you wish the game balance to remain stable. 
+on your Colony Tracking Sheet. (Note: this start In many cases, you can use an existing event or 
+number can be varied based on how easy or swap one out to get the story result you want.
+difficult you would like the campaign to be.) This option is listed separately because it is a 
+If (when) a character dies, you receive  little more open-ended and you will probably 
+1 Story Point as compensation, and there are already know whether you like this option 
+a number of other events and functions in the or whether you want to stick to the more 
+game that can offer Story Points to represent mechanical options presented above. 
+the fickle hand of fate or the way heroes tend 
+to make their own luck. Scenarios
+Spending Story Points You do not have to pay Story Points to play a 
+
+special scenario. Create fun adventures all day 
+A Story Point can be spent on any of the long and have a great time exploring.
+following benefits: In a campaign that relies heavily on custom 
+◆	 Roll again on any random events table scenarios or Game Mastered play, Story Points 
+
+and pick either result. If the event affects a may have to be modified somewhat to avoid 
+random character or other subject, you may causing difficulties with the story. If in doubt, 
+choose the character or subject. consider sticking to the mechanical effects. 
+
+◆	 Prevent a roll on the Enemy Actions,  A Game Master can award Story Points if it 
+Morale Incident, or Integrity Failure tables seems fitting, usually at the conclusion of 
+from occurring. a quest or epic mission. The reward should 
+
+56
+
+
+
+The Campaign
+
+rarely be more than a single point, though 
+if the players have blown through all their Unity Colonial Security Internal Review
+resources, 2-3 points is fine. Remember, it Nadir-Kensington-78E
+is easier to offer another point later than to “Despite the lack of major power influence, the 
+realize you were too generous and they now region is not devoid of sapient life. A number of 
+have far too many. pirate and warlord groups have sought refuge 
+
+in the region, and raids on colonies and orbital 
+The Lanse-effect platforms are increasingly common. Assets from 
+
+the 27th Reserve fleet have been directed to 
+If you make a change that makes life more intervene but without significant reinforcements 
+difficult for yourself, such as a more dangerous this is unlikely to achieve anything but a morale 
+environment or a super-tough boss monster, boost to the current established colonies.
+you do not have to pay for the privilege. As discussed in the security briefing, all 
+
+expeditions are accompanied by an enhanced 
+Final Review Unity security team to safeguard the investment 
+When you have everything else in place, do a in the colony assets. Another key priority is to 
+last check that you have gotten everything right prevent nuclear or plasma reactors from falling 
+and that you are happy with the characters you into the hands of unsanctioned groups. If 
+have, then dive into your first campaign turn. technologies of Grade 3 or above are discovered, 
+
+this should be reported. 
+Proceed to page 58 to begin the adventure! Some adversaries are previously colonists. 
+
+Whether they have “gone nomad”, are reacting 
+to the intrusion of new arrivals, or are defectors 
+from existing colonies who have turned to radical 
+actions, they represent tactical challenges.  
+Sec-Ops are developing plans to dissuade 
+existing colonists from following the same 
+course, but a more wide-ranging plan is needed 
+to deal with the risk to ongoing operations.
+Sec-Ops refer to all of the above as “Tactical 
+Enemies”: humanoid foes that use technology 
+and function in a similar manner to standard 
+opponents. Success for any colony will require 
+engaging these foes in open combat and 
+eventually knocking out their Strongpoints to 
+eliminate their presence. We are recommending 
+colony administrators treat security as a priority 
+during their expansion phase.”
+
+57
+
+
+
+The Campaign
+
+Campaign Turn Sequence
+The campaign game is played as a series 
+of turns. Each of these is divided into the BATTLE STEPS

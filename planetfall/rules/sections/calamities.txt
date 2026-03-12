@@ -1,0 +1,316 @@
+Administrator  25 Buildings  97 colony crew  see characters
+Advanced Manufacturing  	 Building step  69 colonial briefing  81 D
+
+93 	 flavoring Buildings  98 colonial life  84 Damage  37
+Advanced Manufacturing 	 Milestone Buildings  104 colonial security  85 Damage Containment  
+
+Plant  76, 98 	 reclaiming Buildings  98 colonial shotgun  76 Center  93, 100
+Advanced Medical Center  Build Points (BP)  55, 69, 97 colonies  81 dangerous wildlife  85
+
+95, 98 Burning (trait)  78 colonists, hostile  149 dart pistol  78, 94
+adventure wargames  8, 176 <Indecoxlon>ists, remnant  149 Delve  see missions
+AI action  32 C colonization agenda  52 dice  174
+AI-assisted School  93, 99 Calamities  165 colony capabilities  55 disaster, natural/cosmic  84
+Aid  40 campaign  48 Colony Damage  87 Dodge  147
+airborne  see Partially Airborne 	 Campaign Conditions  Colony Defenses  98 Drone Turret Network  100
+AI enemy variations  32 	 see Conditions Colony Events  62
+AI Theories  93 	 campaign development 	 Universe Hates Me!  62 E
+alien characters  20 		  155 Colony Integrity  see Integrity
+ammo packs  79, 95 	 Campaign Milestones colony item  135 Early Warning System  95, 100
+Ancient Sign  53, 61 		  see Milestones Colony Morale  55 End Game  160
+
+, 89
+Ancient Site  61 	 campaign play  75, 161 	 ...and Colony Damage  87 “Enemies Among Us”  80
+animals  see Lifeforms 	 campaign resources   	 ...adjustments  68 enemy
+introduction  8 	 see resources 	 difficulty adjustments  89 	 boss  51, 149
+AP Ammo (trait)  78 	 campaign setup  52 	 Morale incident  55, 89 		  hunting down a boss  51
+appendices  173 	 campaign story track  156 	 personal appeals  89 	 controlling the enemy 
+Applications  91, 92, 93 	 see Game Mastering 
+
+	 multiple campaigns  27 colony rifle  76
+Area (trait)  78 	 defensive abilities  147
+
+campaign turns  48 colony ruins  86
+Area features  	 defeated enemies  150
+
+see terrain 	 turn sequence  58 colony security  160
+armor  37 	 enemy activity  61
+
+carver blade  77, 94 Colony Shield Network  
+Armor-piercing (trait)  78 	 enemy actions  31
+
+casualties  38, 66 96, 99
+Armory  75, 76 		  Enemy Actions Phase  28
+
+characters  18 Colony Tracking Sheet  190
+Artifacts  135 	 enemy deployments  114
+
+	 ... after the end  164 Colony Trends  74
+Ascension  162 	 enemy generation  146
+
+	 character backgrounds  21 colony types  82
+assault gun  77 	 Enemy Information  51, 60
+
+	 character classes  14 combat rules  28
+Augmentations  105 	 enemy movement  34
+
+	 character events  70 Combat Skill  18, 147
+	 Augmentation Points (AP)  	 enemy occupation  50, 53
+
+	 character Loyalty  24 Conditions  110
+	 55, 105 	 Enemy Strongpoint 
+
+	 character roleplay events  Confuse (unique ability)  148 	 see Strongpoint
+		  69, 72 Construction  97
+
+B 	 Enemy Super Weapon  165
+	 character roster  14, 190 Contacts  41 	 enemy tactics  32
+
+base contact  174 		  see also Colony Tracking 	 Contact activations  41 	 enemy weapons  151, 196
+battlefield conditions  110 		  Sheet 	 Contact detection  42 	 leader  149
+battlefield setup  138 	 imported characters  26 	 Contact movement  41 	 mobility  147
+	 Random Table Setup  143 		  class training  26 	 Contact reveal  42 	 objectives and enemies  34
+battle rounds  28 		  imported characters Controller  168 	 offensive abilities  147
+battle steps  58 		  and difficulty  18 Converted  61, 150, 182 	 retreating enemies  51
+Bio-analysis Research  91, 92 		  prior experience  21 Cover  35, 36 	 special attacks  147
+Bio-gun  78, 94 		  progression  27 cowardice  67 	 unique abilities  147
+
+192
+
+
+
+Index
+
+Enhanced Mobility  105 H L 	 Patrol Mission  65, 166, 
+Enhanced Predictive Lanse-effect  57 		  121, 192
+
+Simulation  93 Hail of Fire (trait)  78
+Enhanced Vision  105 handgun  76 Lifeforms  49, 146 	 Pitched Battle  64, 126, 167
+
+	 Campaign Lifeform 		  primary mission  64, 114
+Environmental Adaptation  94 Hardened Life Support 
+
+	 Encounters  146 	 Rescue Mission  65, 89, 124
+Environmental Control System  94, 100
+
+Facility  96, 100 Hazard level  53 	 Lifeform Evolutions  158 	 Science Mission  64, 119
+	 generating Lifeforms  146 	 Scientist Mission  45
+
+Environmental Research  94 Hazards  84
+Environmental Risk  165 Heavy Construction Site  100 	 genetic modification  171 	 Scout Down!  65, 125
+
+light machine gun  77 	 Scout Mission  44
+equipment  23 hesitation  31 Line of Sight  35, 175 	 Scouting Mission  64, 116
+	 imported equipment  27 High Level Adaptation  95 Localized Adaptation  	 Skirmish  65, 123, 167
+	 infantry equipment  94 High Tech Manufacturing 
+	 item tier  76 Plant  76, 93, 100 Therapy  95 	 Strike Mission  51, 61, 127
+
+Locally Adapted Food 	 Trooper Mission  45
+	 lock and load  65 Hinder (unique ability)  148 Production Site  94, 100 Mission Data  169
+Eruption (special attack)  147 Hits, resolving  37 Loyalty  162 	 Breakthrough  169
+Expanded Living Facility  100 Horde  182 	 tracking Mission Data  68
+Experience  24 Hulker  19
+experience progression  67 Human condition  180 M Morale  see Colony Morale
+
+movement  34
+	 alternate advancement Human sub-species  19 Made of Metal (trait)  17 	 Contact movement  41
+		  options  68 Hyperfire (trait)  78 Major Galactic Powers  181 	 enemy movement  34
+Experience Points (XP)  67 Hyper-Resonant Molecular maps   52
+exploitation  134 Adjustment  95 	 map adjustments  145 N
+exploitation move  see hyper-rifle  78, 94 	 map terrain  54
+
+Brawling 	 sectors  53 News Reports  74
+Exploited  see Sectors I 		  Exploited  54 Neuro-Adjustment Therapy  95
+
+		  Explored  54 nomad patrol  149
+Exploration Mission 
+
+see missions Immune System Bio- 		  home sector  53 Notable Event  22
+		  Occupied  50 NPCs
+
+Explored  see Sectors delineation  94
+Impetuous (trait)  19 markers  see game markers 	 player character-controlled 
+
+F Improved Construction Med-Evac Shuttle Facility  		  activations  30
+95, 101 	 see also Civvies
+
+facing  175 Materials  93
+measurements  175
+
+Feral  19 Independence  161
+Mega Predators  166 O
+
+Ferocity (special attack)  147 infantry rifle  76
+field agents  183 Inherent Protection  105 Melee (trait)  78 Objectives and LoS  114
+
+Mental Bio-Uplift Therapy  95 Occupied  see Sectors
+“The Find”  12 injuries  66
+
+Mental Links  105 Opposition  82
+Finds  134 inspirations  189
+
+Milestones  48, 55, 156 Orbital facility  93, 104
+fireteams  16, 30 Integrated Conflict 
+	 ...and Initiative  30 Resolution  96 	 Final Milestones  161 Outlaws  149
+
+	 Milestone Buildings  104 Outpost  83
+flame projector  77 Integrated Post-Organic 
+Flexible (trait)  78 Demarcation  94 	 tech that grants Overpower (special attack)  
+
+		  Milestones  156 147
+Flexible Combat Training Integrity  59, 69, 87
+
+(trait)  16 	 death spiral  88 Military Barracks  95, 101
+Military Doctrine  95 P
+
+flying  see Partially Airborne 	 emergency repairs  88 Military Training Facility  101
+Focused (trait)  78 Intense Combat Training Panic  40
+
+Militia Training Camp  101
+Frontier World Doctrines  96 (trait)  15 Paralyze (unique ability)  148
+
+Mind-link (trait)  78
+Invasion  85 Partially Airborne (trait)  146
+
+mind-link pistol  78, 94
+G Investigation marker  115 Patrol base  102
+
+Mindless and Strong  Patrol Mission  see missions
+Galactic comms relay  96, 104 Investigation Sites  53 (trait)  17 “Patterns”  172
+Galactic warfare  184 Isolation  83, 85, 163 miniatures Phased fire (trait)  78
+game currencies  96 Item Tier  see Equipment 	 alternatives  178 phase rifle  78, 94
+game markers  11 	 Bot models  17 phases  28
+Game Mastering  185 J 	 finding suitable 	 End Phase  28, 31
+	 controlling the enemy  185 Jump (unique ability)  148 	 miniatures  177 	 Enemy Actions Phase  28
+	 custom scenarios  186 Jump Jets (trait)  16 	 Five Parsecs minis  177 	 Quick Action Phase  28, 30
+	 Game Master (GM)  185 	 Lifeform miniatures  148 	 Reaction Roll  29
+gameplay overview  9 	 behavior on the table  174 	 Slow Action Phase  28, 30
+gaming basics  174 K missions  110, 114 	 Start Phase  28
+Genetic Adaptation Facility  Keen Senses (trait)  19 	 Assault Mission  51, 65, 128 Pirates  150, 182
+
+95, 104 Kensington Reach  40, 43, 	 Delve Mission  61, 65, 130 Pistol (trait)  78
+Genetic Advancement  95 46, 182 	 Exploration Mission  54, Pitched Battle  see missions
+Genetic Augmentation  105 K’Erin  150, 181 		  64, 117 ploy  32
+Great Strength (trait)  19 kill-break shotgun  77, 94 	 initial missions  44 Political Upheaval  89, 90
+Grunt (trait)  78, Kill Points (KP)  38 	 Investigation Mission   Poo Aim (trait)  19
+Grunt (class)  16, 182 Knockback (trait)  78 	 54, 64, 115 Population  83
+	 Grunt Casualties  66 Knock Back  39 	 Hunt Mission  65, 92, 120 post-battle steps  58
+	 Grunt upgrades  79 Knock Down (unique ability)  	 mission determination  64 Post-Democratic Consensus 
+Grunt weapons  75 148 	 mission types  114 Mechanics  96
+
+193
+
+
+
+Index
+
+pre-battle steps  58 	 Resource Extraction  82 	 Slyn encounters  153 	 terrain types  139
+Precursors  181 	 Resource Level  53 	 Slyn on the battlefield  153 	 theme  140
+Problem Solving (trait)  15 	 Resource processing  102 	 Slyn Distortion  153 	 uncertain terrain  137
+production  82 	 Resource substitution  93 	 Slyn withdrawal  153 Terror (unique ability)  148
+“The Promise”  46 Reverse-Optimization of 	 using Slyn in 5PFH  154 Theories  91, 92
+Protective Shelter  102 Genetics  95 Social Disorder Prediction  93 Tier 1 (trait)  79
+Psionic Cohesion  105 ripper pistol  77, 94 Soulless  20, 181 Tier 2  (trait) 79
+Psionic Engineering  95 Robot Rampage  166 Special Attacks  see enemy Toughness  18, 37
+Psionic Manipulation  171 roleplay events  69 Speed  18 Traits  76
+Psionic Personality Spit (special attack)  147 Trooper  14, 15
+
+Integration  95 S Sprawling  38 Trooper (trait)  75, 79
+Psionic Re-Engineering Satellite Launch Facility  Stabilized  79 Trooper Armor (trait)  15, 37
+
+Principles  95 96, 102 Stalker  20 trooper rifle  77
+Pull (unique ability)  148 Saving Throw  37 steady rifle (trait)  77, 94 turns  see campaign turns
+
+Savvy  18 Story Points  56
+Q scenarios  56 Stream (trait)  79
+Quick Thinking  29 	 custom scenarios  186 strife  85 U
+
+School of Theoretical Strike Power  147 Unified Space  180
+Strongpoint  51, 53 unique abilities  see enemy
+
+R Sciences  96, 103 Stunned  38 Unity  180
+raiders  150, 182 Scientific Mind (trait)  15 Sub-Specific Genetic Addition 	 Unity Armed Forces  182
+random directions  174 Scientific Training Facility  Techniques  95 	 Unity field agents  183
+random selection  174 96, 103
+
+Scientist  14, 15 Summit  160 	 Unity Fleet Forces  184
+Range  35, 175 Scientist (trait)  75 SVIM  180 Use Equipment  31
+Rapid Response Network  Scout  14, 16, Swarm  167, 168, 182
+
+95, 102 Scout (trait)  75, 78 V
+Raw Materials  55, 88, 98 Scout Discovery  60 T Vent Crawler  182
+Razor Claws (special attack)  Scout Down!  see missions Tactical enemies  49, 50, 148 Viral Elimination Therapy  94
+
+147 Scout Drone Network  103 Tasks  31 Virus  168
+Reaction Roll  29 Scout Explore  59 Tech Tree  104, 106 visibility and cover  35
+Reactions  18 Scout facilities  94, 103 Teleport (unique ability)  148
+Recreational Facility  96, 102 Scout pistol  76 Terraforming  171 W
+Recovery  58 Scout Reports  59 Terraforming Control Center  
+Remote Extraction Site   walls  36
+
+sectors  see maps 94, 104
+94, 102 war  161
+
+Semi-living Organism  171 Terrain  138
+Remote Research Station  sergeant weaponry  79, 94 	 Area features  36, 139 warlords  182
+
+94, 102 shard pistol  77, 94 	 Block features  139 Warzone  171
+Renegades  149 sharpshooter sight  79 	 clusters  143 weapons
+repairs  59, 87 Shoot (action)  35 	 coverage  140 	 compatibility notes  79
+Replaceable (trait)  17 Shoot (special attack)  147 	 Difficult ground  34 	 Melee weapons  39
+Replacements  68 Shots  35 	 finding suitable terrain 	 standard weapon types  76
+Research  69, 83, 91 Sick Bay  58 		   pieces  179 	 weapon profiles  196
+	 flavoring Research  93 side arms  79 	 high ground  36 	 weapon traits  78, 196
+	 Research basics  91 single-Use  135 	 Linear features  36, 139 	 weapon upgrades  77
+	 Research Points (RP) Skirmish  see Missions 	 preparing a wargames Weasel Rule  35
+
+	 55, 69, 91 Sleeper chip  166 		  table  138 “We Call It Home”  6
+Specific Research  93 Sleepers  154 	 Scatter terrain  37, 139 Wildlife Aggression  168
+Research Laboratory  96, 102 Slyn  43, 49, 152, 164, 182 	 terrain and Cover  35
+resources 	 Slyn Aggression Check  153 	 terrain placement  114 X
+	 Resource Exhaustion  84 	 Slyn Assault  167 	 terrain tiles  142 XP  see Experience Points
+
+Table Index Combat Skill table  147 Mobility table  146
+Advancement table  67 Crisis Outcome table  90 Morale Incident table  90
+Artifacts table  135 Customizing the Terrain tables  145 Motivation table  21
+Bio-Analysis table  92 Delve Trap table  131 News Report subtables  74
+Buildings table  98 Enemy Activity table  62 Notable Events table  23
+Building and Research Costs table  197 Enemy Weapons tables  151 Prior Experience table  22
+Campaign Condition table  110 Expedition Type table  52 Scout Discovery table  59
+Campaign Consequences table  127 Finds table  134 Skirmish Objective table  123
+Campaign Lifeform Encounters  Injury table  66 Special Attacks table  147
+
+table  146 Integrity Failure table  88 Strike Power table  147
+Character Event table  70 Lifeform AI Actions table  33 Summit Result table  160 
+Character Roleplay Event subtable  73 Lifeform Evolution table  159 Tactical Enemies AI Actions table  33
+Character Roleplay Event table  72 Lifeform Ploys table  33 Tactical Enemies Ploys table  32
+Cluster Sub-feature table  144 Master Condition table  111 Tactical Enemies table  149
+Colony Events table  63 Mission Objectives table  115 Uncertain Features table  137
+Colony Trend subtables  74 Mission XP table  67 Unique Ability table  148
+
+194
+
+
+
+solo adventure wargamING
+
+four print editions to collect –
+all of UNIFIED SPACE within YOUR grasp!
+
+»	 CORE RULES »	 TACTICS »	 COMPENDIUM »	 PLANETFALL 
+• Fast-moving RPG-lite Solo and co-op scenario- Gathers the content from Defend your colony against 
+
+system built for solo play driven platoon-level play FOUR digital Expansions: a hostile, alien world
+• E xtensive random tables • Bigger battles • Trailblazer’s Toolkit • Random tables for crisis 
+
+for settlements, trade, • Wider conflicts • Freelancer’s Handbook events, enemy generation, 
+character events, and • Points-built armies • Fixer’s Guidebook ancient sites, and 
+starship travel • Mechs and vehicle rules • Standalone Bug Hunt Rules research breakthroughs
+
+• 184-pages • 200 pages • 228 pages • 196 pages
+
+Also available in PDF. Find out more at www.modiphius.net/pages/five-parsecs
+
+
+
+Quick Reference

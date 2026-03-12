@@ -1,0 +1,251 @@
+it encompasses, even if there is empty ground A table will almost always look better if you 
+between each tree, for example. establish a theme with the terrain. This can 
+
+be as in-depth as you like, particularly if you 
+are building to a specific story. When you are 
+
+140
+
+
+
+starting out, this does not have to be any more The Key Feature
+involved than a basic terrain type that you use 
+more of than the rest. If the table has a lot of Often, your collection will have some 
+jungle features with a few boulders, you have a particularly cool and impressive terrain piece. 
+visual theme going already. You might have a huge alien building, a space 
+
+port landing pad or a huge rock formation with 
+Putting terrain into clusters of similar pieces a waterfall modelled down the side. 
+can help reinforce or create a theme. If you 
+are using a mixture of alien ruins and jungle Whatever it is, it takes up a big chunk of 
+pieces, consider putting the ruins on one gaming space. Impressive features like this 
+side of the table and the jungle on the other, should always be placed near the center of 
+producing a natural-feeling environment. the table, where most of the action is likely 
+
+to take place. This ensures that characters will 
+This can be achieved even with only a couple have time and motivation to move around the 
+of pieces, as the Human mind is inclined to feature, that objectives might be placed on it, 
+recognize patterns on sight. Boulders placed and so forth.
+as points of a triangle look immediately 
+interesting, even if it has absolutely no other If a major feature is positioned along the 
+function or purpose. battlefield edge, it will look impressive, but 
+
+odds are it will not feature in the game much or 
+
+141
+
+
+
+Battlefield Setup
+
+even at all. This can be okay if you are content Using Terrain Tiles
+with it being a visual piece to add atmosphere, 
+but this is often disappointing for features that Many board game and roleplaying game 
+are made to be interacted with, such as the floor tiles are available, and these are great 
+spaceport. for games set inside buildings, alien ruins, or 
+
+crashed ship interiors.
+Terrain features with limited interaction 
+potential (such as a waterfall) are fine along Tiles are usually modular and can be arranged 
+the side, since they are mostly being added to taste, producing a wide range of different 
+to give visual appeal to the game. When used setups. You can even combine exterior and 
+like this, they can be thought of as a backdrop interior areas by placing the tiles on a gaming 
+to the game table rather than acting as terrain table, surrounded by normal terrain. The edge 
+features in their own right. of the tiled area is assumed to be walls. 
+
+Some players hesitate in placing a lot of terrain While tiles tend to be marked with a square 
+along the edges, since it is at risk of being grid, it is usually preferable to continue using 
+knocked off. If you are concerned, don’t be measurements on the tiles. This has the 
+ashamed to leave an inch or two empty along advantage of not requiring conversion rules, as 
+the edges! well as allowing more flexibility when placing 
+
+figures. For example, on most grids it is difficult 
+to place figures firing from corners of rooms, 
+
+Checking your Work due to how the grid is usually aligned to the 
+When you have filled your table with terrain, corridors. 
+stand back and have a look at how things You will also find that most tiles have one-
+turned out. Check for lines of fire: Long sight square-wide corridors, which are difficult to 
+lines where a figure in one position could fire use in tactical combat. When measuring, two 
+across most of the table, especially if they can figures can often fit in a corridor and both fight, 
+be in cover while doing so. making the area more dynamic. 
+A few such positions are not a huge problem When placing terrain tiles, try to emphasize 
+– it helps characters with heavy weapons find having lots of rooms with shorter corridors 
+something to do – but too many can result in connecting them. Rooms are more interesting, 
+a static game where there is not much reason as they offer more tactical possibilities for 
+to move. movement and fighting. Many tile sets have 
+When fighting enemies with close-range machinery and obstacles drawn on the tiles, 
+attacks, it can also result in them having a giving more opportunities to seek cover.
+difficult time getting anywhere and, while Terrain Tiles and Movement
+the shooting gallery is fun occasionally, it is 
+hardly dramatic. When using terrain tiles for building interiors, 
+
+the default is to continue using measurements 
+Ensure you don’t make the table too cluttered. and ignore the grid on the tiles. If you prefer 
+Sometimes, removing one or two pieces can to use the grid, on a large interior floor plan 
+help encourage figures to move around the 1” = 1 square will work fine. If you need to 
+table. Also, be especially careful not to fill condense things, use 2” = 1 square instead.
+the table with terrain that is difficult to move 
+within. This can cause the game to slow to a 
+crawl and is often not very exciting.
+
+142
+
+
+
+Battlefield Setup
+
+Random Table Setup 
+(optional rules)
+
+If you prefer to have an unpredictable gaming D100 GROUND
+table, you can use the following system. Follow 01-15 Sand or gravel
+each step in turn. You may have to make 
+adjustments to fit the terrain pieces you have 16-30 Dirt or mud 
+available to use. You could even modify the 31-80 Plant growth such as grass
+table to produce your own custom terrain table 81-95 Rocky and hard ground
+matching either your current terrain collection 
+or the terrain you are building to play Planetfall. 96-00 Alien surface such as remnant 
+
+construction
+All dice rolls use D100.
+It is generally accepted that due to limitations Step 2: Organizing the Table into Clusters
+presented by your terrain collection, a few Form your gaming table into a number of 
+rerolls here is fine and you certainly do not spaces, each of which will hold one terrain 
+need to use Story Points for that purpose.  cluster. The size of a cluster can vary but should 
+Of course, some players will gain enjoyment be enough that it can hold the largest terrain 
+from trying to stick strictly to the results of the feature you intend to use. If in doubt, you can 
+dice and, if so, no rerolls can be made. After make the clusters 12” square, fitting 9 of them 
+all, the world is the way it was created before in a 3x3 foot table. 
+you ever got here. Organizing clusters into a grid is easiest, but 
+Step 1: Roll for Ground Type you can also have them staggered in each row. 
+This determines the general surface you will be You don’t have to painstakingly measure this 
+fighting over and is included for players who out – eyeballing the size of each cluster is fine. 
+own (or want to buy or build) multiple gaming With experience you might even place the 
+mats or suitably colored tablecloths. clusters fluidly as you go. 
+
+If you prefer a more open table, you can place 
+fewer or smaller clusters than the table could 
+take. For example, on a 3x3 foot table you may 
+use 9 clusters but make some of them only 8” 
+
+Cluster Type table
+
+D100 CLUSTER FEATURE
+
+01-05 Alien ruin Remains of an ancient alien construction
+06-10 Wreckage Shuttle crash site, overgrown alien ship wreckage
+11-25 Foliage Tall bushes, forest
+26-40 High ground Hills, dunes, or other raised ground
+41-50 Liquid Streams, lakes, or swamp. Can be water or other liquids
+51-65 Boulders Large rock formations
+66-80 Rough ground Broken ground with many rocks or other hindrances
+81-85 Facility Colony structure such as a habitation shelter or mining drill
+86-95 Open ground Fairly open ground with a few scatter features
+96-00 Dense terrain Dense mass of forest, rocks, or other obscuring terrain
+
+143
+
+
+
+Battlefield Setup
+
+or 10” along each side. Alternatively, you might Method 3: Roll multiple features up front and 
+choose to use only 7 clusters instead of 9. then arrange them in clusters. You can do 3 or 
+Table space that is not within a cluster is empty. more or even roll every feature in advance and 
+
+then place them.
+If you prefer to randomize every aspect, tally up 
+the number of clusters that would fit, then roll As terrain placement is highly individual, you 
+1D6-3. If the result is negative, reduce the total may have your own preference for this. 
+number of clusters by this amount. Step 4: Roll for Sub-features
+Step 3: Primary Terrain for each Cluster If any clusters have open space within them 
+For each cluster you have, make a roll to at this point, roll again to determine what 
+determine that cluster’s primary terrain type. sub-feature may be present. Clusters that are 
+
+completely filled skip this step.
+This is open to interpretation (and your terrain 
+collection). You can take it as the primary As with the last step you can roll for one cluster 
+feature placed in the cluster, or you can try to at a time or roll them in advance and then 
+fill the cluster if you like. place them.
+
+For game play purposes it is usually better to Make Adjustments
+break large areas such as forest into two smaller Once you are done determining your terrain, 
+features with some space between them to take a few moments to review your table. You 
+resemble a path or clearing. may find that two features would look better if 
+You can use one of three methods here: they were swapped in position, for example to 
+
+have areas heavy in plants near each other. 
+Method 1: Roll for each cluster one at a time, 
+placing terrain as you go. You may also have a piece that just doesn’t 
+
+look right, and the table would be improved by 
+Method 2: Roll a terrain feature, then choose replacing it with something else.
+which cluster to put it in, placing as you go. Also review any wide-open spaces. A few of 
+
+these are not a problem and can add visual 
+Cluster Sub-feature table
+
+D100 SUB-FEATURE DESCRIPTION
+
+01-14 None No additional feature is present.
+15-20 Crystals Man-sized crystals.
+21-27 Probe The wreck of a probe, drone or similar.
+28-37 Bushes Some shrubs or bushes.
+38-49 Rocks A few big rocks.
+50-60 Trees A few single trees.
+61-67 Puddle A small liquid feature.
+68-73 Crater A crater from a meteor strike.
+74-80 Hedge Plants forming a natural barrier.
+81-89 Sign Sign placed by colony scout.
+90-94 Peculiar item Something strange and inexplicable. Be creative!
+95-00 Remnants Animal carcass or bones. 
+
+144
+
+
+
+Battlefield Setup
+
+Map Adjustments
+appeal, but if they are too large, they can be If your location on the world map is characterized 
+difficult in the game as figures trying to cross by a particular terrain type such as rocks, forest, 
+them get shot too easily. This is realistic, but or swamp, one cluster at the center of the table 
+can make the game too dominated by heavy will always feature the terrain type on the map. 
+firepower, so be careful about big spaces that You can either skip the roll here (if the map says 
+will take more than two rounds to cross. you are in the mountains, put a bunch of rocks 
+If there are still some large empty spots, add here) or roll and then try to amend the feature 
+a few extra scatter features: rocks, crystals, or (a roll of high ground could become a rock 
+trees. This will help break up the long lines of formation on top of some high ground). 
+fire a bit more. Once everything looks good, 
+you are ready to play! ◆	 Narrowing what some of the entries mean. 
+
+Instead of “Liquid” meaning any pool of 
+Customizing the Terrain Tables liquid, you might replace it with “Swamps” 
+
+because you think it would be cool to play 
+You can create your own custom terrain tables on a fetid, marshy planet.
+by copying the existing tables and then 
+swapping out some entries for other types of ◆	 Replacing some entries with unique features 
+terrain. This can be used, for example, to adapt from your collection. Maybe you have some 
+to your particular terrain collection or to create huge plastic crystal pieces and would like to 
+something unique. use those, so you swap out the “Liquid” entry 
+
+for “Huge crystal”. 
+Examples might include: If you wish the game world to evolve as you 
+◆	 Duplicating certain entries to account for play, replace the first entry you roll each 
+
+your collection (or your vision of a science time with something new for the next game, 
+fiction world) featuring a lot of a particular allowing the terrain table to morph as you play 
+terrain type such as multiple High Ground the game, offering a balance of continuity and 
+entries for a more hilly, broken-up world. evolution as your crew explores the world.
+
+145
+
+
+
+Battlefield Setup
+
+Enemy Generation
+
+Generating Lifeforms Step 1: Mobility

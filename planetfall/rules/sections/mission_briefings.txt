@@ -1,0 +1,901 @@
+Generating Lifeforms Step 1: Mobility
+When you have a Lifeform encounter, roll D100 This table determines the ability of the 
+on the Campaign Lifeform Encounters table on creature to move.
+your Colony Tracking Sheet (see page 190). If Mobility table
+the entry is filled, you encounter that Lifeform.
+
+D100 MOVEMENT
+If the entry is blank, proceed to generate a new 
+Lifeform and enter its data into the encounter 01-25 5” movement speed
+table. Going forward, every roll of that entry 26-80 6” movement speed
+produces the same type of creature. 81-00 7” movement speed
+As your campaign progresses, you will have a 
+unique encounter table that is specific to your If the roll ends in a 0 or 5 (for example, 25), 
+gaming world. the creature is Partially Airborne and may 
+Roll D100 on each of the tables in turn and ignore terrain as it moves.
+note the results on the Campaign Lifeform When moving over any terrain feature, the 
+Encounters table. Name the creatures as you airborne creature is assumed to hover over 
+generate them. An example Campaign Lifeform the feature. It can be seen and shot at, as 
+Encounters table is shown below. if it was 1” above the terrain feature. (Treat 
+If you encounter 6 or more Lifeforms during a Forests as being 6” tall.)
+mission, the 6th one encountered during the While hovering, all shots at the creature receive 
+mission will be a pack leader. Add +2 KP to +1 to hit.
+their normal profile. 
+
+Campaign Lifeform Encounters table (example)
+
+D100 NO. ENTRY
+
+01-18 1 Nickname ‘Turbostone’: Speed 7", Combat +1, Melee +1 Damage, 
+Toughness 5
+
+19-32 2 
+ 
+
+33-44 3 Nickname ‘Vaportrail’: Speed 7", Combat +1, Melee +1 Damage, 
+Toughness 4, 1 KP, Special: Overpower, Hinder
+
+45-54 4 
+
+55-64 5 
+ 
+
+65-73 6 Nickname ‘Sirenspine’: Speed 5", Combat +1, Toughness 4,  
+Armor Saving Throw 5+, Special: Shoot, Pull
+
+74-82 7 
+ 
+
+83-89 8 Nickname ‘Golem’: Speed 6", Combat +2, Melee +0 Damage, 
+Toughness 5, Armor Saving Throw 5+, Special: Terror
+
+90-95 9 
+
+96-00 10 
+
+146
+
+
+
+Battlefield Setup
+
+Step 2: Offensive Abilities Step 3: Defensive Abilities
+This table determines any offensive capabilities. This table establishes any defensive measures 
+Note: all Lifeforms have claws, fangs or similar the creature has.
+which count as Melee weapons when Brawling. 
+The damage value is determined below. D100 TOUGH. ADDITIONAL 
+
+NOTES
+
+You need to roll on the following two tables, 01-25 4 –
+initially, to determine the creature’s Combat 
+
+26-35 4 Armor Saving Throw 
+Skill and Strike Power. of 5+
+If either roll ends in a 0 or a 5, the creature Dodge: The creature can 
+has a Special Attack as well, which is rolled evade any hit on a D6 
+separately. 36-45 3 roll of a 6, even if the 
+
+attack would normally 
+If both rolls end in a 0 or a 5, the creature rolls negate Saving Throws.
+twice for Special Attacks. Ignore a duplicate 
+result on the Special Attacks table and count it 46-65 4 1 KP
+as no additional attack. 66-80 5 –
+
+81-90 5 Armor Saving Throw 
+Combat Skill table of 5+
+
+D100 COMBAT SKILL 91-00 5 1 KP
+01-25 +0
+26-85 +1 Step 4: Unique Abilities
+86-00 +2 The final D100 roll (see table, page 148) 
+
+determines if the creature has any unique 
+Strike Power table abilities.
+
+D100 STRIKE POWER
+If it does, randomly pick one creature at the 
+
+01-20 Melee, +0 Damage start of each enemy phase. The ability activates 
+21-85 Melee, +1 Damage from that creature. This means that while only 
+86-00 Melee, +2 Damage a single creature is on the table, it will always 
+
+activate its ability.
+Special Attacks table
+
+D100 SPECIAL 
+ATTACKS DESCRIPTION
+
+01-15 Razor Claws Melee attacks negate Saving Throws.
+
+16-30 When the creature activates, roll D6 to hit every character within 6” and  
+Eruption Line of Sight. On 6, they take a Damage +0 hit, and are knocked Sprawling.
+
+The creature has a ranged attack (spike throwing, psionic wave etc.). 
+31-50 Shoot Range 18”, Damage 1. On a natural 6 to hit, it may shoot again. Shooting 
+
+creatures use their Combat Skill when shooting and count as +0 when brawling.
+
+51-70 The creature can spit acid or poison. Range 9”. The target and every figure 
+Spit within 1” is hit on a D6 roll of 5-6. Damage +0. Ignores Armor.
+
+71-85 A character that is hit but survives is thrown 1D6” backwards. 
+Overpower If the creature also has a ranged attack, this applies to the ranged attack ONLY. 
+
+86-00 When the creature initiates brawling, it rolls twice and picks the best die. 
+Ferocity This bonus does not apply if one of your characters moves to engage it. 
+
+147
+
+
+
+Battlefield Setup
+
+Unique Ability table 
+
+D100 UNIQUE 
+ABILITY DESCRIPTION
+
+01-30 None No special abilities of any kind.
+The closest character in sight is pulled 1D6” closer. If this pulls them into contact, 
+
+31-40 Pull brawl immediately. If the Lifeform inflicts any hits, they are resolved with 
++2 Damage (in place of any normal attack capability the Lifeform has).
+The Lifeform jumps 1D6+1” towards the nearest character. It will clear 
+
+41-50 Jump Human-height obstacles and if the jump takes it into or past an enemy, 
+they are knocked Sprawling (see page 38).
+
+51-55 Teleports to a location 2D6” away in a random direction. If it would teleport off 
+Teleport the table, replace the figure with a blip at the battlefield edge.
+
+56-60 All characters within 6” and Line of Sight must roll 1D6+Savvy. 
+Paralyze If they fail to score a 4+, they cannot act next time they are activated.
+
+61-70 All characters within 6” and Line of Sight must roll 1D6+Savvy. 
+Terror If they fail to score a 5+, they retreat 1D6+Speed” and become Stunned.
+
+The closest character must roll 1D6+Savvy. If they fail to score 6+, 
+71-80 Confuse they immediately take a full move in a random direction. 
+
+If they move off the table, they cannot return during the battle.
+81-90 Hinder All characters within 8” have their movement halved next time they activate.
+91-00 Knock Down Roll 1D6. Any characters within this range in inches are knocked Sprawling.
+
+Lifeform Miniatures Generating Tactical Enemies
+Some players may prefer to plan their miniatures Use the Tactical Enemies Table to determine 
+selection, purchasing and painting in advance. If Tactical Enemy profiles. When a campaign 
+this is the case, you can roll up multiple (or even begins, you will face three such enemies, each 
+all of) the Lifeforms in advance and use the rolls generated from this table. You can choose 
+to help decide what figures to use to roll for each enemy as they appear in the 
+
+campaign or roll upfront so you can plan your 
+The Lifeforms are described here only in terms miniatures purchasing or painting in advance.
+of their tabletop abilities and traits. You are 
+completely free to select any figures you would You may encounter the same enemy more than 
+like to represent them on the table. You may look once, representing either rival groups or a foe 
+at the profiles and try to choose based on that, present in strength. (If you prefer more variety, 
+though you can interpret things as you see fit. reroll until you have three different foes.) 
+
+If you have creatures with similar profiles or Number: Use the roll indicated to determine 
+abilities, they might be interpreted as similar how many enemies you are facing. Note that 
+creatures just as our world has different breeds some missions may modify this.
+of sharks. Alternatively, you may find it more ◆	 One is always a specialist.
+interesting to have every creature be distinct. 
+To save work, you could rely on the fact that two ◆	 If there are 6 or more, one of them will be a 
+sub-species of the Agarion Crawler look identical, leader (see sidebar, page 149).
+despite some key biological differences! ◆	 All others are grunts.
+
+148
+
+
+
+Battlefield Setup
+
+Speed: The movement rate in inches.
+Combat Skill: If this is listed as a split value, Leaders
+the first value is used for regular enemies while If you encounter 6 or more enemies during a 
+the second value is used for any leaders and mission, one of them will be a leader. Note that 
+specialist figures. because of how the random generation works, 
+Toughness: If this is listed as a split value the this means some enemy types will always be 
+second value is used for any leader present. accompanied by a leader. Leaders are one of the 
+
+generated figures, not an additional figure. For 
+Panic: The Panic range used when making example, if you encounter 7 enemies in total 
+Panic tests (see page 40). If this is 0, the enemy there will be 6 regular enemies and 1 leader.
+is not subject to Panic tests and will instead 
+fight to the death. Leaders have 1 KP and tend to have different 
+
+weapons available. 
+Bosses are a sub-class of leaders and are only 
+present if you track one down and then play a 
+Strike mission. Bosses have 2 KP and add +1 to 
+both their Combat Skill and Toughness.
+
+Tactical Enemies Table
+
+D100 ENEMY NUMBER SPEED COMBAT 
+SKILL TOUGH. PANIC
+
+Outlaws 2D3+3 4” +0 3 1-2
+All manner of bandits, thieves and raiders trying to make a living by stealing your stuff. 
+
+01-12
+Fragile discipline: If total outlaw casualties exceed 4 at the end of the turn, 
+
+Panic range becomes 1-3.
+Hostile colonists 1D3+5 4” +0 3 1 / 1-2
+
+A rival group trying to muscle in on your claim and figuring that violence will deter you.
+13-22
+
+Variable motivation: When setting up, roll 1D6 to establish their level of determination. 
+On 1-2, they will have a Panic range of 1; on 3-6, they will have a Panic range of 1-2.
+
+Nomad patrol 1D3+5 6” +0 / +1 3 / 4 1-2
+Some colonies are abandoned as the locals take to the wilderness. 
+
+23-30 Nomad remnants often react extremely aggressively to renewed attempts.
+
+Keen shots: Nomads firing from behind cover may reroll an initial 1 on the shooting dice.
+Remnant colonists 1D6+3 4” +0 3 1-3
+
+A prior colonization attempt here failed and the remnants have descended into barbarism.  
+They aim to continue their survival through looting your resources and enslaving 
+
+31-39 or massacring your colonists.
+
+Blood-crazed: At the end of any battle round where Rogue colonists had figures removed 
+due to Panic, the Panic range is reduced by 1 step (to 1-2, then 1, and finally 0).
+
+Renegades 1D3+5 4” +0 3 / 4 1-2
+40-49 The worst and most hardened types of outlaws. 
+
+Mob rules: A Renegade with any allies within 2” counts as +1 to Combat Skill when brawling.
+
+149
+
+
+
+Battlefield Setup
+
+D100 ENEMY NUMBER SPEED COMBAT 
+SKILL TOUGH. PANIC
+
+Pirates (Inexperienced) 1D3+6 4” +0 / +1 3 1-2
+The difference between and outlaw and a pirate is that pirates have a ship.
+
+50-61
+Lack of tactics: Each Enemy Phase, roll 1D6 and count back from the closest pirate to your 
+
+battlefield edge. The selected figure will not move, but may fire normally.
+Mysterious raiders 1D3+4 5” +1 4 1
+
+A strange group decked out in mysterious uniforms that you do not recognize. They are of a minor 
+alien species from the Fringe worlds, but attempts at communication are declined.
+
+62-71
+Intense firepower: Randomly select a figure each Enemy Phase; they may fire twice. 
+
+If they have an enemy in sight when they activate, they will remain stationary when doing so, 
+otherwise they move normally and then fire twice if able. 
+
+Pirates (Hardened) 1D3+5 5” +1 4 1
+Getting to be a famous pirate means being tough enough to defeat the people 
+
+72-78 who defeated the pirates that did not make it.
+
+Vacc suits: 6+ Saving Throw.
+Alien raiders 1D3+4 4” +0 / +1 4 1-2
+
+A raiding party from a minor, hostile alien species known only in nearby sectors. 
+79-87
+
+Slip sideways: At the start of each Enemy Phase, the raider closest to any player figures is 
+teleported 2D6” in a random direction. If they end up off-table, they do not return.
+
+K’Erin landing party 1D3+4 4” +1 4 / 5 1
+The K’Erin are a species priding themselves on never backing down from a struggle.  
+
+88-95 Raiders, adventurers, and hostile colonists are common. 
+
+Paramilitary: Leaders, Bosses, and Specialists have a 6+ Saving Throw. 
+Champion: Leader has 2 KP as standard; Bosses have 3 KP.
+
+Converted recon team 1D3+4 4” +1 4 0
+The cybernetic creatures known as the Converted descend upon colonies to collect bodies,  
+
+alive or dead, that can be “upgraded” into more Converted.
+96-00 Fearless: Not subject to Panic checks.
+
+Bolt-on armor: 6+ Saving Throw. 
+Enhanced models: Converted Specialists have 1 KP.
+
+Defeated Enemies
+If you destroy an Enemy Strongpoint, that 
+enemy type is no longer present in your 
+campaign. All sectors they currently occupy 
+are relinquished immediately and they will 
+not return to your campaign. Congratulations, 
+commander!
+
+150
+
+
+
+Battlefield Setup
+
+Generating Enemy Weapons The Enemy Weapon Profiles table below 
+Roll once on the Enemy Grunt Weapons provides all weapon profiles from the Tactical 
+Table to determine the weapon of every enemy Enemies lists above. 
+grunt in the encounter, then roll once for the 
+specialist on the Enemy Specialist Weapons Enemy Weapon Traits
+Table. The specialist weapon replaces the grunt Clumsy: If the opponent has higher base 
+weapon for that figure. Speed, -1 brawling penalty.
+Leaders carry the grunt weapon plus one roll on Critical: A natural 6 to hit inflicts 2 hits on  
+the Enemy Leader Weapons Table. the target.
+Note: Weapons and numbers encountered are Heavy: -1 to hit penalty if moving and firing.
+generated for each battle. Melee: +2 brawling bonus as main weapon.
+
+Pistol: +1 to brawling if used as main weapon.
+Enemy Grunt Weapons Table Shockwave: A surviving target is knocked  
+
+D6 GRUNTS 1D6” backwards.
+1 Scrap gun
+2 Colony rifle
+3 Colony rifle + Blade
+
+4-6 Military rifle
+Enemy Leader Weapons Table
+
+Enemy Specialist Weapons Table D6 LEADER
+
+D6 SPECIALIST 1 Shatter axe
+1-2 Auto rifle 2-3 Hand cannon
+3-4 Hunting rifle 4-5 Ripper sword
+5-6 Rattle gun 6 Shotgun
+
+Enemy Weapon Profiles Table
+
+WEAPON RANGE SHOTS DAMAGE TRAITS
+
+Auto rifle 24” 2 0 –
+Blade Brawl – 1 Melee
+
+Colony rifle 18” 1 0 –
+Hand cannon 6” 1 2 Pistol
+Hunting rifle 30” 1 1 Heavy, Critical
+Military rifle 24” 1 0 –
+Rattle gun 24” 3 0 Heavy
+
+Ripper sword Brawl – 2 Melee
+Scrap gun 7” 1 0 Pistol
+Shatter axe Brawl – 3 Melee, Clumsy, Shockwave
+
+Shotgun 8” 1 1 Critical
+
+151
+
+
+
+Battlefield Setup
+
+The Slyn Threat Slyn exhibit intense psionic manifestations 
+The Slyn appear to be the result of heavy but do not appear to access psionic wave-flows 
+genetic modification and exhibit considerable the same way precursors do. As the precursor 
+variation, though all are basically humanoid. method is the underpinning for almost all 
+The most common version encountered is psionic institutes in known space, this is of 
+reptilian in form and the prevailing theory is great interest to researchers. 
+that this is the closest to whatever may have The Slyn appear to have very strong psionic 
+been their original form. capability, allowing them to function even 
+They do not appear to have any natural means within dampening fields, but they do not 
+of reproduction, and no recorded encounter exhibit the wide range of capability that other 
+has resulted in sightings of Slyn occupying sapient beings do. A Slyn with a psionic ability 
+civilian roles. While Slyn landing craft have is unlikely to ever develop a second type, 
+been accompanied by individuals who giving rise to the theory that their talents 
+performed the roles of pilots, technicians, and may be a result of deliberate engineering, 
+other specialist tasks, these also engage in biological or otherwise. 
+direct combat in a manner unlike most armed In battle, Slyn operate in pairs with the two 
+forces of the galactic powers. individuals linked through a strong psionic 
+No indication of a “creator species” has been bond that seems to sustain them in combat. 
+detected, but as the Slyn are reluctant to Unity troopers have reported individual 
+communicate with outsiders, evidence has Slyn continuing to fight with missing limbs 
+not been forthcoming. It is possible that the or massive bleeding as long as their linked 
+current state is a result of the Slyn extensively partner is still active. Once both are injured, 
+modifying themselves. the pair collapse and the life force seems to 
+
+dissipate quickly.
+
+152
+
+
+
+Battlefield Setup
+
+Slyn are tool users and, as evidenced by Slyn Encounter Sizes
+their landing craft, possess a high level of Slyn encounters in normal missions will be 
+technology. They possess a natural ability to either 6 or 8 individuals formed into 3 or 4 
+focus energy, manifested as a high-powered pairs respectively. Roll 1D6 when setting up 
+but somewhat short-ranged beam weapon, the mission:
+projected from their hands. They rarely use 
+conventional infantry weapons as a result. 1-4: 	You encounter 6 Slyn.
+
+5-6: 	You encounter 8 Slyn.
+Slyn Aggression Check
+The Slyn attack unexpectedly but there is Slyn on the Battlefield
+a pattern to their depredations, and some When deploying, Slyn are always set up in pairs 
+activities seem to draw their attention. with the two figures within 1” of each other.
+Each mission description will explain if it is Each pair will move in order to remain within 
+subject to attack from the Slyn. If it is, follow 1” of each other. Should they be separated for 
+the dice roll instructions explained in the any reason, they will try to move back in range 
+mission. This is generally a 2D6 roll with a again as quickly as possible.
+score within a certain range meaning you will 
+fight the Slyn instead of the regular enemy When firing, pairs will always attempt to fire at 
+you would have faced. the same target figure and will select a target 
+
+visible to both if possible. If this is not possible, 
+The Slyn do not maintain headquarters or they will each fire normally.
+bases. While they do operate ships, it is 
+unknown how they maneuver on the planet Slyn do not become Stunned for any reason. 
+surface, and they can appear and disappear in They take damage as a pair: If a single casualty 
+the blink of an eye. is inflicted, put a marker by the pair. They will 
+
+continue to move and fight normally. Once 
+As the Slyn do not maintain local facilities a second casualty has been inflicted (which 
+or headquarters, they cannot be defeated in can happen simultaneously with a multi-shot 
+the course of the campaign. Achieving one of weapon) to either figure in the pair, they are 
+the End Game conditions will permit you to both destroyed and removed from play.
+eliminate the threat. 
+
+Slyn Withdrawal
+Slyn Encounters Slyn are not subject to Panic tests. They will 
+There is not a distinct Slyn encounter table. withdraw when only a single pair is left on 
+They do not have leaders or special weapon the table at the end of a battle round. The 
+troopers, and all Slyn soldiers use the same remaining Slyn vanish without a trace. 
+profile and are subject to the rules explained in 
+this section. Slyn Short Range Distortion
+Speed:	 5” The Slyn can move using close distance 
+Combat Skill:	 +1 teleportation. At the start of each Enemy Phase, 
+Toughness:	 4 randomly select a Slyn pair and move them 
+Brawling:	 Claws: Melee, Damage 1. 2D6” in a random direction.
+Ranged Attack:	 Beam focus: 18” range,  If this would take them off the battlefield 
+
+Shots 1, Damage 1. edge, they are removed from the table (which 
+can result in withdrawal at the end of the 
+round). At the start of the next Enemy Phase, 
+the pair reappears 2D6” from the center of the 
+
+153
+
+
+
+Battlefield Setup
+
+table instead. This counts as the teleport for The Sleepers
+this round. As you explore ancient alien ruins, you will 
+Slyn can move and fight normally after a come across the defenders that were once set to 
+teleport. It does NOT replace their normal keep intruders out. While their systems are in 
+movement. poor states of repair, the fact they still function 
+Slyn that emerge within 1” of an opponent will after several thousand years is a testament to 
+emerge directly into brawling combat. If they the technology involved in creating them.
+win, the figure cannot take any other actions Troopers have nicknamed these robots 
+this round. ‘Sleepers’ as they seem to activate only when 
+
+near an organic presence.
+
+Using the Slyn in 5PFH Sleepers use the following profile. They do 
+not distinguish between types: All Sleepers 
+
+The Slyn can be used in games of Five Parsecs encountered in a mission are identical.
+from Home. Substitute any one entry on one of 
+the encounter tables for the Slyn. Their weapons Speed:	 5”
+and abilities should not require modification. Combat Skill:	 +1
+
+Toughness: 	 4
+◆	 If the Slyn withdraw from a battle, you have 
+
+Held the Field. Sleepers have a directional force screen, 
+granting them a 6+ Saving Throw against all 
+
+◆	 The Slyn cannot become Rivals of your crew. weapons fire, including weapons that would 
+normally negate Saving Throws. They do not 
+
+◆	 As they are usually on the attack, they cannot 
+be the defenders in Stealth missions, nor are receive this protection against Brawling hits, 
+they encountered in the hordes suggested by however. 
+the Bug Hunt rules. When each Sleeper is placed on the table, roll 
+
+1D6 to determine what weapon it is carrying:
+
+D6 SLEEPER WEAPON 
+WEAPON STATISTICS
+
+1-5 Beam weapon Range 12”, Shots 1, 
+Damage 1.
+
+6 Heavy beam Range 18”, Shots 2, 
+weapon Damage 1.
+
+Sleepers cannot be Stunned and are 
+Fearless, immune to Panic. 
+
+A Sleeper that scores a hit when firing 
+immediately enters Rapid Fire mode: On its 
+next activation, it will not move but will fire 
+with 1 additional shot (2 for a Beam, 3 for a 
+Heavy beam). If no targets are visible, it leaves 
+Rapid Fire mode but does not otherwise move 
+or act. If it has targets, it remains in Rapid Fire 
+mode. A suitable counter can be placed next to 
+the figure to remind you.
+
+154
+
+
+
+Campaign 
+Development
+	 The Milestone System 156
+	 Calamities 165
+	 Mission Data 169
+	 “Patterns” 172
+
+155
+
+
+
+Campaign Development
+
+The Milestone System
+A campaign can continue as long as you like. The Campaign Story Track
+However, the pressures of declining Colony 
+Morale will push you towards crisis points. As you progress through the campaign, for 
+To complete the campaign, you need to pick every Milestone completed:
+the path forward and to be able to do so, you ◆	 Roll a Lifeform Evolution (page 158); and
+must achieve a number of Milestones during 
+the campaign. ◆	 You may recruit one additional 
+
+replacement for your roster.
+These can be earned from several sources, 
+including the construction of Buildings and In addition, particular events will happen as 
+particular Research topics. Each Milestone indicated below. These occur immediately upon 
+represents a new stage in the development achieving that Milestone:
+of the colony. In total, 7 Milestones must be 
+achieved to set up the End Game. 1st Milestone Achieved
+As you achieve each Milestone, particular ◆	 Roll 2 Character Events immediately (see 
+effects take place in the campaign game, page 170). This is in addition to the normal 
+explained below. event you would receive each turn.
+
+Note: It does not matter which Milestones you ◆	 Add 1 point of Mission Data and check for 
+achieve: The game includes more than you Mission Data progress (see page 169).
+need to finish the game and the particular ones ◆	 Add 1 Calamity Point and check for 
+you chose are part of your story but do not have Calamity progress (see page 165).
+a mechanical effect (though they may guide 
+which ending you want to achieve). ◆	 One Tactical Enemy emerges. Randomly 
+
+select a map sector and mark that the enemy 
+now controls it. This cannot be in or adjacent 
+
+Tech that Grants Milestones to your colony.
+
+The following Buildings grant a Milestone: 2nd Milestone Achieved
+◆	 Galactic comms relay ◆	 Immediately roll for a Colony Event (see 
+◆	 Orbital facility page 62). This is in addition to the normal 
+◆	 Genetic adaptation facility event you would receive each turn.
+◆	 Terraforming control centre
+
+◆	 Every enemy on the map expands to occupy 
+The following Augmentation grants a Milestone: a random map sector adjacent to them.
+◆	 Mental links ◆	 You obtain 1 Ancient Sign (see page 61). 
+The following Alien Artifact grants a Milestone: ◆	 Add 1 point of Mission Data and check for 
+
+Mission Data progress (see page 169).
+◆	 Neo-ancient data cache
+The following Research Applications grant a ◆	 Add 2 Calamity Points and check for 
+Milestone: Calamity progress (see page 165).
+
+◆	 One Tactical Enemy emerges. Randomly 
+◆	 Frontier world doctrines
+◆	 Integrated post-organic demarcation select a map sector and mark that they now 
+◆	 Psionic personality integration control it. This cannot be in or adjacent to a 
+
+sector held by another enemy or your colony.
+
+156
+
+
+
+Campaign Development
+
+3rd Milestone Achieved 4th Milestone Achieved
+◆	 Gain 3 Story Points. ◆	 Erase one campaign battlefield condition 
+
+from the table on your Colony Tracking  
+◆	 Increase Colony Integrity by +1. Sheet and generate a new condition to 
+◆	 Immediately roll on the Enemy Activity take its place.
+
+table (see page 62). This is in addition to the 
+◆	
+
+normal event you would receive each turn. You receive 1 Augmentation Point.
+◆	 You may add 2 grunts to your list.
+
+◆	 From this point onwards, Tactical Enemies 
+reduce their Panic range by 1. All tactical ◆	 Add 1 point of Mission Data and check for 
+specialists receive 1 KP. Mission Data progress (see page 169).
+
+◆	 Add 2 points of Mission Data and check for ◆	 Add 1 Calamity Point and check for 
+Mission Data progress (see page 169). Calamity progress (see page 165).
+
+◆	 Add 2 Calamity Points and check for ◆	 Track how many times you beat the Slyn 
+Calamity progress (see page 165). from this point onwards. Each time you do, 
+
+roll 2D6 and, if the roll is equal to or below 
+◆	 One Tactical Enemy emerges. Randomly 
+
+select a map sector and mark that the the tracked victories, the Slyn decide to leave 
+enemy now controls it. This cannot be in or you alone. They will no longer attack for the 
+adjacent to your colony or a sector held by rest of this campaign. Victories prior to this 
+another enemy. point are not counted.
+
+157
+
+
+
+Campaign Development
+
+7th Milestone Achieved
+◆	 The End Game now launches. See page 160 
+
+for how to proceed.
+◆	 Add 2 points of Mission Data and check 
+
+for Mission Data progress (see page 169).
+◆	 Add 1 Calamity Point and check for 
+
+Calamity progress (see page 165). If no 
+Calamity occurs, you no longer have to 
+contend with Calamities in the campaign.
+
+Lifeform Evolutions
+As your colonists acclimate to the world, so it 
+seems to become acclimated to you. Scouts 
+report the planet’s resident lifeforms adapting 
+more rapidly, often for the worse, exhibiting 
+new methods of attack and defense when 
+encountered.
+The scientists suspect this may be an 
+
+5th Milestone Achieved engineered defensive mechanism, though 
+◆	 You receive 1 Augmentation Point. this leaves the question of how it was created 
+
+and by who. The process seems random in 
+◆	 Add 1 point of Mission Data and check for nature but occurs both much faster and in 
+
+Mission Data progress (see page 169). a more direct fashion than what is normally 
+◆	 Add 2 Calamity Points and check for understood as “evolution”. (The grunts in the 
+
+Calamity progress (see page 165). field insist on calling it that, despite the science 
+team’s protestations. As is often the case, such 
+terms stick around even if people know better.) 
+
+6th Milestone Achieved
+◆	 All Tactical Enemy encounters add  Evolutions occur each time you achieve a 
+
+1 additional specialist figure to the campaign Milestone. Randomly select an entry 
+number encountered. on your Colony Tracking Sheet to evolve. If 
+
+your roll selects an entry that has not yet been 
+◆	 For each turn of the rest of the campaign, filled, put a note on the encounter table. When 
+
+roll on the Enemy Activity table (see  you fill this entry, the creature will already be 
+page 62) for every enemy on the map. evolved and should roll on the table below after 
+
+◆	 Add 2 points of Mission Data and check determining the basic profile and abilities. 
+for Mission Data progress (see page 169). Once an evolution has occurred, all future 
+
+◆	 Add 2 Calamity Points and check for encounters with the creature will feature the 
+Calamity progress (see page 165). improved profile or abilities. 
+
+Roll D100 for the evolution. It is possible for 
+the same Lifeform to be selected multiple times 
+in a campaign, though exact duplicates require 
+a reroll of the evolution. For example, the same 
+Lifeform cannot develop Summoning twice. 
+
+158
+
+
+
+Campaign Development
+
+Lifeform Evolution table
+
+D100 EVOLUTION DESCRIPTION
+
+01-10 Enhanced Profile The creatures become more adapted to your specific combat methods. 
+
+If the Lifeform would normally have a Combat Skill of +0, it is raised to 
++1. This includes reduced Combat Skills for Lifeforms capable of shooting.
+
+Add +1” to Speed.
+If the creature has a Strike Power of +0 damage, it is raised to +1.
+
+11-20 Poison All of the creature’s attack forms apply a slow-acting nerve toxin.
+
+Any character struck by the creature receives a Poison marker per hit. 
+When the character activates, roll 1D6 for each Poison marker. If any of 
+
+them result in a natural 6, the character becomes a casualty. If they do not, 
+remove ONE Poison marker.
+
+A scientist within 2” can attempt to help by spending their action and 
+rolling 6+ on a 1D6+Savvy test. This removes one Poison marker.
+
+21-30 Spines The creature becomes covered in sharp spikes.
+
+Any character that loses a brawl against the creature takes 
+an additional hit at +0 Damage. 
+
+31-40 Duplication Through a psionic manifestation, the Lifeform is capable is reproducing 
+spontaneously and immediately. 
+
+At the start of each Enemy Phase, roll 1D6. If the roll is a 6, a random 
+Lifeform duplicates. Place a second Lifeform adjacent to it. This ability does 
+
+not activate if only Contacts are present on the table. 
+41-50 Dramatic The creatures are changing rapidly in an unpredictable fashion
+
+transformations Delete any Unique Ability the Lifeform lists on the Unique Abilities table 
+(page 148). Instead, each battle where the creature is encountered, 
+
+roll on the Unique Abilities table again and use the 
+indicated ability during that battle.
+
+51-60 Summoning The creatures emit a strange call that attracts more of them 
+to the battlefield. 
+
+At the start of each Enemy Phase, roll 1D6. If the roll is a 6, 
+place a Contact on a random table edge.
+
+This ability does not activate if no Contacts are present on the table.
+61-70 Evasion Whether due to agility, chemical fog or psionic effects, the creatures 
+
+are becoming difficult to target.
+
+Each time a creature is fired upon, roll a D6. On a 6, it evades and is 
+not hit. A creature that evades remains unable to be hit for the rest of the 
+
+current battle round. If a creature evades in the Quick Actions Phase, 
+it cannot attack when it activates in that Enemy Phase. 
+
+Evading creatures can be hit by brawling attacks but cannot 
+initiate it themselves.
+
+159
+
+
+
+Campaign Development
+
+D100 EVOLUTION DESCRIPTION
+
+71-80 Darts The Lifeform can now launch razor-tipped darts at nearby opponents.
+
+Each creature will launch a dart at the end of its activation after all of its 
+attacks and brawls have taken place. Darts have Range 9”, target the 
+
+closest opponent visible, hit on a D6 roll of a 6, and inflict a 
+Damage +0 hit. 
+
+81-90 Bigger Leaders There are more pack leaders, and they are getting bigger as well.
+
+The 4th Lifeform encountered in a mission is now a secondary leader with 
++1 KP. The 6th Lifeform encountered in a mission is a pack leader as 
+
+usual. They receive +3 KP instead of the customary +2.
+91-00 Tougher Specimens The creatures are getting bigger and meaner.
+
+Each time a Lifeform is placed on the table, roll a D6. On 5-6. it has +1 KP.
+
+The End Game counting any bots or grunts), plus an additional 
+Upon achieving the Final Milestone, the die to represent the general population.
+characters on your roster will meet to debate You may select freely from opinions that are 
+what course the colony should take. The supported. Any opinion that does not have 
+summit takes place at the end of the current support from any character or the general 
+campaign turn and cannot be delayed. population cannot be selected. Having dealt 
+
+with colony security (see below), progress to 
+The Summit the appropriate selection in ‘Final Milestones’ 
+Everyone knows that a moment of decision (page 161).
+has been reached. Conversations have been 
+had, and predictions have been run. It is time Colony Security
+to bring it out into the open. You summon Once the summit has taken place, you must 
+your most trusted companions and advisors to establish colony security before you can make 
+discuss the fate of the colony. final preparations. 
+Each character on your roster voices or supports The Ascension, Isolation, and Independence 
+an opinion on which path to pursue. Roll a D6 options require defeating at least one Tactical 
+on the table below for each character (not Enemy by tracking down and destroying 
+
+Summit Result table
+
+D6 OPINION ARGUMENT
+
+1 Independence “This colony is strong enough to survive alone. We don’t need Unity anymore.”
+“Through research, we have become more than we were. We now have a 
+
+2 Ascension path to a more advanced state of being, to evolve towards a new, 
+unprecedented future.”
+
+3 Loyalty “This colony has achieved its objectives and so much more. It is time to take our 
+rightful place as a fully-fledged member of the Unity polity.”
+
+4 Isolation “We are becoming one with this world. It is time for us to fulfil that destiny, to 
+abandon the constraints of the colony and seek out the wilderness.”
+
+5-6 No opinion “We are capable of achieving whichever path we choose.”
+
+160
+
+
+
+Campaign Development
+
+their Strongpoint, while Loyalty requires 
+defeating two of them in this way. If you have Campaign Play
+previously achieved this, you already meet 
+the requirement. If you wish to incorporate your world into a 
+
+Five Parsecs from Home campaign, roll twice 
+Once your colony is secure, you can then on the World Trait table and apply both results. 
+proceed to construct the final milestone. Worlds that underwent a war are subject to the 
+
+Fringeworld Strife rules (5PFH Compendium, 
+Final Milestones page.148), if you use that option.
+
+The cost of the final milestone must be paid in 
+both Build Points and Research Points. 
+
+2D6 UNITY RESPONSE
+
+Independence Total war. Unity decides to make 
+(Cost: 15 BP, 5 RP) an example of you. The colony is 
+
+2 obliterated unless you developed the 
+With the colony set on a path of independence, Artificial Construction Mission Data 
+you order the large-scale construction of Breakthrough. If so, you must go to 
+defenses and issue a proclamation that War instead (see below).
+the world is now independent and will no 
+longer accept the dictates of a remote and 3-7 War. Unity responds with military force. 
+unaccountable government. See the “War” sidebar.
+
+Negotiations drag on. Roll again on 
+You may end the campaign as a victory here. this table. Any result of an 8 is counted 
+After all, it is your story, and you may have an 8-10 as “War” (above) while any roll of 
+idea for how it ought to end. Narrate your story 10 is counted as Unity granting you 
+as you see fit. “Recognized status” (below).
+If you prefer, you may work through the Recognized status. After hearing your 
+outcomes below instead: Roll 2D6 to pleas, the Unity Bureaucracy grant your 
+determine the Unity response. 11-12 request and offer semi-autonomous 
+If you developed the Defense Network status. Your colony will go on to become 
+Mission Data Breakthrough, add +1 to rolls an independent, Unity-Allied world. 
+on this table unless the dice show a double. Congratulations.
+
+War On a draw, one random character on your 
+A single colony cannot hope to defeat the might roster is killed in the fighting, and you roll 
+of the Unity armies, but you may be able to again. If you developed the Warzone Mission 
+outlast them in a colonial struggle. The war is Data Breakthrough, Unity also takes 1 War 
+fought in a number of rounds during each of Fatigue on a draw.
+which you will roll 1D6 for your colony and 1D6 If a side accumulates a total of 3 War Fatigue, 
+for the Unity expeditionary force. they surrender. If Unity surrenders, you are 
+Each round, the side with the lowest score now independent! If your colony surrenders, 
+suffers 1 level of War Fatigue. it is incorporated into Unity forcefully. Every 
+
+character on your roster may roll a 5+ on 1D6 
+to escape, but are otherwise arrested. 
+
+161
+
+
+
+Campaign Development

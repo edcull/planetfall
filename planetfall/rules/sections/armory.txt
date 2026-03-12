@@ -1,0 +1,401 @@
+of customizing is a fantastic way of making the Also listed are any prerequisite research 
+game feel more like your own. applications that must have been completed to 
+
+access that Building option.
+
+Buildings table
+
+BUILDING BUILD POINTS PREREQUISITES
+
+Academy 8 BP Non-Linear Physics
+Educating young colonists to be scientists is an investment in the long-term 
+
+survival of the colony.
+
+Earn +1 Research Point every campaign turn.
+Adapted protective 8 BP High Level Adaptation
+shield installation Local building materials provide increased resilience.
+
+Increase Colony Integrity by +3.
+Advanced 4 BP –
+
+manufacturing plant Locally adapted weapons and hardware require specialized 
+manufacturing techniques.
+
+A prerequisite to produce any Tier 1 equipment.
+Advanced medical 5 BP Genetic Advancement
+
+center Additional sick beds combined with newly developed medical remedies 
+will increase recovery from trauma.
+
+In the Recovery step, you may select any one character and 
+reduce their injury recovery time by 1 turn. 
+
+98
+
+
+
+Colonies
+
+BUILDING BUILD POINTS PREREQUISITES
+
+AI-assisted school 6 BP AI Theories
+Much rote learning can be handled by AI-enhanced virtual teachers.
+
+All new characters enter the campaign with 2 XP. 
+Biological adaptation 10 BP High Level Adaptation
+
+research site Your team is now capable of matching local genetic material to potential 
+augmentation paths.
+
+Receive 2 Augmentation Points (see page 105).
+Bot maintenance bay 4 BP AI Theories
+
+Dedicated bot repair facilities greatly improve readiness.
+
+Repaired bots can now be deployed during the same campaign turn.
+Civilian market 4 BP –
+
+Availability of local and off-world consumer goods help the colonists feel like 
+this is a real home and not just an outpost.
+
+Gain 1 Story Point.
+Colony shield network 8 BP Non-Linear Physics
+
+Large scale power shields are resource intensive but directed partial shields 
+can be deployed as needed, to anticipate incoming threats.
+
+You may mitigate 1 Colony Damage each time you receive Colony Damage. 
+Note that some sources will state the damage cannot be mitigated.
+
+99
+
+
+
+Colonies
+
+BUILDING BUILD POINTS PREREQUISITES
+
+Cybernetics facility 6 BP AI Theories
+Cybernetic augmentation helps to achieve greater biological adaptation.
+
+Receive 1 Augmentation Point (see page 105)
+Damage containment 4 BP Advanced Manufacturing
+
+center Allows coordination of repair and emergency maintenance crews to minimize 
+the effects of colony damage.
+
+Your colony repair rate is increased by +1.
+Drone turret network 6 BP –
+
+AI controlled sentry turrets for point defense.
+
+Gain 1 point of Colony Defenses.
+Early warning system 4 BP Military Doctrine
+
+A comprehensive sensor system to alert security forces of possible attacks.
+
+Gain 1 point of Colony Defenses.
+Environmental control 8 BP Theoretical Physics
+
+facility The default colony environmental systems are adequate but can hardly be said 
+to be comfortable. Improved systems ensure pleasant temperatures and 
+
+humidity levels at all times.
+
+Gain 1 Story Point. Increase Colony Morale by +2.
+Expanded living facility 4 BP –
+
+Additional housing and life support allows for more staff.
+
+You may expand your character roster by 2.
+Hardened life support 6 BP Environmental Research
+
+system Safeguarding the temperature, hydration and emergency 
+food supply systems is vital.
+
+Increase Colony Integrity by +2.
+Heavy construction site 8 BP –
+
+Improved machinery to construct larger facilities and work with new 
+raw materials that are locally available.
+
+Earn +1 Build Point per campaign turn.
+High tech 4 BP Completed Advanced Manufacturing Plant
+
+manufacturing plant State of the art weaponry requires the production of custom machinery.
+
+A prerequisite to produce any Tier 2 equipment.
+Locally adapted food 4 BP Environmental Research
+
+production site Agricultural techniques usually must be adapted to fit local conditions.
+
+Increase Colony Morale by +5. One-time bonus.
+
+100
+
+
+
+Colonies
+
+BUILDING BUILD POINTS PREREQUISITES
+
+Med-Evac shuttle facility 4 BP Military Doctrine
+ Drone shuttles allow critical cases to be returned to a medical facility from the field.
+
+Once per campaign turn, when a character becomes a casualty in battle you 
+may opt to have them MedEvac’ed. After the battle they will roll twice on the 
+
+injury table, picking the better result.
+You must make this decision at the point a figure becomes a casualty; you cannot 
+
+wait and decide later.
+Military barracks 8 BP Military Doctrine
+
+Upgraded training facilities for the security forces.
+
+All current and future troopers gain 3 XP immediately.
+Military training facility 5 BP –
+
+Colony life is dangerous and regular refresher training is vital to keep 
+personnel safe and secure.
+
+When doing the Experience Progression campaign step, you may have any one 
+character conduct military training to earn +1 XP. This can be combined with any 
+
+mission experience, but characters cannot train while in Sick Bay.
+Militia training camp 4 BP –
+
+To improve security and safety, a colonial militia can be formed 
+to patrol the perimeter.
+
+Any civvies brought on a mission will have Reactions 2.
+
+101
+
+
+
+Colonies
+
+BUILDING BUILD POINTS PREREQUISITES
+
+Patrol base 4 BP –
+Forward operating bases for colonial militia teams.
+
+Gain 1 point of Colony Defenses.
+Protective shelter 6 BP –
+
+Improved shelters reduce the risk to the colonist population.
+
+Increase Colony Integrity by +2.
+Rapid response network 4 BP Military Doctrine
+
+Improved vehicle access for the colonial militia.
+
+Gain 1 point of Colony Defenses.
+Recreational facility 6 BP Social Theories
+
+The development of new recreational options that are viable in the colony 
+environment can greatly increase performance.
+
+Gain 1 Story Point. Increase Colony Morale by +1.
+Remote extraction site 8 BP Environmental Research
+
+Small drill sites are established to retrieve additional resources.
+
+Each campaign turn, roll 1D6: On 5-6, receive one additional Raw Material. 
+Remote research station 8 BP Environmental Research
+
+Scanning and measuring stations can be deployed to further study 
+the environment.
+
+Each campaign turn, roll 1D6: On 5-6, receive one additional RP.
+Research laboratory 8 BP Theoretical Physics
+
+Improved facilities for the development of advanced scientific principles.
+
+Earn +1 Research Point every campaign turn.
+Resource processing 8 BP –
+
+With resources in short supply, the processing and recycling must be 
+as efficient as possible.
+
+Each time you receive Raw Materials from any source, you receive 
++1 Raw Materials.
+
+Satellite launch facility 6 BP Social Theories
+ Satellite coverage allows for improved long range resource scans.
+
+Randomly select three map sectors that have not yet been Exploited.
+Increase the Resource Value of each by +1. If the sectors have not yet been 
+
+Explored, add +1 when they are. 
+Gain 1 Mission Data.
+
+102
+
+
+
+Colonies
+
+BUILDING BUILD POINTS PREREQUISITES
+
+School of theoretical 12 BP Theoretical Physics
+sciences As more scientists are trained, increasing specialization becomes possible.
+
+Earn +1 Research Point every campaign turn.
+Scientific training facility 6 BP Non-Linear Physics
+
+Improved education for research personnel.
+
+All current and future scientists gain +3 XP.
+Scout drone network 8 BP –
+
+Scout missions can be supplemented by drone patrols to 
+help improve mission intel.
+
+Any sector that is revealed to have a Hazard level of 5 or 6 is reduced by 1.
+Gain 1 Mission Data.
+
+Scout facilities 6 BP Environmental Research
+Improved training and support facilities for the scout team.
+
+All current and future scouts gain +3 XP.
+Gain 1 Mission Data.
+
+103
+
+
+
+Colonies
+
+Milestone Buildings
+These buildings each contribute one campaign See page 156 for details on what happens 
+milestone as well as provide other game when Milestones are completed.
+advantages similar to other buildings.
+
+BUILDING BUILD 
+POINTS REQUIREMENT
+
+Galactic comms relay 10 BP Theoretical Physics
+Establishing a large-scale communications facility helps to fully integrate the colony 
+
+into galactic society. It also allows the continued spread of ideas and influences.
+
+This grants 1 Milestone.
+Add 1 Story Point.
+
+Genetic adaptation 15 BP High Level Adaptation
+facility With a wealth of scientific data collected, large-scale adaptation to the local 
+
+environment becomes possible. This allows both adjustment to vulnerabilities as 
+well as rendering the colonists perfectly adapted to planetary conditions.
+
+This grants 1 Milestone.
+Gain 2 Augmentation Points
+
+Orbital facility Col2o0 BnP ies Advanced Manufacturing
+e
+
+Spacefaring vessels are easier ceonsch Tree
+T tructed in orbital facilities. CB Colony Bot Upgrad
+
+They also allow easier connection to tradgere rsosu tes. For a coTlhoenoyry to becom e TR Trooper Upgrade
+
+self-sufficient it must be ahbel reo u
+tes to pro
+
+to interface erachs-ily with Ssepcaocned afrayr Tihnego rtyraffi c.
+This diagram illustrates t
+
+It excludes Res a
+s GR Grunt Upgrade  
+
+your colony technologies. 
+This graunrrtesn 1c iMes such a
+
+Milestone  
+ses to in-game c ilestone. New Weapon  
+
+derived bonu Points, which 
+or Augmentation Building  
+
+Colony Morale Add 5 Colonndy f uMrthoerra her with costs a le.
+enetic CB 1 KP
+
+Terraforming  15 BP are included toget
+ch, Build
+
+hEin
+gs, G
+
+apntveirrso. nmental Adaptationa t r ng plant   +   
+control center details in the Resear
+
+- ec  ma uf c u i
+While Alaurggmee-snctaalteio
+
+n, or Armory c
+ terraforming is prohib3iti 
+
+High t h n
+ vely expen cosnivtaei,n tmheen tfi cresntt setreps 
+
+towards atmospheric adjustments can be 3 ini tiaDta
+mage
+
+ed, laying the groundwork
+acturing   
+
+Advanced Manuf rbital facility
+for future climate man3 ip 
+
+O
+ulation. CB Combat Skill +1
+
+RP Investment of 3
+isted school   +   
+
+ This grants 1 Miles4 to neAI.-ass
+aintenance bay
+
+Increase Integrity b4
+ot m
+
+y +3. peed 6"
+ 
+
+AI Theories    B
+etics facility   +
+
+CB S
+   
+
+4 4
+  Cybern
+
+RP Investment of  system
+ned life support
+
+GR Adapted armor
+
+Tracking your Tech  ✓3 arde
+  H
+
+production site    +   
+ly adapted food 
+
+3 ocal
+
+We have included a Tech Tree on pages 106-1 07.   L
+n site
+
+3
+Use the check boxes on this to track how   Remote extractio
+
+n
+ research statio
+
+Environmental Research   
+
+many Research Points you have invested f 2 ✓3

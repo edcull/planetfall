@@ -1,0 +1,351 @@
+12-25 Environmental risk the Post-Mission Finds table (see page 134).
+26-36 Enemy super weapon Environmental Risk
+37-48 Virus Long range scans have detected strange 
+49-63 Mega predators atmospheric anomalies that appear to be 
+64-77 Wildlife aggression intensifying storms and radiation.
+78-91 Robot rampage Randomly select 3 map sectors. They can be 
+92-00 Slyn assault enemy held. These sectors are experiencing the 
+
+anomalies.
+The same Calamity cannot occur twice in a 
+single campaign. If you experience a Calamity At the end of each campaign turn, roll a D6 
+that has already happened to your colony, take for each anomalous sector on the map:  
+the next option on the table (wrapping around 1-4 indicates no effect; 5-6 results in an 
+to the start if needed). environmental flare-up, in which case, roll again:
+
+165
+
+
+
+Campaign Development
+
+D6 FLARE-UP Your incessant patrolling has brought some 
+A random crew member on your rewards. Randomly select three map sectors 
+
+1-2 roster is injured and must spend  and increase their Resource ratings by  
+one campaign turn in Sick Bay. +1 each. 
+
+3-4 The colony sustains 1 point of Colony Robot Rampage
+Damage, bypassing defenses.
+
+Suddenly, angry robots spill across the surface. 
+5 No effect They resemble the Sleepers detected before but 
+
+6 Another random sector develops appear to be acting as sentries.
+an anomaly. In every mission you play, place a marker in 
+
+To clear each anomaly, you must carry out a each of the 6 terrain features closest to the 
+Patrol Mission in the sector with the following center of the table.  
+modifications:  
+
+When a figure is within 12” and Line of Sight  
+◆	 1 additional Contact is placed on a random of a feature with a marker, roll 1D6 for the 
+
+battlefield edge every battle round. feature. Multiple features can be revealed at 
+◆	 Once all three Objectives are clear, a the same time.
+
+character must move to one of the Objectives ◆	 Each die that rolls a 1-3 is removed with 
+(your choice) and roll 1D6+Savvy, scoring no effect.
+a 6 or better (remember, scientists may roll 
+
+◆	
+twice and pick the highest result). When this Each 4-5 adds a Sleeper with a Beam 
+succeeds, you have collected the samples Weapon where the marker was (see  
+needed to counteract the anomalies in this page 154).
+sector, clearing it. ◆	 Each 6 adds a Sleeper with a Beam 
+
+The Calamity ends when every sector has been Weapon and another marker is placed in 
+cleared. Each anomaly you clear allows you to the closest terrain feature to the one just 
+gather 2 units of Raw Materials. revealed. This can result in the newly placed 
+
+marker being revealed immediately. 
+Mega Predators Each time you kill a Sleeper outside of a Delve 
+Your scouts report seeing particularly large and mission, if you can move to the location where 
+menacing wildlife when they are patrolling. it was destroyed before the battle ends, roll 
+Each time a Lifeform is revealed, roll 1D6. On a 1D6+Savvy (remember, scientists roll twice 
+6, the specimen has 1 additional KP and the and pick the best score). 
+die is rolled again, adding KP until you don’t A test result of 5+ finds a Sleeper chip. 
+roll a 6. A failed test destroys the chip. 
+To eradicate the nest, you must carry out  Once you have located 5 Sleeper chips, you 
+Patrol Missions (see page 121). Each time you can send out the shut-down signal when you 
+complete an objective, an additional Contact is return to your colony, ending the Calamity. 
+placed on a random battlefield edge. Mark this Add 4 Research Points as your scientists 
+Contact in some fashion so you can tell it apart. dissect the chips afterwards.
+When it is revealed, all Lifeforms placed have 
++2 KP added to their profile (this is total, not 
+cumulative with the +1 for this Calamity). You 
+must kill 5 such Lifeforms to end the Calamity. 
+
+166
+
+
+
+Campaign Development
+
+Slyn Assault After you have completed your mission for the 
+The Slyn are stepping up their attacks. turn, check to see if the Swarm is spreading: 
+Until you have fended off this latest Slyn Roll a D6 for each adjacent map sector to a 
+assault, every time you undertake a mission Swarm sector. You can choose the order you 
+with a chance of Slyn interference, you must want to test them in. Once you roll a 6, the 
+roll twice to see if they interfere. If both rolls Swarm infests that sector as well, and no 
+indicate interference, you will automatically more rolls are made this turn. If you test every 
+encounter 8 Slyn. adjacent sector without rolling a 6 the Swarm 
+
+are currently laying low.
+Keep track of the number of Slyn you kill. Once 
+you have killed 30, they decide to step down The Swarm prevents all access to sectors they 
+their offensive. The Calamity ends once this occupy. If they infest a sector held by an enemy, 
+occurs. You may immediately add 2 grunts the enemy loses the sector unless it was their 
+to your Colony Tracking Sheet as the lessons final sector they held, in which case they 
+learned allow you to train up new soldiers. evacuate to another random map sector. 
+
+If the Swarm infest one of the 8 sectors 
+Swarm Infestation adjacent to your colony, they will begin 
+The hostile alien lifeforms known as The Swarm attacking your perimeter. Each campaign turn, 
+have begun infesting the world. roll 1D6 for each infested sector adjacent: On 
+Randomly select a map sector that is not 1-2, nothing occurs. On 3-5, your colony takes 
+enemy held. It is immediately infested with damage equal to the die roll. On a 6, you take 6 
+large numbers of the murderous aliens known Damage and one of your grunts is killed. 
+as the Swarm. If the Swarm would expand into your colony 
+The Swarm refuse all attempts at interaction, sector, you must fight a Pitched Battle mission 
+resorting to immediate, frenzied attack when next campaign turn. 
+sapient life is within several kilometers. The To defeat the Swarm, you must kill them off. 
+only saving grace is that they can occasionally This uses the Skirmish mission. Victory clears 
+be lured away by the use of drones. out the sector (for now). 
+
+167
+
+
+
+Campaign Development
+
+Swarm: The Calamity ends when the cure is discovered. 
+Speed:	 6” Due to your medical advances, you may reduce 
+Combat Skill:	 +1 any injury recovery times for injured characters 
+Toughness:	 4 by a total of 4 turns spread among characters as 
+Brawling:	 Claws, +1 Damage you see fit (2 characters reduced by 2 turns, 4 
+Ranged Attack:	 none characters reduced by 1 turn each, etc.). You can 
+Roll 2D6+4 for the number of Swarm save any of this effect for later.
+encountered (make sure you are loaded for Wildlife Aggression
+hard combat). The lifeforms are far more aggressive than 
+The Calamity ends when every sector has usual. Something appears to be agitating them. 
+been cleared. Your researchers speak of a Controller that must 
+Overcoming the Swarm allows you to recruit be located and destroyed. 
+one trooper to your roster if you have a Any Contact reveal that places Lifeforms will 
+vacancy. You may save this for a later time. This place 1 additional Lifeform. It is placed in the 
+recruit does not count against your available nearest terrain feature to where the marker was. 
+replacements. To find the Controller, you must play out a 
+Virus Hunt mission. Each time you reveal a Lifeform, 
+A dangerous virus is tearing through your roll 1D6 per Lifeform figure. On a 6, it is 
+colony. the Controller. The Controller will be of the 
+
+standard type but has 3 additional KP added 
+Randomly select two characters on your to the profile. The Controller will always attempt 
+roster and roll 1D6 for each. If the roll is 1-5, to move towards the nearest battlefield edge by 
+this is how many Virus Points they have the shortest route possible and, upon reaching 
+accumulated. If the roll is a 6, they immediately it, it will flee. You will have to carry out another 
+fall ill. Hunt. If the path is blocked by a character, the 
+At the end of each campaign turn, select three Controller will move in a random direction, 
+characters on your roster. If they have no Virus adding +1” to its movement rate. It will only 
+Points, roll as above. If they do have Virus enter brawling combat if this random move 
+Points, increase the amount by +1. A total of 6 requires it to.
+means they fall ill. Killing the Controller and moving into base 
+Once a character falls ill, they must stay in Sick contact with where it fell to confirm it is dead 
+Bay (they are being quarantined) and can take ends the Calamity. 
+no actions of any kind. Completing this Calamity gives you an 
+To overcome the virus, you need to synthesize increased understanding of the world. You may 
+a cure. This is done by playing the Hunt add 1 Augmentation Point. 
+mission. Each time you complete the mission 
+you receive two points of Cure Data. Roll 
+2D6 at the end of each campaign turn before 
+rolling for the spread of the virus. On a roll 
+equal to or below the total amount of Cure 
+Data, you have enough to start producing the 
+cure. The virus no longer spreads, and your 
+characters recover immediately.
+
+168
+
+
+
+Campaign Development
+
+Mission Data
+Gathering Mission Data is one of the keys to Second Mission Data Breakthrough
+unravelling what the history of this world is and You have discovered multiple important 
+where it may have originated from. resource caches. Randomly select four map 
+Mission Data is obtained from missions you sectors. Each of them that is not currently 
+undertake in the field as well as completing Explored is Explored immediately. Then 
+certain Research projects and Buildings. You increase the current Resource value by +2. 
+also receive Mission Data when you complete a This can turn an Exploited sector into an 
+Campaign Milestone. Explored sector.
+
+Each time you received Mission Data, process Third Mission Data Breakthrough
+it: Roll 1D6; if the roll is equal to or below the This world continues to intrigue you. 
+amount of Mission Data you have acquired, Randomly select two sectors, marking them 
+you have made a significant Mission Data for Investigation. 
+Breakthrough. Reduce the Mission Data by the 
+die roll, then consult the list below. Fourth Mission Data Breakthrough
+
+You have finally uncovered the information you 
+First Mission Data Breakthrough need to put all the pieces together. This is the 
+You have discovered the location of 2 Ancient final Breakthrough, and after this point, Mission 
+Sites. Place them randomly on your map.  Data no longer has any value. Roll D100 on the 
+Fully exploring each of these Sites awards you table below to determine what you find:
+1 point of Mission Data in addition to any 
+other rewards. 
+
+D100 BREAKTHROUGH DESCRIPTION
+
+01-10 Ancient Colony The remnants of ruins make it clear that this was once a colony, 
+though whoever settled here has completely disappeared, leaving 
+no traces of biological remains. Why they left is for the historians to 
+decipher, but it is perhaps reassuring to know that others stood here 
+
+before you and braved the same dangers.
+
+Add 2 Ancient Sites to your map in random sectors.
+This Breakthrough also provides a bonus if you decide to pursue 
+
+the Loyalty End Game.
+11-20 Ancient Factory The world seems to have been intended as a site for a massive factory, 
+
+though for what purpose remains unclear. The installations have long 
+since decayed and only the shattered ruins remain. Artifacts found can 
+provide tantalizing hints, not to mention valuable instructions for the 
+
+researchers, but the truth may lie somewhere else entirely.
+
+For the rest of the campaign, you receive 1 additional Build Point 
+every campaign turn.
+
+This Breakthrough also provides a bonus if you pursue the 
+Loyalty End Game.
+
+169
+
+
+
+Campaign Development
+
+21-30 Artificial Construction Evidence increasingly points to the planet itself having been 
+manufactured through unfathomable levels of technology. For what 
+
+purpose is beyond your researchers to unravel, but it must have been 
+grand to warrant such an expenditure of resources. 
+
+Gain 3 Story Points and add 2 XP to three characters of your choice. 
+This Breakthrough also provides a bonus if you decide to pursue the 
+
+Independence End Game.
+31-40 Defense Network The planet bears signs of having been constructed, though by who 
+
+is not clear. Evidently it was intended as part of a grand defensive 
+network stretching across the stars, possibly to serve as a defensive 
+
+perimeter against some expected invader on a galactic scale. 
+
+Sleepers no longer receive a Saving Throw against your attacks. 
+This Breakthrough provides a bonus if you pursue the 
+
+Independence End Game.
+41-50 Moved in Time or Space This is not the original location of this world, and it may not even be 
+
+the original timeline either. The data is puzzling to say the least but, at 
+some point, the cosmic fabric was manipulated on a scale that would 
+transcend any such experiment currently understood to be possible.
+
+Immediately obtain 10 Research Points.
+This Breakthrough also provides a bonus if you decide to pursue the 
+
+Ascension End Game.
+
+170
+
+
+
+Campaign Development
+
+51-60 Psionic Manipulation The world has been subjected to some of the largest psionic 
+engineering ever witnessed. Its exact purpose is hazy at best and 
+
+perhaps the very nature of the engineering prevents its secrets being 
+unraveled. Clearly this will have a profound effect on 
+
+future existence on this world. 
+
+Select three characters on your roster and raise their 
+Reaction scores by +1.
+
+This Breakthrough provides a bonus if you pursue the 
+Isolation End Game.
+
+61-70 Semi-living Organism The entire planet appears to be a cohesive organism, the nature of 
+which currently transcends our understanding. How such a creation 
+
+could come to be is not easily explained, nor whether it did so 
+naturally or through intelligent design. 
+
+Reduce all current and future Hazard levels on the map by -1. 
+This Breakthrough provides a bonus if you pursue the 
+
+Isolation End Game.
+71-80 Signs of Genetic It is becomes clear to you that the Lifeforms on this world are the result 
+
+Modification of intentional genetic modification or have been created from scratch. 
+The motive for doing so eludes you, but it raises important questions 
+
+about the boundaries of life and your purpose in the universe. 
+
+You immediately receive 5 Augmentation Points. 
+This Breakthrough provides a bonus if you pursue the  
+
+Ascension End Game.
+81-90 Terraforming The world underwent massive terraforming efforts on a scale that is 
+
+beyond our technological reach. There is little sign that long term 
+colonization took place however, the ruins you find seemingly being 
+abandoned quickly. Perhaps one day it will be clear why the colony 
+
+was never completed, after such tremendous efforts. 
+
+You may immediately add 10 Build Points.
+This Breakthrough also provides a bonus if you decide to pursue the 
+
+Loyalty End Game.
+91-00 Warzone The world bears the scars of a massive conflict fought here with 
+
+weapons beyond our understanding. It is possible the damage you 
+have uncovered may even stem from only stray shots originating in 
+
+space. Whatever the conflict, those who waged it are no longer around 
+to claim their victory or lament their defeat.
+
+You may immediately add 4 grunts to your Colony Tracking Sheet. 
+Add 3 Research Points. 
+
+This Breakthrough also provides a bonus if you decide to pursue the 
+Independence End Game.
+
+171
+
+
+
+Campaign Development
+
+Patterns
+“The signs are unmistakable,” Shival declared A cacophony erupted as everyone began to talk 
+to the assembled group. Without waiting for at once, pointing to elements of the map and 
+confirmation, she continued: “Every predictive proclaiming their interpretations and theories. 
+simulation shows the same thing: There is She crossed her arms and waited. This was 
+something out there near the galactic core and part of the creative process. Any minute now 
+the Slyn knows what it is.” someone would…
+One of the younger researchers looked up “It’s a beacon.”
+from their data pad. “I tried reaching out to 
+our Precursor contacts, but they were not Sylas’s voice cut through the din and 
+forthcoming. Typical obfuscation we always get brought the room to silence. He looked up 
+from them.” from the prediction software he was usually 
+
+submerged in. 
+A few of the team members laughed bitterly. 
+Despite all the achievements of Humanity, Shival nodded. The information sunk in as the 

@@ -1,0 +1,251 @@
+
+135
+
+
+
+Missions
+
+D100 ARTIFACT D100 ARTIFACT
+
+27-30 Alien translation guide (Single-Use) 64-67 Predictive sighting module (Equipment)
+The next two research topics have their The character may reroll all 1s on to hit 
+
+Research Point cost halved, rounded up. dice when firing.
+31-34 Bio-present induction schematic  68-71 Bio-frame optimization serum 
+
+(Single-Use) (Single-Use)
+Gain 3 Augmentation Points. When activated, permanently increase 
+
+35-37 Nervous system override cathode one character’s Toughness by +1.
+(Equipment) 72-75 Transcendence blueprints (Single-Use)
+
+The character increases their base Move When activated, increase 
+and Dash distances by +1” each. Colony Morale by +4 and gain 
+
+38-40 Phase anticipation sword (Equipment) +1 Augmentation Points.
+Weapon: Damage 2, Melee. The 76-79 Time dilution serum (Single-Use)
+
+character does not suffer a penalty when When activated, permanently increase 
+rolling a 1 during a brawl. one character’s Speed by +1".
+
+41-44 Programmed restoration settlement 80-82 Shard projection rifle (Equipment)
+module (Single-Use) Weapon: Range 24”, Shots 2, 
+
+When activated, restore up to 10 points Damage 2, Focus (both shots must 
+of Colony Integrity. target the same figure)
+
+45-47 Regenerative building material 83-85 Crystalline assault harness (Equipment)
+schematic (Colony Item) The character receives a 
+
+Mitigate 1 point of building damage 5+ Armor Saving Throw. 
+per campaign turn. When brawling, they may roll twice  
+
+48-50 Psi-boosted nano-blade (Equipment) and pick the best score.
+Weapon: Damage 2, Melee. 86-88 Focused beam emitter (Equipment)
+
+Ignores Saving Throws. Weapon: Range 18”, Shots 1,  
+51-53 Ancient language translation aid Damage 4
+
+(Single-Use) 89-92 Organic pattern booster (Single-Use)
+Gain 3 Story Points and 1 Mission Data. A character that just died can be 
+
+54-56 Visual Distortion Module (Equipment) restored to life.
+All ranged attacks targeting the character 93-96 Sub-psionic visor (Equipment)
+
+take a -1 hit penalty. Character may extend all visibility 
+57-59 Flexible bolt launcher (Equipment) penalties by 4”.
+
+Weapon: Range 8”, Shots 2, Damage 1 97-00 Mind induction device (Single-Use)
+OR A character immediately gains 5 XP. 
+
+Range 24”, Shots 1, Damage 2. Gain 1 Mission Data.
+Pick which version is used each time the Melee: A character carrying a Melee weapon 
+
+character shoots. Artifact can use it in place of a Pistol. They 
+60-63 Neo-ancient data cache (Single-Use) receive a +2 brawling bonus when using the 
+
+When activated, this counts as Melee weapon.
+completing a campaign Milestone.
+
+136
+
+
+
+Missions
+
+Uncertain Terrain Features 
+(optional rule)
+
+The ambient features of the world often Uncertain features cannot be fired across, 
+interfere with accurate scans and you may not though enemies can move into and across the 
+have a clear picture of the battlefield ahead. area as if it was open ground until revealed. If 
+For a more unpredictable battlefield, use this your table is crowded, it may be difficult to fit 
+option to place several so-far-undetermined Uncertain features in the spaces available. If so, 
+terrain features on the table. The Mission reduce the footprint to whatever size will fit.
+Briefings (see page 114) explain the suitability 
+of this option. If the mission allows the use of Revealing Uncertain Features
+Uncertain terrain features, it will instruct you on 
+how many to place during setup. Check for Uncertain terrain features at the end 
+
+of each battle round. For any feature within 9” 
+Uncertain features are assumed to cover a circle of any crew members or within 18” and in  
+of roughly 3” diameter. They can be indicated Line of Sight, roll D100 on the table below. 
+with a marker or by cutting out a piece of paper 
+of 3” diameter or similar. Place the Uncertain Replace the marker with a suitable terrain piece 
+features as you would any other terrain feature, and treat it as the listed terrain thereafter. You 
+making sure to leave some space around them. can adjust the size and shape of the feature to 
+
+match terrain you have available. 
+Uncertain Features table
+
+D100 UNCERTAIN 
+FEATURE DESCRIPTION
+
+01-15 Plant growths These plants do not inhibit movement, but figures within the feature 
+count as being in cover.
+
+16-30 Cluster of scatter 
+terrain 3-5 pieces of Scatter (see page 37)
+
+31-45 Heavy growth An Area terrain feature that provides cover. Example: Forest. (See page 36)
+
+46-50 Heavy growth An Area terrain feature that provides cover. 
+(concerning) If the mission uses Contacts, place one marker in the center.
+
+51-55 Heavy growth An Area terrain feature that provides cover. 
+(promising) If a squad member enters the feature, roll 1D6. On 6, roll once on the 
+
+Post-Mission Finds table (see page 134)
+56-65 Difficult going Difficult ground (see page 34); does not affect visibility. Example: Swamp.
+
+66-70 Difficult going Difficult ground that does not affect visibility. If the mission uses Contacts, 
+(concerning) place one marker in the center.
+
+71-75 Difficult going Difficult ground that does not affect visibility. 
+(promising) If a squad member enters the feature, roll 1D6. 
+
+On 6, roll once on the Post-Mission Finds table (see page 134).
+
+76-85 Difficult going Area feature that provides cover and acts as Difficult ground (see page 34). 
+(dense) Example: Thick forest or jungle. 
+
+86-95 High ground Hill or slope.
+
+96-00 Terrain block Block feature (see page 139) that cannot be entered but can be climbed, 
+such as boulders.
+
+137
+
+
+
+Battlefield Setup
+
+Battlefield 
+Setup
+
+Preparing a Wargame Table
+Whether you buy terrain kits, build your own, 3.	 Terrain gives context and visual appeal. 
+or use pieces of paper, the core functionality This sounds like a soft factor that doesn’t 
+of terrain is to help produce a fun and impact tactical gameplay, but it does, 
+exciting game. indirectly: A table with lots of boulders 
+Once the tabletop battle begins, the terrain and big rocks presents hard obstacles to 
+is “locked in”. It won’t change, and any movement, requiring lots of short, sharp 
+placements are going to dictate where you exchanges of fire as characters turn a corner 
+can move (and how easily), and how effective and find enemies in their sights. A table that 
+various units will be. is heavy on jungle and forest will tend to 
+
+have more close quarters fighting within the 
+terrain features with few areas truly off limits. 
+
+What is the Point of Terrain? A table with a river crossing the table and 
+Before we start, let’s take a moment to two established crossing points will funnel 
+consider why we put terrain on our tables. the action towards those two points (or a 
+There are three: firefight breaking out across the river as the 
+
+two sides fire from cover). 
+1.	 It channels and impedes movement. 
+
+When you have terrain features, troops must Do not underestimate the aesthetic value 
+move around or through the features, some of visuals on your overall experience, either. 
+of which will prevent certain routes. Always A miniatures game is a story unfolding and 
+consider what happens to those routes when the difference in feeling when you know 
+the enemy is occupying one of them. that your characters are moving around alien 
+
+foliage and strange rock formations is very 
+2.	 It provides cover. Troops not only receive noticeable. While better-made terrain will 
+
+cover protection from weapons fire but of course look better, you may be surprised 
+terrain can block Lines of Sight (see  how evocative even a simple foam board 
+page 35), helping to maneuver tactically ruin can be when you are slugging it out 
+around the table. As a game, Planetfall is against alien mercenaries. 
+lethal and troops trying to move across big 
+open spaces tend to get shot to tiny bits.  
+If you are to advance on an objective or try 
+to get into close combat, you need terrain  
+to enable that.
+
+138
+
+
+
+Battlefield Setup
+
+29
+
+Terrain Types However, excessive use of linear features can 
+Terrain falls into one of four categories: result in a static experience. 
+
+Most tables will have a mixture of these first 
+◆	 Area features allow figures to shelter within 
+
+them but are not safe from close combat three terrain types to provide a range of effects. 
+attacks, as attackers can enter the feature. When used in combination, interesting things 
+This makes Area features both valuable to can happen. For example, having several 
+a defender who can use them for cover, smaller patches of bush (Area features) near 
+while firing from a range of positions, and each other will naturally provide pathways 
+to the attacker who can obtain cover while and clearings that can be navigated (or used 
+advancing towards a position. as kill zones), while a Block feature with Linear 
+
+features extending out from it can become a 
+◆	 Block features can sometimes be traversed, strong focal point for a battle.
+
+but are often Impassable, forcing gameplay 
+◆	
+
+to flow around them. They greatly affect Finally, there is Scatter terrain. These 
+Lines of Sight and thus provide indirect small individual pieces serve to provide 
+protection, but they are more difficult to use protection for a figure (often temporarily). 
+for cover. As such they tend to direct traffic Moving from terrain to terrain feels very 
+during the game, more than providing “tactical-cool” when you can make it work 
+fighting positions. and having terrain being blown apart 
+
+around you is cinematic. Don’t be afraid to 
+◆	 Linear features are primarily defensive add lots of scatter. 
+
+in nature and are of the most value in a 
+firefight. They make natural defensive The ways in which these terrain types 
+positions for a couple of characters with specifically affect combat is discussed in the 
+long-range weapons, though they can be Shooting chapter, page 35.
+outflanked, negating their use on the table. 
+
+139
+
+
+
+Coverage When placing terrain, using several smaller 
+Miniatures games almost always benefit from features is often better than a single huge 
+having a lot of terrain on the table: The game piece. This is especially true for area features 
+will be more fun and enjoyable if you must like forests: A single massive forest path will not 
+move around to accomplish things. play as well as replacing it with three or four 
+
+smaller pieces arranged near each other.
+Rather than dictate a norm in terms of how 
+many individual pieces you need, it is more The same applies to solid features. A huge 
+helpful to think of overall “coverage” of the boulder is less interesting in play than three 
+table. When you are looking at the table modest-sized ones, since you can now move 
+surface, you typically want at least a third of it between them, fight from corner to corner, and 
+covered by terrain features and half is often a otherwise interact with the feature.
+superior choice if you can manage it. This does 
+not have to be exact in terms of square inches. The Theme
+A cluster of scatter terrain will “cover” the area 
+it encompasses, even if there is empty ground A table will almost always look better if you 

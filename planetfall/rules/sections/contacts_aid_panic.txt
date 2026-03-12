@@ -1,0 +1,151 @@
+detailed as part of the Enemy Generation Occupied sectors are areas that the enemy 
+chapter, page 146. can control by patrolling it. Any colonists 
+
+attempting to explore or exploit the region 
+While you will have to undertake military would be captured or killed, making the area 
+duties, this is not a grand tactical campaign: inaccessible to your personnel.
+you will not be asked to maneuver battalions 
+around a war-torn battlefield. These groups Each enemy may spread as a result of random 
+rarely have the strength to coordinate a full-on events, occupying different or additional 
+assault, but will present a nuisance as the sectors. A sector that is occupied by the enemy 
+campaign continues. You will need to decisively is inaccessible: You cannot carry out Exploration 
+defeat them in the end to secure the colony. or Delve missions there, for example. 
+
+The enemy is not present on the campaign Resources and Ancient Sites do not disappear 
+map until you complete the campaign’s first when occupied by the enemy, they are just not 
+Milestone. An enemy will emerge on the map available to you until the sector is cleared out.
+the first three times you complete a Milestone.
+
+50
+
+
+
+The Campaign
+
+Taking the Fight to the Enemy If you defeat the Boss, a search of their 
+To defeat an enemy, you need to track down possessions will determine the location of the 
+their Strongpoint and to do this, you need Enemy Strongpoint. This is placed in a random 
+to find the relevant data by locating a Boss. sector occupied by the enemy in question. 
+The tracking of Bosses is done by a system of The Strongpoint Attack
+Enemy Information. Once the Strongpoint is known to you, you 
+Obtaining Enemy Information may opt to carry out an Assault Mission at a 
+Enemy Information represents data that can moment of your choosing. Succeeding in the 
+help you in obtaining information on one Assault destroys that enemy and removes them 
+of the Enemies in the campaign. This might from the campaign. 
+be documents showing their hide outs and If the mission fails, the Strongpoint remains in 
+camps, intercepted communications, computer place. Note that it will remain at full strength 
+predictions run by the nerds back at base, a each time you attack, so make sure you are 
+map dropped by one of the enemy grunts, or kitted out for a tough fight. 
+any number of other sources. The enemy will respond to a failed attack: 
+Whatever the source, Enemy Information Randomly select an unoccupied map sector 
+will help you determine where an enemy adjacent to the Strongpoint which becomes 
+Boss can be located, and gathering Enemy occupied by that Tactical Enemy immediately.
+Information is required to progress against a 
+particular enemy. The Enemy in Retreat
+Enemy Information are always specific to a If a Tactical Enemy is defeated at their 
+particular enemy in the campaign and cannot Strongpoint, all occupied sectors are 
+be transferred. abandoned immediately. That enemy will no 
+
+longer return to bother you. 
+Enemy Information is obtained in the 
+following ways: You may immediately increase Colony Morale 
+
+by +5.
+◆	 You automatically obtain 1 Enemy 
+
+Information each time you fight an 
+enemy and win. Supremacy
+
+◆	 Your scouts can earn Enemy Information You are not required to destroy all three 
+by taking Scout actions. enemies to complete the campaign. The End 
+
+Game will require you to defeat some, however. 
+Once you have obtained 6 Enemy If you are pursuing the Ascension, Isolation, or 
+Information, there is no need to get any more: Independence endings you must have defeated 
+You have gained a complete insight into the at least one, while the Loyalty ending requires 
+communications, habits, and plans of that defeating at least two.
+particular enemy. Consult page 160 for details on End Game 
+Hunting Down a Boss mechanics.
+To defeat the enemy, the first step is to find 
+and capture a Boss. This requires a successful 
+Enemy Information roll (see pages 60-61) 
+and then carrying out a Strike Mission  
+(page 127).
+
+51
+
+
+
+The Campaign
+
+Campaign Setup
+Determining Your Colonization It should be divided into a square grid. If you 
+Agenda use computer software to draw up a game map, 
+Roll D100 on the Expedition Type table to odds are it will have an option to produce a 
+determine why you are out here to begin with. grid, but otherwise one can be added easily. 
+
+Each square is known as a Sector in the game.
+
+Creating Your Map The default is a 6 x 6 grid, giving 36 sectors  
+in total. If you want a larger map with more 
+
+Your map is the area where the campaign takes space to play on, you can make the grid 6 x 10 
+place. It cannot encompass the entire planet (60 sectors) or even 10 x 10 (100 sectors).
+(even our own Moon has a surface area of some 
+38 million square kilometers). The grid can have as many sectors as you 
+
+like, but the rows and columns should be 
+Instead, your map will depict the area near the numbered, allowing you to select random 
+site your colony touched down. The exact scale sectors through dice rolls. For example, if your 
+is dependent on your campaign intentions.  grid is 8 x 10, you would roll a D8 and D10: 
+A campaign depicting a smaller colony might A 3 and a 7 would mean row 3 and column 7. 
+only deal with an area 20-30 miles in every 
+direction, while a campaign depicting a huge If you need to pick a random sector adjacent to 
+settlement might extend for hundreds of miles. an existing one a D8 can be rolled. The top left 
+
+adjacent square is numbered 1 and you then 
+Regardless of scale, keep track of the local area just count clockwise around the target.
+with a pen-and-paper map (or similar).  
+
+Expedition Type table 
+
+D100 EXPEDITION 
+TYPE DESCRIPTION EFFECTS
+
+01-15 Scientific Mission Your task is to develop a colony that You begin the campaign with  
+will be usable as a research station 3 Research Points. 
+
+in the future.
+16-30 Corporate Funded Unity Corporations have an  Your initial campaign map (see 
+
+interest in developing colonies for below) begins with 
+resource extraction and often fund  2 additional Investigation Sites.
+
+missions of their own.
+31-60 Unity Colonization All is proceeding according to the You begin the campaign with  
+
+Drive directives of the Bureaucracy. 3 units of Raw Materials.
+61-80 Independent Unity approves a number of You begin the campaign with  
+
+Mission independent missions with the goal 1 additional Story Point.
+of later incorporating them into 
+
+Unity proper.
+81-90 Military Expedition You are paving the way for a future You begin the game with  
+
+military outpost. 2 additional grunts on your roster.
+91-00 Affinity Group The colony will be built around  You begin the campaign with  
+
+a philosophical principle or  5 Morale points.
+belief system.
+
+52
+
+
+
+The Campaign
+
+Travel on the Map Recording Map Factors
+Note that there are no travel rules in the 
+game. As your colonists are well supplied with As you play the campaign, the map will start to 
+vehicles, they can always reach any destination fill up with information:

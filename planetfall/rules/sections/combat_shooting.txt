@@ -1,0 +1,251 @@
+The Tactics rulebook assigns all figures a KP result in a Casualty just as it does normally.
+value. When converting creatures from Tactics to Note: Hits that remove KP do not cause a Stun. 
+Planetfall, reduce KP by 1. Increase by 1 when 
+converting the other way. We recommend tracking Kill Points with tokens 
+
+or small dice placed with the appropriate 
+If converting Planetfall creatures to Five Parsecs number showing next to the figure. Some 
+from Home, use the KP rules as described here. players prefer tracking the current KP while 
+
+others prefer to track damage sustained. 
+38
+
+
+
+Combat Rules
+
+Brawling
+When a moving character makes contact with Knock Back
+an opponent, a Brawl immediately occurs Any character taking a hit in brawling combat 
+between them. This uses up the moving but surviving is knocked back 1” for each 
+character’s action. You CANNOT enter Brawling hit taken. This knock back is always directly 
+combat unless you have an action available. away from their opponent and can result in 
+Each character rolls 1D6 and adds their characters falling off things. 
+Combat Skill. A character that is knocked back more than 1”  
+◆	 All Lifeforms and any character armed with is also Knocked Sprawling (see page 38).
+
+a Melee weapon may add a +2 weapon Exploitation Move
+modifier. A character that eliminates their opponent in 
+
+◆	 Characters without a Melee weapon, brawling combat may move 2” in any direction. 
+but armed with a Pistol may add a +1 Humanoid characters cannot enter into a new 
+weapon modifier. brawl using this move, but Lifeforms can and 
+
+Compare the scores: The character with the will fight immediately if they do (though see 
+highest modified score wins and scores a the Multiple opponents rule below).
+single hit on their opponent. On a draw, both Bad Position
+characters take a hit. This can result in one or 
+both characters becoming casualties. If a character is Stunned when they become 
+
+engaged in a brawl, remove all Stun markers. 
+◆	 If the die roll of either character is a  The opponent receives a +1 bonus for each 
+
+natural 6, they have succeeded in a feint marker that was removed. 
+and inflict a bonus hit on their opponent. A Sprawling character counts as having a 
+
+◆	 If the die roll of either character is a  Combat Skill of +0 and cannot claim any 
+natural 1, they have fumbled, and their weapon bonuses on the roll. In effect, they 
+opponent inflicts a bonus hit on them. only ever roll 1D6+0 when attempting to win. 
+
+Bonus hits are in addition to any outcomes of If they survive, they immediately regain their 
+the brawl itself. A character may end up being footing in addition to inflicting hits normally. 
+hit multiple times because of this rule. Multiple Opponents
+If a character is armed with a Pistol or Melee In some cases, a character may end up fighting 
+weapon and claimed the brawling die roll multiple battles in the same phase. Each 
+bonus for that weapon, they will inflict any hits subsequent opponent gets a cumulative 
+with the Damage value of the selected weapon. +1 Combat Skill bonus to their roll.
+A character lacking any suitable weapon 
+strikes at +0 Damage (using the stock of their This bonus resets when the specific phase ends. 
+weapon, a pocketknife, or a big rock). For example, a Lifeform fighting one of your 
+
+characters in the Enemy Actions Phase and then 
+See page 37 for how to resolve hits. fighting again in the Slow Actions Phase does 
+
+not receive the bonus. 
+Melee Weapons
+Melee weapons are not part of the normal 
+colonist equipment, though you may obtain 
+them during the campaign. Imported 
+characters may also carry some.
+
+39
+
+
+
+Combat Rules
+
+Panic
+The player’s exploration teams are exceptional Tactical enemies are subject to Panic tests 
+individuals, not subject to morale tests during when they take casualties. The sight of their 
+battle. They will fight or retreat as the player comrades pierced by lasers or riddled with 
+wishes. Preserving your forces to fight another bullets tends to dampen their bloodlust, at 
+day is a vital to successful campaign. least temporarily.
+Player characters may abandon a battle by Unless the enemy is indicated as being 
+moving into base contact with any battlefield Fearless, each time an enemy is removed 
+edge. The character is removed from the battle as a casualty, make a D6 roll immediately 
+and cannot return for the duration of it. afterwards. If the roll falls within the Panic 
+
+range of the unit (usually 1, 1-2, or 1-3), one 
+enemy figure within 8” of the casualty is 
+
+Sec-Ops Lifeform Audit removed from play as they flee the battlefield. 
+Kensington Reach – File 098 [Closed] If there are multiple eligible figures, remove 
+“Lifeforms in the Kensington Reach exhibit many the one furthest away from the player’s 
+strange features not found on typical colony- battlefield edge. 
+approved worlds. Many are highly peculiar and 
+relentlessly aggressive. We forecast that, over The Slyn are not subject to Panic tests, using 
+time, many could be domesticated or relocated their own system to determine when they 
+to enable the colony to progress safely but, in the abandon a battle. This is explained in the 
+months after planetfall, wilderness expeditions encounter rules for the Slyn (see page 152). 
+will be fraught with hazards. The new Type 4 labs Lifeforms and the robotic Sleepers do not take 
+should allow on-site weapons R&D to help the Panic tests of any kind. 
+colony adjust their weapons to cope with the 
+local lifeform strengths and weaknesses. 
+Many lifeforms surveyed show clear signs of Aid
+genetic engineering. They may have been 
+produced specifically to be aggressive or Characters taking the Aid action may grant an 
+to enhance their abilities, though all have Aid marker to a comrade. These can be used in 
+progressed to a stage where they function in a three ways:
+stable population. ◆	 If a character is attacked, they may apply a -1 
+Of particular concern, the presence of Humans penalty to a single enemy hit roll.
+appears to both enrage and entice many of the ◆	 During their own activation, the character 
+more dangerous species. An expedition must may add +1 to a single hit roll, brawling roll, 
+move quickly before a large group of  or Savvy roll.
+creatures converges on their position, and 
+
+◆	
+colonies must improve defenses as a priority. If struck by a hazard, trap or environmental 
+
+concern, the character may add +1 to a 
+While none of the lifeforms seen may be fully single Savvy test or Saving Throw.
+sapient, many exhibit high intelligence, often to 
+the level of mammals found elsewhere. This type The Aid must be used before the roll is made 
+of enhanced lifeform must have been seeded for and the marker only grants a +1 to a single 
+some purpose. Colony science teams should be roll. It is removed after use, even if the +1 did 
+directed to include this in their analysis.” not help.
+
+40
+
+
+
+Combat Rules
+
+Contacts
+During battle you will frequently be uncertain Contact Movement
+of the number and type of enemy forces. When a Contact activates, roll two differently 
+Your characters are equipped with scanning colored D6 (we suggest using red and white). 
+devices capable of measuring sub-psionic 
+molecule distortion (far more advanced than The first die (red) is the Aggression score. The 
+the primitive “motion trackers” used in the second die (white) is the Random score. Both 
+22nd century), allowing them to detect likely scores are used only for this activation and are 
+lifeforms in the vicinity. These can accurately not tracked.
+identify the presence of the Slyn and other ◆	 If the Aggression score is highest, the 
+sentient creatures, but the wildlife of this world Contact will move towards the nearest 
+tends to make accurate scanning difficult. member of your squad. It moves a number 
+These suspected lifeforms are represented by of inches equal to the Aggression die.
+Contact markers. ◆	 If the Random score is highest, the 
+
+Contact moves in a randomly selected 
+Contact Activations direction. It moves a number of inches 
+
+equal to the Random die. This movement 
+If any Contacts are present, they move at the is not affected by terrain penalties, but 
+end of the Enemy Phase after all revealed Contacts cannot cross terrain that would 
+enemies have acted. Contacts are activated otherwise be Impassable. Instead, they 
+in order, starting from the one closest to the will move around it using the shortest 
+player’s battlefield edge and working your route possible.
+way backwards. 
+
+41
+
+
+
+Combat Rules
+
+◆	 Contacts that make base contact with the 
+edge of the table or which would move off 
+the edge will instead halt in place.
+
+◆	 If the dice are equal, the Contact remains 
+in place. If there are only 1 or 2 Contacts 
+currently on the table, place a new Contact 
+adjacent to it. 
+
+Contacts and Other Interactions
+The Enemy ignores Contacts for all intents  
+and purposes. 
+Contacts do not block movement for Enemy 
+figures or other Contacts and they can move 
+through each other freely. If two Contacts would Contact Reveal
+end the Phase overlapping, move one of them When a Contact is revealed, roll 1D6 to 
+slightly until they no longer overlap. determine what you have just encountered.
+Contacts cannot be attacked in any way, are not The Contact marker is removed, and any 
+subject to any environmental hazards and are revealed figures are placed where the marker 
+not affected by Area weapons of any kind. was. If more than one figure is placed, the rest 
+
+are placed as you see fit within 1” and in cover, 
+Contact Detection if possible. 
+
+Contacts are detected under two circumstances: Revealed enemies always act during the NEXT 
+Enemy Phase you come to. This means if they 
+
+If, during the movement of any player are revealed during an Enemy Phase, they 
+character or Contact, a clear Line of Sight with cannot act during the current Phase.
+no intervening terrain exists between a squad 
+member and the Contact. In this case, the If a Contact is revealed while moving, the 
+Contact is detected automatically. This occurs at revealed figures are halted in place and do not 
+the earliest possible point of the move. complete the move. 
+
+At the end of each Enemy Phase, all Contacts As Contacts revealed in the Quick Actions Phase 
+that are in Line of Sight of squad members but would act right after you are done with that 
+are partially obscured by terrain must test for phase, you are encouraged to think carefully 
+detection. You can test in any order you like. about when to move to get a ‘blip’ in sight. 
+
+Each obscured Contact is detected on a D6 D6 CONTACT REVEAL
+
+roll of 4+. Note that only a single roll is made 1-2 None: False alarm
+for each Contact regardless of the number of 
+characters within Line of Sight. 3 None: Place 2 new Contacts randomly 
+
+along the battlefield edges.
+If a Contact is detected, proceed to the Contact 
+
+4-5 1 Lifeform from your 
+Reveal section below. Campaign Lifeform Encounters table
+
+6 2 Lifeforms from your 
+Campaign Lifeform Encounters table
+
+42
+
+
+
+Combat Rules
+
+The Slyn
+Sec-Ops Lifeform Audit [Black Clearance Only] The Precursors also noted that the Slyn normally 
+Kensington Reach – File 103 [Closed] exhibit a degree of natural psionic capability. 
+There have been reports from some Unity It is theorized that the dampening fields in the 
+administrators of hostile organisms known as Reach infuriates them, but all attempts to reach 
+the Slyn. Unity troopers have been reported to a negotiated settlement have so far been met 
+nickname them as “Raptors”, but this may be a with very aggressive responses.
+confusing title given their reported abilities. Bio-Ops have noted from reports that the Slyn 
+5th Survey Group Black Clearance on the Slyn operate in pairs, with two warriors moving and 
+details a reptilian species not unlike wingless acting as a cohesive unit, possibly in a mental 
+Swift. Tracing similar reports from other link with each other. Whether this is strictly a 
+surveys, they appear to have originated in the tactical measure or has a deeper social function 
+periphery of the galaxy some two million years is unknown.
+ago. The species is remarkable in its social 
+cohesion but has exhibited limited interest in It is known that the Slyn will send out small 
+peaceful interaction, reacting with considerable scout ships to worlds throughout the Reach. 
+hostility to any perceived incursions into their Many of these scouts resemble raiding parties 
+current territories. Ancient records from other and they will attack Humans or other sapients 
+civilizations are unreliable but, according to the on sight, unless completely overmatched. 
+Precursors, there is some data that, at intervals Unity troop details have been increased to 
+of roughly 3000 years, the entire culture provide protection but, so far, the Bureaucracy 
+opts to migrate, sending the Slyn across the has not decided on a long-term plan. Initial 
+stars in the search for a new sector of space to conflicts have proved standard weapons 
+inhabit. K’Erin records show that during these inefficient, and colony administrators should 
+migrations they abandon their old domain. The report any R&D weapon developments that 
+reason for these migrations is unknown, as the prove successful. 
+Slyn appear to have been good stewards of the 

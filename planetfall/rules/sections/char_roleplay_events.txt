@@ -1,0 +1,301 @@
+
+Each Theory has two costs listed: The first is 
+the RP cost to fully research it. The second cost Specific Research (optional rule)
+listed for each Theory is the RP cost to gain an 
+Application in that field (see below). The random roll for Applications reflects that 
+
+your research team has their own agendas and 
+For example, 5/3 means it costs 5 RP to develop ideas. It also lessens attempts to “optimize” the 
+the Theory and 3 RP for each Application. path through the game. If you find that to be 
+
+less appealing, as an optional rule pick the exact 
+Applications Applications you want to develop. A fun middle 
+Each Theory unlocks a number of Applications ground is to roll for the first Application in the 
+when it is fully paid. Theory and then pick from that point onwards. 
+To then acquire an Application, you pay the 
+Application research cost. However, there is Flavoring Research
+no guarantee that this research produces your 
+highest priority outcome first. Instead, when As with buildings, research topics are really 
+the cost has been paid, randomly select from game functions, and you should absolutely 
+the Applications you have not yet discovered to rename them to fit your setting, especially if the 
+see which outcome the research has produced. basic technological assumptions differ markedly 
+Use any appropriate die type to select. from those of the Unified Space setting. As 
+
+the author found writing this game, inventing 
+◆	 Applications marked with (Bonus) provide technobabble is also a lot of fun!
+
+an increase in colony capabilities.
+◆	 (Building) allows a new building to be ◆	 Orbital facility (Milestone Building)
+
+constructed.
+◆	 Resource substitution (Bonus): 
+
+◆	 (Milestone Building) indicates that this is +1 to Colony Integrity
+one of the buildings that must be completed 
+to finish the campaign. AI THEORIES
+
+Cost: 4/4 RP
+◆	 (Weapon) allows a new weapon to be 
+
+deployed by your squads. New weapons are With the number of workers strictly limited,  
+available immediately. AI must be pressed into a wider range of fields. 
+
+This field serves to expand your capabilities in a 
+ADVANCED MANUFACTURING variety of supporting fields.
+Cost: 3/3 RP
+
+◆	 AI-assisted school (Building); 
+For the colony to prosper, it must both employ Colony bot improves Combat Skill to +1
+cutting edge manufacturing techniques 
+but also adapt them to local conditions and ◆	 Bot maintenance bay (Building)
+materials. Pursuing Advanced Manufacturing ◆	 Cybernetics facility (Building); 
+allows you to bolster the ability of the colony to Colony bot improves Speed to 6”
+meet its construction goals.
+
+◆	 Enhanced predictive simulation (Bonus): 
+◆	 Damage containment centre (Building) Increase per campaign turn RP by +1
+◆	 High tech manufacturing plant (Building); ◆	 Social disorder prediction (Bonus): 
+
+Colony bots receive 1 KP Increase Colony Morale by +4
+◆	 Improved construction materials (Bonus): 
+
++1 to Colony Integrity
+
+93
+
+
+
+Colonies
+
+INFANTRY EQUIPMENT ENVIRONMENTAL RESEARCH
+Cost: 2/2 RP Cost: 2/3 RP
+Our troops face the need for equipment A foundational understanding of the 
+tailored to their specific environment and ecological constraints we are facing must be 
+the threat profiles present here. This will established. This field provides a wide range 
+expand the tactical combat options available of improvements.
+to our colonists.
+
+◆	 Hardened life support system (Building)
+◆	 Carver blade (Weapon); 
+
+Sergeant weaponry ◆	
+ available as  Locally adapted food production site 
+
+Grunt upgrade. (Building); 
+Adapted armor available as Grunt upgrade.
+
+◆	 Kill-Break shotgun (Weapon)
+◆	 Remote research station (Building): 
+
+◆	 Ripper pistol (Weapon) +1 Mission Data.
+◆	 Shard pistol (Weapon); ◆	 Remote extraction site (Building)
+
+Side arms available as Grunt upgrade.
+◆	 Scout facilities (Building)
+
+◆	 Steady rifle (Weapon); 
+Colony bot able to use Trooper weapons. Environmental Research also acts as a 
+
+prerequisite to developing Environmental 
+Infantry Equipment also acts as a prerequisite Adaptation (below).
+to developing Adapted Combat Gear (below).
+
+Environmental Adaptation
+Adapted Combat Gear Cost: 3/3 RP 
+Cost: 2/2 RP (Prerequisite: Environmental Research)
+(Prerequisite: Infantry Equipment) Large scale modification of our colony 
+The next step in tactical assimilation is to structures and research programs can be 
+utilize the resources of our new environment developed based on predominant conditions. 
+to produce military hardware. This will further Many paths to victory require delving into 
+expand the tactical combat options available to this field.
+our colonists.
+
+◆	 Immune system bio-delineation (Bonus): 
+◆	 Bio-gun (Weapon) +1 Augmentation Point; 
+
+Bolstered survival kit available as  
+◆	 Dart pistol (Weapon) Grunt upgrade.
+◆	 Hyper-rifle (Weapon)
+
+◆	 Integrated post-organic demarcation 
+◆	 Mind-link pistol (Weapon) (Milestone)
+◆	 Phase rifle (Weapon) ◆	 Terraforming control center (Milestone 
+
+building)
+◆	 Viral elimination therapy (Bonus): 
+
++1 Augmentation Point.
+
+94
+
+
+
+Colonies
+
+GENETIC ADVANCEMENT Psionic Engineering
+Cost: 4/4 RP Cost: 4/4 RP (Prerequisite: Genetic 
+We must question the limitations of the Advancement)
+biological frame as it typically exists. This field Cutting edge techniques can be established 
+offers substantial benefits to bolstering our to optimize our personnel with psi-logical 
+biological defenses on this new world. enhancements. This field is beneficial to 
+
+those with particular ideas about the future of 
+◆	 Advanced medical center (Building) Humanity.
+◆	 Neuro-adjustment therapy (Bonus): 
+
+◆	
+Increase Colony Morale by +3. Mental bio-uplift therapy (Bonus): 
+
++2 Augmentation Points
+◆	 Reverse-optimization of genetics (Bonus): 
+
+◆	
++1 Augmentation Point. Psionic personality integration (Milestone)
+
+◆	 Psionic re-engineering principles (Bonus): 
+◆	 Sub-specific genetic addition techniques 
+
+(Bonus): +1 Augmentation Point. +2 Augmentation Points
+
+Genetic Advancement also acts as a MILITARY DOCTRINE
+prerequisite to developing both High Level Cost: 3/3 RP
+Adaptation and Psionic Engineering (below). Updated tactical approaches must be 
+High Level Adaptation developed for field combat in an unpredictable 
+Cost: 4/4 RP environment. Research into new doctrines will 
+(Prerequisite: Genetic Advancement) help you defend the colony more efficiently.
+
+To establish a long-term presence here, ◆	 Civil preparation drills (Bonus): Increase 
+we are authorized to employ experimental Colony Morale by +3.
+measures of adaptation both biological and ◆	 Early warning system (Building); 
+psychological. Achieving full adaptation to our Sharpshooter sight available as  
+new world will require pursuing this field. Grunt upgrade.
+◆	 Adapted protective shield installation ◆	 Military barracks (Building); 
+
+(Building) Ammo packs available as Grunt upgrade. 
+◆	 Biological adaptation research site (Building) Troopers may now take handguns in 
+
+addition to their normal equipment.
+◆	 Genetic adaptation facility (Milestone 
+
+◆	
+Building) Med-evac shuttle facility (Building)
+
+◆	 Rapid response network (Building)
+◆	 Hyper-resonant molecular adjustment 
+
+(Bonus): +1 Augmentation Point
+◆	 Localized adaptation therapy (Bonus): 
+
++1 Augmentation Point
+
+95
+
+
+
+Colonies
+
+SOCIAL THEORIES THEORETICAL PHYSICS
+Cost: 3/3 RP Cost: 4/3 RP
+Colonial life is difficult and requires new “If we can negotiate the Neuenstein limit 
+approaches to social organization and conflict through the use of counter-processed dark 
+management. This allows you to improve the matter, then we could…”. Theoretical Physics is 
+morale and endurance of your colonists. a foundation for a scientifically minded colony.
+◆	 Frontier world doctrines (Milestone) ◆	 Environmental control facility (Building)
+◆	 Integrated conflict resolution (Bonus): ◆	 Galactic comms relay (Milestone building)
+
+Increase Colony Morale by +4
+◆	 Research laboratory (Building); 
+
+◆	 Post-democratic consensus mechanics Colony bots improve to 5+ Saving Throw.
+(Bonus): Increase Colony Morale by +4
+
+◆	 School of theoretical sciences (Building); 
+◆	 Recreational facility (Building) +1 Mission Data.
+◆	 Satellite launch facility (Building) Theoretical Physics also acts as a prerequisite to 
+
+developing Non-Linear Physics (below).
+
+Game Currencies: A Recap Non-Linear Physics
+Resource management means tracking plenty Cost: 4/3 RP 
+of commodities. Here’s a recap of where to  (Prerequisite: Theoretical Physics)
+find them: “By inverting the psionic capability of the  
+Ancient Signs: See page 61. White Void radiation pulse, it would be possible 
+Augmentation Points: See page 105. to create a K-68 feedback loop which…”.
+Build Points: See page 96. Colonies that intend to continue their scientific 
+Calamity Points: See page 165. development will have to delve into the field of 
+Colony Defenses: See page 87. Non-Linear Physics. 
+Colony Integrity: See page 87.
+Colony Morale: See page 89. ◆	 Academy (Building); 
+Enemy Information: See page 51. Colony bot improves to Reactions 3.
+Experience Points: See page 67. ◆	 Colony shield network (Building)
+Hazard level: See pages 53 and 60.
+Mission Data: See page 169. ◆	 Scientific training facility (Building); 
+Research Points: See page 91. +1 Mission Data.
+Resource level: See pages 53 and 60.
+Raw Materials: See page 88.
+Story Points: See page 56.
+
+96
+
+
+
+Colonies
+
+Buildings
+
+Building Basics Construction
+Your colony will require a variety of facilities Constructing new Buildings is done through 
+and workshops to function and prosper. Most Build Points (BP). Your colony receives 1 BP 
+are abstracted into the background and don’t per campaign turn at the start of the 
+need tracking, such as habitation or shop stalls, campaign, but various factors in the game  
+but structures that influence campaign play are will increase this rate. 
+collectively known as Buildings. Tally incoming BP, adding them to any you had 
+During the Building step of the campaign saved up, then spend as many as you like (up 
+turn you have the opportunity to construct to the amount you have available) on a single 
+new Buildings. Each Building provides new Building. 
+benefits explained in this chapter. Many have 
+prerequisites that need to be met before they Each Building has a BP cost that must be paid 
+can be constructed. to construct it. This can be spread over multiple 
+
+campaign turns if required, and you may put 
+In game terms, only one of each specific points towards a different Building next turn 
+Building can be constructed, representing that if needed, even if you have not completed the 
+type of facility becoming available throughout current project yet. Simply track the points you 
+the colony as it grows. (In your own mind, your have spent so far.
+colony may feature several such structures, but 
+you gain an in-game benefit only for the first of Partially constructed Buildings cannot lose the 
+its kind – think of it as the administrative hub of committed BP, and they cannot be reallocated 
+any further buildings.) once spent. 
+
+We recommend keeping a drawn map of the You can only put BP towards a single Building 
+colony as it develops. per campaign turn. 
+
+19
+
+97
+
+
+
+Colonies
+
+Raw Materials can be used to increase Reclaiming Buildings
+building rates. In the Building step of the campaign turn, you 
+You can convert 1 unit of Raw Materials  may also choose to reclaim a single building. 
+into 1 BP, with up to 3 units converted The building is destroyed, and you receive half 
+per round. the BP cost, rounded down, in Raw Materials.
+
+Colony Defenses
+Some buildings provide Colony Defenses. 
+These are rolled for when the colony is 
+
+Flavoring Buildings subjected to an enemy attack. Each point of 
+The buildings are, as far as the game is Defenses allows a D6 roll, with 4-6 negating 
+concerned, primarily mechanical features that one point of Colony Damage. 
+provide you with a new ability or bonus in the 
+game system. The Buildings
+As such the names and background information What follows is a list of every Building available 
+can be taken as inspirational. If you would rather in the game. Each Building lists the BP cost, 
+reskin a particular building into something and the rules benefits you receive from 
+different that either fits your story or your game completing it. 
+setting better, please feel free to do so. This sort 
+of customizing is a fantastic way of making the Also listed are any prerequisite research 

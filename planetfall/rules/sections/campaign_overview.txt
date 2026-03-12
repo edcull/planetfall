@@ -1,0 +1,201 @@
+of turns. Each of these is divided into the BATTLE STEPS
+following steps, which you must progress 7.	 Lock and Load
+through in order. While the number of steps 
+may appear daunting at first, at its heart, each 8.	 Play out your Mission
+turn is a tactical mission with pre-battle and 
+post-battle stages. POST-BATTLE STEPS
+
+9.	 Injuries
+PRE-BATTLE STEPS 10.	 Experience progression
+
+1.	 Recovery 11.	 Colony Morale adjustments
+2.	 Repairs 12.	 Track Enemy Information and Mission Data
+3.	 Scout reports 13.	 Replacement Phase
+4.	 Enemy Actions 14.	 Research Phase
+5.	 Colony events 15.	 Building Phase
+6.	 Mission determination 16.	 Colony Integrity Phase
+
+17.	 Character event
+Sick Bay 18.	 Update rosters
+If a character has suffered an injury that requires 
+recovery time, they are in Sick Bay. They cannot When you complete the last step, a new 
+be selected for missions either by choice or campaign turn can begin. 
+randomly. They can be the target of random 
+events, however. If an event results in additional We do not match campaign turns to a specific 
+recovery time, add the times together. Sick Bay time frame. If you like to keep a game diary or 
+time is always measured in campaign turns. captains log, roll 2D6 to determine how many 
+
+days pass between turns. 
+If you are playing a special scenario where a 
+character in Sick Bay is involved in a tabletop 
+encounter, reduce their Speed by 1” and reduce Step 1: Recovery
+their Toughness and Combat Skill by -1 each During this step, every character in sick bay 
+(but not below Toughness 3 and  will heal, reducing the remaining recovery 
++0 Combat Skill respectively). If they are time by 1 turn. Some events and features may 
+injured again, add any recovery times together. speed up this recovery process. 
+
+Any character that is fully healed at this 
+stage is ready for deployment during this 
+campaign turn.
+
+58
+
+
+
+The Campaign
+
+Step 2: Repairs Step 3: Scout Reports
+If your colony has suffered damage, you may Each campaign turn, your scout teams are hard 
+restore lost Integrity at this point (see page 87). at work exploring the world. 
+Your colony repair rate indicates how many 
+points of damage it can restore in one During this step you may perform one Scout 
+campaign turn. For a starting colony this is Explore action and roll once on the Scout 
+always 1 point per campaign turn, applied Discovery table below.
+during this step. If you need additional Scouting, you can also 
+If you have Raw Materials, you may spend up deploy your scouts in the field during the 
+to 3 units to repair damage. Each unit repairs  Mission Determination Step (page 64) using 
+1 point of colony damage. the Scouting Mission tabletop battle (page 116).
+
+If your colony bot is currently Broken, it is 
+repaired at this stage but cannot be deployed 
+into combat this turn.
+
+Scout Discovery table
+
+D100 DISCOVERY DESCRIPTION
+
+01-10 Routine trip The scouts find nothing at all.
+
+11-20 Good practice The scouts find nothing, but it is a good opportunity to rehearse the basics. 
+If a scout was assigned, they receive +2 XP.
+
+The scouts report a distress signal. This campaign turn you have the choice of 
+21-25 SOS signal playing a Rescue Mission. If you do not, Colony Morale drops by -3. 
+
+Note: You do NOT suffer Morale loss from casualties sustained in this mission.
+The scout vehicle crashes. If you assigned a scout, they need rescue. 
+You can opt to have them escape on foot. If so, they must roll on the 
+
+post-battle injury table but earn +2 XP if they survive, or you can play the 
+26-30 Scout Down! Scout Down! mission this turn to rescue them. 
+
+If you did not assign a scout, the crash left no survivors. 
+(If you would really like to play the mission, go ahead and do so this turn.  
+
+You get +1 Colony Morale for your dedication). 
+
+31-60 Exploration Select any sector that has not yet been Explored and generate 
+report Resource and Hazard levels. 
+
+If there are Tactical Enemies on the map, select one and add an Enemy 
+61-70 Recon patrol Information for them. If there are currently no Tactical Enemies present,  
+
+treat this as no event.
+
+71-80 Ancient Sign Randomly select a map sector, then mark that it has an Ancient Sign within it. 
+Completing any mission in the sector awards the Ancient Sign.
+
+Randomly pick a map sector. If it is not yet Explored, generate Resource and 
+81-00 Revised survey Hazard levels normally. If it is Explored but not yet Exploited, 
+
+increase the Resource level by +1. If it has already been Exploited, 
+generate new Resource and Hazard levels. You can Exploit it again.
+
+59
+
+
+
+The Campaign
+
+Scout Actions Note that you are not required to make a Scout 
+Scout Explore: Select a map sector that is not Discovery roll if you do not wish to. 
+enemy occupied, and which has not already 
+been Exploited. Roll 2D6 twice and pick the You may assign one of your scout characters 
+lowest score each time. The first score is the to lead the expedition. You are not required 
+Resource Level of the sector, the second score to do this, and it does not prevent them from 
+is the Hazard Level of the sector. undertaking a mission this campaign turn. 
+
+Scouts in Sick Bay cannot be assigned.
+For example, if the first roll is 2, 5 and the 
+second is 4, 4 the sector has Resource Level 2, Process Enemy Information: To track down 
+Hazard Level 4. and destroy each enemy, you will have 
+
+to collect Enemy Information as to the 
+Mark the values on the map. whereabouts of their leadership and hideouts. 
+The Resource Level determines how likely you Enemy Information represent snippets of 
+are to find valuable materials in that sector intercepted communications, trails in the 
+while the Hazard Level is a measure of how wilderness, interrogation results from captured 
+dangerous the place is. These values are used enemies, and perhaps even infiltration and 
+during Exploration Missions in the sector. espionage.
+
+If you roll a double 4, double 5, or double 6 If you have obtained Enemy Information 
+when Exploring, the sector also contains an regarding the plans of an enemy, you may 
+Ancient Sign (see page 61). now try to piece it all together: 
+
+Scout Discovery (optional action): For each enemy for which you have gathered 
+Your scout teams are constantly patrolling Enemy Information, roll 1D6 and compare to 
+the area around the colony and scanning the the number of Enemy Information you have 
+countryside. After carrying out your Scout for that enemy. Note that Enemy Information 
+Explore action, you may roll D100 on the table is specific to a particular enemy and does not 
+on page 59 to determine what you find. transfer over in any way.
+
+60
+
+
+
+The Campaign
+
+If the roll is equal to or below the number of 
+Enemy Information, you have tracked down Ancient Signs
+one of their Bosses and can attempt the Strike 
+Mission to capture them. If you roll higher, the The world is full of the remnants of incredibly 
+current position is unknown. ancient civilizations, but to locate the Ancient 
+
+Sites and explore them, you must first obtain 
+You may roll for each enemy you have Enemy Ancient Signs either as a result of scouting 
+Information for, but you can Strike only one of activities or other campaign factors. 
+them during a given campaign turn. Each time you obtain an Ancient Sign, you may 
+If you do not attempt the mission this roll 1D6. On a roll equal to or below the number 
+campaign turn, it fails, or you rolled above the of Ancient Signs you have so far, you succeed in 
+number of Enemy Information, you can try locating an Ancient Site, allowing you to carry out 
+again in future campaign turns, rolling against a Delve expedition (see page 130).
+the number of Enemy Information again and 
+attempting the mission if you succeed. Randomly pick a map sector the Site is inside. It 
+
+can even be within your colony (located beneath 
+Note that if you have 6 Enemy Information it in a cave complex or similar).
+already, you have completely deciphered the 
+enemy communications channels and can If a Site is located in enemy territory, you must 
+always opt to carry out the Strike. Excess Enemy drive them out first. If it is not in enemy territory, 
+Information is ignored. you can attempt the Delve as the campaign turn’s 
+
+main mission whenever you choose.
+Once you have captured a Boss, there is no 
+need to collect Enemy Information for that If you roll above the number of Ancient 
+enemy any longer. Signs, you are not there yet. Keep track of the 
+
+number of Signs, rolling again when you next 
+Randomly select which enemy held sector the obtain one.
+Boss is present in this turn. Once you successfully locate a site, all Signs you 
+
+currently have are discarded. 
+Step 4: Enemy Activity
+
+Ancient Signs Everywhere!
+While you are going about your business, the 
+enemy has plans of their own. These schemes If you receive multiple Signs in a single 
+are not always directed at you: Enemies are campaign turn, they are tested one at a time. 
+often just as busy dealing with hostile wildlife, Once you have a success, all Signs tested 
+Slyn raids, and each other. so far are discarded but you may start over 
+
+testing any remaining Signs to find the next 
+If any Tactical Enemies are present on the Ancient Site. 
+map, randomly pick one and roll D100 on the 
+Enemy Activity table below. If there are none 
+currently on the map, skip this step.
+
+Waiting for the Right Moment
+Disruption
+If you won a battle against the selected enemy You may forego a roll on the Enemy Activity table 
+last turn, they do NOT carry out an activity on the next page by spending 1 Story Point. 
+unless they are the Converted. This is often an inefficient way of spending a 

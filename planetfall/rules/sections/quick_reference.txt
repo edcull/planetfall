@@ -1,0 +1,217 @@
+Quick Reference
+
+Quick Reference
+Weapon Profiles
+
+WEAPONS RANGE SHOTS DAMAGE TRAITS
+
+Handgun 6” 1 0 Civilian, Pistol
+Colonial shotgun 12” 1 0 Civilian, Critical
+
+Colony rifle 18” 1 0 Civilian
+Scout pistol 9” 1 0 Scout, Pistol, Stabilized
+Infantry rifle 24” 1 0 Grunt
+
+Light machine gun 36” / 12” 3 / 4 0 Grunt, Cumbersome, Hail of Fire
+Trooper rifle 30 1 0 Trooper, AP Ammo
+Assault gun 18” 2 0 Trooper
+
+Flame projector 6” – 1 Trooper, Stream, Burning
+TIER 1 UPGRADES
+
+Shard pistol 9” 2 1 Trooper, Tier 1, Focused, Pistol
+Ripper pistol 9” 2 0 Scout, Tier 1, Pistol
+
+Kill-Break shotgun 12” 1 2 Trooper, Tier 1, Knockback
+Steady rifle 24” 1 0 Civilian, Tier 1, Stabilized
+
+Carver blade Brawl – 2 Civilian, Tier 1, Flexible, Melee
+TIER 2 UPGRADES
+
+Bio-gun 12” Special 1 Trooper, Tier 2, Area
+Mind-link pistol 9” 1 0 Scientist, Tier 2, Mind-link
+
+Phase rifle 16” 1 1 Scout, Tier 2, Phased Fire
+Dart pistol 9” 1 1 Civilian, Tier 2, Armor-piercing
+Hyper-rifle 16” 1 1 Trooper, Tier 2, Hyperfire
+
+Enemy Weapon Profiles Weapon Traits
+WEAPON RANGE SHOTS DAM. TRAITS AP Ammo: If stationary, the 
+
+Auto rifle 24” 2 0 – shooter may add +1 to damage. 
+Blade Brawl – 1 Melee Area: Select a target point in range 
+
+and sight. Each enemy within 
+Colony rifle 18” 1 0 – 2” is hit on D6 roll of 4+. Cover 
+
+Hand cannon 6” 1 2 Pistol provides no protection. (Friendly 
+characters unaffected by bio-gun).
+
+Hunting rifle 30” 1 1 Heavy, Critical
+Armor-piercing: Ignore Armor 
+
+Military rifle 24” 1 0 – Saving Throws.
+Rattle gun 24” 3 0 Heavy Burning: Negates Saving Throws.
+
+Ripper sword Brawl – 2 Melee Civilian: Open to all classes  
+Scrap gun 7” 1 0 except grunts.
+
+Pistol
+
+Shatter axe Brawl – 3 Melee, Clumsy, Clumsy: If the opponent has higher 
+base Speed, -1 brawling penalty.
+
+Shockwave
+Critical: A natural 6 to hit inflicts  
+
+Shotgun 8” 1 1 Critical 2 hits on the target figure. 
+
+196
+
+
+
+Quick Reference
+
+Quick Reference
+Building and Research Costs
+
+BUILDING BP BUILDING BP BUILDING BP
+
+Academy 8 BP Heavy construction site 8 BP Galactic comms relay 10 BP
+Adapted protective 8 BP High tech 4 BP Genetic adaptation 15 BP
+shield installation manufacturing plant facility
+
+Advanced 4 BP Locally adapted food 4 BP Orbital facility 20 BP
+manufacturing plant production site Terraforming control 15 BP
+
+Advanced medical 5 BP Med-Evac shuttle facility 4 BP center
+center Military barracks 8 BP
+
+AI Assisted School 6 BP Military training facility 5 BP RESEARCH RP
+
+Biological Adaptation 10 BP Bio-Analysis Research 3 RP
+Militia training camp 4 BP
+
+Research site Advanced 
+Patrol base 4 BP
+
+Bot maintenance bay 4 BP Manufacturing 3/3 RP
+Protective shelter 6 BP
+
+Civilian market 4 BP AI Theories 4/4 RP
+Rapid response network 4 BP
+
+Colony shield network 8 BP Infantry Equipment 2/2 RP
+Recreational facility 6 BP
+
+Cybernetics facility 6 BP Adapted Combat Gear 2/2 RP
+Remote extraction site 8 BP
+
+Damage containment 4 BP Environmental 
+center Remote research station 8 BP Research 2/3 RP
+
+Drone turret network 6 BP Research laboratory 8 BP Environmental 
+Adaptation 3/3 RP
+
+Early warning system 4 BP Resource processing 8 BP
+
+Environmental 8 BP Satellite launch facility 6 BP Genetic Advancement 4/4 RP
+
+control facility School of theoretical 12 BP High Level Adaptation 4/4 RP
+sciences Psionic Engineering 4/4 RP
+
+Expanded living facility 4 BP
+Scientific training facility 6 BP Military Doctrine 3/3 RP
+
+Hardened life support 6 BP
+system Scout drone network 8 BP Social Theories 3/3 RP
+
+Scout facilities 6 BP Theoretical Physics 4/3 RP
+Cumbersome: Range is reduced 
+to 12” when moving and firing. Non-Linear Physics 4/3 RP
+
+Knockback: A target that survives 
+Flexible: Can carry a handgun at a hit is Knocked Sprawling.
+the same time. Melee: +2 bonus when used as a Stabilized: If the shooter does 
+
+not move, +1 to hit.
+Focused: Both shots must be fired brawling weapon.
+at the same target. Mind-link: Roll to hit using Savvy Stream: Draw a straight line 
+
+6” long and 1” wide from the 
+Grunt: Restricted to Grunt-class instead of Combat Skill. Scientists 
+characters. may roll twice and pick the best. firer. Any figure (including 
+
+allies) touched by the line is hit 
+Hail of Fire: May fire 4 shots if all Phased fire: The target receives automatically, no roll required.
+of them target the same figure. no benefits from cover or scatter 
+
+terrain. The target must be visible. Tier 1: To access this, your colony 
+Heavy: -1 to hit penalty if moving must have built the Advanced 
+and firing. Pistol: +1 weapon bonus  Manufacturing Plant.
+
+when brawling.
+Hyperfire: If a hit does not Tier 2: To access this, your colony 
+destroy the target, the trooper Scout: Restricted to Scout-class must have built the High-Tech 
+may immediately fire again at the characters. Manufacturing Plant.
+same target. Continue until a shot Shockwave: A surviving target is Trooper: Restricted to Trooper-
+misses or the target is destroyed. knocked 1D6” backwards. class characters.
+
+197
+
+
+
+Prepare to embark on the grandest Five Parsecs adventure yet as you make planetfall 
+on a world filled with wonders, terrors, and difficult challenges.
+
+Planetfall is a solo and co-op adventure game where you take the role of a crew of colonists, 
+scientists, and explorers from the mighty Unity of Humankind, building a colony on an alien 
+
+world packed full of long-overgrown crashed starships and dangerous ancient ruins, 
+while contending with mysterious and hostile lifeforms. 
+
+You will have to direct your colony’s expansion and research as well as commanding 
+your characters and troops in tactical miniatures combat. Over time, your colonists will gain 
+experience and improve their combat abilities, while the R&D department adapts alien tech 
+
+to upgrade your armories... and perhaps even your very bodies.
+Stand-alone, compatible rules
+
+The game is playable with any miniatures you would like to use and requires 
+only a small figure count per battle. Rules are compatible with characters brought over 
+from Five Parsecs From Home, Tactics, and Bug Hunt, allowing you to chain together 
+
+the grandest space adventure you have ever experienced.
+Features:
+
+• Easy combat rules, allowing a single player to handle action quickly.
+• Packed with random tables including artifacts, colony events, crises, and more.
+
+• 14 mission types ranging from exploration to pitched battles to delves among alien ruins.
+• Tactical enemies including pirates, renegades, outlaws, alien raiders, K’Erin landing parties,  
+
+Converted recon teams... even hostile fellow colonists.
+• In-depth research system with 13 scientific theories, 40 buildings, 
+
+and 8 augmentations to unlock.
+• As you explore, you will map out the world around your colony, and create your own unique 
+
+encounter tables, filled with bizarre and evolving table-generated lifeforms.
+• Assailants specific to the Kensington Reach setting: Introducing the psionic, saurian Slyn 
+
+and ancient robot guardians, the Sleepers.
+• Multiple epic endings possible for your colony. Printed in Lithuania
+
+MUH084V044–PDF
+Batch No. 64399
+
+Modiphius Europe Ltd., Calle de Peñuelas 43, 
+Local G y H, Madrid, Spain, 28005 
+
+Tel: +34 61 436 78 15 • safety@modiphius.com
+Modiphius Entertainment Ltd., 
+
+39 Harwood Road, 
+London, SW6 4QP, United Kingdom 
+
+Tel: +44 0207 460 1776 

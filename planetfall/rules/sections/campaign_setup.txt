@@ -1,0 +1,351 @@
+unless they are the Converted. This is often an inefficient way of spending a 
+
+point, but if you are in a situation where you 
+really don’t want to risk an attack, it offers a 
+chance to buy a little more time. 
+
+61
+
+
+
+The Campaign
+
+Enemy Activity table
+
+D100 ENEMY 
+ACTIVITY DESCRIPTION
+
+The enemy is sending out patrols near their controlled zones. 
+
+01-25 Patrol Normally this is not something you have to worry about but, if you wish, 
+you may choose to play a Strike Mission this turn to track down an enemy 
+
+Leader and gain 1 Enemy Information. 
+The enemy is shifting their deployments.
+
+26-35 Relocate Randomly pick an enemy-occupied sector. They move to a random 
+adjacent unoccupied sector. If the selected sector is your colony, they launch 
+
+a Raid (see below on this table) and move in the opposite direction.
+The enemy expands into a random adjacent sector. You can pick any 
+
+that seems to work, or you can randomly select an existing sector and then 
+pick an unoccupied adjacent sector. 
+
+36-65 Occupy If this would be your colony, treat this result as a “Raid” result 
+instead (see below). 
+
+If this would be a sector occupied by another enemy, randomly determine 
+who gains control of the sector.
+
+66-75 Rapid expansion As “Occupy”, above, but two adjacent sectors are occupied. 
+The enemy launches an attack on you.
+
+76-90 Attack Play the Pitched Battle mission this campaign turn. 
+If you lose, you take damage as per “Raid” below.
+
+The enemy launches a sneak attack on your colony.
+
+You suffer Colony Damage equal to the number of map sectors this enemy 
+91-00 Raid occupies +1 (for example, if they occupy 3 sectors, you take 4 damage). 
+
+If you have Colony Defenses, roll D6s equal to the number of defenses 
+you have. Every die rolling a 4+ negates a point of damage. 
+
+Step 5: Colony Events
+The Universe Hates Me! Life on Home is unpredictable, and anything 
+(optional rule) can happen. Roll D100 on the Colony Events 
+Sometimes the forces of the universe table to determine which event takes place 
+seem to align against you as a generator this campaign turn and implement the result 
+explodes, a colonist patrol is eaten by Vesirian immediately. 
+Stalkercrawlers, and the research department 
+explains that what they thought was a perpetual If the effects of an event turn out to be 
+energy source was in fact no such thing impossible to implement, ignore it. Instead,  
+
+no event occurs during this campaign turn.
+If you have 3 negative colony events in a row, 
+add +1 Story Point. Remember: Colony Damage also results in a 
+
+loss of Morale.
+
+62
+
+
+
+The Campaign
+
+Colony Events table
+
+D100 COLONY 
+EVENT DESCRIPTION
+
+01-05 Research One of the researchers had an epiphany that will solve a stubborn problem.
+breakthrough Receive 2 Research Points.
+
+Whether a moment of neglect or a procedural failure, there is a major accident.
+06-10 Catastrophic 
+
+malfunction You suffer 1 Colony Damage that cannot be mitigated. 
+Adjust Colony Morale by -1.
+
+11-15 Rapid Streamlining the process has made great strides.
+construction Receive 2 Building Points.
+
+Colony administration needs to put its best foot forward.
+Select a character who will not be able to participate in a mission this 
+
+16-20 Public relations 
+demand campaign turn. They can be character currently in Sick Bay if they have only  
+
+one turn of recovery left. If you choose not to do so, adjust Colony Morale 
+ by -2 as unrest spreads.
+
+Colony life requires elite skills, and a crash course program can 
+determine qualified candidates.
+
+21-25 Specialist training 
+program initiated You may either add a new character to your roster if you have a vacancy 
+
+OR grant +3 XP to an existing character.
+
+26-30 Scientific A promising hypothesis turns out to lead nowhere.
+dead end Your next 3 Research Points earned are wasted.
+
+31-35 New scout A recruiting campaign has allowed the scout service to expand operations.
+recruits You may carry out a free Scout action.
+
+Colonists exploring have unveiled promising resource caches.
+
+36-40 Gold Rush Select 2 random sectors: If they are unexplored or have previously been 
+Exploited, roll to generate Resource and Hazard values. If they are Explored 
+
+but have not yet been Exploited, increase the Resource value by +1.
+Unconfirmed reports indicate something of particular interest.
+
+41-45 Colonists find
+Receive 1 Ancient Sign.
+
+The colonists are complaining about the hazards in the field. 
+46-50 Hostile wildlife
+
+Unless you play a Patrol Mission this turn, adjust Colony Morale by -2.
+The core team undergoes expanded and refresher training.
+
+51-55 New training 
+program initiated Every character on your roster receives 1 XP. 
+
+You may also add an additional grunt.
+While it is not ready for mass production, a new drug extracted 
+
+from local flora is showing promising results.
+56-60 Experimental 
+
+local medicine Select a character recovering from injuries and reduce their recovery time by 
+2 turns. If the character is completely recovered, they can act normally  
+
+this campaign turn. Increase Colony Morale by +1.
+Spare parts The repair crews have improved their recovery program. 
+
+61-65 efficiency Any damaged bots are repaired immediately. 
+program Also, repair 2 points of Colony Damage.  
+
+63
+
+
+
+The Campaign
+
+D100 COLONY 
+EVENT DESCRIPTION
+
+The report to Unity colonization headquarters highlights 
+66-70 Report on the hard work of a crew member.
+
+progress
+Select one character to earn 1D6 XP. Increase Colony Morale by +1.
+
+The wildlife migrates according to changes in weather conditions.
+71-75 Animal 
+
+migrations Erase a random existing entry from your Lifeform Encounter Table and leave  
+it blank. It is filled again when you roll that entry again.
+
+A particularly virulent infection has bypassed your 
+biological containment systems.
+
+Roll a D6 for each character on your roster; any who roll a natural 1 
+have contracted the virus. Once you have rolled for every character, 
+
+76-80 Hostile virus for each infected character pick a random non-infected character and 
+roll again. Continue until no more natural 1s are rolled.
+
+Each infected character must spend 1D3 campaign turns in Sick Bay.  
+Roll separately for each.
+
+Adjust Colony Morale by -2.
+Planetary phenomena change unpredictably.
+
+81-85 Changing climate 
+conditions Erase a random existing entry from your Campaign Conditions table. 
+
+It is filled again when you roll that entry again.
+Widespread protests break out due to dissatisfaction with administrative 
+
+86-90 Colony unrest attention to a minor issue.
+Adjust Colony Morale by -3.
+
+A Unity supply ship is en route carrying spare parts and fresh supplies.
+Select either Research or Build Points to be the priority, then roll 2D6. You 
+
+91-95 Supply ship receive the highest die for your priority choice and the lowest for the other 
+choice. For example, if RP was the priority and you roll 4 and 2, you would get 
+
++4 RP and +2 BP.
+Add +1 grunt to your roster.
+
+You realize that you are ultimately on your own out here.
+96-00 Sense of 
+
+foreboding You cannot use any Story Points for the rest of this campaign turn.
+
+Step 6: Mission Determination
+Once you have reviewed your scout and enemy ◆	 You may visit a sector that has not yet 
+action reports, you can determine your primary been Explored and explore it by playing a 
+mission for this campaign turn. Scouting Mission.
+If you have been attacked, you may be required ◆	 You may go to a sector that is marked for 
+to play the Pitched Battle mission to defend Investigation to look for interesting and 
+your colony. unusual items. This has the chance of 
+If the choice is up to you, you may have a finding Mission Data which can help you 
+number of options available: discover the truth about this world. Play an 
+
+Investigation Mission.
+
+64
+
+
+
+The Campaign
+
+◆	 You may go to a sector that has been These missions are undertaken to avoid 
+Explored (meaning it has Resource values), negative consequences.
+but which is not yet Exploited (meaning the 
+Resource value is 1 or higher). If so, play an For more information on all missions and to 
+Exploration Mission if you want to search inform the next step, “Lock and Load”, see the 
+for fresh resources to bolster the colony.  missions detailed on pages 114-133.
+You can instead play a Science Mission  
+if you want to focus on research samples  Step 7: Lock and Load
+to improve your research programs.  
+Typically, if you do not have more pressing When deploying for a mission, you may bring 
+needs, you will want to attempt this. characters from your roster. The mission will 
+
+state how many characters you can deploy and 
+◆	 You might Hunt for Lifeforms in order to of which types. You are not required to bring 
+
+collect samples for bio-analysis. characters of a particular class along, though 
+◆	 You may opt to stay close to the colony and having scouts and scientists on your team 
+
+conduct a Patrol Mission. This can be used when exploring can assist you in gaining better 
+to explore map sectors near the colony. It rewards after the mission.
+can also be used to safeguard against future Characters in Sick Bay cannot be deployed. 
+morale loss for the colony, provided it is If a character completed their last point of 
+done with minimal casualties. recovery this campaign turn, they are ready for 
+
+◆	 If there are Tactical Enemies on the map deployment, if desired.
+(meaning you have completed at least one You may fill any of your slots with bots or 
+Milestone) you may try to capture a sector civvies, if you like. Civvies are less capable than 
+from the enemy. If this is your choice, play any other character options, but you may be 
+the Skirmish Mission. This is a good option required to bring some, due to casualties and 
+to gain combat experience. injuries or because you are hoping to receive 
+
+Some mission types are dependent on a few promotions. (For more on civvies, see 
+campaign events: page 17).
+
+◆	 If a Tactical Enemy is conducting a Patrol If you have 2-4 grunts, they are organized into a 
+or you have located a Boss, you may single fireteam. If you have more than 4, divide 
+launch a Strike Mission. This will help them as evenly as possible into two fireteams.  
+you track down the enemy Strongpoint in (For more on fireteams, see pages 16 and 30.)
+preparation for a final attack. You can always choose to bring fewer than the 
+
+◆	 If you have located a Strongpoint of a Tactical allowed characters if you would prefer to do so. 
+Enemy, you may launch an Assault Mission. There is no inherent advantage to doing so, but 
+This is a major attack where the enemy is you may have a self-imposed challenge such 
+making their last stand. You need to bring as not using civvy characters or you may just 
+everything you have for this one. prefer a greater challenge. 
+
+◆	 If you have located an Ancient Site, you may 
+launch a Delve to look for treasures.
+
+◆	 The results of the scouts’ report may result in 
+a Rescue Mission or Scout Down! mission.
+
+65
+
+
+
+The Campaign
+
+Step 8: Play Out Your Mission casualty is marked “Broken” on your campaign 
+Set up your gaming table (see Battlefield roster and cannot be used until repaired.
+Set-up, page 138) and play out the mission you For each casualty, roll D100 and consult the 
+selected to play this campaign turn. Injury table below for their fate. 
+Make sure to track any casualties and other Some abilities may permit rerolls for injuries. If 
+events that occur during the game. this is the case, you may make all your required 
+
+If you intend to share a battle report rolls first and then choose which to reroll. If a 
+of your games online, make sure character has a reroll specific to themselves, it is 
+
+to take photos during the only usable on them.
+battle! It can be really If a character is killed, any items they carried are 
+frustrating to have had a destroyed. This is primarily of interest when it 
+
+great game and then comes to artifacts you have found.  
+realize that you got 
+carried away and do Grunt Casualties
+not have any photos of Grunts casualties are handled simply. Roll 1D6 
+
+the action. for each grunt that became a casualty; on 1-2, 
+they have either died, their injuries were so 
+
+Step 9: Injuries severe they cannot continue the mission, or 
+they opt to retire to less dangerous pursuits. On 
+
+Characters that became battle casualties may 3-6, they are okay and recover in time for the 
+have suffered a range of fates: They may have next mission.
+been knocked out or become lost during the 
+confusion, they may have been wounded, or You begin the campaign with 12 grunts. 
+they may have died outright. In this step you Mark down whenever one becomes a 
+determine their fates. permanent casualty.
+
+Injury rolls are made for any scientist, scout, 
+trooper, or crew if they were removed from play 
+due to becoming casualties in a tabletop battle.
+Civvies do not roll on this table as they are 
+never recurring characters (though you may 
+like to do so for roleplay purposes). Bots do not 
+roll for injuries. Instead, any bot that became a 
+
+Injury table
+
+D100 INJURY DESCRIPTION
+
+01-20 Dead The character is gone. 
+21-30 Seriously wounded The character must recover for 5 campaign turns.
+31-45 Moderately wounded The character must recover for 4 campaign turns.
+46-60 Lightly wounded The character must recover for 2 campaign turns.
+61-95 Okay The character is okay.
+
+96-00 School of hard knocks The character is okay and gains +1 XP as they reflect 
+on their experiences.
+
+66
+
+
+
+The Campaign
+
+Step 10: Experience Progression
+Your characters will learn from their Cowardice
+experiences as the campaign progresses, A character that is moved off a battlefield edge 
+leading to improvements in their abilities on in the first two rounds of a battle forfeits all XP 
+the battlefield. awards from that battle. Note that characters that 
+Progression is measured with Experience become casualties in the first two rounds are 

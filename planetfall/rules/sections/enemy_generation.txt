@@ -1,0 +1,451 @@
+Despite all the achievements of Humanity, Shival nodded. The information sunk in as the 
+the Precursors still treated them as immature team assessed and reassessed the statement.  
+children at times. As their eyes focused on her again, she crossed 
+
+her arms and sat back on the edge of the table.
+Shival nodded and called up the maps she 
+had been working on. The digital image filled “The question is who built it and what is it 
+the monitors in layers, first the topographical pointing to?”
+map, then the scout survey data, and finally One of the newer recruits to the team, a Feral 
+the icons and symbols she had added. The with a prior history in the army, grunted and 
+team stirred to life as they focused on what interjected:
+was in front of them. “The real question is why are they so angry we 
+“You see it too, don’t you?” She looked at them might find it.” 
+expectantly and was not disappointed.  
+
+172
+
+
+
+APPENDICES
+	 Gaming Basics 174
+	 Learning to Play Adventure Wargames 176
+	 Finding Suitable Miniatures 177
+	 Unified Space 180
+	 Game Mastering 185
+	 Designer Notes 188
+	 Inspirations 189
+	 Colony Tracking Sheet 190
+	 Index 192
+	 Quick Reference 196
+
+173
+
+
+
+Appendices
+
+Gaming Basics
+If you aren’t an experienced gamer or, more So, rolling a 3 and a 7 would be a score of 37, 
+likely, you are a somewhat experienced a 0 and a 4 would be a 4, a 5 and a 0 would be 
+gamer who’d like a quick reference on the ‘5X’ a 50. 0 and 0 counts as 100 (although tables 
+approach, this short chapter is for you. usually just show it as ‘00’)
+
+If the rules allow something to be rerolled, the 
+Dice Rolling original result is ignored. 
+This game involves a lot of dice rolling, most 
+often using common six-sided dice, referred to Random Directions
+here as D6. You can purchase custom direction dice, 
+◆	 When only a single die is rolled it can be or you can make your own by drawing 
+
+written as D6 or 1D6. arrows on blank dice. Otherwise, 
+◆	 If you must roll multiple six-sided dice and a ten-sided die can be used. 
+
+add the results together, this will be written Roll it near the origin point 
+and then use the tip of 0
+
+as 2D6 (two dice with six sides each), 3D6 4
+(three dice), and so forth. the uppermost face to 7
+
+show the direction. 
+◆	 Sometimes you may be asked to roll 
+
+multiple D6, and not add them together; in 
+such a case this will be written as ‘two D6’, Random Selection
+for example. You will often be called upon to select randomly 
+
+A ten-sided dice is known as a D10. To run from among multiple choices such as terrain 
+your game smoothly, have five or six D6 and a features or characters. To do so, roll a D10 and 
+couple of D10 available. Multiple colors of dice count from top to bottom (on a roster) or left 
+are also handy, as is a full set of roleplaying to right (on a table). If you roll higher than the 
+dice including D4, D8, D12, and D20. number of possible choices, you may select 
+
+the outcome. For example, if you are selecting 
+Dice rolls are often modified. This means a dice randomly from a roster of 7 characters, a roll of 
+roll has a number added to or subtracted from 1-7 would be the character with that number 
+the roll to produce the final result. For example, on the roster, while 8-10 means you choose. 
+a D6 with a +1 modifier (written as D6+1) 
+gives a final result between 2 and 7. Miniatures on the Table
+If the rules say something happens on a 
+‘natural’ result, it means the number must be Characters in the game world are represented 
+rolled on the actual die, before any modifiers by miniatures, each of which stands in for 
+are applied. If something is going to happen a single character or creature. Figures are 
+on a natural 6, rolling a 5 with a +1 modifier mounted on a flat plate called a base. These 
+does not count. can be decorated nicely with bushes, rocks, 
+
+sand or textured modelling material and paint. 
+The Campaign rules and Mission Setup also 
+use percentile dice (usually written as D100). When the base of a figure is touching 
+Unless you’re lucky enough to own a one- something, it is said to be in base contact.  
+hundred-sided die (yes, someone does make For example, two opposing characters can  
+them), roll two D10 with the first counting as fight in brawling combat when they are in  
+the tens and the second counting as the ones.  base contact.
+
+174
+
+3
+
+8
+
+
+
+Appendices
+
+Base Contact Examples: Measurement Example:
+
+A B
+C D
+
+Figures (A) and (B) are in base contact. measuring to. To measure to a figure, measure 
+to the nearest point of the base. Never measure 
+
+Figures (C) and (D) are seperated by to or from gun barrels, hands, or the figure itself.
+a narrow barricade. As they can still Again, you may amend this slightly if you have 
+reasonably be engaged in close assault a figure mounted on an unusually large base.
+across this obstacle, they are also 
+considered to be in base contact. You can always measure before deciding 
+
+whether to do something.
+
+When moving figures, sometimes two figures 
+who should obviously be in base contact cannot Line of Sight
+be placed in contact due to the way their arms, To determine if two figures can shoot at each 
+wings, and similar are posed. If so, place them other, see if they have a Line of Sight (LoS). 
+as close as you can and just make a mental note. This is a straight line drawn between the 
+The bases of two figures cannot overlap, but if figures: If it reaches the target, they are in sight. 
+you have a figure on a particularly large base If a terrain feature or another figure is in the 
+you may have to amend this rule a little bit. way, there is no Line of Sight.
+
+The base is also used to determine the position Some players use a string or laser line tool 
+of the figure for all game purposes. If the base to measure this, but estimating is fine. You 
+is partially within a terrain feature, the figure can always lean down over the table to gain a 
+is assumed to be “in” that feature for game ‘model’s eye’ view. You might well be surprised 
+purposes such as being in cover. at what is (and often is not) visible.
+
+Exact facing of the miniatures is not a factor Sometimes terrain provides Cover. Depending 
+in these game rules. Characters can always on the type of terrain, this may break LoS.
+fire in any direction, not just the direction they completely or may make someone a more 
+appear to be facing (although the game is more difficult target to hit (see examples, right). This 
+visually appealing if they do face the action!). is discussed in ‘Shooting’, on pages 35-36.
+
+Ranges and Measurements Absolute Timing
+Movement, weapons fire, and more are The game uses a principle called Absolute 
+measured in tabletop inches. Miniatures games Timing: Everything on the table is in that exact 
+traditionally used inches, and we’ve stuck with state and position when you resolve a rule. For 
+that. Players who prefer metric measurements example, if one character downs their target, 
+can multiply all values by 2.5. that may mean another character now lacks a 
+
+target to shoot at (or now has an open path to 
+To measure from a figure, measure from the move). It also means actions are not usually 
+point of the base nearest the direction you are queued up or declared in advance. 
+
+175
+
+
+
+Appendices
+
+Learning to Play 
+Adventure Wargames
+
+Live by the Dice, Die by the Dice otherwise playing as you normally would. More 
+Adventure wargaming relies heavily on dice. ambitious players can invent more involved 
+This means that things can become very systems such as taking turns commanding the 
+unpredictable very quickly. You may run into monsters or playing two separate campaigns 
+fights that are extremely difficult, or you may that take place on the same world. 
+find the battle a breeze. Some turns you are For more advice on playing with a Game 
+swimming in rewards and others you lose two Master, see page 185.
+of your most valuable squad members.
+The rules provide Story Points (see page 56) Avoid Do-overs
+to take the edge off the worst luck, but the ebb 
+and flow of fortune is a key part of the game When learning a new game, it is easy to mess 
+experience. In general, you will find that being something up. You forgot something that was 
+“good” at the game means optimizing your supposed to be in a scenario, forgot to check 
+opportunities and minimizing the bad luck. for enemy Panic, or you misunderstood how a 
+
+weapon works. Unless the mistake is the last 
+The variability also helps make the game feel action you did, just move on and avoid a similar 
+more exciting and less planned. When new mistake going forward. Trying to undo and 
+players look back at a few campaign turns rework multiple actions or even an entire game 
+completed, they often find themselves being turn is almost never going to be worth the 
+surprised at how well the experience fits frustration and can be really demoralizing.
+together when taken as a whole. In the long run, things will usually even out. 
+
+If you feel like you seriously messed up the 
+Nobody is Special difficulty of the game, hand out a few extra 
+There is no special player character role in this Story Points if you made it too difficult or add 
+game. All of your characters are at risk of injury a few extra enemies the next time you are in 
+and death, and when the dice has it out for you, battle if you made it too easy.
+it is time to pay the piper.
+This is not a bleak and depressing thing, Help!
+however. It also means that everybody is a hero If you are unsure how a rule is supposed 
+waiting for their moment. There is something to work, read it again carefully. Most of the 
+immensely satisfying about pulling off a tricky rules are intended to be interpreted in a 
+combat, because you played your tactics well literal fashion. If applying rules text exactly 
+and had a few hot dice to boot. as written does not produce a logical result, 
+Embrace the moments when they happen, and you are welcome to ask the author for help at 
+they will help carry the day. nordicweaselgames@icloud.com or search 
+
+for Five Parsecs on Discord.
+
+Playing with Friends With a big, randomly generated game, you 
+may well run into a weird case where things 
+
+The simplest way to play the game together is do not make sense, even though they would 
+to split your squad during missions. Usually this normally. If so, adopt the most obvious answer 
+means each of you taking four characters and for what ought to happen and move on.
+
+176
+
+
+
+Appendices
+
+Finding Suitable Miniatures
+There are two lines of thought when it comes to usually have more of a “hard science fiction” 
+selecting figures: The first: Choose figures you look to them. They are also cheap and easy to 
+really like the look of and create characters and paint up. Their larger 28/32mm brethren are 
+settings to match. The other: Let the rules create often more detailed and rewarding for detailed 
+a character and then source a suitable figure. painting, but cost and space taken up naturally 
+Either way is fine, depending on what you have increases. Both options will serve you well.
+in mind. Many players pick one or two figures 
+they really want to use, then let the game There are too many excellent small-scale 
+decide for the rest. manufacturers out there to highlight some 
+
+and omit others, although we should probably 
+It is difficult to match equipment exactly, just mention...
+especially as characters often change their 
+equipment between missions. A general 
+approach of “pistol, rifle, big gun” works.  ...Five Parsecs Minis
+A figure holding a rifle can represent any rifle 
+you need it to be. This is especially true for Five Parsecs from Home is proud to be a minis-
+characters brought in from other agnostic rule set, but if you prefer to use figures 
+Five Parsecs games where the array specifically designed to replicate the species 
+of weaponry can become staggering. and enemies of the 5PFH setting, a wide 
+
+range of official resin and 3D print miniatures, 
+These game rules are intended to be scale- vehicles and terrain is now available from 
+neutral;15mm figures are readily available and www.fiveparsecs.com.
+
+177
+
+
+
+Appendices
+
+If you absolutely cannot find what you are they can support miniatures just fine. You don’t 
+looking for, a time-honored tradition is to escape having to build things, as you need to 
+convert a miniature to fit. This is the process of collect suitable assets, but there are packs out 
+modifying an existing miniature – for example there for use, including fan packs specifically 
+replacing a weapon, swapping the head for a for Five Parsecs games.
+different one, removing a piece of equipment 
+or adding one, and so forth. Plastic figures The Face of Battle
+are easiest to cut and glue back together. Many gamers enjoy collecting, and the 
+Converting is often seen as an expert-level temptation to build a squad of each enemy 
+skill, but it is easy to do and can be a lot of fun. type is high. You do not have to do this to 
+Just make sure you try it out first on a cheap play the game, of course. At the most basic, 
+miniature you don’t need! if you have a general “enemy” squad with 
+If you visit the Five Parsecs Facebook fan group a few grunts, a leader, and a few special 
+or the Nordic Weasel Games discord, you weapons figures you can tell apart, they 
+can find countless photos of people’s figures can do double duty for most of the Tactical 
+and gaming tables. No doubt something will Enemies in the game.
+inspire you. As you experience the game, you will discover 
+
+what enemies you are fine reusing figures for 
+Alternatives to Traditional Miniatures and which ones you want to use new figures 
+3D printing is an expensive proposition to get to represent. If you have already played Five 
+started on, but if you are (or have become!) a Parsecs from Home, you are likely to already 
+dedicated miniatures gamer, it can represent have figures you can use for many of the 
+great savings, long term. Many 3D figures can enemies you encounter. You might enjoy 
+also be scaled up or down to work with your adding a few new figures to those collections 
+preferred scale. It is common for players to use to refresh them, but you can enjoy all the hard 
+a mixture of regular and printed miniatures. work you did painting miniatures. 
+A cheap but fun option is paper miniatures. If you have an ongoing story from an old 
+These are available from various companies campaign, you might even link them. Maybe 
+with many being intended for use in role the renegades you encounter in Planetfall are 
+playing games. They are cheap, and you can the remnants of a pirate gang you encountered 
+print out as many as you need, which is always in your last campaign? 
+helpful for monsters and enemy troops. For animals, your imagination can run wild. As 
+The digital frontier has reached miniatures the animals in the rules are described by their 
+gaming as well, and virtual abilities and not their appearance, anything 
+tabletops can be downloaded, goes. Proper alien lifeforms are not common 
+too. While most of these are aimed in figure ranges available for sale but, luckily, 
+at board games and role-playing games, many fantasy figure ranges offer all manner 
+
+of monsters and critters. A visit to a 
+toy store will also furnish 
+you with any number of 
+
+plastic or rubber insects, 
+lizards, and more. 
+These can often be 
+
+used as is, but a quick 
+paint job can really 
+
+178
+
+
+
+Appendices
+
+change the look for a figure and some of them The table surface itself can also be used to 
+will end up looking impressive. Conversion good effect, such as using a colored tablecloth. 
+work can also be done, such as adding horns, This can be spray-painted to create colored 
+cutting down tails, or even attaching (or patches in various shades. Even a subtle effect 
+removing) a couple of extra legs. can be noticeable. 
+
+Alien ruins are a part of many science fiction 
+Finding Suitable Terrain Pieces books and shows and there are plenty of kits 
+While Planetfall can be played with any gaming ready to purchase from various game lines. 
+terrain you have available, the campaign will Ruined walls can also be built easily using 
+feel more exciting if your terrain reflects your foam board cut to shape: For some quick ruins, 
+brave new world. Fortunately, wargaming cut out a big pile of foam board squares, then 
+terrain is readily available commercially. cut from corner to corner in a zig-zag motion to 
+Unfortunately, truly “alien” terrain is much less create a pair of walls. Reassemble the various 
+common, and you may have to improvise a walls on a base of cardboard or foam board and 
+little bit. paint them appropriately. 
+
+A good first place to look is the local pet store. Styrofoam from packaging material can also 
+The fish tank section will often have an array be cut into suitable shapes though it needs 
+of strange and alien-looking plastic plants and to be treated with a sealing material before 
+rock formations. The rock formations can usually spray-painting it (PVA glue mixed with water 
+be used as they are, whereas the plants will will do fine).
+usually need mounting on some sort of base A lot of gaming terrain is also commercially 
+or attaching to metal wire to create interesting available in plastic or MDF (laser-cut wood), and 
+alien flora. They can usually be had very cheaply. if you would rather purchase things outright, 
+A simple trick to add an “alien” quality is do not feel ashamed in doing so. MDF kits are 
+to play with colors. Earth’s natural flora is very cheap and lightweight, though they tend 
+predominantly green, so modifying or even to lack detail. Plastic is easy to modify if you 
+replacing that can be extremely effective. want to cut something away, but the price is 
+An alien forest of purple shades will look often higher.
+incredibly striking on the table, though you As your terrain collection grows, you can start 
+may find that the terrain ends up being a bit to create unique looks across your alien world, 
+too bold to use in other games! which can help tell the story. For example, if 
+Of course, there is no reason alien planets you use a lot of rock formations in one game, 
+cannot have green grass and rolling hills. the next battle may have a small number of 
+In this case, you can use smaller features to rocks placed alongside one edge of the table 
+change the feeling, such as placing rocks and to show that your mission takes place near the 
+rock formations or scattered odd-looking plants prior location. 
+around the table. A plowed field surrounded by You can also create groups of terrain that you 
+purple plants will look intriguing and does a tend to use together to create a more cohesive 
+great job bringing home the “not on Earth after look. In nature, we usually see similar plants 
+all” feel you are looking for. near each other, and your table will look far 
+A trip to a home improvement store can more realistic when it is built in this fashion.
+often provide interesting items intended for 
+decoration, such as colored pebbles or  
+plastic crystals.
+
+179
+
+
+
+Appendices
+
+Unified Space
+Five Parsecs is an open-ended game that can installation of peculiar features such as animal 
+easily be adapted to any science fiction setting claws or tails. 
+you enjoy or want to create. However, it also has 
+its own setting to explore. This chapter provides Such adaptation is expensive and less common 
+the basic information you need to know to get among frontiers folk, but Humanity can be an 
+by in Unified Space. unpredictable lot to look at.
+
+Some Humans are, in fact not Human at 
+Unity all. Along with uplifted animals such as the 
+
+canine-hybrid Ferals, genetically engineered 
+Unity stretches across the stars wherever sub-species such as Hulkers and Stalkers are 
+Humanity has ventured. It serves as promoter Human as far as originating from Human 
+and defender of Human interests and is genetic stock. 
+usually considered the strongest of the galactic 
+powers, possessing vast armies and fleets to Clothes, fashion, habits, and social mores are 
+enforce its will. unpredictable among the Human species. 
+
+While Unity enforces certain cultural factors, 
+Formed in response to external threats, most there are too many Humans on too many 
+Human worlds exist within the protective worlds, influenced by too many factors to make 
+web of Unity, accepting the rule of law (and any definitive prediction about how a given 
+its enforcement) in return for access to trade Human will look, talk, and be outfitted. 
+networks and a high standard of living. 
+Nominally, all Human majority worlds are 
+considered subject to Unity rule, but rebellions, Language
+splinter factions, and dissidents are common, In Unity, the dominant language is SVIM 
+and the armies of Unity are never idle for long. (Standardized Vocal Interface Method): A 
+Life among the core worlds presents some of constructed language developed for clarity 
+the most advanced and comfortable living and ease of learning. SVIM is mandatory on 
+conditions Humans have ever experienced, all Unity-controlled worlds and due to its 
+but can also be stifling in its mundanity and ubiquitous nature, it is also spoken widely 
+the weight of a highly regimented culture. beyond the reach of Unity itself. 
+The more adventurous have traditionally Due to this widespread usage, it is also 
+found employment among the star ships, the common with many non-Humans, and most 
+fleets, or the military, while many seek out the traders and diplomats across the galaxy are 
+ultimate adventure as a colonist. likely to be at least somewhat proficient. For 
+
+the same reason, most translation systems can 
+The Human Condition process SVIM as well.
+
+The Humans of the far future take many forms. Unity does not restrict the use of local 
+Unity scientific achievement has given rise to secondary languages, and it is not uncommon 
+near-miraculous levels of genetic engineering for entire core-world enclaves to speak their 
+and modification, allowing for a Human own language. In order to be permitted for 
+species that lives longer and is in greater health usage, the language must be interpretable by 
+than their ancestors. It has also allowed both standard translation devices. 
+practical and cosmetic modifications including 
+changes of coloration, hair growth patterns, or 
+
+180
+
+
+
+Appendices
+
+Among the Fringes, SVIM is still common As Ferals are Human uplifts, they speak SVIM, 
+though linguistic drift can cause some dialects though tend to have a distinctive accent due to 
+to be difficult to understand. Many colonies their jaws and vocal cords, making them hard 
+adopt loan-words from other languages, to understand unless the listener is familiar. 
+especially if the colony has significant dealings Some separatist groups try to develop Feral 
+with alien species. languages more suitable to their physique. 
+The Administration takes considerable effort Despite popular misconceptions, Ferals do not 
+to update SVIM to account for technological use body language any more than Humans do 
+developments, popular alien loan words, and find the suggestion offensive.
+and to contain linguistic drift. On remote 
+colony worlds, it is not unusual to find The Major Galactic Powers
+linguists hunting for new words in the same 
+manner a treasure hunter might search for The galaxy is brimming with sapient life all 
+forgotten treasures. pursuing their own agendas and ambitions 
+
+among the stars. The three major political 
+Precursors and the K’Erin can both speak powers that share the stage with Unity are the 
+SVIM with ease and can adapt to most Human Precursors, an ancient and refined species 
+languages relatively easily. with a knack for psionic talents, the K’Erin, 
+Swift learn SVIM quickly; however, the high a proud and warlike species that thrives on 
+pitch and rapid-fire delivery makes them conflict, and the Soulless, a purely digital 
+difficult to understand. Their peculiar logic species that operate in the physical world 
+means that even when transcribed, they rarely through robotic shells connected to their 
+make much sense. hivemind network.
+
+181
+
+
+
+Appendices
+
+A number of small species contest their The Rogue and the Renegade
+particular regions of space, ranging from major 
+habitation centers across dozens of star systems The edges of civilized space have ample room 
+to a single system and perhaps a few colonies. for those who would benefit from being 
+
+outside the watchful eye of the law. Pirates raid 
+Interactions between powers can range from shipping to resell the cargo (and occasionally 
+warfare to trade to diplomacy to coexistence the ship itself), petty warlords demand 
+to ignoring each other, often at the same time. extortionate tolls, and raiders strike at colonies 

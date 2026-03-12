@@ -1,0 +1,151 @@
+
+Missions
+
+The enemy is willing to sell themselves Player Forces
+dearly and the longer the fight drags on, the You may deploy 6 characters from your roster. 
+more they will dig their heels in. At the end  
+of each battle round, roll 1D6. On 6, a Randomly select a point along any battlefield 
+randomly selected enemy figure gains edge by rolling a random direction die in the 
+1 KP as a result of gritted teeth, technological center of the table. The indicated point is where 
+enhancements, combat drugs, or bloody- your characters enter from during the first 
+minded determination. battle round.
+
+At the end of the first round, randomly 
+Delve Mission determine a second point along any battlefield 
+
+edge. This is an additional exit that your 
+You have located and gained access to a scanners pick up.
+site left behind by inhabitants of this world, 
+thousands of years ago. As you enter, strange Opposition
+power systems spring to life and indecipherable In the first Enemy Phase, place 4 Delve Hazard 
+glyphs illuminate the halls. markers on the table with 1 marker in each 
+
+table quarter. Each is placed 1D6” randomly 
+Map Location from the center of the table quarter. If this 
+A map sector with an Ancient Site. would place one within 3” of a crew member, 
+
+move it towards the center of the table until it is 
+Table Setup no longer within 3”.
+Use a  3x3-foot table. At the start of each Enemy Phase, if there are 
+The table should be set up to resemble the currently less than 4 Delve Hazard markers, 
+interior of an ancient alien facility. You can use place one addition marker in the center of 
+factory or urban style terrain or build strange- the table (or as close as possible). Only one new 
+looking walls and halls. If you have floor tiles, marker is placed per round and only if there is 
+you can also use them instead, though in this not currently 4 on the table.
+case make sure to have plenty of rooms and 
+connecting corridors. When playing on floor From Round 2 onwards, each Delve Hazard is 
+tiles, we suggest measuring distances normally moved 3” in a random direction, halting if they 
+instead of converting to grid movement. You make base contact with an obstacle. 
+can even combine tiles and regular terrain to Delve Hazards are revealed if at any point a 
+represent a delve that combines labyrinthine crew member is within 3” and Line of Sight. 
+and open terrain. Roll 1D6 immediately:
+After setting up the terrain, place a Delve 1D6 HAZARD ACTION
+Device marker in the center of each table 
+quarter. These represent machinery that you Place a Sleeper figure 
+must interact with to unlock the location of (see page 154). 
+the artifact. You can shift these somewhat if 1-2 Enemy The Sleeper will 
+they would look better within or adjacent to a immediately fire 
+particular terrain feature. its weapon. 
+
+3-4 Trap Roll on the Delve Trap 
+There are no Uncertain Features or Battlefield table, below.
+Conditions. 
+
+5-6 Environmental Roll on the 
+hazard Environmental Hazard 
+
+table, below.
+
+130
+
+
+
+Missions
+
+Delve Trap table
+
+D100 DELVE 
+TRAP EFFECTS
+
+01-08 Turret Place something to indicate a gun turret where the Delve Hazard was. 
+At the end of each Enemy Phase it fires at the closest visible non-Sleeper, 
+
+non-bot figure. Roll to hit with +0 Combat Skill. 
+It strikes with +0 Damage but negates Saving Throws. 
+
+The turret can be knocked out. Attackers must roll a 6 to hit with ranged attacks 
+or a 5+ with a Melee attack (add Combat Skill to the roll normally).  
+
+A damage roll of 4+ destroys the turret.
+A scientist moving into base contact can shut down the turret by rolling 
+
+4+ on a Savvy test.
+09-19 Paralysis The character that revealed the Delve Hazard cannot move or take any actions 
+
+when next activated. They may roll 1D6+Toughness with a score of 8+ shaking 
+off the paralysis. Scouts may roll twice and take the best die result. 
+
+20-30 Blockage The area within 1” of the Delve Hazard becomes Impassable. A scout may move 
+into base contact to remove the Blockage by rolling 5+ on a Savvy test. 
+
+31-40 Laser beam The character that revealed the Delve Hazard takes a weapons hit with  
++0 Damage.
+
+41-46 Explosive trap Every character within 3” of the Delve Hazard takes a weapons hit with  
++0 damage. If there is partial cover between a character and the Hazard,  
+
+a 4+ roll on 1D6 is required to score a hit.
+47-60 Sleepers! Randomly place 2 Sleepers within 6” of the Hazard. 
+
+They do not activate this round. 
+61-68 Alarm Until the alarm is shut down, a Sleeper arrives at the center of a random 
+
+battlefield edge each future Enemy Phase. Shutting down the alarm requires 
+moving into base contact with the Delve Hazard and rolling 6+ on a Savvy test.
+
+69-80 Gas Everyone within 1” of the Delve Hazard is affected by the gas. 
+At the start of the Enemy Phase in the next battle round, the gas expands to 
+
+2” radius and then 3” radius during the following battle round.
+Affected characters must roll 5+ to avoid being overcome. Scouts may add +1 
+
+to the roll. Overcome characters will move in a random direction when they next 
+activate and cannot take any actions. If an overcome character finishes their 
+
+move outside the gas cloud, they must roll 3+ to recover (+1 bonus for scouts). 
+81-92 Security Place one additional Delve Hazard marker in the center of the table and one 
+
+systems at the center of a random battlefield edge. 
+93-00 Lock-down One of the Delve Device (determined randomly) is locked down. 
+
+To unlock it, you must make base contact with it and roll 6+ on a Savvy test. 
+Once successful, you can then roll on the normal Delve Device table to 
+
+determine how to activate it. A natural 1 on the unlock roll spawns a Sleeper 
+at the center of a random battlefield edge. 
+
+131
+
+
+
+Missions
+
+Environmental Hazard table
+
+D100 ENVIRONMENTAL 
+HAZARD EFFECTS
+
+01-15 Confused signal A random Delve Device is moved 1D6+2” in a random 
+direction. Reroll if it would be off the table. 
+
+16-24 High security The area within 4” and Line of Sight of the Delve Hazard becomes 
+high security. Any non-Sleeper figure that is within this area at 
+
+any point of their activation must make a D6 roll.  
+On 6, a Sleeper is placed at the nearest battlefield edge point. 
+
+The status continues for the rest of the mission.
+25-39 Unstable Area The area within 3” of the Delve Hazard is unstable 
+
+(even if not in Line of Sight of the marker). Any figure moving 
+through this area or firing a weapon into, out of, or through the 

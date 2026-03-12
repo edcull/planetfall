@@ -1,0 +1,301 @@
+
+within 1” of the battlefield edge. 
+Map Location Opposition
+The map sector must be an Investigation site. Due to your quick approach, the Slyn will not 
+Table Setup attack you.
+Use a 3x3-foot table populated with terrain. Place 1 Contact marker at the center of each of 
+This type of mission will look better the more the battlefield edges you did not deploy from. 
+weird and alien terrain there is, particularly if 
+you have odd-looking buildings or ruins to use. The first time a Contact is revealed to be hostile 
+
+Lifeforms, roll on your Campaign Lifeform 
+Place a Discovery marker in the center of each Encounters table to determine the encounter. If 
+table quarter. If a terrain feature covers the the result is a blank entry, generate the creature 
+exact location, place the marker in the center of now and add it to your encounter table.
+that terrain feature instead. At the start of each Enemy Phase, label the 
+If you wish to use the Uncertain Features rule, battlefield edges 1 to 3, excluding your 
+place one in each table quarter. deployment edge. Roll 1D6. If the die result 
+There are no Battlefield Conditions. matches an edge, place a Contact there. If the 
+
+die is a 4, 5, or 6, do not place a Contact.
+
+Objectives
+Your goal is to search the area for interesting 
+sights. Each of the Discovery markers can 
+be investigated by moving within 2” of the 
+marker. The marker is removed, and you 
+immediately roll 1D6 on the table below:
+
+Mission Objectives table
+
+1D6 OBJECTIVE DESCRIPTION
+
+1 Enemy Enemy sentries! Place a Sleeper (see page 154) in the most distant 
+terrain feature the investigating figure can see. 
+
+2 Rewards You tag the location for later extraction. You may roll once on the Post-Mission 
+Finds table (see page 134) after the mission is over.
+
+3 Contact Lifeforms are lurking here. Place a Contact in the terrain feature closest 
+to where the Discovery marker was. 
+
+4 Action required A closer look is required. A character must move into base contact and take an 
+action. Roll 1D6+Savvy. A score of 5+ will earn you 1 unit of Raw Materials.
+
+You have found Mission Data. A character must move into base contact and 
+5-6 Data spend an action to collect the data. It is then transmitted to your colony where 
+
+it will be analyzed during the post-battle campaign sequence.
+
+115
+
+
+
+Missions
+
+Ending the Mission Your crew sets up within 1” of each other and 
+The mission ends when your squad is no longer within 1” of the battlefield edge. 
+on the table, either due to being casualties or 
+moving off any battlefield edge. You are not Opposition
+required to exit from the edge you arrived from. As you are deploying quietly, the Slyn will not 
+
+attack you. 
+Rewards
+You receive any rewards you acquired  Place 1 Contact marker in the center of the 
+during the mission. If you completed at least table. 
+1 Discovery marker, the mission is no longer The first time a Contact is revealed to be 
+marked as an Investigation site on your hostile Lifeforms, roll on the Campaign 
+campaign map. Lifeform Encounters table to determine what 
+Note that investigating a sector does not mean you encounter. If the result is a blank entry, 
+it has been Explored or Exploited. generate the creature now and add it to your 
+
+encounter table.
+
+Scouting Mission At the start of each Enemy Phase, roll 1D6.  
+On a 6, another Contact is placed in the center 
+
+A small scouting mission is being deployed of a random battlefield edge. 
+to assess the area for further exploration and 
+exploitation. For this mission, when rolling for Contact 
+
+movement, if the Aggression and Random 
+Note: This is an alternative to the Scout Action scores are equal, do not place a new Contact. 
+in the campaign sequence, allowing you to Instead, the Contact remains in place and takes 
+speed the process of determining the Resource no actions. 
+and Hazard levels of map spaces.
+
+Objectives
+Map Location You are here to collect recon data. To do this, 
+Any sector that has not been Explored and you must move into base contact with the 
+which is not an Investigation site. Recon markers. 
+
+Table Setup A scout can recon automatically by moving 
+Use a  2x2-foot table. Populate it with lots of into base contact. Any other character must 
+terrain. move into base contact and roll 1D6+Savvy.  
+
+A 5+ succeeds. On a failed test, the recon is  
+After setting up, put a Recon marker in the  not possible. 
+6 largest terrain features. Recon data is sent back to your colony 
+If you use the Uncertain Features rule, place automatically.
+one in each table quarter. Battlefield Conditions 
+are not used in this mission. Ending the Mission
+
+The mission ends when your squad is no longer 
+Player Forces on the table, either due to being casualties 
+You may deploy 2 characters from your roster. or moving off any battlefield edge. You do 
+You are not required to deploy a scout, but it is not have to exit via a specific edge. Typically, 
+highly recommended. once you have completed your tasks, you will 
+Select a battlefield edge and roll 1D6. On 4+, move to evacuate off the battlefield. Any crew 
+you may arrive from this edge, otherwise pick member that leaves the table is assumed to 
+randomly from the remaining edges. return safely to your vehicle.
+
+116
+
+
+
+Missions
+
+Rewards Exploration Mission
+For each Recon marker successfully 
+investigated, roll 1D6. For every 6, the You are tasked with sweeping the area and 
+Resource level of the sector is increased  dealing with any opposition or hazards that 
+by +1. present themselves. The job may or may not be 
+
+a simple one – you won’t know until you land. 
+If you cleared at least 3 Recon markers, you 
+may also roll for a Post-Mission Find (see  Map Location
+page 134) The Exploration mission takes place in any  
+
+map sector that your scouts have explored,  
+Campaign Factors but which has not yet been Exploited. 
+The sector is considered to have been Explored.
+
+Table Setup
+Roll two D6 and pick the lowest number, then 
+add any bonuses from the Rewards section.  Use a  3x3-foot table populated with terrain. 
+This is the Resource level. Place Objective markers equal to the Resource 
+
+Value of the map sector, distributed around the 
+Roll two D6 and pick the lowest number. table fairly evenly.
+This is the Hazard level. Objectives will look best if they are in or near 
+Mark the values on the map. interesting terrain features.  
+
+If you wish to use the optional Uncertain 
+Features rule, place 2 Uncertain Features on 
+the table.
+Roll once for Battlefield Conditions. 
+
+117
+
+
+
+Missions
+
+Player Forces To sweep an Objective marker you must end 
+Deploy 6 characters from your roster. a battle round with a figure within 3” and no 
+Randomly select a battlefield edge (if your table enemies closer than you. The Slyn use the same 
+is placed against a wall, just pick from the edges rules to secure Objectives for themselves.
+you can sit at). Your crew sets up anywhere you 
+like within 4” of the selected battlefield edge. For both sides, only one Objective can be 
+
+secured by each side in one battle round. If you 
+Opposition are in range of two or more Objectives, you  
+After deploying, roll 2D6. If the roll is 2-4, you can choose which one to secure. The Slyn pick 
+are attacked by the Slyn. at random. 
+
+Determine the opposition as explained on  Once secured, an Objective is removed from 
+page 152. The Slyn will set up in randomly the table. 
+selected terrain features near the opposite Lifeforms will ignore the Objectives. 
+battlefield edge. Locate the 6 terrain features 
+closest to that battlefield edge and roll Ending the Mission
+randomly for each Slyn pair to see which they The mission ends when your squad is no longer 
+deploy into. on the table, either due to being casualties 
+On any other result, the threat is from wildlife, or moving off any battlefield edge. You do 
+and the Contact system is used (page 41). Place not have to exit via a specific edge. Typically, 
+a number of initial Contact markers equal to once you have completed your tasks, you will 
+the Hazard level. Each Contact is placed in the move to evacuate off the battlefield. Any crew 
+nearest terrain feature to the center of the table, member that leaves the table is assumed to 
+one Contact per feature. return safely to your vehicle.
+
+The first time a Contact is revealed to be If you are fighting the Slyn, the mission also 
+hostile Lifeforms, roll on your Campaign ends if you drive them off. If the Slyn abandon 
+Lifeform Encounters table to determine what the battle, you can claim any remaining 
+you encounter. If the result is a blank entry, Objectives that were not claimed already. 
+generate the creature now and add it to your Rewards
+encounter table. You may roll on the Post-Mission Find table 
+Objectives (page 134) once per Objective you completed. 
+Your objective is to conduct a sweep of the area Campaign Factors
+to assess it for value to the colony. The Objective 
+markers represent locations that the scout Roll 1D6 for each Objective you complete. 
+teams have assessed will need to be scanned to ◆	 Every 1 increases the Hazard level by  
+determine their resource worth. +1 point. 
+If the Slyn are attacking, they are carrying out ◆	 Every 2 has no effect.
+scans of their own. Should they succeed, they 
+will attack the area again, preventing your ◆	 Every 3-6 reduces the Resource value of the 
+colonists from exploiting any natural resources. sector by -1 point. Once the Resources reach 
+
+0, the sector is Exploited and can no longer 
+Each Enemy Phase, a random Slyn pair will be Explored or subject to Science missions.
+move towards the nearest Objective to their 
+current position. The rest will move and fight to Special Rules
+engage your forces. No additional special rules apply. 
+
+118
+
+
+
+Missions
+
+Science Mission random battlefield edge. If this results in two 
+You are carrying out a quick mission to obtain Contacts being placed, roll randomly for the 
+scientific samples, hopefully without attracting placement of each.
+too much attention. For this mission, when rolling for Contact 
+
+movement, if the Aggression and Random 
+Map Location scores are equal, do not place a new Contact. 
+Any sector that has a Resource value of  Instead, the Contact remains in place and takes 
+1 or more. no actions. 
+
+Table Setup Objectives
+Use a  2x2-foot table. Populate it with lots of You are here to collect scientific samples. To do 
+terrain. this, you must move into base contact with the 
+After setting up, put a Science marker (use an Science markers. 
+Objective marker or Delve Device marker) in the A scientist can collect the sample automatically 
+6 largest terrain features. by moving into base contact with it. Any other 
+The Uncertain Features and Battle Conditions character must roll 1D6+Savvy. A 5+ succeeds 
+rules are not used in this mission. and collects the sample. On a failed test, the 
+
+sample is ruined. 
+Player Forces Once collected, the sample data is 
+You may deploy 2 characters from your roster. automatically sent back to your colony. 
+You are not required to deploy a scientist, but it 
+is highly recommended. Ending the Mission
+Select a battlefield edge and roll 1D6. On 4+, The mission ends when your squad is no 
+you may arrive from this edge, otherwise pick longer on the table, either due to being 
+randomly from the remaining edges. casualties or moving off any battlefield edge. 
+
+You do not have to exit via a specific edge. 
+Your crew sets up within 1” of each other and Typically, once you have completed your tasks, 
+within 1” of the battlefield edge. you will move to evacuate off the battlefield. 
+
+Any crew member that leaves the table is 
+Opposition assumed to return safely to your vehicle.
+As you are deploying quietly, the Slyn will not 
+attack you and you should be able to avoid Rewards
+most opposition. For each sample collected, roll 1D6. On 4-6, 
+Place 1 Contact marker in the center of the you receive 1 Research Point. If you roll more 
+table. than a single 6 when doing this, you also 
+
+receive 1 unit of Mission Data. 
+The first time a Contact is revealed to be 
+hostile Lifeforms, roll on your Campaign If you cleared at least 3 Science markers,  
+Lifeform Encounters table to determine what you may also roll for a Post-Mission Find  
+you encounter. If the result is a blank entry, (see page 134).
+generate the creature now and add it to your Campaign Factors
+encounter table. If you collected any samples, the Resource 
+At the start of each Enemy Phase, roll 1D6  value of the sector is reduced by 1.
+(2D6 if the Hazard level is 4+). On a 6, place 
+another Contact marker in the center of a 
+
+119
+
+
+
+Missions
+
+Hunt Mission Opposition
+The researchers want you to acquire a specimen After deploying, roll 2D6. If the roll is 2-4, you 
+of a local Lifeform for investigation. are attacked by the Slyn.
+
+Determine the opposition as explained on page 
+Map Location 152. The Slyn will set up in randomly selected 
+Select any map sector within 4 spaces of your terrain features near the opposite battlefield 
+colony. edge. Locate the 6 terrain features closest to 
+
+that battlefield edge and roll randomly for each 
+Table Setup Slyn pair to see which they deploy into.
+Use a  3x3-foot table populated with terrain. On any other result, you will be hunting for 
+If you wish to use the optional Uncertain Lifeforms.
+Features rule, place 2 Uncertain Features on 
+the table. Roll 1D6 for each terrain feature that any of 
+
+your characters have a Line of Sight to. Each 6 
+Roll once for Battlefield Conditions. results in a Contact being placed in or directly 
+
+behind the feature. As you play the game, the 
+Player Forces first time each terrain feature is spotted for the 
+You will deploy up to 6 figures which can be first time, the same roll is made to determine 
+any combination of characters from your roster if it contains a Contact. The mission will always 
+or grunts. feature at least 3 Contacts. If not enough have 
+Select a battlefield edge and deploy your been generated, the last 1-3 terrain features to 
+characters anywhere within 3” of the edge. be spotted will each house a Contact.
+
+The first time a Contact is revealed to be 
+hostile Lifeforms, one scout on the table may 
+
+120
+
+
+
+Missions
+

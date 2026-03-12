@@ -1,0 +1,201 @@
+markers. If nobody eligible is on the table, there is no effect.
+
+4-5 An additional enemy with basic weapons arrives at the center of the enemy 
+Reinforcements battlefield edge. The arriving figure does not activate this phase.
+
+6 Concentrated Affects a player character. Any enemy that can see this character will fire on them 
+attack this phase and receive a +1 hit bonus.
+
+32
+
+
+
+Combat Rules
+
+Tactical Enemies AI Actions table
+
+D6 ACTION DESCRIPTION
+
+The target will remain in place and defend their current position for the rest of the 
+1 Hold position battle (unless selected as a target for another AI action). They will move to cover 
+
+within one move, if currently in the open and cover is available.
+
+2 The target does not act this phase unless they have opponents within 6”, 
+Hesitate in which case they remain in place and fire.
+
+3-4 Brief halt The target does not move this phase but may fire normally.
+
+5 The target will move towards the nearest terrain feature that is closer to the players 
+Advance battlefield edge, rushing if needed. 
+
+6 The target will move towards the nearest ally and try to get within 2”. 
+Group up If already within 2” of an ally, they will stick with them this activation.
+
+Lifeform Ploys table
+
+D6 PLOY DESCRIPTION
+
+The target remains in place and takes no actions this phase. 
+1 Call for more When they activate next, place an additional enemy within 1” of their position. 
+
+This is interrupted if they are knocked Sprawling or killed before then.
+2 Hide Remove the target from the table and place a Contact in the nearest terrain feature.
+
+3 The target removes all Stun and Sprawling markers. It will move at full speed 
+Frenzy towards the nearest opponent and may engage in brawling combat.
+
+The target does not activate this phase. Until it has activated again,  
+a -1 hit penalty applies to shots against it. When it activates again, roll for a 
+
+4 Lurk lifeform ploy (see page 22) and apply the result to the lurking figure (which can 
+result in two ploys happening in the same phase, but not to the same figure). 
+
+If the lurker is knocked Sprawling or killed, the ploy does not occur.
+
+5-6 Flanking An additional Contact is placed at the center of a random battlefield edge. 
+attack The new arrival does not activate this phase.
+
+Lifeform AI Actions table
+
+D6 ACTION DESCRIPTION
+
+The target randomly picks a visible opponent (closest enemy if none are visible). 
+1 Focus It will continue moving towards and trying to kill that target for the rest of the 
+
+battle. This is interrupted if the same figure is the target of another AI action.
+
+2 The target takes no actions this round but recovers normally if 
+Hesitate
+
+Stunned or Sprawling.
+
+3-4 This activation, the target will move to the closest terrain feature that provides 
+Move to cover cover. If already in cover, it must remain there this activation.
+
+5-6 This activation, the target moves towards the nearest neutral battlefield edge, 
+Move to flank trying to remain out of sight or in cover.
+
+33
+
+
+
+Combat Rules
+
+Movement
+When a character moves, they may move up to need one grunt to go check out something or 
+their Speed score in tabletop inches. Figures to spread out to engage the enemy effectively.
+can turn as often as they like. 
+Characters cannot move through each other Brawling Combat
+under any circumstances. A moving character that contacts an opponent 
+
+will enter brawling combat (see page 39): This 
+Obstacles can be crossed by treating the vertical must be resolved immediately. Brawling ends 
+height as additional movement both up and the activation of the character. However, being 
+down. For example, a 2” tall wall costs 4” to attacked in brawling combat does not prevent a 
+climb up and back down to the other side. If a character activating later in the round.
+wall or obstacle is wide enough for a figure to 
+stand on, a figure can end the climb on top of it. 
+The width of the obstacle must then be added to Enemy Movement
+the distance moved when crossing. Lifeforms without ranged attacks will move 
+The same system is used for climbing terrain towards the closest visible opponent to try to 
+features provided they are obviously climbable. engage in brawling combat. If no opponents 
+
+are visible to an enemy, randomly pick from the 
+Ground that is challenging to move through three closest opponents. The Lifeform will move 
+(e.g. mud, sand, or jungle) is designated towards the selected opponent.
+Difficult ground: Every full 2” moved in such 
+terrain consumes 1” additional movement Lifeforms with ranged attacks will only move if 
+allowance. Characters with flying movement they are currently unable to attack. If so, they 
+are not subject to this penalty. will move the shortest distance that will enable 
+
+them to make an attack. Intelligent enemies 
+Some terrain features cannot be entered. will try to move towards the nearest opponents.
+These are called Block features and include 
+large boulders and similar. They can Once within 12” they will halt to fire unless 
+sometimes be climbed but typically act as their modifier (Combat Skill+Weapon Bonus) 
+impediments to sight and movement that exceeds that of the nearest opponent, in which 
+must be moved around. case they will continue to move to get close 
+
+enough to engage in brawling combat. 
+Fireteams are not required to remain in 
+formation as they move, though if they move to Intelligent enemies always try to move through 
+break formation, they will not receive the bonus cover if possible but will always prioritize being 
+in the next battle round. For example, you may able to attack over their own protection.
+
+Tactical enemy specialists will remain in place 
+Jumping Down and Falling and fire if they can see any opponents in range. 
+
+If no targets are visible, they will move towards 
+A character can intentionally jump down. A the closest location that lets them establish a 
+jump over 1” high ends the activation. Scouts line of fire against a target.
+can jump down from any distance with no 
+damage and can continue their activation if The enemy does not take Rush moves, always 
+they jump down less than their Speed in inches. moving at the standard pace in their profiles. 
+
+A character falling down 3” or more takes a The enemy typically ignores Objective markers 
+Damage +0 Hit and is knocked Sprawling. unless the details for a particular mission type 
+
+dictate otherwise. 
+
+34
+
+
+
+Combat Rules
+
+Shooting
+When taking a Shoot action, the character 
+may perform a ranged attack. Characters with Questionable Shots – 
+multiple weapons may fire only one of them the Weasel Rule
+but you can pick which weapon each time the 
+character activates. Sometimes it can be hard to determine if a 
+
+figure is visible or if it is protected by cover.
+Fireteam members are not all required to fire, Rather than spending a lot of time agonizing 
+nor are they required to pick the same targets. about this, apply this rule:
+Player characters may shoot at any enemy If you are uncertain, assume a figure can be 
+visible to them and within range (see below). seen but is in cover.
+However, enemies will always target the visible 
+opponent they have the highest chance of This means a figure is out of sight when it is 
+hitting. If multiple targets are equally easy to clearly not visible at all and is in the open when 
+hit, they target the closest one. it is clearly not behind any terrain feature. Keep 
+
+this in mind and you can adjudicate the majority 
+Range and Shots of questionable cases easily.
+Each weapon has a Range, measured in 
+tabletop inches. Targets can only be fired at if 
+they are within this range. Note that weapon Line of Sight Example:
+ranges are compact, representing hip shots in a 
+hasty skirmish environment, not the theoretical 
+range of a futuristic weapon on a firing range or 
+in the hands of a sharpshooter. A ✘
+You can check distances at any time. There is no 
+need to try to guess if you are within range. B3
+
+B1 B2
+Each weapon also has a Shot rating (often 
+stated as ‘Shots’), which determines how many Example: In the diagram above, (A) has 
+attacks are rolled, with each shot representing a Line of Sight to (B1) and (B2), but (B2) is 
+volley of bullets or a short burst of fire. partially hidden behind a high wall and 
+If a weapon has multiple shots, resolve each benefits from Cover. There is no LoS to (B3).
+one at a time. If you kill a target before you 
+have run out of shots, you may select a new 
+target within 3” of the prior target. Line of Sight
+
+To determine if two figures can shoot at each 
+Visibility, Terrain, and Cover other at all, determine whether the shooter has 
+
+Line of Sight (LoS). Imagine a straight line 
+It is substantially more difficult to hit a target drawn between the figures: If it reaches the 
+using cover than one nearby and in the open. target – any part of the target – they are in sight. 
+In some cases, positioning a figure behind or If a terrain feature or another figure is in the 
+within terrain prevents anyone targeting a way, there is no Line of Sight.
+shot at all. There are two considerations related 
+relating to whether you can target someone: In some situations, two figures may have Line 
+Cover and Line of Sight. of Sight of each other but one enjoys Cover the 
+
+other does not (see below).
+
+35
+
