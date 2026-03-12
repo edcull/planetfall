@@ -7,14 +7,14 @@ Planetfall automates the campaign turn sequence, rolls dice, tracks state, resol
 ## Features
 
 - **18-step campaign turn loop** — recovery, scouting, colony events, missions, combat, research, building, and more
-- **Zone-based combat system** — variable grid (6x6 small / 9x9 standard, 4" zones) with shooting, brawling, enemy AI, and 13 mission types
+- **Zone-based combat system** — variable grid (6x6 small / 9x9 standard, 4" zones) with shooting, brawling, enemy AI, and 13 mission types. Interactive (digital) or manual (tabletop) resolution
 - **AI narrative agent** — Claude generates scene narration informed by character backgrounds, colony mood, and narrative memory
 - **Character backgrounds** — auto-generated personality sketches from rolled traits (AI or template fallback)
 - **D100/D6 random tables** — scout discoveries, colony events, enemy activity, injuries, advancement, character events
 - **Persistent state** — JSON save files with per-turn snapshots and auto-updating markdown turn logs
 - **Campaign log viewer** — browse turn-by-turn logs in-game with previous/next day navigation
 - **Rich CLI** — colony status, crew roster, campaign map, research & buildings, event logs
-- **Human-in-the-loop** — player makes tactical decisions; the engine handles mechanics
+- **Flexible battle resolution** — interactive digital combat (player chooses actions per figure) or manual tabletop mode (enter results from physical play)
 - **Save management** — undo/rollback, rename, copy, delete campaigns
 
 ## Architecture
@@ -88,20 +88,29 @@ cp .env.example .env
 Copy `.env.example` to `.env` and set your values:
 
 ```env
-# Required for AI features (narrative backgrounds, AI orchestrator)
+# Required for AI features (narrative backgrounds, orchestrator)
 ANTHROPIC_API_KEY=sk-ant-api03-...
 
-# Claude model for scene narration (default: claude-sonnet-4-20250514)
+# Orchestrator mode: api | hybrid | local
+# - api:    Claude drives all 18 steps (richest narrative, slowest)
+# - hybrid: Local mechanics + Claude narrative at key moments (default, recommended)
+# - local:  Pure Python, template narrative, zero API calls (fastest)
+ORCHESTRATOR_MODE=hybrid
+
+# Claude model for full API orchestrator / scene narration (default: sonnet)
 NARRATIVE_MODEL=claude-sonnet-4-20250514
 
-# Claude model for character backgrounds (default: claude-haiku-4-5-20251001)
+# Claude model for hybrid-mode narrative bursts (default: haiku — fast & cheap)
+HYBRID_NARRATIVE_MODEL=claude-haiku-4-5-20251001
+
+# Claude model for character backgrounds (default: haiku)
 BACKGROUND_MODEL=claude-haiku-4-5-20251001
 
 # Enable manual dice input (default: false)
 MANUAL_DICE=false
 ```
 
-Without an API key, the game runs fully offline using template-based narration and a local orchestrator.
+Without an API key, the game runs fully offline using template-based narration and the local orchestrator (`ORCHESTRATOR_MODE=local` is used automatically).
 
 ## Usage
 
