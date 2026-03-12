@@ -7,50 +7,61 @@ Planetfall automates the campaign turn sequence, rolls dice, tracks state, resol
 ## Features
 
 - **18-step campaign turn loop** — recovery, scouting, colony events, missions, combat, research, building, and more
-- **Zone-based combat system** — 3x3 grid battlefield with shooting, brawling, enemy AI, and 14 mission types
+- **Zone-based combat system** — variable grid (6x6 small / 9x9 standard, 4" zones) with shooting, brawling, enemy AI, and 13 mission types
 - **AI narrative agent** — Claude generates scene narration informed by character backgrounds, colony mood, and narrative memory
 - **Character backgrounds** — auto-generated personality sketches from rolled traits (AI or template fallback)
 - **D100/D6 random tables** — scout discoveries, colony events, enemy activity, injuries, advancement, character events
-- **Persistent state** — JSON save files with per-turn snapshots
-- **Rich CLI** — colony status, crew roster, campaign map, event logs
+- **Persistent state** — JSON save files with per-turn snapshots and auto-updating markdown turn logs
+- **Campaign log viewer** — browse turn-by-turn logs in-game with previous/next day navigation
+- **Rich CLI** — colony status, crew roster, campaign map, research & buildings, event logs
 - **Human-in-the-loop** — player makes tactical decisions; the engine handles mechanics
+- **Save management** — undo/rollback, rename, copy, delete campaigns
 
 ## Architecture
 
 ```
 planetfall/
-├── main.py              # Entry point — new/continue campaign
-├── config.py            # .env configuration loader
-├── orchestrator.py      # Claude API orchestrator (18-step turn driver)
-├── narrative.py         # AI narrative agent with compressed memory
+├── main.py                # Entry point — new/continue campaign, log viewer
+├── config.py              # .env configuration loader
+├── orchestrator.py        # Claude API orchestrator (18-step turn driver)
+├── orchestrator_steps.py  # Combat UI, deployment, research/building prompts
+├── narrative.py           # AI narrative agent with compressed memory
+├── api_tracker.py         # API call tracking/logging
 ├── cli/
-│   ├── display.py       # Rich terminal output
-│   └── prompts.py       # Interactive prompts (questionary)
+│   ├── display.py         # Rich terminal output (colony, map, roster, combat)
+│   └── prompts.py         # Interactive prompts (questionary)
 ├── engine/
-│   ├── models.py        # Pydantic v2 game state models + weapon catalog
-│   ├── dice.py          # Dice rolling, random tables, manual mode
-│   ├── persistence.py   # Save/load JSON with snapshots
-│   ├── campaign/
-│   │   ├── setup.py     # Character creation, map gen, background gen
-│   │   ├── buildings.py # Colony building definitions
-│   │   └── research.py  # Tech tree definitions
-│   ├── steps/           # 18 campaign turn step functions (step01–step18)
-│   ├── tables/          # Encoded D100/D6 random tables
-│   └── combat/          # Zone-based combat system
-│       ├── battlefield.py  # 3x3 grid, figure placement
-│       ├── session.py      # Combat round loop
-│       ├── shooting.py     # Ranged attack resolution
-│       ├── brawling.py     # Melee resolution
-│       ├── enemy_ai.py     # Deterministic enemy behavior
-│       ├── missions.py     # 14 mission type setups
-│       ├── narrator.py     # Combat narrative descriptions
-│       └── round.py        # Phase sequencing
+│   ├── models.py          # Pydantic v2 game state models + weapon catalog
+│   ├── dice.py            # Dice rolling, random tables, manual mode
+│   ├── persistence.py     # Save/load JSON with snapshots
+│   ├── campaign_log.py    # Markdown turn log export (auto-updated on save)
+│   ├── rollback.py        # Game state rollback to previous turns
+│   ├── campaign/          # Campaign subsystems
+│   │   ├── setup.py       # Character creation, map gen, background gen
+│   │   ├── buildings.py   # Colony building definitions
+│   │   ├── research.py    # Tech tree (theories + applications)
+│   │   ├── equipment.py   # Equipment and augmentation
+│   │   ├── milestones.py  # Campaign milestone tracking
+│   │   ├── calamities.py  # Colony calamity events
+│   │   └── ...            # extraction, slyn, story_points, ancient_signs
+│   ├── steps/             # 18 campaign turn step functions (step01–step18)
+│   ├── tables/            # 18 encoded D100/D6 random tables
+│   └── combat/            # Zone-based combat system
+│       ├── battlefield.py    # Variable grid (6x6/9x9), figure placement, stacking
+│       ├── session.py        # Combat state machine with reaction rolls
+│       ├── round.py          # Phase sequencing (quick/enemy/slow)
+│       ├── shooting.py       # Ranged attack resolution with weapon traits
+│       ├── brawling.py       # Melee resolution
+│       ├── enemy_ai.py       # Deterministic enemy AI with stacking awareness
+│       ├── missions.py       # 13 mission type setups
+│       ├── initial_missions.py # Tutorial missions (Beacons, Analysis, Perimeter)
+│       └── narrator.py       # Combat narrative descriptions
 ├── rules/
-│   ├── loader.py        # Rules text chunker (35 sections, on-demand)
-│   └── sections/        # Chunked rules text files
+│   ├── loader.py          # Rules text chunker (35 sections, on-demand)
+│   └── sections/          # Chunked rules text files
 └── tools/
-    ├── definitions.py   # Claude tool_use schemas
-    └── handlers.py      # Tool call dispatch
+    ├── definitions.py     # Claude tool_use schemas (campaign, combat, queries)
+    └── handlers.py        # Tool call dispatch
 ```
 
 ## Setup
@@ -101,7 +112,9 @@ python -m planetfall.main
 
 **New campaign:** name your colony, choose a colonization agenda, create your 8-person crew (default roster, custom classes, or import existing characters). Backgrounds are auto-generated from rolled traits.
 
-**Continue campaign:** select a saved campaign and play through turns. Each turn follows the 18-step sequence with interactive prompts for player decisions.
+**Continue campaign:** select a saved campaign, optionally review the colony log, and play through turns. Each turn follows the 18-step sequence with interactive prompts for player decisions.
+
+**Between turns:** view colony logs, search rules, export campaign history, undo/rollback to previous turns, or manage saves.
 
 ## Running Tests
 
@@ -112,12 +125,15 @@ python -m pytest tests/ -v
 
 ## Project Status
 
+463 tests across 28 test files.
+
 | Phase | Status | Description |
 |-------|--------|-------------|
 | 1. Core Engine | Complete | Models, dice, persistence, tables |
 | 2. Campaign Loop | Complete | 18 steps, rules loader, CLI, orchestrator |
-| 3. Combat System | Complete | Zones, shooting, brawling, enemy AI, missions |
-| 4. Narrative & AI | In Progress | Character backgrounds, narrative agent, AI orchestrator |
+| 3. Combat System | Complete | Zones, shooting, brawling, enemy AI, 13 missions |
+| 4. Narrative & AI | Complete | Character backgrounds, narrative agent, campaign logs |
+| 5. Polish & UI | In Progress | Log viewer, save management, investigation evacuation |
 
 ## Tech Stack
 
