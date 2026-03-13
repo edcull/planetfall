@@ -73,24 +73,25 @@ def get_hit_target(
     if approx_inches > effective_range:
         return 7  # out of range
 
-    # Base to-hit — only heavy cover grants the 6+ modifier
-    # (light cover / scatter absorbs hits on exact rolls, handled in resolve_shot)
-    target_has_cover = battlefield.has_heavy_cover(target.zone)
+    # Cover check — LoS-based: target has cover if in a heavy cover zone
+    # OR if LoS passes through any heavy cover zone between shooter and target
+    target_has_cover = battlefield.has_cover_los(shooter.zone, target.zone)
 
     if target_has_cover:
         # Cover is ignored by area, stream, phased_fire
         if any(t in shooter.weapon_traits for t in ("area", "stream", "phased_fire")):
             target_has_cover = False
-        # High ground shooter negates cover on lower targets
-        if battlefield.shooter_on_high_ground(shooter.zone, target.zone):
+        # High ground negates cover UNLESS target is directly in a heavy cover zone
+        if (battlefield.shooter_on_high_ground(shooter.zone, target.zone)
+                and not battlefield.target_in_cover_zone(target.zone)):
             target_has_cover = False
 
     if target_has_cover:
         hit_needed = 6
-    elif approx_inches <= 6:
-        hit_needed = 3  # within 6" and open
+    elif dist <= 2:
+        hit_needed = 3  # within 2 zones (~8") and in the open
     else:
-        hit_needed = 5  # in the open, any range
+        hit_needed = 5  # in the open, beyond 2 zones
 
     return hit_needed
 
@@ -212,17 +213,22 @@ def resolve_shot(
         )
         return result
 
-    # Scatter terrain absorption: if LoS crosses light cover and the
+    # Scatter terrain absorption: if target is in scatter terrain and the
     # modified roll exactly equals the to-hit number, scatter absorbs the hit
+    # and the scatter terrain is destroyed (zone becomes open)
     if (not any(t in shooter.weapon_traits for t in ("area", "stream", "phased_fire"))
             and battlefield.has_scatter(shooter.zone, target.zone)
             and modified_roll == hit_needed):
         result.outcome = "miss"
         result.hit = False
+        # Destroy the scatter terrain
+        zone = battlefield.get_zone(*target.zone)
+        zone.terrain = TerrainType.OPEN
         log.append(
             f"{shooter.name} -> {target.name}: "
             f"Rolled {natural_roll}+{skill_val}={modified_roll} "
-            f"vs {hit_needed}+ -> Scatter terrain absorbs the hit!"
+            f"vs {hit_needed}+ -> Scatter terrain absorbs the hit! "
+            f"Zone ({target.zone[0]},{target.zone[1]}) is now open ground."
         )
         return result
 
@@ -487,22 +493,68 @@ def resolve_shooting_action(
     if "hail_of_fire" in shooter.weapon_traits:
         shots = 4
 
+    from planetfall.engine.combat.battlefield import FigureSide
+
+    current_target = target
     results = []
     for _ in range(shots):
-        if not target.is_alive:
-            break
-        result = resolve_shot(battlefield, shooter, target, shooter_moved)
+        if not current_target.is_alive:
+            # Target killed — redirect remaining shots to another enemy in the same zone
+            new_target = _find_overflow_target(
+                battlefield, shooter, current_target, shooter_moved,
+            )
+            if new_target:
+                results.append(_make_overflow_note(current_target, new_target))
+                current_target = new_target
+            else:
+                break
+        result = resolve_shot(battlefield, shooter, current_target, shooter_moved)
         results.append(result)
 
         # Hyperfire: if hit doesn't destroy target, fire again
-        if "hyperfire" in shooter.weapon_traits and result.hit and target.is_alive:
-            extra = resolve_shot(battlefield, shooter, target, shooter_moved)
+        if "hyperfire" in shooter.weapon_traits and result.hit and current_target.is_alive:
+            extra = resolve_shot(battlefield, shooter, current_target, shooter_moved)
             extra.log.insert(0, "Hyperfire: bonus shot!")
             results.append(extra)
             # Continue hyperfire chain while hitting and target alive
-            while extra.hit and target.is_alive:
-                extra = resolve_shot(battlefield, shooter, target, shooter_moved)
+            while extra.hit and current_target.is_alive:
+                extra = resolve_shot(battlefield, shooter, current_target, shooter_moved)
                 extra.log.insert(0, "Hyperfire: bonus shot!")
                 results.append(extra)
 
     return results
+
+
+def _find_overflow_target(
+    battlefield: Battlefield,
+    shooter: Figure,
+    dead_target: Figure,
+    shooter_moved: bool,
+) -> Figure | None:
+    """Find another valid enemy in the same zone to redirect remaining shots."""
+    from planetfall.engine.combat.battlefield import FigureSide
+    candidates = [
+        f for f in battlefield.figures
+        if f.zone == dead_target.zone
+        and f.side != shooter.side
+        and f.is_alive
+        and not f.is_contact
+        and f is not dead_target
+    ]
+    if not candidates:
+        return None
+    # Pick the closest-to-original (first available)
+    return candidates[0]
+
+
+def _make_overflow_note(dead_target: Figure, new_target: Figure) -> ShotResult:
+    """Create a log-only ShotResult noting the shot overflow."""
+    note = ShotResult(
+        shooter="", target=new_target.name,
+        hit_roll=0, hit_needed=0, hit=False,
+    )
+    note.outcome = "redirect"
+    note.log.append(
+        f"{dead_target.name} destroyed — remaining shots redirect to {new_target.name}"
+    )
+    return note

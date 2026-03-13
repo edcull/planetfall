@@ -378,19 +378,37 @@ def unlock_application(state: GameState, app_id: str) -> list[TurnEvent]:
     return events
 
 
-def perform_bio_analysis(state: GameState) -> list[TurnEvent]:
-    """Spend 3 RP to perform bio-analysis on a lifeform."""
+def perform_bio_analysis(state: GameState, lifeform_name: str = "") -> list[TurnEvent]:
+    """Spend 3 RP to perform bio-analysis on a specific lifeform specimen."""
     cost = 3
     if state.colony.resources.research_points < cost:
         return [TurnEvent(step=14, event_type=TurnEventType.RESEARCH,
                           description=f"Not enough RP for bio-analysis (need {cost})")]
 
+    # Find the lifeform entry
+    lf_entry = None
+    for lf in state.enemies.lifeform_table:
+        if lf.name == lifeform_name and lf.specimen_collected and not lf.bio_analysis_result:
+            lf_entry = lf
+            break
+
+    if lf_entry is None:
+        return [TurnEvent(step=14, event_type=TurnEventType.RESEARCH,
+                          description="No unanalyzed specimen available.")]
+
     state.colony.resources.research_points -= cost
     roll = roll_d6("Bio-analysis")
     result = BIO_ANALYSIS_TABLE[roll.total]
 
+    # Store result on the lifeform entry for combat bonuses
+    lf_entry.bio_analysis_result = result["name"]
+    lf_entry.bio_analysis_level = 1
+
     return [TurnEvent(
         step=14, event_type=TurnEventType.RESEARCH,
-        description=f"Bio-analysis complete: {result['name']} — {result['description']}",
-        state_changes={"bio_analysis": result["name"]},
+        description=(
+            f"Bio-analysis of {lifeform_name}: {result['name']} — "
+            f"{result['description']}"
+        ),
+        state_changes={"bio_analysis": result["name"], "lifeform": lifeform_name},
     )]

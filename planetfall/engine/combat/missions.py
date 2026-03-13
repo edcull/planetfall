@@ -23,12 +23,124 @@ from planetfall.engine.tables.tactical_enemy_gen import (
     generate_tactical_enemy_group, GeneratedEnemy, ENEMY_WEAPONS,
 )
 from planetfall.engine.tables.lifeform_gen import (
-    generate_lifeform, LifeformProfile,
+    generate_lifeform, generate_callsign, LifeformProfile,
 )
+from planetfall.engine.models import LifeformEntry
 
 import random as _rng
 
 MAX_PER_ZONE = 2  # max enemies per zone during deployment
+
+# D100 ranges for the 10-slot lifeform encounter table
+_LIFEFORM_D100_RANGES = [
+    (1, 18), (19, 32), (33, 44), (45, 54), (55, 64),
+    (65, 73), (74, 82), (83, 89), (90, 95), (96, 100),
+]
+
+
+@dataclass
+class LifeformRollResult:
+    """Result of rolling on the Lifeform Encounters table."""
+    profile: LifeformProfile
+    name: str
+    d100_roll: int
+    slot_idx: int
+    is_new: bool  # True if a new lifeform was generated
+
+
+def get_or_generate_lifeform(state: GameState) -> LifeformRollResult:
+    """Roll D100 on the Campaign Lifeform Encounters table.
+
+    If the slot is filled, reuse that lifeform profile.
+    If blank, generate a new lifeform, name it, and store it.
+
+    Returns a LifeformRollResult with the profile, name, roll details.
+    """
+    from planetfall.engine.dice import roll_d100
+
+    d100 = roll_d100("Lifeform encounter table").total
+
+    # Find which slot this roll maps to
+    slot_idx = 0
+    for i, (low, high) in enumerate(_LIFEFORM_D100_RANGES):
+        if low <= d100 <= high:
+            slot_idx = i
+            break
+
+    # Extend lifeform_table to have enough entries
+    while len(state.enemies.lifeform_table) <= slot_idx:
+        state.enemies.lifeform_table.append(LifeformEntry(
+            d100_low=_LIFEFORM_D100_RANGES[len(state.enemies.lifeform_table)][0],
+            d100_high=_LIFEFORM_D100_RANGES[len(state.enemies.lifeform_table)][1],
+        ))
+
+    entry = state.enemies.lifeform_table[slot_idx]
+
+    if entry.name:
+        # Slot is filled — reuse existing lifeform
+        special_attack = ""
+        unique_ability = ""
+        for rule in entry.special_rules:
+            if rule in ("razor_claws", "eruption", "shoot", "spit", "overpower", "ferocity"):
+                special_attack = rule
+            elif rule in ("pull", "jump", "teleport", "paralyze", "terror",
+                          "confuse", "hinder", "knock_down"):
+                unique_ability = rule
+        profile = LifeformProfile(
+            speed=entry.mobility,
+            partially_airborne=entry.partially_airborne,
+            combat_skill=entry.combat_skill,
+            strike_damage=entry.strike_damage,
+            toughness=entry.toughness,
+            armor_save=entry.armor_save,
+            kill_points=entry.kill_points,
+            dodge=entry.dodge,
+            special_attack=special_attack,
+            special_attack_details={},
+            unique_ability=unique_ability,
+            unique_ability_details={},
+        )
+        return LifeformRollResult(
+            profile=profile, name=entry.name,
+            d100_roll=d100, slot_idx=slot_idx, is_new=False,
+        )
+
+    # Slot is blank — generate new lifeform and store
+    profile = generate_lifeform()
+    callsign = generate_callsign(profile)
+
+    # Build weapon descriptions
+    weapons = []
+    if profile.strike_damage:
+        weapons.append(f"Claws/Fangs (Melee D+{profile.strike_damage})")
+    if profile.special_attack:
+        weapons.append(f"{profile.special_attack.replace('_', ' ').title()}")
+
+    special_rules_list = []
+    if profile.partially_airborne:
+        special_rules_list.append("partially_airborne")
+    if profile.dodge:
+        special_rules_list.append("dodge")
+    if profile.unique_ability:
+        special_rules_list.append(profile.unique_ability)
+
+    entry.name = callsign
+    entry.mobility = profile.speed
+    entry.combat_skill = profile.combat_skill
+    entry.toughness = profile.toughness
+    entry.strike_damage = profile.strike_damage
+    entry.armor_save = profile.armor_save
+    entry.kill_points = profile.kill_points
+    entry.partially_airborne = profile.partially_airborne
+    entry.dodge = profile.dodge
+    entry.weapons = weapons
+    entry.special_rules = special_rules_list
+    entry.bio_analysis_level = 0
+
+    return LifeformRollResult(
+        profile=profile, name=callsign,
+        d100_roll=d100, slot_idx=slot_idx, is_new=True,
+    )
 
 
 def _assign_zone_with_overflow(
@@ -143,6 +255,26 @@ def _create_enemy_figure(
     )
 
 
+def _build_lifeform_info(profile: LifeformProfile, name: str, deployment_desc: str) -> list[str]:
+    """Build human-readable enemy info lines for a lifeform profile."""
+    info = [f"{name} — {deployment_desc}"]
+    info.append(
+        f"  Speed {profile.speed}\""
+        + (" (partially airborne)" if profile.partially_airborne else "")
+    )
+    info.append(f"  Combat Skill +{profile.combat_skill}  Toughness {profile.toughness}")
+    info.append(f"  Strike Damage +{profile.strike_damage}")
+    if profile.armor_save:
+        info.append(f"  Armor Save {profile.armor_save}+")
+    if profile.kill_points and profile.kill_points > 1:
+        info.append(f"  Kill Points {profile.kill_points}")
+    if profile.special_attack:
+        info.append(f"  Special: {profile.special_attack.replace('_', ' ').title()}")
+    if profile.unique_ability:
+        info.append(f"  Ability: {profile.unique_ability.replace('_', ' ').title()}")
+    return info
+
+
 def _create_lifeform_figure(
     profile: LifeformProfile,
     index: int,
@@ -153,8 +285,14 @@ def _create_lifeform_figure(
     if profile.special_attack == "shoot":
         traits.append("chain_on_6")
 
+    # Pack leader: 6th lifeform in a mission gets +2 KP
+    kp = profile.kill_points
+    is_pack_leader = index == 6
+    if is_pack_leader:
+        kp += 2
+
     return Figure(
-        name=f"Lifeform {index}",
+        name=f"Lifeform {index}" + (" (Pack Leader)" if is_pack_leader else ""),
         side=FigureSide.ENEMY,
         zone=zone,
         speed=profile.speed,
@@ -162,7 +300,7 @@ def _create_lifeform_figure(
         toughness=profile.toughness,
         melee_damage=profile.strike_damage,
         armor_save=profile.armor_save,
-        kill_points=profile.kill_points,
+        kill_points=kp,
         panic_range=0,  # Lifeforms are fearless
         weapon_name="Natural weapons",
         weapon_range=0,
@@ -543,17 +681,24 @@ def _deploy_lifeforms(
     count: int = 0,
     grid_rows: int = 6,
     grid_cols: int = 6,
+    state: GameState | None = None,
 ) -> tuple[list[Figure], list[str]]:
     """Generate and deploy lifeforms as contacts across enemy half.
 
     Returns (figures, info_lines) where info_lines describe the generated profile.
     """
-    profile = generate_lifeform()
+    if state:
+        result = get_or_generate_lifeform(state)
+        profile = result.profile
+        lifeform_name = result.name
+    else:
+        profile = generate_lifeform()
+        lifeform_name = generate_callsign(profile)
     if count == 0:
         count = roll_d6("Lifeform count").total + 3
 
     # Build human-readable profile description
-    info = [f"Lifeform Generated — {count} contacts deployed"]
+    info = [f"{lifeform_name} — {count} contacts deployed"]
     info.append(
         f"  Speed {profile.speed}\""
         + (" (partially airborne)" if profile.partially_airborne else "")
@@ -661,7 +806,8 @@ def setup_mission(
 
         # 1 Contact at center of each non-deployment edge (3 contacts)
         # Player deploys from last row, so contacts on top/left/right edges
-        profile = generate_lifeform()
+        lf_result = get_or_generate_lifeform(state)
+        profile = lf_result.profile
         contact_edges = [
             (0, mid_col),                    # top edge center
             (mid_row, 0),                    # left edge center
@@ -672,16 +818,9 @@ def setup_mission(
             fig.is_contact = True
             battlefield.figures.append(fig)
 
-        enemy_info = ["Lifeform Generated — 3 contacts deployed (1 per non-deploy edge)"]
-        enemy_info.append(
-            f"  Speed {profile.speed}\""
-            + (" (partially airborne)" if profile.partially_airborne else "")
+        setup.enemy_info = _build_lifeform_info(
+            profile, lf_result.name, "3 contacts deployed (1 per non-deploy edge)",
         )
-        enemy_info.append(f"  Combat Skill +{profile.combat_skill}  Toughness {profile.toughness}")
-        enemy_info.append(f"  Strike Damage +{profile.strike_damage}")
-        if profile.armor_save:
-            enemy_info.append(f"  Armor Save {profile.armor_save}+")
-        setup.enemy_info = enemy_info
 
         # 4 Discovery markers in center of each table quarter
         q_row = grid_rows // 4
@@ -713,24 +852,15 @@ def setup_mission(
         # 1 contact at center of map
         center_row = grid_rows // 2
         center_col = grid_cols // 2
-        profile = generate_lifeform()
+        lf_result = get_or_generate_lifeform(state)
+        profile = lf_result.profile
         contact_fig = _create_lifeform_figure(profile, 1, (center_row, center_col))
         contact_fig.is_contact = True
         battlefield.figures.append(contact_fig)
 
-        # Build enemy info from profile
-        enemy_info = ["Lifeform Generated — 1 contact deployed (center)"]
-        enemy_info.append(
-            f"  Speed {profile.speed}\""
-            + (" (partially airborne)" if profile.partially_airborne else "")
+        setup.enemy_info = _build_lifeform_info(
+            profile, lf_result.name, "1 contact deployed (center)",
         )
-        enemy_info.append(f"  Combat Skill +{profile.combat_skill}  Toughness {profile.toughness}")
-        enemy_info.append(f"  Strike Damage +{profile.strike_damage}")
-        if profile.armor_save:
-            enemy_info.append(f"  Armor Save {profile.armor_save}+")
-        if profile.kill_points:
-            enemy_info.append(f"  Kill Points {profile.kill_points}")
-        setup.enemy_info = enemy_info
 
         # Place 6 Recon markers in the largest terrain features
         # Find non-open, non-impassable zones sorted by "size" (prefer heavy cover)
@@ -807,7 +937,8 @@ def setup_mission(
             # Lifeform contacts equal to Hazard Level, placed near center terrain
             setup.enemy_type = "lifeform"
             contact_count = max(1, hazard_level)
-            profile = generate_lifeform()
+            lf_result = get_or_generate_lifeform(state)
+            profile = lf_result.profile
 
             # Find terrain features nearest to center for contact placement
             center_r, center_c = grid_rows // 2, grid_cols // 2
@@ -820,15 +951,10 @@ def setup_mission(
                         terrain_near_center.append((dist, r, c))
             terrain_near_center.sort(key=lambda x: x[0])
 
-            enemy_info = [f"Lifeform Generated — {contact_count} contacts deployed (Hazard Level {hazard_level})"]
-            enemy_info.append(
-                f"  Speed {profile.speed}\""
-                + (" (partially airborne)" if profile.partially_airborne else "")
+            enemy_info = _build_lifeform_info(
+                profile, lf_result.name,
+                f"{contact_count} contacts deployed (Hazard Level {hazard_level})",
             )
-            enemy_info.append(f"  Combat Skill +{profile.combat_skill}  Toughness {profile.toughness}")
-            enemy_info.append(f"  Strike Damage +{profile.strike_damage}")
-            if profile.armor_save:
-                enemy_info.append(f"  Armor Save {profile.armor_save}+")
 
             zone_counts: dict[tuple[int, int], int] = {}
             for i in range(contact_count):
@@ -878,21 +1004,15 @@ def setup_mission(
         # 1 contact at center of map
         center_row = grid_rows // 2
         center_col = grid_cols // 2
-        profile = generate_lifeform()
+        lf_result = get_or_generate_lifeform(state)
+        profile = lf_result.profile
         contact_fig = _create_lifeform_figure(profile, 1, (center_row, center_col))
         contact_fig.is_contact = True
         battlefield.figures.append(contact_fig)
 
-        enemy_info = ["Lifeform Generated — 1 contact deployed (center)"]
-        enemy_info.append(
-            f"  Speed {profile.speed}\""
-            + (" (partially airborne)" if profile.partially_airborne else "")
+        setup.enemy_info = _build_lifeform_info(
+            profile, lf_result.name, "1 contact deployed (center)",
         )
-        enemy_info.append(f"  Combat Skill +{profile.combat_skill}  Toughness {profile.toughness}")
-        enemy_info.append(f"  Strike Damage +{profile.strike_damage}")
-        if profile.armor_save:
-            enemy_info.append(f"  Armor Save {profile.armor_save}+")
-        setup.enemy_info = enemy_info
 
         # Place 6 Science markers in largest terrain features
         terrain_candidates = []
@@ -963,7 +1083,8 @@ def setup_mission(
         else:
             # Contacts placed in terrain features with LoS to player, D6 per feature
             # At least 3 contacts guaranteed
-            profile = generate_lifeform()
+            lf_result = get_or_generate_lifeform(state)
+            profile = lf_result.profile
             terrain_features = []
             for r in range(grid_rows):
                 for c in range(grid_cols):
@@ -986,16 +1107,9 @@ def setup_mission(
                 contact_zones.append(remaining_features.pop())
 
             contact_count = len(contact_zones)
-            enemy_info = [f"Lifeform Generated — {contact_count} contacts deployed"]
-            enemy_info.append(
-                f"  Speed {profile.speed}\""
-                + (" (partially airborne)" if profile.partially_airborne else "")
+            setup.enemy_info = _build_lifeform_info(
+                profile, lf_result.name, f"{contact_count} contacts deployed",
             )
-            enemy_info.append(f"  Combat Skill +{profile.combat_skill}  Toughness {profile.toughness}")
-            enemy_info.append(f"  Strike Damage +{profile.strike_damage}")
-            if profile.armor_save:
-                enemy_info.append(f"  Armor Save {profile.armor_save}+")
-            setup.enemy_info = enemy_info
 
             for i, (r, c) in enumerate(contact_zones):
                 fig = _create_lifeform_figure(profile, i + 1, (r, c))
@@ -1140,26 +1254,9 @@ def setup_mission(
             (mid_row, 0), (max(0, mid_row - 1), 0),                    # left edge
             (mid_row, grid_cols - 1), (max(0, mid_row - 1), grid_cols - 1),  # right edge
         ]
-        profile = generate_lifeform()
-        info = [f"Lifeform Generated — 8 contacts deployed (2 per edge)"]
-        info.append(
-            f"  Speed {profile.speed}\""
-            + (" (partially airborne)" if profile.partially_airborne else "")
-        )
-        info.append(f"  Combat Skill +{profile.combat_skill}  Toughness {profile.toughness}")
-        info.append(f"  Strike Damage +{profile.strike_damage}")
-        if profile.armor_save:
-            info.append(f"  Armor Save {profile.armor_save}+")
-        if profile.kill_points:
-            info.append(f"  Kill Points {profile.kill_points}")
-        if profile.dodge:
-            info.append("  Dodge: evades hit on natural 6")
-        if profile.special_attack:
-            desc = profile.special_attack_details.get("description", profile.special_attack)
-            info.append(f"  Special Attack: {profile.special_attack.replace('_', ' ').title()} — {desc}")
-        if profile.unique_ability:
-            desc = profile.unique_ability_details.get("description", profile.unique_ability)
-            info.append(f"  Unique Ability: {profile.unique_ability.replace('_', ' ').title()} — {desc}")
+        result = get_or_generate_lifeform(state)
+        profile = result.profile
+        info = _build_lifeform_info(profile, result.name, "8 contacts deployed (2 per edge)")
 
         for i, zone in enumerate(edge_zones):
             fig = _create_lifeform_figure(profile, i + 1, zone)

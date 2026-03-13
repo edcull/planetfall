@@ -50,6 +50,17 @@ class SectorStatus(str, Enum):
     EXPLOITED = "exploited"
 
 
+class SectorTerrain(str, Enum):
+    PLAINS = "plains"
+    FOREST = "forest"
+    HILLS = "hills"
+    RUINS = "ruins"
+    WETLANDS = "wetlands"
+    CRAGS = "crags"
+    DESERT = "desert"
+    TUNDRA = "tundra"
+
+
 class WeaponTier(str, Enum):
     STANDARD = "standard"
     TIER_1 = "tier_1"
@@ -240,6 +251,8 @@ class TechTree(BaseModel):
 class Sector(BaseModel):
     sector_id: int
     status: SectorStatus = SectorStatus.UNKNOWN
+    terrain: SectorTerrain = SectorTerrain.PLAINS
+    name: str = ""
     resource_level: int = 0
     hazard_level: int = 0
     enemy_occupied_by: Optional[str] = None
@@ -264,9 +277,16 @@ class LifeformEntry(BaseModel):
     mobility: int = 0
     toughness: int = 0
     combat_skill: int = 0
+    strike_damage: int = 0
+    armor_save: int = 0
+    kill_points: int = 1
+    partially_airborne: bool = False
+    dodge: bool = False
     weapons: list[str] = Field(default_factory=list)
     special_rules: list[str] = Field(default_factory=list)
     bio_analysis_level: int = 0
+    specimen_collected: bool = False
+    bio_analysis_result: str = ""  # e.g. "hit_bonus", "defensive_bonus" — applied in combat vs this lifeform
 
 
 class TacticalEnemy(BaseModel):

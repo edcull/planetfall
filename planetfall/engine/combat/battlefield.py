@@ -226,20 +226,33 @@ class Battlefield:
         zone = self.get_zone(*target_zone)
         return zone.terrain == TerrainType.HEAVY_COVER
 
-    def has_scatter(self, shooter_zone: tuple[int, int], target_zone: tuple[int, int]) -> bool:
-        """Check if LoS crosses light cover (scatter terrain).
+    def has_cover_los(self, shooter_zone: tuple[int, int], target_zone: tuple[int, int]) -> bool:
+        """Check if target benefits from heavy cover along the line of sight.
 
-        Per rules p.36: scatter doesn't grant cover; instead a hit roll
-        that exactly matches the to-hit number means the scatter absorbed
-        the hit (remove scatter, shot has no effect).
+        Returns True if:
+        - Target zone itself is heavy cover, OR
+        - Any zone between shooter and target is heavy cover
         """
+        if self.get_zone(*target_zone).terrain == TerrainType.HEAVY_COVER:
+            return True
         between = self.get_zones_between(shooter_zone, target_zone)
         for r, c in between:
-            if self.get_zone(r, c).terrain == TerrainType.LIGHT_COVER:
+            if self.get_zone(r, c).terrain == TerrainType.HEAVY_COVER:
                 return True
-        # Also check target zone itself
-        target = self.get_zone(*target_zone)
-        return target.terrain == TerrainType.LIGHT_COVER
+        return False
+
+    def target_in_cover_zone(self, target_zone: tuple[int, int]) -> bool:
+        """Check if target is directly inside a heavy cover zone."""
+        return self.get_zone(*target_zone).terrain == TerrainType.HEAVY_COVER
+
+    def has_scatter(self, shooter_zone: tuple[int, int], target_zone: tuple[int, int]) -> bool:
+        """Check if target is in scatter terrain (light cover zone).
+
+        Scatter terrain absorbs hits: a hit roll that exactly matches the
+        to-hit number means scatter absorbed the hit (no effect).
+        Only applies when the target is in a light cover zone.
+        """
+        return self.get_zone(*target_zone).terrain == TerrainType.LIGHT_COVER
 
     def shooter_on_high_ground(
         self, shooter_zone: tuple[int, int], target_zone: tuple[int, int],
@@ -423,7 +436,8 @@ class Battlefield:
             contact.status = FigureStatus.CASUALTY
             contact.is_contact = False
             log.append(f"  False alarm! But 2 new contacts appear at the edges.")
-            edge_zones = self._get_edge_zones()
+            edge_zones = [z for z in self._get_edge_zones()
+                          if self.zone_has_capacity(*z, FigureSide.ENEMY)]
             for i in range(2):
                 if edge_zones:
                     spawn_zone = rng.choice(edge_zones)
@@ -460,8 +474,9 @@ class Battlefield:
         contact.is_contact = False
         log.append(f"  {contact.name} revealed — and it's not alone!")
         adj = self.adjacent_zones(*contact.zone)
-        cover_adj = [z for z in adj if self.has_cover(z)]
-        spawn_zone = rng.choice(cover_adj) if cover_adj else (rng.choice(adj) if adj else contact.zone)
+        valid_adj = [z for z in adj if self.zone_has_capacity(*z, FigureSide.ENEMY)]
+        cover_adj = [z for z in valid_adj if self.has_cover(z)]
+        spawn_zone = rng.choice(cover_adj) if cover_adj else (rng.choice(valid_adj) if valid_adj else contact.zone)
         extra = Figure(
             name=f"Lifeform {len(self.figures) + 1}",
             side=FigureSide.ENEMY,

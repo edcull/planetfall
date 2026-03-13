@@ -16,6 +16,7 @@ from planetfall.engine.models import (
     STARTING_PROFILES,
 )
 from planetfall.engine.tables.advancement import ADVANCEMENT_TABLE
+from planetfall.engine.dice import roll_d6
 
 XP_PER_ADVANCEMENT = 5
 
@@ -100,6 +101,64 @@ def award_mission_xp(
         ))
 
     return events
+
+
+def roll_civvy_heroic_promotion(
+    state: GameState,
+    civilian_deploy: int,
+    casualties: list[str],
+) -> tuple[list[TurnEvent], bool, int]:
+    """Roll for Civvy Heroic Promotion (rules page 67).
+
+    If any civvies participated, pick one who didn't become a casualty
+    and roll 2D6. On 10-12, they are promoted to the grunt roster.
+
+    Returns (events, promoted, roll_total).
+    """
+    events = []
+    if civilian_deploy <= 0:
+        return events, False, 0
+
+    # At least one civvy must have survived
+    civvy_casualties = sum(1 for c in casualties if c.startswith("Civvy"))
+    civvy_survivors = civilian_deploy - civvy_casualties
+    if civvy_survivors <= 0:
+        return events, False, 0
+
+    die1 = roll_d6("Civvy heroic promotion die 1")
+    die2 = roll_d6("Civvy heroic promotion die 2")
+    total = die1.total + die2.total
+    promoted = total >= 10
+
+    if promoted:
+        state.colony.grunts += 1
+        events.append(TurnEvent(
+            step=10,
+            event_type=TurnEventType.EXPERIENCE,
+            description=(
+                f"Civvy Heroic Promotion: Rolled {total} (2D6) — "
+                f"Promoted to grunt roster! (+1 grunt)"
+            ),
+            dice_rolls=[
+                DiceRoll(dice_type="d6", values=[die1.total], total=die1.total, label="Heroic promotion"),
+                DiceRoll(dice_type="d6", values=[die2.total], total=die2.total, label="Heroic promotion"),
+            ],
+        ))
+    else:
+        events.append(TurnEvent(
+            step=10,
+            event_type=TurnEventType.EXPERIENCE,
+            description=(
+                f"Civvy Heroic Promotion: Rolled {total} (2D6) — "
+                f"Not promoted (need 10+)."
+            ),
+            dice_rolls=[
+                DiceRoll(dice_type="d6", values=[die1.total], total=die1.total, label="Heroic promotion"),
+                DiceRoll(dice_type="d6", values=[die2.total], total=die2.total, label="Heroic promotion"),
+            ],
+        ))
+
+    return events, promoted, total
 
 
 def roll_advancement(state: GameState, character_name: str) -> list[TurnEvent]:

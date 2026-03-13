@@ -370,6 +370,11 @@ class CombatSession:
                 if self.bf.get_zone(r, c).terrain
                 not in (TerrainType.OPEN, TerrainType.IMPASSABLE)
             ]
+            # Filter to zones with capacity
+            terrain_zones = [
+                z for z in terrain_zones
+                if self.bf.zone_has_capacity(*z, FigureSide.ENEMY)
+            ]
             if terrain_zones:
                 farthest = max(
                     terrain_zones,
@@ -397,6 +402,7 @@ class CombatSession:
                 if self.bf.get_zone(r, c).terrain
                 not in (TerrainType.OPEN, TerrainType.IMPASSABLE)
                 and (r, c) != fig.zone
+                and self.bf.zone_has_capacity(r, c, FigureSide.ENEMY)
             ]
             if terrain_zones:
                 closest = min(
@@ -755,7 +761,7 @@ class CombatSession:
                 if hit_needed <= 6:
                     eff = get_effective_hit(self.bf, fig, enemy, shooter_moved=False)
                     eff_label = "auto" if eff <= 1 else f"{eff}+"
-                    range_label = "close" if approx_range <= 6 else "medium" if approx_range <= 18 else "long"
+                    range_label = "close" if dist <= 2 else "medium" if approx_range <= 18 else "long"
                     actions.append(ActionOption(
                         action_type="shoot",
                         description=(

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planetfall</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=14">
+</head>
+<body>
+    <div id="app">
+        <header id="title-bar">
+            <button id="sidebar-toggle" onclick="toggleMobileSidebar()" title="Menu">&#9776;</button>
+            <h1>PLANETFALL</h1>
+            <span class="subtitle">Five Parsecs from Home</span>
+        </header>
+
+        <!-- Landing screen -->
+        <div id="landing" class="screen active">
+            <div class="landing-hero">
+                <img src="/static/img/logo.png" alt="PLANETFALL" class="landing-logo">
+            </div>
+            <div class="landing-content">
+                <h2>Colony Command Terminal</h2>
+                <div id="campaign-list"></div>
+                <div class="landing-actions">
+                    <button class="btn btn-primary" onclick="startNewCampaign()">New Campaign</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game screen -->
+        <div id="game" class="screen">
+            <div id="sidebar">
+                <button id="sidebar-collapse-left" class="sidebar-collapse-btn" onclick="toggleLeftSidebar()" title="Collapse sidebar">&#9664;</button>
+                <div id="colony-status"></div>
+                <div id="roster-panel"></div>
+            </div>
+            <button id="sidebar-expand-left" class="sidebar-expand-btn" onclick="toggleLeftSidebar()" title="Expand sidebar">&#9654;</button>
+            <div id="main-content">
+                <div id="step-header"></div>
+                <div id="display-area"></div>
+                <div id="message-log"></div>
+                <div id="input-area"></div>
+            </div>
+            <button id="sidebar-expand-right" class="sidebar-expand-btn" onclick="toggleRightSidebar()" title="Expand steps">&#9664;</button>
+            <div id="steps-sidebar">
+                <button id="sidebar-collapse-right" class="sidebar-collapse-btn" onclick="toggleRightSidebar()" title="Collapse steps">&#9654;</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js?v=14"></script>
+    <script src="/static/js/components.js?v=14"></script>
+    <script src="/static/js/battlefield.js?v=14"></script>
+    <script src="/static/js/input.js?v=14"></script>
+</body>
+</html>

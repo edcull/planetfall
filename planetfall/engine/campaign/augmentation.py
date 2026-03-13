@@ -19,12 +19,10 @@ AUGMENTATIONS = {
     "boosted_decision_making": {
         "name": "Boosted Decision Making",
         "description": (
-            "Reroll one reaction die per battle round. "
-            "Counts as a Milestone. +1 Story Point."
+            "Each battle round, you may pick up and reroll one of your "
+            "Initiative dice."
         ),
-        "effect": "reaction_reroll",
-        "story_points": 1,
-        "is_milestone": True,
+        "effect": "initiative_reroll",
     },
     "boosted_recovery": {
         "name": "Boosted Recovery",
@@ -66,11 +64,12 @@ AUGMENTATIONS = {
     "mental_links": {
         "name": "Mental Links",
         "description": (
-            "Each battle round, you may reroll one Initiative die. "
-            "Counts as a Milestone."
+            "Connecting individuals together for rapid, consensus-based "
+            "decision making. Counts as a Milestone. +1 Story Point."
         ),
-        "effect": "initiative_reroll",
+        "effect": "mental_link",
         "is_milestone": True,
+        "story_points": 1,
     },
     "psionic_cohesion": {
         "name": "Psionic Cohesion",
@@ -226,8 +225,8 @@ def _apply_to_all_characters(state: GameState, augmentation_id: str) -> int:
         elif effect == "armor_boost":
             if "Inherent Protection (6+ save)" not in char.equipment:
                 char.equipment.append("Inherent Protection (6+ save)")
-        # vision_boost, reaction_reroll, initiative_reroll, loyalty_protection,
-        # recovery_boost are checked dynamically during gameplay
+        # vision_boost, initiative_reroll, loyalty_protection, recovery_boost,
+        # mental_link are checked dynamically during gameplay
 
         count += 1
 

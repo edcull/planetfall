@@ -720,10 +720,10 @@ def _build_shooting_map(
             if approx_inches > fig.weapon_range:
                 continue
 
-            target_has_cover = bf.has_heavy_cover(pos)
-            if target_has_cover and not bf.shooter_on_high_ground(fig.zone, pos):
+            target_has_cover = bf.has_cover_los(fig.zone, pos)
+            if target_has_cover:
                 shooting[pos] = RED_COVER
-            elif approx_inches <= 6:
+            elif dist <= 2:
                 shooting[pos] = RED_CLOSE
             else:
                 shooting[pos] = RED_MEDIUM

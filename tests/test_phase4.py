@@ -118,9 +118,14 @@ class TestResearch:
         assert state.campaign.milestones_completed == old_milestones + 1
 
     def test_bio_analysis(self):
+        from planetfall.engine.models import LifeformEntry
         state = _make_state()
         state.colony.resources.research_points = 5
-        events = perform_bio_analysis(state)
+        # Need a specimen to analyze
+        state.enemies.lifeform_table.append(
+            LifeformEntry(d100_low=1, d100_high=18, name="TestCreature", specimen_collected=True)
+        )
+        events = perform_bio_analysis(state, lifeform_name="TestCreature")
         assert len(events) == 1
         assert "Bio-analysis" in events[0].description
         assert state.colony.resources.research_points == 2

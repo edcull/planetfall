@@ -165,7 +165,7 @@ def find_move_toward_player(
     # If we can't get closer, try to move to cover
     if not battlefield.has_cover(figure.zone):
         for zone in candidates:
-            if battlefield.has_cover(zone):
+            if battlefield.has_cover(zone) and battlefield.zone_has_capacity(*zone, figure.side):
                 return zone
 
     return None
@@ -178,7 +178,7 @@ def find_cover_retreat(
     """Find a cover zone to retreat to (for stunned enemies with no target)."""
     adjacent = battlefield.adjacent_zones(*figure.zone)
     for zone in adjacent:
-        if battlefield.has_cover(zone):
+        if battlefield.has_cover(zone) and battlefield.zone_has_capacity(*zone, figure.side):
             return zone
     return None
 

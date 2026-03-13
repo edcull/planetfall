@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+import random as _rng
+
 from planetfall.engine.dice import roll_d100, roll_d6
 
 
@@ -170,6 +172,49 @@ def _roll_unique_ability() -> tuple[str, dict]:
         return "knock_down", {
             "description": "Roll 1D6. Characters within that distance knocked Sprawling",
         }
+
+
+def generate_callsign(profile: LifeformProfile) -> str:
+    """Generate a callsign/nickname for a lifeform based on its traits."""
+    # Prefixes based on combat characteristics
+    fast_prefixes = ["Dart", "Flash", "Blur", "Whip", "Bolt", "Streak"]
+    tough_prefixes = ["Iron", "Stone", "Titan", "Brute", "Tank", "Ridge"]
+    deadly_prefixes = ["Fang", "Claw", "Razor", "Spike", "Gore", "Maw"]
+    stealthy_prefixes = ["Ghost", "Shade", "Wraith", "Haze", "Wisp", "Phantom"]
+    generic_prefixes = ["Crawler", "Stalker", "Howler", "Lurker", "Prowler", "Skitter"]
+
+    # Suffixes based on unique traits
+    airborne_suffixes = ["wing", "hawk", "bat", "raptor", "kite", "glider"]
+    armored_suffixes = ["shell", "hide", "scale", "plate", "carapace", "back"]
+    agile_suffixes = ["runner", "dancer", "snake", "fox", "cat", "hound"]
+    savage_suffixes = ["maw", "jaw", "tooth", "horn", "tail", "crest"]
+    generic_suffixes = ["beast", "thing", "fiend", "spawn", "form", "brood"]
+
+    # Choose prefix based on dominant trait
+    if profile.speed >= 8:
+        prefix = _rng.choice(fast_prefixes)
+    elif profile.toughness >= 5:
+        prefix = _rng.choice(tough_prefixes)
+    elif profile.strike_damage >= 2:
+        prefix = _rng.choice(deadly_prefixes)
+    elif profile.dodge:
+        prefix = _rng.choice(stealthy_prefixes)
+    else:
+        prefix = _rng.choice(generic_prefixes)
+
+    # Choose suffix based on secondary traits
+    if profile.partially_airborne:
+        suffix = _rng.choice(airborne_suffixes)
+    elif profile.armor_save:
+        suffix = _rng.choice(armored_suffixes)
+    elif profile.speed >= 6:
+        suffix = _rng.choice(agile_suffixes)
+    elif profile.strike_damage >= 1:
+        suffix = _rng.choice(savage_suffixes)
+    else:
+        suffix = _rng.choice(generic_suffixes)
+
+    return f"{prefix}{suffix}"
 
 
 def generate_lifeform() -> LifeformProfile:

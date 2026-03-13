@@ -116,5 +116,9 @@ def get_research_options(state: GameState) -> dict:
             for a in get_available_applications(state)
         ],
         "rp_available": state.colony.resources.research_points,
-        "can_bio_analysis": state.colony.resources.research_points >= 3,
+        "bio_specimens": [
+            {"name": lf.name, "analyzed": bool(lf.bio_analysis_result)}
+            for lf in state.enemies.lifeform_table
+            if lf.specimen_collected and lf.name
+        ],
     }

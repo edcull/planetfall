@@ -23,8 +23,8 @@ def setup_new_campaign():
     """Interactive campaign setup."""
     display.console.print("[bold]New Campaign Setup[/bold]\n")
 
-    campaign_name = prompts.prompt_campaign_name()
     colony_name = prompts.prompt_colony_name()
+    campaign_name = colony_name
     admin_name = prompts.prompt_admin_name()
 
     # Colonization agenda

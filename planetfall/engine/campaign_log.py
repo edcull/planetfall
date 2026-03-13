@@ -86,17 +86,26 @@ def export_turn_log(
 
     # Events grouped by step, with narrative inline
     step_events: dict[int, list[TurnEvent]] = {}
-    narratives: list[TurnEvent] = []
+    step_narratives: dict[int, list[TurnEvent]] = {}
+    unassigned_narratives: list[TurnEvent] = []
     for e in events:
         if e.event_type == TurnEventType.NARRATIVE:
-            narratives.append(e)
+            if e.step > 0:
+                step_narratives.setdefault(e.step, []).append(e)
+            else:
+                unassigned_narratives.append(e)
         else:
             step_events.setdefault(e.step, []).append(e)
 
-    # Track which narrative to insert after which step
-    # Narratives are generated after: step 5 (colony), step 9 (battle),
-    # step 17 (character), step 18 (turn end)
-    narrative_idx = 0
+    # Fallback: assign unassigned narratives positionally to narrative steps
+    _NARRATIVE_STEPS = [3, 5, 9, 17, 18]
+    narr_idx = 0
+    for ns in _NARRATIVE_STEPS:
+        if narr_idx >= len(unassigned_narratives):
+            break
+        if ns in step_events:
+            step_narratives.setdefault(ns, []).append(unassigned_narratives[narr_idx])
+            narr_idx += 1
 
     lines.append("## Events\n")
 
@@ -109,8 +118,30 @@ def export_turn_log(
             for roll in e.dice_rolls:
                 lines.append(f"  - *{roll.label}: {roll.values} = {roll.total}*")
             if e.state_changes:
-                # Log significant state changes
                 sc = e.state_changes
+                # Render mechanical effects from colony/discovery events
+                effects = sc.get("effects", {})
+                if effects:
+                    effect_parts = []
+                    effect_labels = {
+                        "research_points": "Research Points",
+                        "build_points": "Build Points",
+                        "morale": "Morale",
+                        "colony_damage": "Colony Damage",
+                        "ancient_signs": "Ancient Signs",
+                        "all_xp": "XP (all characters)",
+                        "grunt": "Grunts",
+                        "raw_materials": "Raw Materials",
+                        "story_points": "Story Points",
+                    }
+                    for k, label in effect_labels.items():
+                        if k in effects:
+                            val = effects[k]
+                            sign = "+" if val > 0 else ""
+                            effect_parts.append(f"{sign}{val} {label}")
+                    if effect_parts:
+                        lines.append(f"  - **{', '.join(effect_parts)}**")
+                # Log other significant state changes
                 change_parts = []
                 for key in ("victory", "weapon_loadout", "mission_type",
                             "application_unlocked", "building_invested"):
@@ -120,18 +151,15 @@ def export_turn_log(
                     lines.append(f"  - `{', '.join(change_parts)}`")
         lines.append("")
 
-        # Insert narrative after relevant steps
-        if step in (5, 9, 17, 18) and narrative_idx < len(narratives):
-            n = narratives[narrative_idx]
-            narrative_idx += 1
-            lines.append("---\n")
-            lines.append(f"*{n.description}*\n")
-            lines.append("---\n")
+        # Insert narrative for this step
+        if step in step_narratives:
+            for n in step_narratives[step]:
+                lines.append("---\n")
+                lines.append(f"*{n.description}*\n")
+                lines.append("---\n")
 
-    # Any remaining narratives
-    while narrative_idx < len(narratives):
-        n = narratives[narrative_idx]
-        narrative_idx += 1
+    # Any remaining unassigned narratives
+    for n in unassigned_narratives[narr_idx:]:
         lines.append("---\n")
         lines.append(f"*{n.description}*\n")
         lines.append("---\n")
