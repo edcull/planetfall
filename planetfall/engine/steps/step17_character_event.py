@@ -18,6 +18,7 @@ from planetfall.engine.tables.character_events_mechanical import (
     CHARACTER_EVENT_TABLE,
 )
 from planetfall.engine.tables.injuries import CHARACTER_INJURY_TABLE
+from planetfall.engine.utils import format_display
 
 
 _LOYALTY_LEVELS = [Loyalty.DISLOYAL, Loyalty.COMMITTED, Loyalty.LOYAL]
@@ -56,33 +57,28 @@ def _decrease_loyalty(char, state: GameState | None = None) -> str:
     return ""
 
 
-def execute(
+def roll_character_event(char_name: str) -> tuple:
+    """Roll on the Character Event table without applying effects.
+
+    Returns (roll_result, entry) for reroll support.
+    """
+    return CHARACTER_EVENT_TABLE.roll_on_table(f"Character Event: {char_name}")
+
+
+def apply_character_event(
     state: GameState,
+    char,
+    roll_result,
+    entry,
     last_mission_victory: bool | None = None,
 ) -> list[TurnEvent]:
-    """Pick a random character and roll a mechanical event for them.
-
-    Args:
-        last_mission_victory: Whether the last mission was a victory
-            (used by personal_conviction and losing_faith events).
-    """
-    if not state.characters:
-        return [TurnEvent(
-            step=17,
-            event_type=TurnEventType.CHARACTER_EVENT,
-            description="No characters on roster for events.",
-        )]
-
-    char = random.choice(state.characters)
-    roll_result, entry = CHARACTER_EVENT_TABLE.roll_on_table(
-        f"Character Event: {char.name}"
-    )
+    """Apply a character event result to state. Returns events."""
     effects = entry.effects or {}
     event_id = entry.result_id
 
     desc = (
         f"{char.name}: Roll {roll_result.total} — "
-        f"{event_id.replace('_', ' ').title()}. "
+        f"{format_display(event_id)}. "
         f"{entry.description}"
     )
 
@@ -120,6 +116,28 @@ def execute(
             "mechanical_effects": effect_desc,
         },
     )]
+
+
+def execute(
+    state: GameState,
+    last_mission_victory: bool | None = None,
+) -> list[TurnEvent]:
+    """Pick a random character and roll a mechanical event for them.
+
+    Args:
+        last_mission_victory: Whether the last mission was a victory
+            (used by personal_conviction and losing_faith events).
+    """
+    if not state.characters:
+        return [TurnEvent(
+            step=17,
+            event_type=TurnEventType.CHARACTER_EVENT,
+            description="No characters on roster for events.",
+        )]
+
+    char = random.choice(state.characters)
+    roll_result, entry = roll_character_event(char.name)
+    return apply_character_event(state, char, roll_result, entry, last_mission_victory)
 
 
 def _apply_event_effects(
@@ -184,10 +202,11 @@ def _apply_event_effects(
                 total=d6.total, label="R&R disloyal check",
             ))
             if d6.total <= 2:
-                # Character does not return
+                # Character does not return — death compensation
                 state.characters.remove(char)
+                state.colony.resources.story_points += 1
                 result_parts.append(
-                    f"D6={d6.total}: {char.name} does not return!"
+                    f"D6={d6.total}: {char.name} does not return! +1 Story Point."
                 )
             elif d6.total == 6:
                 char.loyalty = Loyalty.COMMITTED

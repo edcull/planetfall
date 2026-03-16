@@ -6,6 +6,7 @@ from planetfall.engine.campaign.augmentation import has_augmentation
 from planetfall.engine.dice import roll_d6
 from planetfall.engine.models import GameState, TurnEvent, TurnEventType, DiceRoll
 from planetfall.engine.tables.injuries import CHARACTER_INJURY_TABLE, GRUNT_INJURY_TABLE
+from planetfall.engine.utils import format_display
 
 
 def execute(
@@ -82,7 +83,7 @@ def execute(
             char.sick_bay_turns = turns
             desc = (
                 f"{name}: Roll {roll_result.total} — "
-                f"{entry.result_id.replace('_', ' ').title()}. "
+                f"{format_display(entry.result_id)}. "
                 f"{char.sick_bay_turns} turns in Sick Bay."
             )
             if has_augmentation(state, "boosted_recovery"):

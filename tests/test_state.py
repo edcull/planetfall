@@ -29,7 +29,7 @@ from planetfall.engine.persistence import (
 class TestCharacterModel:
     def test_create_scientist(self):
         profile = STARTING_PROFILES[CharacterClass.SCIENTIST]
-        char = Character(name="Dr. Patel", char_class=CharacterClass.SCIENTIST, **profile)
+        char = Character(name="Dr. Patel", char_class=CharacterClass.SCIENTIST, **profile.model_dump())
         assert char.reactions == 1
         assert char.speed == 4
         assert char.combat_skill == 0
@@ -38,7 +38,7 @@ class TestCharacterModel:
 
     def test_create_trooper(self):
         profile = STARTING_PROFILES[CharacterClass.TROOPER]
-        char = Character(name="Vasquez", char_class=CharacterClass.TROOPER, **profile)
+        char = Character(name="Vasquez", char_class=CharacterClass.TROOPER, **profile.model_dump())
         assert char.reactions == 2
         assert char.combat_skill == 1
 
@@ -46,7 +46,7 @@ class TestCharacterModel:
         char = Character(
             name="Test",
             char_class=CharacterClass.SCOUT,
-            **STARTING_PROFILES[CharacterClass.SCOUT],
+            **STARTING_PROFILES[CharacterClass.SCOUT].model_dump(),
         )
         assert char.is_available
         char.sick_bay_turns = 3
@@ -83,7 +83,7 @@ class TestGameState:
             Character(
                 name="Theodora",
                 char_class=CharacterClass.SCOUT,
-                **STARTING_PROFILES[CharacterClass.SCOUT],
+                **STARTING_PROFILES[CharacterClass.SCOUT].model_dump(),
             )
         )
         state.colony.morale = 3
@@ -125,7 +125,7 @@ class TestPersistence:
             Character(
                 name="Tester",
                 char_class=CharacterClass.TROOPER,
-                **STARTING_PROFILES[CharacterClass.TROOPER],
+                **STARTING_PROFILES[CharacterClass.TROOPER].model_dump(),
             )
         )
 

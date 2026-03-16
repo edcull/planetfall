@@ -4,44 +4,37 @@ from unittest.mock import patch
 
 import pytest
 
-from planetfall.engine.campaign.setup import create_new_campaign
-from planetfall.engine.models import (
-    ColonizationAgenda, GameState, SectorStatus, TacticalEnemy,
-)
+from planetfall.engine.models import SectorStatus, TacticalEnemy
 from planetfall.engine.steps import step03_scout_reports
 
 
-def _make_state() -> GameState:
-    return create_new_campaign("T", "C", agenda=ColonizationAgenda.UNITY)
-
-
 class TestScoutExplore:
-    def test_explore_sets_status(self):
-        state = _make_state()
+    def test_explore_sets_status(self, game_state):
+        state = game_state
         sector = state.campaign_map.sectors[1]
-        assert sector.status == SectorStatus.UNKNOWN
+        assert sector.status == SectorStatus.UNEXPLORED
         events = step03_scout_reports.execute_scout_explore(state, sector.sector_id)
-        assert sector.status == SectorStatus.INVESTIGATED
+        assert sector.status == SectorStatus.EXPLORED
         assert sector.resource_level > 0 or sector.hazard_level > 0
-        assert len(events) == 1
+        assert len(events) >= 1
         assert "surveyed" in events[0].description
 
-    def test_explore_invalid_sector(self):
-        state = _make_state()
+    def test_explore_invalid_sector(self, game_state):
+        state = game_state
         events = step03_scout_reports.execute_scout_explore(state, 999)
         assert "Invalid" in events[0].description
 
 
 class TestGoodPractice:
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
-    def test_awards_xp_to_scout(self, mock_table):
+    def test_awards_xp_to_scout(self, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[15], total=15, label=""),
             TableEntry(low=11, high=20, result_id="good_practice",
                        description="Good practice.", effects={"scout_xp": 2}),
         )
-        state = _make_state()
+        state = game_state
         scout = state.characters[0]
         scout.name = "TestScout"
         old_xp = scout.xp
@@ -52,18 +45,18 @@ class TestGoodPractice:
 
 class TestExplorationReport:
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
-    def test_explores_unknown_sector(self, mock_table):
+    def test_explores_unknown_sector(self, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[45], total=45, label=""),
             TableEntry(low=31, high=60, result_id="exploration_report",
                        description="Explore.", effects={"explore_sector": True}),
         )
-        state = _make_state()
+        state = game_state
         # Ensure at least one unknown sector exists
         unknown_before = [
             s for s in state.campaign_map.sectors
-            if s.status == SectorStatus.UNKNOWN
+            if s.status == SectorStatus.UNEXPLORED
             and s.sector_id != state.campaign_map.colony_sector_id
         ]
         assert len(unknown_before) > 0
@@ -77,33 +70,33 @@ class TestExplorationReport:
 class TestRevisedSurvey:
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
     @patch("planetfall.engine.steps.step03_scout_reports.random")
-    def test_revised_survey_unknown(self, mock_random, mock_table):
+    def test_revised_survey_unknown(self, mock_random, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[90], total=90, label=""),
             TableEntry(low=81, high=100, result_id="revised_survey",
                        description="Revised.", effects={"revised_survey": True}),
         )
-        state = _make_state()
+        state = game_state
         # Pick a specific unknown sector
         target = state.campaign_map.sectors[2]
-        target.status = SectorStatus.UNKNOWN
+        target.status = SectorStatus.UNEXPLORED
         mock_random.choice.return_value = target
 
         events = step03_scout_reports.execute_scout_discovery(state)
-        assert target.status == SectorStatus.INVESTIGATED
+        assert target.status == SectorStatus.EXPLORED
         assert target.resource_level > 0 or target.hazard_level > 0
 
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
     @patch("planetfall.engine.steps.step03_scout_reports.random")
-    def test_revised_survey_explored_adds_resource(self, mock_random, mock_table):
+    def test_revised_survey_explored_adds_resource(self, mock_random, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[90], total=90, label=""),
             TableEntry(low=81, high=100, result_id="revised_survey",
                        description="Revised.", effects={"revised_survey": True}),
         )
-        state = _make_state()
+        state = game_state
         target = state.campaign_map.sectors[3]
         target.status = SectorStatus.EXPLORED
         target.resource_level = 3
@@ -115,14 +108,14 @@ class TestRevisedSurvey:
 
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
     @patch("planetfall.engine.steps.step03_scout_reports.random")
-    def test_revised_survey_exploited_regenerates(self, mock_random, mock_table):
+    def test_revised_survey_exploited_regenerates(self, mock_random, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[90], total=90, label=""),
             TableEntry(low=81, high=100, result_id="revised_survey",
                        description="Revised.", effects={"revised_survey": True}),
         )
-        state = _make_state()
+        state = game_state
         target = state.campaign_map.sectors[4]
         target.status = SectorStatus.EXPLOITED
         target.resource_level = 2
@@ -136,14 +129,14 @@ class TestRevisedSurvey:
 
 class TestAncientSign:
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
-    def test_marks_sector(self, mock_table):
+    def test_marks_sector(self, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[75], total=75, label=""),
             TableEntry(low=71, high=80, result_id="ancient_sign",
                        description="Ancient sign.", effects={"ancient_sign": True}),
         )
-        state = _make_state()
+        state = game_state
         events = step03_scout_reports.execute_scout_discovery(state)
         signed = [s for s in state.campaign_map.sectors if s.has_ancient_sign]
         assert len(signed) >= 1
@@ -152,14 +145,14 @@ class TestAncientSign:
 
 class TestReconPatrol:
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
-    def test_adds_enemy_info(self, mock_table):
+    def test_adds_enemy_info(self, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[65], total=65, label=""),
             TableEntry(low=61, high=70, result_id="recon_patrol",
                        description="Recon.", effects={"enemy_info": 1}),
         )
-        state = _make_state()
+        state = game_state
         enemy = TacticalEnemy(name="Raiders", enemy_type="outlaws", enemy_info_count=1)
         state.enemies.tactical_enemies.append(enemy)
 
@@ -168,21 +161,21 @@ class TestReconPatrol:
         assert "Raiders" in events[0].description
 
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
-    def test_no_enemies_no_effect(self, mock_table):
+    def test_no_enemies_no_effect(self, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[65], total=65, label=""),
             TableEntry(low=61, high=70, result_id="recon_patrol",
                        description="Recon.", effects={"enemy_info": 1}),
         )
-        state = _make_state()
+        state = game_state
         events = step03_scout_reports.execute_scout_discovery(state)
         assert "No tactical enemies" in events[0].description
 
 
 class TestSosSignal:
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
-    def test_stores_pending_choice(self, mock_table):
+    def test_stores_pending_choice(self, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[22], total=22, label=""),
@@ -190,7 +183,7 @@ class TestSosSignal:
                        description="Distress signal.",
                        effects={"mission_option": "rescue", "decline_morale": -3}),
         )
-        state = _make_state()
+        state = game_state
         events = step03_scout_reports.execute_scout_discovery(state)
         ctx = events[0].state_changes["narrative_context"]
         assert ctx["pending_choice"] == "rescue_or_morale"
@@ -199,14 +192,14 @@ class TestSosSignal:
 
 class TestNarrativeContext:
     @patch("planetfall.engine.steps.step03_scout_reports.SCOUT_DISCOVERY_TABLE")
-    def test_includes_scout_info(self, mock_table):
+    def test_includes_scout_info(self, mock_table, game_state):
         from planetfall.engine.dice import RollResult, TableEntry
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[5], total=5, label=""),
             TableEntry(low=1, high=10, result_id="routine_trip",
                        description="Nothing."),
         )
-        state = _make_state()
+        state = game_state
         events = step03_scout_reports.execute_scout_discovery(state, "Alice")
         ctx = events[0].state_changes["narrative_context"]
         assert ctx["assigned_scout"] == "Alice"

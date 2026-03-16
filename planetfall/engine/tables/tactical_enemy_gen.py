@@ -346,3 +346,47 @@ def generate_tactical_enemy_group(
         enemies.append(enemy)
 
     return enemies
+
+
+# --- Faction name generation ---
+
+_FACTION_PREFIXES = {
+    "outlaws": ["Dustwalker", "Ironjaw", "Redmaw", "Scorchland", "Ashfall", "Drifter", "Rustbelt", "Scrapyard"],
+    "hostile_colonists": ["Defiant", "Freehold", "Breakaway", "Sovereign", "Reclaimed", "Frontier", "Dissident"],
+    "nomad_patrol": ["Stormrider", "Windborne", "Duskwatch", "Horizon", "Wanderer", "Voidpath", "Starwind"],
+    "remnant_colonists": ["Hollow", "Ashen", "Blighted", "Forsaken", "Shattered", "Wretched", "Ruined"],
+    "renegades": ["Blackhand", "Venom", "Wolfpack", "Ironclad", "Shadow", "Crimson", "Nightfall"],
+    "pirates_inexperienced": ["Rust Bucket", "Scrapmetal", "Dirtside", "Greenhorn", "Freebooter", "Mudlark"],
+    "mysterious_raiders": ["Phantom", "Specter", "Eclipse", "Mirage", "Wraith", "Obsidian", "Void"],
+    "pirates_hardened": ["Deathmark", "Bloodhound", "Ironskull", "Razorback", "Vulture", "Marauder"],
+    "alien_raiders": ["Xith'ari", "Vel'kesh", "Zor'tai", "Kha'zul", "Nyx'ari", "Thal'vex", "Qu'rath"],
+    "kerin_landing_party": ["Iron Talon", "Storm Blade", "War Crest", "Blood Star", "Siege Fist", "Steel Vow"],
+    "converted_recon_team": ["Unit Sigma", "Cell Omega", "Vector Nine", "Echo Protocol", "Node Alpha"],
+}
+
+_FACTION_SUFFIXES = [
+    "Syndicate", "Brotherhood", "Clan", "Pack", "Company", "Band", "Legion",
+    "Collective", "Outfit", "Crew", "Cell", "Warband", "Raiders", "Marauders",
+]
+
+
+def generate_enemy_faction_name(enemy_type_id: str, state=None) -> str:
+    """Generate a unique faction name for a tactical enemy group."""
+    import random as _rng
+
+    prefixes = _FACTION_PREFIXES.get(enemy_type_id, ["Unknown"])
+    prefix = _rng.choice(prefixes)
+    suffix = _rng.choice(_FACTION_SUFFIXES)
+    name = f"{prefix} {suffix}"
+
+    # Ensure uniqueness against existing enemies
+    if state is not None:
+        existing = {te.name for te in state.enemies.tactical_enemies}
+        attempts = 0
+        while name in existing and attempts < 20:
+            prefix = _rng.choice(prefixes)
+            suffix = _rng.choice(_FACTION_SUFFIXES)
+            name = f"{prefix} {suffix}"
+            attempts += 1
+
+    return name

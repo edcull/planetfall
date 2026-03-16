@@ -21,6 +21,7 @@ from planetfall.engine.models import (
 from planetfall.engine.tables.morale_incidents import (
     MORALE_INCIDENT_TABLE, CRISIS_OUTCOME_TABLE,
 )
+from planetfall.engine.utils import format_display
 
 
 _LOYALTY_LEVELS = [Loyalty.DISLOYAL, Loyalty.COMMITTED, Loyalty.LOYAL]
@@ -43,6 +44,21 @@ def execute(
     """
     events = []
     old_morale = state.colony.morale
+
+    # During Crisis, morale is fixed at 0 — skip all adjustments
+    if state.flags.crisis_active:
+        state.colony.morale = 0
+        events.append(TurnEvent(
+            step=11,
+            event_type=TurnEventType.MORALE,
+            description="Colony Morale fixed at 0 (Crisis in effect).",
+            state_changes={"old_morale": old_morale, "new_morale": 0},
+        ))
+        # Resolve Crisis outcome
+        crisis_events = resolve_crisis(state, mission_victory)
+        events.extend(crisis_events)
+        return events
+
     adjustments: list[str] = []
 
     # Automatic -1 each campaign turn
@@ -92,11 +108,6 @@ def execute(
             incident_events = _handle_morale_incident(state, mission_victory)
             events.extend(incident_events)
 
-    # Resolve ongoing Crisis each turn
-    if state.flags.crisis_active:
-        crisis_events = resolve_crisis(state, mission_victory)
-        events.extend(crisis_events)
-
     return events
 
 
@@ -116,19 +127,11 @@ def _handle_morale_incident(
     # Morale is reset to 0 after the incident
     state.colony.morale = 0
 
-    # Add +1 Political Upheaval
-    if not hasattr(state.campaign, "political_upheaval"):
-        # Store on campaign progress (we use campaign_story_track as fallback)
-        pass
-    political_upheaval = _get_political_upheaval(state)
-    political_upheaval += 1
-    _set_political_upheaval(state, political_upheaval)
-
     desc = (
         f"MORALE INCIDENT! Roll {roll_result.total}: "
-        f"{entry.result_id.replace('_', ' ').title()}. "
+        f"{format_display(entry.result_id)}. "
         f"{entry.description} "
-        f"Morale reset to 0. Political Upheaval now {political_upheaval}."
+        f"Morale reset to 0."
     )
 
     all_dice = [DiceRoll(
@@ -151,9 +154,18 @@ def _handle_morale_incident(
         dice_rolls=all_dice,
     ))
 
-    # Crisis check (always triggered when Political Upheaval increases)
-    crisis_events = _crisis_check(state, mission_victory)
-    events.extend(crisis_events)
+    # Political Strife: +1 PU and crisis check (only for this incident type)
+    if entry.result_id == "political_strife":
+        political_upheaval = _get_political_upheaval(state)
+        political_upheaval += 1
+        _set_political_upheaval(state, political_upheaval)
+        events.append(TurnEvent(
+            step=11,
+            event_type=TurnEventType.MORALE,
+            description=f"+1 Political Upheaval (now {political_upheaval}).",
+        ))
+        crisis_events = _crisis_check(state, mission_victory)
+        events.extend(crisis_events)
 
     return events
 
@@ -310,7 +322,7 @@ def resolve_crisis(
 
     desc = (
         f"Crisis Outcome: Roll {roll_result.total} — "
-        f"{entry.result_id.replace('_', ' ').title()}. "
+        f"{format_display(entry.result_id)}. "
         f"{entry.description}"
     )
 
@@ -340,16 +352,14 @@ def resolve_crisis(
                 f"+1 Political Upheaval (now {political_upheaval})."
             )
 
-    elif effects.get("upheaval_if_mission_failed"):
-        if mission_victory is False:
-            political_upheaval += 1
-            _set_political_upheaval(state, political_upheaval)
-            desc += f" Mission failed: +1 Political Upheaval (now {political_upheaval})."
-        else:
-            desc += " Mission succeeded: no changes."
+    elif effects.get("upheaval_increase"):
+        political_upheaval += effects["upheaval_increase"]
+        _set_political_upheaval(state, political_upheaval)
+        desc += f" +{effects['upheaval_increase']} Political Upheaval (now {political_upheaval})."
 
     elif effects.get("upheaval_reduction"):
-        political_upheaval = max(0, political_upheaval + effects["upheaval_reduction"])
+        reduction = effects["upheaval_reduction"]
+        political_upheaval = max(0, political_upheaval + reduction)
         _set_political_upheaval(state, political_upheaval)
         if political_upheaval == 0:
             state.flags.crisis_active = False
@@ -357,13 +367,8 @@ def resolve_crisis(
             desc += " Crisis ends! Political Upheaval and Morale set to 0."
         else:
             desc += f" Political Upheaval now {political_upheaval}."
-
-    elif effects.get("crisis_ends"):
-        political_upheaval = 0
-        _set_political_upheaval(state, political_upheaval)
-        state.flags.crisis_active = False
-        state.colony.morale = 0
-        desc += " Crisis ends. Political Upheaval and Morale set to 0."
+        if effects.get("set_morale_zero"):
+            state.colony.morale = 0
 
     return [TurnEvent(
         step=11,
@@ -389,11 +394,7 @@ def resolve_colonist_demands(
     state.flags.colonist_demands_assigned = list(assigned_characters)
 
     for char_name in assigned_characters:
-        char = None
-        for c in state.characters:
-            if c.name == char_name:
-                char = c
-                break
+        char = state.find_character(char_name)
         if not char:
             continue
 

@@ -229,6 +229,21 @@ APPLICATIONS: dict[str, ApplicationDef] = {
 
 # Applications that grant milestones
 MILESTONE_APPLICATIONS = {"frontier_doctrines", "post_organic", "psionic_integration"}
+
+# Grunt upgrades auto-triggered by unlocking prerequisite applications
+GRUNT_UPGRADE_TRIGGERS: dict[str, tuple[str, str, str]] = {
+    # app_id that triggers -> (upgrade_id, upgrade_name, description)
+    "shard_pistol": ("side_arms", "Side Arms",
+        "All grunts carry a handgun in addition to their normal weapons."),
+    "carver_blade": ("sergeant_weaponry", "Sergeant Weaponry",
+        "One grunt per fireteam receives a Damage +1 melee weapon."),
+    "early_warning": ("sharpshooter_sight", "Sharpshooter Sight",
+        "One grunt per fireteam gets +1 to hit when stationary (military rifle only)."),
+    "food_production": ("adapted_armor", "Adapted Armor",
+        "All grunts receive a 6+ Saving Throw."),
+    "military_barracks": ("ammo_packs", "Ammo Packs",
+        "Once per battle, roll an extra die to hit for every grunt in the fireteam."),
+}
 MILESTONE_BUILDINGS = {"galactic_comms", "genetic_adaptation", "terraforming"}
 
 # Bio-analysis table
@@ -356,7 +371,7 @@ def unlock_application(state: GameState, app_id: str) -> list[TurnEvent]:
     if "mission_data" in effects:
         state.campaign.mission_data_count += effects["mission_data"]
 
-    # Grunt upgrades
+    # Grunt upgrades (explicit grunt_upgrade type)
     if app_def.app_type == "grunt_upgrade":
         if app_id not in state.grunts.upgrades:
             state.grunts.upgrades.append(app_id)
@@ -364,6 +379,17 @@ def unlock_application(state: GameState, app_id: str) -> list[TurnEvent]:
                 step=14, event_type=TurnEventType.RESEARCH,
                 description=f"Grunt upgrade applied: {app_def.name} — {app_def.description}",
                 state_changes={"grunt_upgrade": app_id},
+            ))
+
+    # Auto-unlock grunt upgrades when their prerequisite application is researched
+    if app_id in GRUNT_UPGRADE_TRIGGERS:
+        upg_id, upg_name, upg_desc = GRUNT_UPGRADE_TRIGGERS[app_id]
+        if upg_id not in state.grunts.upgrades:
+            state.grunts.upgrades.append(upg_id)
+            events.append(TurnEvent(
+                step=14, event_type=TurnEventType.RESEARCH,
+                description=f"Grunt upgrade unlocked: {upg_name} — {upg_desc}",
+                state_changes={"grunt_upgrade": upg_id},
             ))
 
     # Check milestone
@@ -378,19 +404,49 @@ def unlock_application(state: GameState, app_id: str) -> list[TurnEvent]:
     return events
 
 
-def perform_bio_analysis(state: GameState) -> list[TurnEvent]:
-    """Spend 3 RP to perform bio-analysis on a lifeform."""
+def sync_grunt_upgrades(state: GameState) -> None:
+    """Retroactively apply any missing grunt upgrades based on unlocked applications.
+
+    Call on state load to catch upgrades that should have been granted
+    but weren't (e.g., code was added after the research was done).
+    """
+    unlocked = set(state.tech_tree.unlocked_applications)
+    for trigger_app, (upg_id, _, _) in GRUNT_UPGRADE_TRIGGERS.items():
+        if trigger_app in unlocked and upg_id not in state.grunts.upgrades:
+            state.grunts.upgrades.append(upg_id)
+
+
+def perform_bio_analysis(state: GameState, lifeform_name: str = "") -> list[TurnEvent]:
+    """Spend 3 RP to perform bio-analysis on a specific lifeform specimen."""
     cost = 3
     if state.colony.resources.research_points < cost:
         return [TurnEvent(step=14, event_type=TurnEventType.RESEARCH,
                           description=f"Not enough RP for bio-analysis (need {cost})")]
 
+    # Find the lifeform entry
+    lf_entry = None
+    for lf in state.enemies.lifeform_table:
+        if lf.name == lifeform_name and lf.specimen_collected and not lf.bio_analysis_result:
+            lf_entry = lf
+            break
+
+    if lf_entry is None:
+        return [TurnEvent(step=14, event_type=TurnEventType.RESEARCH,
+                          description="No unanalyzed specimen available.")]
+
     state.colony.resources.research_points -= cost
     roll = roll_d6("Bio-analysis")
     result = BIO_ANALYSIS_TABLE[roll.total]
 
+    # Store result on the lifeform entry for combat bonuses
+    lf_entry.bio_analysis_result = result["name"]
+    lf_entry.bio_analysis_level = 1
+
     return [TurnEvent(
         step=14, event_type=TurnEventType.RESEARCH,
-        description=f"Bio-analysis complete: {result['name']} — {result['description']}",
-        state_changes={"bio_analysis": result["name"]},
+        description=(
+            f"Bio-analysis of {lifeform_name}: {result['name']} — "
+            f"{result['description']}"
+        ),
+        state_changes={"bio_analysis": result["name"], "lifeform": lifeform_name},
     )]

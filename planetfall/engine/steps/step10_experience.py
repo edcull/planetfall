@@ -16,6 +16,8 @@ from planetfall.engine.models import (
     STARTING_PROFILES,
 )
 from planetfall.engine.tables.advancement import ADVANCEMENT_TABLE
+from planetfall.engine.dice import roll_d6
+from planetfall.engine.utils import format_display
 
 XP_PER_ADVANCEMENT = 5
 
@@ -39,7 +41,7 @@ STAT_MAXIMUMS = {
 
 # Speed starting values by class for first-time bonus detection
 STARTING_PROFILES_SPEED = {
-    cls: p["speed"] for cls, p in STARTING_PROFILES.items()
+    cls: p.speed for cls, p in STARTING_PROFILES.items()
 }
 
 _LOYALTY_LEVELS = [Loyalty.DISLOYAL, Loyalty.COMMITTED, Loyalty.LOYAL]
@@ -102,6 +104,64 @@ def award_mission_xp(
     return events
 
 
+def roll_civvy_heroic_promotion(
+    state: GameState,
+    civilian_deploy: int,
+    casualties: list[str],
+) -> tuple[list[TurnEvent], bool, int]:
+    """Roll for Civvy Heroic Promotion (rules page 67).
+
+    If any civvies participated, pick one who didn't become a casualty
+    and roll 2D6. On 10-12, they are promoted to the grunt roster.
+
+    Returns (events, promoted, roll_total).
+    """
+    events = []
+    if civilian_deploy <= 0:
+        return events, False, 0
+
+    # At least one civvy must have survived
+    civvy_casualties = sum(1 for c in casualties if c.startswith("Civvy"))
+    civvy_survivors = civilian_deploy - civvy_casualties
+    if civvy_survivors <= 0:
+        return events, False, 0
+
+    die1 = roll_d6("Civvy heroic promotion die 1")
+    die2 = roll_d6("Civvy heroic promotion die 2")
+    total = die1.total + die2.total
+    promoted = total >= 10
+
+    if promoted:
+        state.colony.grunts += 1
+        events.append(TurnEvent(
+            step=10,
+            event_type=TurnEventType.EXPERIENCE,
+            description=(
+                f"Civvy Heroic Promotion: Rolled {total} (2D6) — "
+                f"Promoted to grunt roster! (+1 grunt)"
+            ),
+            dice_rolls=[
+                DiceRoll(dice_type="d6", values=[die1.total], total=die1.total, label="Heroic promotion"),
+                DiceRoll(dice_type="d6", values=[die2.total], total=die2.total, label="Heroic promotion"),
+            ],
+        ))
+    else:
+        events.append(TurnEvent(
+            step=10,
+            event_type=TurnEventType.EXPERIENCE,
+            description=(
+                f"Civvy Heroic Promotion: Rolled {total} (2D6) — "
+                f"Not promoted (need 10+)."
+            ),
+            dice_rolls=[
+                DiceRoll(dice_type="d6", values=[die1.total], total=die1.total, label="Heroic promotion"),
+                DiceRoll(dice_type="d6", values=[die2.total], total=die2.total, label="Heroic promotion"),
+            ],
+        ))
+
+    return events, promoted, total
+
+
 def roll_advancement(state: GameState, character_name: str) -> list[TurnEvent]:
     """Spend 5 XP to roll D100 on the Advancement table.
 
@@ -109,7 +169,7 @@ def roll_advancement(state: GameState, character_name: str) -> list[TurnEvent]:
     any other advance of choice (handled by orchestrator).
     """
     events = []
-    char = _find_character(state, character_name)
+    char = state.find_character(character_name)
 
     if char is None or char.xp < XP_PER_ADVANCEMENT:
         return events
@@ -123,6 +183,7 @@ def roll_advancement(state: GameState, character_name: str) -> list[TurnEvent]:
     max_val = effects.get("max", 99)
 
     current_val = getattr(char, stat, 0) if stat else 0
+    trade_info = {}
 
     if current_val >= max_val:
         desc = (
@@ -136,7 +197,7 @@ def roll_advancement(state: GameState, character_name: str) -> list[TurnEvent]:
         setattr(char, stat, new_val)
         desc = (
             f"{character_name}: Roll {roll_result.total} — "
-            f"{stat.replace('_', ' ').title()} +{bonus} "
+            f"{format_display(stat)} +{bonus} "
             f"({current_val} → {new_val})."
         )
 
@@ -145,6 +206,12 @@ def roll_advancement(state: GameState, character_name: str) -> list[TurnEvent]:
         trade_stat = effects.get("trade_stat")
         if trade_class and char.char_class.value == trade_class:
             desc += f" (Could trade for {trade_stat} instead.)"
+            trade_info = {
+                "trade_available": True,
+                "rolled_stat": stat,
+                "rolled_bonus": bonus,
+                "trade_stat": trade_stat,
+            }
 
     events.append(TurnEvent(
         step=10,
@@ -154,6 +221,40 @@ def roll_advancement(state: GameState, character_name: str) -> list[TurnEvent]:
             dice_type="d100", values=[roll_result.total],
             total=roll_result.total, label=f"Advancement: {character_name}",
         )],
+        state_changes=trade_info,
+    ))
+    return events
+
+
+def trade_advancement(
+    state: GameState,
+    character_name: str,
+    rolled_stat: str,
+    rolled_bonus: int,
+    trade_stat: str,
+) -> list[TurnEvent]:
+    """Trade a rolled advancement for the class-specific alternative stat."""
+    events = []
+    char = state.find_character(character_name)
+    if char is None:
+        return events
+
+    # Undo rolled stat
+    current_rolled = getattr(char, rolled_stat, 0)
+    setattr(char, rolled_stat, current_rolled - rolled_bonus)
+
+    # Apply trade stat
+    current_trade = getattr(char, trade_stat, 0)
+    new_val = current_trade + 1
+    setattr(char, trade_stat, new_val)
+
+    events.append(TurnEvent(
+        step=10,
+        event_type=TurnEventType.EXPERIENCE,
+        description=(
+            f"{character_name}: Traded {format_display(rolled_stat)} for "
+            f"{format_display(trade_stat)} +1 ({current_trade} → {new_val})."
+        ),
     ))
     return events
 
@@ -168,7 +269,7 @@ def buy_advancement(
     Each ability score increases by 1 point per purchase.
     """
     events = []
-    char = _find_character(state, character_name)
+    char = state.find_character(character_name)
 
     if char is None:
         return events
@@ -213,7 +314,7 @@ def buy_advancement(
         step=10,
         event_type=TurnEventType.EXPERIENCE,
         description=(
-            f"{character_name}: Bought {stat.replace('_', ' ').title()} "
+            f"{character_name}: Bought {format_display(stat)} "
             f"+{bonus} for {cost} XP ({current_val} → {new_val}). "
             f"Remaining: {char.xp} XP."
         ),
@@ -234,7 +335,7 @@ def alternate_advancement(
     - "raw_materials": Scout gains 3 Raw Materials
     """
     events = []
-    char = _find_character(state, character_name)
+    char = state.find_character(character_name)
 
     if char is None or char.xp < XP_PER_ADVANCEMENT:
         return events
@@ -299,14 +400,6 @@ def alternate_advancement(
         ))
 
     return events
-
-
-def _find_character(state: GameState, name: str):
-    """Find a character by name."""
-    for c in state.characters:
-        if c.name == name:
-            return c
-    return None
 
 
 def _get_speed_bonus(char, effects: dict) -> int:

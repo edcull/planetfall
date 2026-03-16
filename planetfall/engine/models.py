@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -44,10 +44,20 @@ class ColonizationAgenda(str, Enum):
 
 
 class SectorStatus(str, Enum):
-    UNKNOWN = "unknown"
-    INVESTIGATED = "investigated"
+    UNEXPLORED = "unexplored"
     EXPLORED = "explored"
     EXPLOITED = "exploited"
+
+
+class SectorTerrain(str, Enum):
+    PLAINS = "plains"
+    FOREST = "forest"
+    HILLS = "hills"
+    RUINS = "ruins"
+    WETLANDS = "wetlands"
+    CRAGS = "crags"
+    DESERT = "desert"
+    TUNDRA = "tundra"
 
 
 class WeaponTier(str, Enum):
@@ -92,31 +102,23 @@ class TurnEventType(str, Enum):
 
 # --- Starting profiles ---
 
-STARTING_PROFILES: dict[CharacterClass, dict] = {
-    CharacterClass.SCIENTIST: {
-        "reactions": 1, "speed": 4, "combat_skill": 0,
-        "toughness": 3, "savvy": 1,
-    },
-    CharacterClass.SCOUT: {
-        "reactions": 1, "speed": 5, "combat_skill": 0,
-        "toughness": 3, "savvy": 0,
-    },
-    CharacterClass.TROOPER: {
-        "reactions": 2, "speed": 4, "combat_skill": 1,
-        "toughness": 3, "savvy": 0,
-    },
-    CharacterClass.GRUNT: {
-        "reactions": 2, "speed": 4, "combat_skill": 0,
-        "toughness": 3, "savvy": 0,
-    },
-    CharacterClass.CIVVY: {
-        "reactions": 1, "speed": 4, "combat_skill": 0,
-        "toughness": 3, "savvy": 0,
-    },
-    CharacterClass.BOT: {
-        "reactions": 2, "speed": 4, "combat_skill": 0,
-        "toughness": 4, "savvy": 0,
-    },
+
+class CharacterProfile(BaseModel):
+    """Base stat profile for a character class."""
+    reactions: int
+    speed: int
+    combat_skill: int
+    toughness: int
+    savvy: int
+
+
+STARTING_PROFILES: dict[CharacterClass, CharacterProfile] = {
+    CharacterClass.SCIENTIST: CharacterProfile(reactions=1, speed=4, combat_skill=0, toughness=3, savvy=1),
+    CharacterClass.SCOUT: CharacterProfile(reactions=1, speed=5, combat_skill=0, toughness=3, savvy=0),
+    CharacterClass.TROOPER: CharacterProfile(reactions=2, speed=4, combat_skill=1, toughness=3, savvy=0),
+    CharacterClass.GRUNT: CharacterProfile(reactions=2, speed=4, combat_skill=0, toughness=3, savvy=0),
+    CharacterClass.CIVVY: CharacterProfile(reactions=1, speed=4, combat_skill=0, toughness=3, savvy=0),
+    CharacterClass.BOT: CharacterProfile(reactions=2, speed=4, combat_skill=0, toughness=4, savvy=0),
 }
 
 
@@ -153,10 +155,29 @@ class Character(BaseModel):
     role: str = ""                          # e.g. "Head of Security"
     background_motivation: str = ""
     background_prior_experience: str = ""
-    background_notable_event: str = ""
+    background_notable_events: list[str] = Field(default_factory=list)
     narrative_background: str = ""
     upgrades: list[str] = Field(default_factory=list)
     notes: str = ""
+
+    @property
+    def level(self) -> int:
+        """Character level: 1 + total stat increases above base + kill points."""
+        base = STARTING_PROFILES.get(self.char_class)
+        if not base:
+            return 1
+        base_tough = base.toughness
+        if self.sub_species == SubSpecies.HULKER:
+            base_tough = 5
+        gains = (
+            max(0, self.reactions - base.reactions)
+            + max(0, self.speed - base.speed)
+            + max(0, self.combat_skill - base.combat_skill)
+            + max(0, self.toughness - base_tough)
+            + max(0, self.savvy - base.savvy)
+            + self.kill_points
+        )
+        return 1 + gains
 
     @property
     def is_available(self) -> bool:
@@ -211,6 +232,7 @@ class Building(BaseModel):
 
 class Colony(BaseModel):
     name: str = "Home"
+    description: str = ""  # AI-generated colony founding narrative
     morale: int = 0
     integrity: int = 0
     defenses: int = 0
@@ -237,14 +259,23 @@ class TechTree(BaseModel):
 # --- Campaign map ---
 
 
+class SectorQuality(str, Enum):
+    """Sector qualities that affect battlefield conditions."""
+    DIFFICULT_GROUND = "difficult_ground"
+
+
 class Sector(BaseModel):
     sector_id: int
-    status: SectorStatus = SectorStatus.UNKNOWN
+    status: SectorStatus = SectorStatus.UNEXPLORED
+    terrain: SectorTerrain = SectorTerrain.PLAINS
+    name: str = ""
     resource_level: int = 0
     hazard_level: int = 0
+    qualities: list[SectorQuality] = Field(default_factory=list)
     enemy_occupied_by: Optional[str] = None
     has_ancient_sign: bool = False
     has_ancient_site: bool = False
+    ancient_site_bonus_mission_data: int = 0
     has_investigation_site: bool = False
     notes: str = ""
 
@@ -264,9 +295,27 @@ class LifeformEntry(BaseModel):
     mobility: int = 0
     toughness: int = 0
     combat_skill: int = 0
+    strike_damage: int = 0
+    armor_save: int = 0
+    kill_points: int = 1
+    partially_airborne: bool = False
+    dodge: bool = False
     weapons: list[str] = Field(default_factory=list)
     special_rules: list[str] = Field(default_factory=list)
     bio_analysis_level: int = 0
+    specimen_collected: bool = False
+    bio_analysis_result: str = ""  # e.g. "hit_bonus", "defensive_bonus" — applied in combat vs this lifeform
+
+
+class TacticalEnemyProfile(BaseModel):
+    """Stat profile for a tactical enemy faction."""
+    speed: int = 4
+    combat_skill: int = 0
+    toughness: int = 3
+    panic_range: int = 0
+    armor_save: int = 0
+    special_rules: list[str] = Field(default_factory=list)
+    number_dice: str = "1d6"
 
 
 class TacticalEnemy(BaseModel):
@@ -278,11 +327,11 @@ class TacticalEnemy(BaseModel):
     strongpoint_located: bool = False
     defeated: bool = False
     disrupted_this_turn: bool = False
-    profile: dict = Field(default_factory=dict)
+    profile: TacticalEnemyProfile = Field(default_factory=TacticalEnemyProfile)
 
 
 class SlynState(BaseModel):
-    active: bool = False
+    active: bool = True  # Always active; set False when driven off after milestone 4
     encounters: int = 0
 
 
@@ -307,10 +356,17 @@ class TurnEvent(BaseModel):
     event_type: TurnEventType
     description: str = ""
     dice_rolls: list[DiceRoll] = Field(default_factory=list)
-    state_changes: dict = Field(default_factory=dict)
+    state_changes: dict[str, Any] = Field(default_factory=dict)
 
 
 # --- Campaign progress ---
+
+
+class MissionResult(BaseModel):
+    """Result of the most recent mission."""
+    victory: bool = False
+    character_casualties: list[str] = Field(default_factory=list)
+    grunt_casualties: int = 0
 
 
 class CampaignProgress(BaseModel):
@@ -321,7 +377,8 @@ class CampaignProgress(BaseModel):
     campaign_story_track: list[str] = Field(default_factory=list)
     end_game_triggered: bool = False
     initial_missions_complete: bool = False
-    initial_mission_results: dict = Field(default_factory=dict)
+    initial_mission_results: dict[str, MissionResult] = Field(default_factory=dict)
+    initial_mission_step: int = 0
 
 
 # --- Top-level game state ---
@@ -330,6 +387,86 @@ class CampaignProgress(BaseModel):
 class GameSettings(BaseModel):
     manual_dice: bool = False
     colonization_agenda: ColonizationAgenda = ColonizationAgenda.UNITY
+    narrative_disabled: bool = False
+
+
+class ExtractionData(BaseModel):
+    """State of a resource extraction operation."""
+    resource_type: str = "raw_materials"
+    yield_per_turn: int = 1
+    turns_active: int = 0
+    max_turns: int = 0
+    depleted: bool = False
+
+
+class BattlefieldCondition(BaseModel):
+    """A battlefield condition affecting combat."""
+    id: str = ""
+    name: str = ""
+    description: str = ""
+    # Mechanical effects
+    visibility_limit: int = 0          # max range in inches (0 = unlimited)
+    visibility_type: str = ""          # "variable_round", "fixed", "variable_battle"
+    shooting_penalty: int = 0          # modifier to hit rolls
+    shooting_circumstance: str = ""    # "random_round", "range", "terrain_type"
+    movement_penalty: bool = False     # cannot Dash
+    movement_circumstance: str = ""    # "table_surface", "terrain_features", "climbing", "obstacles"
+    extra_contacts: int = 0            # additional Contact markers
+    aggression_mod: int = 0            # modifier to Aggression die for contacts
+    enemy_size_mod: int = 0            # modifier to encounter sizes
+    extra_finds_rolls: int = 0         # extra Post-Mission Finds rolls
+    terrain_hazards: int = 0           # number of terrain features made Impassable
+    terrain_unstable: bool = False     # terrain may collapse on D6=1
+    shifting_terrain: bool = False     # terrain drifts 1D6" each round
+    clouds: int = 0                    # number of cloud markers
+    cloud_type: str = ""               # "safe", "toxic", "corrosive"
+    cloud_toxin_level: int = 0         # toxin level for toxic clouds (2D6 pick highest)
+    free_escape: bool = False          # once per round, a character can escape
+    confined_exits: int = 0            # number of entry/exit points (0 = normal)
+    no_effect: bool = False            # "No Conditions" result
+    # Display
+    effects_summary: list[str] = Field(default_factory=list)  # human-readable effect lines
+
+
+class ExploredAncientSite(BaseModel):
+    """Record of an explored ancient site."""
+    sector_id: int = 0
+    name: str = ""
+    finding: str = ""
+
+
+class SlynBriefing(BaseModel):
+    """Briefing data for a Slyn interference event."""
+    encounter_num: int = 1
+    count: int = 4
+    is_first: bool = False
+
+
+class XpAward(BaseModel):
+    """Per-character XP award after a mission."""
+    name: str = ""
+    xp: int = 0
+    reasons: str = ""
+    total_xp: int = 0
+
+
+class CivvyPromotion(BaseModel):
+    """Result of a civvy heroic promotion roll."""
+    promoted: bool = False
+    roll: int = 0
+
+
+class CombatResult(BaseModel):
+    """Result of a completed combat encounter."""
+    victory: bool = False
+    rounds_played: int = 0
+    enemies_killed: int = 0
+    character_casualties: list[str] = Field(default_factory=list)
+    grunt_casualties: int = 0
+    objectives_secured: int = 0
+    evacuated: list[str] = Field(default_factory=list)
+    battle_log: list[str] = Field(default_factory=list)
+    investigation_results: dict[str, Any] = Field(default_factory=dict)
 
 
 class MechanicalFlags(BaseModel):
@@ -343,25 +480,40 @@ class MechanicalFlags(BaseModel):
     colonist_demands_assigned: list[str] = Field(default_factory=list)
     bp_penalty_next: int = 0
     rp_penalty_next: int = 0
+    no_story_points_this_turn: bool = False
     augmentation_bought_this_turn: bool = False
+    bot_repaired_this_turn: bool = False
     colony_augmentations: list[str] = Field(default_factory=list)
     campaign_complete: bool = False
     summit_path: str = ""
     total_character_deaths: int = 0
-    last_mission: dict = Field(default_factory=dict)
+    last_mission: MissionResult = Field(default_factory=MissionResult)
 
 
 class TrackingData(BaseModel):
     """Typed tracking counters and lists (replaces narrative_memory tracking keys)."""
     construction_progress: dict[str, int] = Field(default_factory=dict)
-    active_extractions: dict[str, dict] = Field(default_factory=dict)
+    active_extractions: dict[str, ExtractionData] = Field(default_factory=dict)
     occurred_calamities: list[str] = Field(default_factory=list)
-    active_calamities: dict[str, dict] = Field(default_factory=dict)
+    active_calamities: dict[str, dict[str, Any]] = Field(default_factory=dict)  # Polymorphic per calamity type
     slyn_victories: int = 0
+    slyn_victory_tracking_active: bool = False  # Milestone 4: track Slyn defeats
     ancient_sites_total: int = 0
+    explored_ancient_sites: list[ExploredAncientSite] = Field(default_factory=list)
     breakthroughs: list[str] = Field(default_factory=list)
+    breakthroughs_count: int = 0  # Sequential count (1st, 2nd, 3rd, 4th)
     found_artifacts: list[str] = Field(default_factory=list)
-    battlefield_conditions: list[dict] = Field(default_factory=list)
+    battlefield_conditions: list[Optional[BattlefieldCondition]] = Field(default_factory=list)
+    # Milestone-driven persistent flags
+    pending_replacements: int = 0  # +1 per milestone, consumed during recruitment
+    enemy_panic_reduction: int = 0  # Cumulative panic range reduction for tactical enemies
+    enemy_specialist_kp_bonus: int = 0  # Cumulative KP bonus for tactical specialists
+    enemy_extra_specialists: bool = False  # Milestone 6: +1 specialist per encounter
+    enemy_activity_all_enemies: bool = False  # Milestone 6: roll activity for every enemy
+    calamities_disabled: bool = False  # Milestone 7: set if calamity check passes
+    lifeform_evolutions: list[str] = Field(default_factory=list)  # Track rolled evolutions
+    sleeper_no_save: bool = False  # Defense Network breakthrough: sleepers lose saving throw
+    hazard_level_reduction: int = 0  # Semi-Living Organism breakthrough: global hazard reduction
 
 
 class NarrativeData(BaseModel):
@@ -372,13 +524,51 @@ class NarrativeData(BaseModel):
     tone: str = "gritty frontier sci-fi"
 
 
+from planetfall.engine.migrations import CURRENT_SCHEMA_VERSION
+
+SCHEMA_VERSION = CURRENT_SCHEMA_VERSION
+
+
+class TurnData(BaseModel):
+    """Typed inter-step data for mid-turn resume."""
+    mission_type: str | None = None
+    sector_id: int | None = None
+    deployed_chars: list[str] = Field(default_factory=list)
+    grunt_deploy: int = 0
+    bot_deploy: bool = False
+    civilian_deploy: int = 0
+    weapon_loadout: dict[str, str] = Field(default_factory=dict)
+    condition: BattlefieldCondition | None = None
+    condition_rolled: bool = False
+    condition_reroll_offered: bool = False
+    slyn_checked: bool = False
+    slyn_briefing: SlynBriefing | None = None
+    mission_victory: bool | None = None
+    character_casualties: list[str] = Field(default_factory=list)
+    grunt_casualties: int = 0
+    xp_awards: list[XpAward] | None = None
+    civvy_promo: CivvyPromotion | None = None
+    rp_gained: int | None = None
+    bp_gained: int | None = None
+    combat_session: dict[str, Any] | None = None  # For Phase 3: serialized combat state
+    combat_log: list[str] | None = None
+    objectives_secured: int = 0
+    combat_result: CombatResult | None = None
+    step_narratives: dict[str, str] = Field(default_factory=dict)  # step -> displayed modal text
+    scout_wants_discovery: bool | None = None  # step 3: None=not asked, True/False=decided
+    scout_discovery_scout: str | None = None  # step 3: assigned scout name for discovery
+    scout_explored: bool = False  # step 3: mandatory sector exploration done
+    scout_discovery_done: bool = False  # step 3: discovery roll done
+
+
 class GameState(BaseModel):
     """Complete game state for a Planetfall campaign."""
 
+    schema_version: int = SCHEMA_VERSION
     campaign_name: str = "New Colony"
     current_turn: int = 1
     current_step: int = 0  # Last completed step in current turn (0 = start of turn)
-    turn_data: dict = Field(default_factory=dict)  # Inter-step data for mid-turn resume
+    turn_data: TurnData = Field(default_factory=TurnData)  # Inter-step data for mid-turn resume
     colony: Colony = Field(default_factory=Colony)
     characters: list[Character] = Field(default_factory=list)
     administrator: Administrator = Field(default_factory=Administrator)
@@ -393,7 +583,22 @@ class GameState(BaseModel):
     tracking: TrackingData = Field(default_factory=TrackingData)
     narrative: NarrativeData = Field(default_factory=NarrativeData)
     # Deprecated — kept for backward-compat save loading; migrated on load
-    narrative_memory: dict = Field(default_factory=dict)
+    narrative_memory: dict[str, Any] = Field(default_factory=dict)
+
+    def find_character(self, name: str) -> Optional[Character]:
+        """Find a character by name."""
+        return next((c for c in self.characters if c.name == name), None)
+
+    def get_available_characters(self) -> list[Character]:
+        """Get characters not in sick bay."""
+        return [c for c in self.characters if c.is_available]
+
+    def get_sector(self, sector_id: int) -> Optional[Sector]:
+        """Find a sector by ID."""
+        return next(
+            (s for s in self.campaign_map.sectors if s.sector_id == sector_id),
+            None,
+        )
 
     @model_validator(mode="after")
     def _migrate_narrative_memory(self) -> "GameState":
@@ -414,9 +619,11 @@ class GameState(BaseModel):
             if key in nm:
                 setattr(self.flags, key, nm.pop(key))
         if "_last_mission" in nm:
-            self.flags.last_mission = nm.pop("_last_mission")
+            raw = nm.pop("_last_mission")
+            self.flags.last_mission = raw if isinstance(raw, MissionResult) else MissionResult(**raw)
         if "last_mission" in nm:
-            self.flags.last_mission = nm.pop("last_mission")
+            raw = nm.pop("last_mission")
+            self.flags.last_mission = raw if isinstance(raw, MissionResult) else MissionResult(**raw)
 
         # Tracking data
         _TRACKING_KEYS = {
@@ -489,6 +696,24 @@ TIER_2_WEAPONS: list[Weapon] = [
 
 ALL_WEAPONS = STANDARD_WEAPONS + TIER_1_WEAPONS + TIER_2_WEAPONS
 
+# Map weapon names to their research application IDs.
+# Tier 1/2 weapons require both the manufacturing building AND
+# the specific weapon to be unlocked as a research application.
+WEAPON_APP_IDS: dict[str, str] = {
+    # Tier 1 (Infantry Equipment theory)
+    "Shard Pistol": "shard_pistol",
+    "Ripper Pistol": "ripper_pistol",
+    "Kill-Break Shotgun": "kill_break_shotgun",
+    "Steady Rifle": "steady_rifle",
+    "Carver Blade": "carver_blade",
+    # Tier 2 (Adapted Combat Gear theory)
+    "Bio-gun": "bio_gun",
+    "Mind-link Pistol": "mind_link_pistol",
+    "Phase Rifle": "phase_rifle",
+    "Dart Pistol": "dart_pistol",
+    "Hyper-rifle": "hyper_rifle",
+}
+
 
 def get_weapon_by_name(name: str) -> Optional[Weapon]:
     """Look up a weapon by name (case-insensitive)."""
@@ -536,12 +761,14 @@ def can_use_weapon(char_class: str, weapon: Weapon) -> bool:
 def get_available_loadout(
     char_class: str,
     colony_buildings: list | None = None,
+    unlocked_applications: set[str] | None = None,
 ) -> list[Weapon]:
     """Get all weapons available for a character class during Lock and Load.
 
     Standard class weapons are always available (issued from colony stores).
-    Tier 1 weapons require Advanced Manufacturing Plant.
-    Tier 2 weapons require High-Tech Manufacturing Plant.
+    Tier 1/2 weapons require BOTH:
+      - The manufacturing building (Advanced or High-Tech)
+      - The specific weapon to be researched (unlocked as application)
     Equipment-owned weapons handled separately by the caller.
     """
     building_names = set()
@@ -552,6 +779,7 @@ def get_available_loadout(
     has_tier1 = any("advanced manufacturing" in n for n in building_names)
     has_tier2 = any("high-tech manufacturing" in n or "high tech manufacturing" in n
                     for n in building_names)
+    apps = unlocked_applications or set()
 
     weapons = []
     seen = set()
@@ -559,11 +787,19 @@ def get_available_loadout(
     for wpn in ALL_WEAPONS:
         if not can_use_weapon(char_class, wpn):
             continue
-        # Check tier availability
-        if wpn.tier == WeaponTier.TIER_1 and not has_tier1:
-            continue
-        if wpn.tier == WeaponTier.TIER_2 and not has_tier2:
-            continue
+        # Check tier availability (building + research)
+        if wpn.tier == WeaponTier.TIER_1:
+            if not has_tier1:
+                continue
+            app_id = WEAPON_APP_IDS.get(wpn.name)
+            if app_id and app_id not in apps:
+                continue
+        if wpn.tier == WeaponTier.TIER_2:
+            if not has_tier2:
+                continue
+            app_id = WEAPON_APP_IDS.get(wpn.name)
+            if app_id and app_id not in apps:
+                continue
         if wpn.name not in seen:
             weapons.append(wpn)
             seen.add(wpn.name)

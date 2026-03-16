@@ -1,0 +1,47 @@
+@import url('layout.css');
+@import url('components.css');
+@import url('battlefield.css');
+@import url('modals.css');
+@import url('responsive.css');
+
+/* Planetfall Web UI — Dark terminal aesthetic */
+
+:root {
+    --bg-primary: #0a0e14;
+    --bg-secondary: #111820;
+    --bg-panel: #151c25;
+    --bg-hover: #1a2332;
+    --bg-input: #0d1117;
+    --border: #2a3545;
+    --text-primary: #c9d1d9;
+    --text-secondary: #8b949e;
+    --text-dim: #5a6370;
+    --accent-cyan: #58a6ff;
+    --accent-green: #3fb950;
+    --accent-red: #f85149;
+    --accent-yellow: #d29922;
+    --accent-magenta: #bc8cff;
+    --accent-orange: #d18616;
+    --player-green: #4ade80;
+    --enemy-red: #ef4444;
+    --storm-yellow: #eab308;
+    --slyn-cyan: #22d3ee;
+    --sleeper-magenta: #c084fc;
+    --font-mono: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-mono);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.5;
+}

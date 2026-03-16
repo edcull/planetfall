@@ -12,6 +12,7 @@ import random
 from planetfall.engine.dice import roll_d6
 from planetfall.engine.models import GameState, TurnEvent, TurnEventType, DiceRoll
 from planetfall.engine.tables.character_events import CHARACTER_EVENTS_TABLE
+from planetfall.engine.utils import format_display
 
 # D6 outcome interpretations per roleplay event type
 _D6_OUTCOMES: dict[str, dict[int, str]] = {
@@ -70,7 +71,7 @@ def execute(state: GameState) -> list[TurnEvent]:
 
     desc = (
         f"[Roleplay] {char.name}: "
-        f"{entry.result_id.replace('_', ' ').title()}. "
+        f"{format_display(entry.result_id)}. "
         f"{entry.description}"
     )
     if involved:

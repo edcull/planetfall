@@ -67,11 +67,23 @@ class RoundResult:
     log: list[str] = field(default_factory=list)
 
 
-def roll_reaction_dice(battlefield: Battlefield) -> tuple[list[int], list[tuple[str, int]]]:
-    """Roll reaction dice and return (sorted_dice, [(fig_name, reactions_stat), ...]).
+def _fireteam_effective_reactions(battlefield: Battlefield, fireteam_id: str, base_reactions: int = 2) -> int:
+    """Get effective reactions for a fireteam, including formation bonus.
 
-    This is the first half of the reaction roll — just dice + figure info
-    so the player can choose assignments.
+    If all surviving members are in the same zone and ≥2 are alive,
+    reactions score is one point higher (e.g. 3 instead of 2).
+    """
+    if battlefield.fireteam_in_formation(fireteam_id):
+        return base_reactions + 1
+    return base_reactions
+
+
+def roll_reaction_dice(battlefield: Battlefield) -> tuple[list[int], list[tuple[str, int]]]:
+    """Roll reaction dice and return (sorted_dice, [(name, reactions_stat), ...]).
+
+    Fireteams contribute a single die to the pool and appear as one entry
+    in figures_info (using the fireteam name, e.g. "Fireteam Alpha").
+    Non-fireteam figures contribute one die each as before.
     """
     player_figs = [
         f for f in battlefield.figures
@@ -84,14 +96,29 @@ def roll_reaction_dice(battlefield: Battlefield) -> tuple[list[int], list[tuple[
         1 for f in player_figs
         if f.char_class == "scientist" and f.is_active
     )
-    num_dice = len(player_figs) + scientist_count
+
+    # Count dice: 1 per non-fireteam figure + 1 per fireteam + scientist bonus
+    seen_fireteams: set[str] = set()
+    num_dice = 0
+    figures_info: list[tuple[str, int]] = []
+
+    for f in player_figs:
+        if f.fireteam_id:
+            if f.fireteam_id not in seen_fireteams:
+                seen_fireteams.add(f.fireteam_id)
+                num_dice += 1
+                eff_reactions = _fireteam_effective_reactions(
+                    battlefield, f.fireteam_id, f.reactions,
+                )
+                figures_info.append((f.fireteam_id, eff_reactions))
+        else:
+            num_dice += 1
+            figures_info.append((f.name, f.reactions))
+
+    num_dice += scientist_count
     roll_result = roll_nd6(num_dice, "Reaction roll")
     dice = sorted(roll_result.values)
-    figures_info = sorted(
-        [(f.name, f.reactions) for f in player_figs],
-        key=lambda x: x[1],
-        reverse=True,
-    )
+    figures_info = sorted(figures_info, key=lambda x: x[1], reverse=True)
     return dice, figures_info
 
 
@@ -101,8 +128,14 @@ def roll_reactions(
 ) -> ReactionRollResult:
     """Roll reaction dice and determine quick/slow actors.
 
+    Fireteam rules:
+    - Each fireteam contributes 1 die (not 1 per grunt).
+    - All fireteam members share the same die and are all quick or all slow.
+    - Formation bonus: if all alive members in same zone (≥2 alive), +1 Reactions.
+
     Args:
         assignments: Optional pre-set assignments (for human-in-the-loop).
+            Keys are figure names OR fireteam IDs (e.g. "Fireteam Alpha").
             If None, auto-assigns optimally.
     """
     player_figs = [
@@ -121,7 +154,26 @@ def roll_reactions(
         1 for f in player_figs
         if f.char_class == "scientist" and f.is_active
     )
-    num_dice = len(player_figs) + scientist_count
+
+    # Build initiative units: individual figures + fireteam groups
+    seen_fireteams: set[str] = set()
+    # Each unit: (name_or_id, reactions, [figure_names])
+    initiative_units: list[tuple[str, int, list[str]]] = []
+
+    for f in player_figs:
+        if f.fireteam_id:
+            if f.fireteam_id not in seen_fireteams:
+                seen_fireteams.add(f.fireteam_id)
+                members = battlefield.get_fireteam_members(f.fireteam_id)
+                member_names = [m.name for m in members if m.can_act]
+                eff_reactions = _fireteam_effective_reactions(
+                    battlefield, f.fireteam_id, f.reactions,
+                )
+                initiative_units.append((f.fireteam_id, eff_reactions, member_names))
+        else:
+            initiative_units.append((f.name, f.reactions, [f.name]))
+
+    num_dice = len(initiative_units) + scientist_count
 
     # Roll dice
     roll_result = roll_nd6(num_dice, "Reaction roll")
@@ -135,44 +187,72 @@ def roll_reactions(
     )
     result.log.append(f"Reaction roll: {dice} ({num_dice} dice, {scientist_count} scientist bonus)")
 
+    # Log formation bonuses
+    for ft_id in seen_fireteams:
+        if battlefield.fireteam_in_formation(ft_id):
+            result.log.append(f"  {ft_id}: in formation — Reactions +1")
+
     if assignments:
-        # Use provided assignments
-        result.assignments = assignments
+        # Use provided assignments — expand fireteam assignments to all members
+        expanded: dict[str, int] = {}
+        for key, die_val in assignments.items():
+            # Check if key is a fireteam ID
+            unit = next((u for u in initiative_units if u[0] == key), None)
+            if unit:
+                for member_name in unit[2]:
+                    expanded[member_name] = die_val
+            else:
+                expanded[key] = die_val
+        result.assignments = expanded
     else:
-        # Auto-assign: greedily assign lowest dice to highest-reaction figures
-        figs_by_reaction = sorted(player_figs, key=lambda f: -f.reactions)
+        # Auto-assign: greedily assign lowest dice to highest-reaction units
+        units_by_reaction = sorted(initiative_units, key=lambda u: -u[1])
         available_dice = list(dice)
 
-        for fig in figs_by_reaction:
+        for unit_name, reactions, member_names in units_by_reaction:
             if not available_dice:
                 break
-            # Find best die for this figure (lowest that still qualifies for quick)
+            # Find best die for this unit (lowest that qualifies for quick)
             best_die = None
             for d in available_dice:
-                if d <= fig.reactions:
+                if d <= reactions:
                     best_die = d
                     break
             if best_die is not None:
-                result.assignments[fig.name] = best_die
+                for name in member_names:
+                    result.assignments[name] = best_die
                 available_dice.remove(best_die)
             else:
-                # Assign any remaining die
-                result.assignments[fig.name] = available_dice.pop(0)
+                die_val = available_dice.pop(0)
+                for name in member_names:
+                    result.assignments[name] = die_val
 
-    # Categorize into quick/slow
-    for fig in player_figs:
-        die_val = result.assignments.get(fig.name)
-        if die_val is not None and die_val <= fig.reactions:
-            result.quick_actors.append(fig.name)
-            result.log.append(
-                f"  {fig.name}: die {die_val} <= Reactions {fig.reactions} -> QUICK"
-            )
+    # Categorize into quick/slow per initiative unit
+    for unit_name, reactions, member_names in initiative_units:
+        die_val = result.assignments.get(member_names[0]) if member_names else None
+        if die_val is not None and die_val <= reactions:
+            result.quick_actors.extend(member_names)
+            if len(member_names) > 1:
+                result.log.append(
+                    f"  {unit_name} ({len(member_names)} grunts): "
+                    f"die {die_val} <= Reactions {reactions} -> QUICK"
+                )
+            else:
+                result.log.append(
+                    f"  {member_names[0]}: die {die_val} <= Reactions {reactions} -> QUICK"
+                )
         else:
-            result.slow_actors.append(fig.name)
+            result.slow_actors.extend(member_names)
             die_str = str(die_val) if die_val else "none"
-            result.log.append(
-                f"  {fig.name}: die {die_str} > Reactions {fig.reactions} -> SLOW"
-            )
+            if len(member_names) > 1:
+                result.log.append(
+                    f"  {unit_name} ({len(member_names)} grunts): "
+                    f"die {die_str} > Reactions {reactions} -> SLOW"
+                )
+            else:
+                result.log.append(
+                    f"  {member_names[0]}: die {die_str} > Reactions {reactions} -> SLOW"
+                )
 
     return result
 
@@ -181,6 +261,7 @@ def _activate_contact(
     battlefield: Battlefield,
     contact: Figure,
     all_contacts: list[Figure],
+    condition: object = None,
 ) -> ActivationResult | None:
     """Activate a single contact per rulebook rules.
 
@@ -196,7 +277,12 @@ def _activate_contact(
     aggression = roll_d6("Contact Aggression").total
     random_die = roll_d6("Contact Random").total
 
-    log = [f"{contact.name} (contact): Aggression {aggression}, Random {random_die}"]
+    # Apply aggression modifier from battlefield condition
+    agg_mod = getattr(condition, "aggression_mod", 0)
+    if agg_mod:
+        aggression = max(1, min(6, aggression + agg_mod))
+
+    log = [f"{contact.name} (contact): Aggression {aggression}{f' (mod {agg_mod:+d})' if agg_mod else ''}, Random {random_die}"]
 
     if aggression == random_die:
         # Equal — stay in place
@@ -207,8 +293,10 @@ def _activate_contact(
             adj = battlefield.adjacent_zones(*contact.zone)
             if adj:
                 spawn_zone = rng.choice(adj)
+                from planetfall.engine.combat.battlefield import _base_species_name
+                _species = _base_species_name(contact.name)
                 new_contact = Figure(
-                    name=f"Contact-{len(battlefield.figures) + 1}",
+                    name=f"{_species} {len(battlefield.figures) + 1}",
                     side=FigureSide.ENEMY,
                     zone=spawn_zone,
                     toughness=contact.toughness,
@@ -320,6 +408,7 @@ def execute_enemy_phase(
     battlefield: Battlefield,
     use_ai_variations: bool = False,
     enemy_type: str = "tactical",
+    condition: object = None,
 ) -> list[ActivationResult]:
     """Execute the enemy actions phase.
 
@@ -353,7 +442,7 @@ def execute_enemy_phase(
         if f.side == FigureSide.ENEMY and f.is_alive and f.is_contact
     ]
     for contact in contacts:
-        activation = _activate_contact(battlefield, contact, contacts)
+        activation = _activate_contact(battlefield, contact, contacts, condition=condition)
         if activation:
             results.append(activation)
 
@@ -363,7 +452,7 @@ def execute_enemy_phase(
         if not enemy.is_alive or not enemy.can_act or enemy.is_contact:
             continue
 
-        action = plan_enemy_action(battlefield, enemy)
+        action = plan_enemy_action(battlefield, enemy, condition=condition)
         activation = ActivationResult(
             figure_name=enemy.name,
             phase="enemy",
@@ -381,7 +470,8 @@ def execute_enemy_phase(
             if target and target.is_alive:
                 shooter_moved = action.move_to is not None
                 shots = resolve_shooting_action(
-                    battlefield, enemy, target, shooter_moved
+                    battlefield, enemy, target, shooter_moved,
+                    condition=condition,
                 )
                 activation.shot_results = shots
                 for shot in shots:
@@ -426,6 +516,7 @@ def execute_player_activation(
     target_name: str | None = None,
     phase: str = "quick",
     use_aid: bool = False,
+    condition: object = None,
 ) -> ActivationResult:
     """Execute a player figure's activation.
 
@@ -447,7 +538,8 @@ def execute_player_activation(
             target = battlefield.get_figure_by_name(target_name)
             if target and target.is_alive:
                 shots = resolve_shooting_action(
-                    battlefield, figure, target, False  # shooting before moving
+                    battlefield, figure, target, False,  # shooting before moving
+                    condition=condition,
                 )
                 activation.shot_results = shots
                 for shot in shots:
@@ -483,7 +575,8 @@ def execute_player_activation(
                 # Temporarily apply aid bonus to hit
                 figure.hit_bonus += aid_bonus
                 shots = resolve_shooting_action(
-                    battlefield, figure, target, shooter_moved
+                    battlefield, figure, target, shooter_moved,
+                    condition=condition,
                 )
                 figure.hit_bonus -= aid_bonus
                 activation.shot_results = shots
@@ -522,6 +615,27 @@ def execute_player_activation(
         # Handle leave battlefield
         elif action_type == "leave_battlefield":
             activation.log.append(f"{figure.name} leaves the battlefield")
+
+        # Handle free escape (Clear Escape Paths condition)
+        elif action_type == "free_escape":
+            activation.log.append(
+                f"{figure.name} escapes the battlefield (Clear Escape Paths)"
+            )
+
+    # Unstable terrain check — D6=1 when moving onto unstable zone
+    if move_to and getattr(condition, "terrain_unstable", False):
+        dest_zone = battlefield.get_zone(*move_to)
+        if getattr(dest_zone, "unstable", False):
+            collapse_roll = roll_d6("Unstable terrain").total
+            if collapse_roll == 1:
+                figure.status = FigureStatus.SPRAWLING
+                activation.log.append(
+                    f"Unstable terrain! {figure.name} rolls {collapse_roll} — ground collapses, Sprawling!"
+                )
+            else:
+                activation.log.append(
+                    f"Unstable terrain: {figure.name} rolls {collapse_roll} — safe"
+                )
 
     # Remove stun marker after activation
     if figure.stun_markers > 0:

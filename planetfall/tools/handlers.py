@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 from typing import Any, Callable
 
-from planetfall.engine.models import GameState, MissionType, TurnEvent
+from planetfall.engine.models import GameState, MissionResult, MissionType, TurnEvent
 from planetfall.engine.combat.session import CombatSession, CombatPhase
 
 
@@ -115,7 +115,7 @@ def _handle_get_scouting_options(state: GameState, tool_input: dict) -> dict:
             "has_ancient_sign": s.has_ancient_sign,
         }
         for s in state.campaign_map.sectors
-        if s.status == SectorStatus.UNKNOWN
+        if s.status == SectorStatus.UNEXPLORED
         and s.sector_id != state.campaign_map.colony_sector_id
     ]
     available_scouts = [
@@ -129,7 +129,7 @@ def _handle_get_scouting_options(state: GameState, tool_input: dict) -> dict:
         "total_sectors": len(state.campaign_map.sectors),
         "explored_count": sum(
             1 for s in state.campaign_map.sectors
-            if s.status != SectorStatus.UNKNOWN
+            if s.status != SectorStatus.UNEXPLORED
         ),
     }
 
@@ -268,11 +268,11 @@ def _handle_step08(state: GameState, tool_input: dict) -> dict:
 
 
 def _handle_report_mission_result(state: GameState, tool_input: dict) -> dict:
-    state.flags.last_mission = {
-        "victory": tool_input["victory"],
-        "character_casualties": tool_input.get("character_casualties", []),
-        "grunt_casualties": tool_input.get("grunt_casualties", 0),
-    }
+    state.flags.last_mission = MissionResult(
+        victory=tool_input["victory"],
+        character_casualties=tool_input.get("character_casualties", []),
+        grunt_casualties=tool_input.get("grunt_casualties", 0),
+    )
     return {
         "stored": True,
         "victory": tool_input["victory"],
@@ -583,20 +583,7 @@ def _handle_roll_post_mission_finds(state: GameState, tool_input: dict) -> dict:
 def _handle_get_battlefield_condition(state: GameState, tool_input: dict) -> dict:
     from planetfall.engine.tables.battlefield_conditions import get_mission_condition
     cond = get_mission_condition(state, state.current_turn)
-    return {
-        "condition": {
-            "id": cond.id, "name": cond.name,
-            "description": cond.description,
-            "visibility_limit": cond.visibility_limit,
-            "shooting_penalty": cond.shooting_penalty,
-            "movement_penalty": cond.movement_penalty,
-            "extra_contacts": cond.extra_contacts,
-            "enemy_size_mod": cond.enemy_size_mod,
-            "extra_finds_rolls": cond.extra_finds_rolls,
-            "terrain_hazards": cond.terrain_hazards,
-            "terrain_unstable": cond.terrain_unstable,
-        },
-    }
+    return {"condition": cond.model_dump()}
 
 
 # --- Interactive Combat handlers ---

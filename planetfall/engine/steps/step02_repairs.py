@@ -43,6 +43,7 @@ def execute(state: GameState, raw_materials_spent: int = 0) -> list[TurnEvent]:
     if not state.grunts.bot_operational:
         state.grunts.bot_operational = True
         bot_repaired = True
+        state.flags.bot_repaired_this_turn = True  # Cannot deploy this turn (rules p.58)
 
     desc = (
         f"Repaired {actual_repair} point(s) of Colony Damage "

@@ -12,10 +12,13 @@ from __future__ import annotations
 
 from planetfall.engine.dice import roll_nd6, RollResult
 from planetfall.engine.models import GameState, TurnEvent, TurnEventType, DiceRoll
+from planetfall.engine.utils import format_display
 
 
 def can_spend(state: GameState, amount: int = 1) -> bool:
-    """Check if the colony has enough Story Points."""
+    """Check if the colony has enough Story Points and spending is allowed."""
+    if state.flags.no_story_points_this_turn:
+        return False
     return state.colony.resources.story_points >= amount
 
 
@@ -48,7 +51,7 @@ def spend_to_prevent_roll(
         )]
 
     _spend(state)
-    label = roll_type.replace("_", " ").title()
+    label = format_display(roll_type)
 
     return [TurnEvent(
         step=0, event_type=TurnEventType.NARRATIVE,
@@ -57,6 +60,80 @@ def spend_to_prevent_roll(
             f"Remaining: {state.colony.resources.story_points} SP."
         ),
         state_changes={"story_point_spent": roll_type},
+    )]
+
+
+# --- Resource Cache ---
+
+
+def roll_resource_cache(state: GameState) -> tuple[list[TurnEvent], int]:
+    """Phase 1: Spend 1 SP and roll 2D6 pick highest.
+
+    Returns (events, budget) where budget is the highest die value.
+    """
+    if not can_spend(state):
+        return [TurnEvent(
+            step=0, event_type=TurnEventType.NARRATIVE,
+            description="Not enough Story Points.",
+        )], 0
+
+    _spend(state)
+    roll = roll_nd6(2, "Resource Cache roll")
+    highest = max(roll.values)
+
+    events = [TurnEvent(
+        step=0, event_type=TurnEventType.NARRATIVE,
+        description=(
+            f"Story Point spent — Resource Cache opened. "
+            f"Rolled 2D6: {roll.values}, highest = {highest}. "
+            f"Remaining: {state.colony.resources.story_points} SP."
+        ),
+        dice_rolls=[DiceRoll(
+            dice_type="2d6", values=roll.values,
+            total=highest, label="Resource Cache",
+        )],
+        state_changes={"story_point_spent": "resource_cache", "budget": highest},
+    )]
+    return events, highest
+
+
+def allocate_resource_cache(
+    state: GameState, budget: int, bp: int = 0, rp: int = 0, rm: int = 0,
+) -> list[TurnEvent]:
+    """Phase 2: Apply the player's resource allocation.
+
+    Validates bp + rp + rm <= budget.
+    """
+    total = bp + rp + rm
+    if total > budget:
+        bp = min(bp, budget)
+        rp = min(rp, budget - bp)
+        rm = min(rm, budget - bp - rp)
+
+    state.colony.resources.build_points += bp
+    state.colony.resources.research_points += rp
+    state.colony.resources.raw_materials += rm
+
+    parts = []
+    if bp:
+        parts.append(f"+{bp} Build Points")
+    if rp:
+        parts.append(f"+{rp} Research Points")
+    if rm:
+        parts.append(f"+{rm} Raw Materials")
+
+    return [TurnEvent(
+        step=0, event_type=TurnEventType.NARRATIVE,
+        description=(
+            f"Resource Cache allocated: {', '.join(parts) or 'nothing'}."
+        ),
+        state_changes={
+            "effects": {
+                "build_points": bp,
+                "research_points": rp,
+                "raw_materials": rm,
+            },
+        },
     )]
 
 
@@ -115,6 +192,9 @@ def spend_for_resources(
     )]
 
 
+# --- Injury Skip ---
+
+
 def spend_to_ignore_injury(state: GameState, character_name: str) -> list[TurnEvent]:
     """Spend 1 SP to ignore a post-battle injury roll for a character."""
     if not can_spend(state):
@@ -132,6 +212,9 @@ def spend_to_ignore_injury(state: GameState, character_name: str) -> list[TurnEv
         ),
         state_changes={"story_point_spent": "ignore_injury", "character": character_name},
     )]
+
+
+# --- Crisis Reroll ---
 
 
 def spend_crisis_reroll(state: GameState) -> list[TurnEvent]:
@@ -153,4 +236,31 @@ def spend_crisis_reroll(state: GameState) -> list[TurnEvent]:
             f"Story Point spent: Crisis Outcome will roll twice, pick better. "
             f"Remaining: {state.colony.resources.story_points} SP."
         ),
+    )]
+
+
+# --- Generic Table Reroll ---
+
+
+def spend_for_reroll(state: GameState, table_name: str) -> list[TurnEvent]:
+    """Spend 1 SP to reroll a table result. Player picks either result.
+
+    This only handles the SP deduction and event. The actual reroll
+    and choice are handled by the orchestrator/UI.
+    """
+    if not can_spend(state):
+        return [TurnEvent(
+            step=0, event_type=TurnEventType.NARRATIVE,
+            description="Not enough Story Points for reroll.",
+        )]
+
+    _spend(state)
+
+    return [TurnEvent(
+        step=0, event_type=TurnEventType.NARRATIVE,
+        description=(
+            f"Story Point spent to reroll {table_name}. "
+            f"Remaining: {state.colony.resources.story_points} SP."
+        ),
+        state_changes={"story_point_spent": "reroll", "table": table_name},
     )]

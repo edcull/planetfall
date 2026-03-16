@@ -130,7 +130,7 @@ class TestShooting:
     def test_hit_target_medium_open(self):
         bf = make_battlefield()
         shooter = make_player(zone=(5, 1))
-        target = make_enemy(zone=(3, 1))  # 2 zones = 8" -> open, >6"
+        target = make_enemy(zone=(2, 1))  # 3 zones = 12" -> open, >2 zones
         bf.figures = [shooter, target]
         assert get_hit_target(bf, shooter, target) == 5
 

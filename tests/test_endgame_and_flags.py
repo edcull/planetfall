@@ -4,26 +4,19 @@ from unittest.mock import patch
 
 import pytest
 
-from planetfall.engine.campaign.setup import create_new_campaign
-from planetfall.engine.models import ColonizationAgenda, GameState, Loyalty
-
-
-def _make_state() -> GameState:
-    return create_new_campaign("T", "C", agenda=ColonizationAgenda.UNITY)
-
 
 # --- Endgame / Summit ---
 
 
 class TestSummitVotes:
     @patch("planetfall.engine.campaign.milestones.roll_d6")
-    def test_run_summit_votes(self, mock_roll):
+    def test_run_summit_votes(self, mock_roll, game_state):
         from planetfall.engine.dice import RollResult
         from planetfall.engine.campaign.milestones import run_summit_votes
 
         # All rolls return 1 -> "Independence"
         mock_roll.return_value = RollResult(dice_type="d6", values=[1], total=1, label="")
-        state = _make_state()
+        state = game_state
         votes = run_summit_votes(state)
         assert len(votes["Independence"]) == len(state.characters) + 1  # chars + population
 
@@ -51,41 +44,51 @@ class TestSummitVotes:
 
 
 class TestExecuteSummit:
-    def test_summit_success(self):
+    def test_summit_success(self, game_state):
         from planetfall.engine.campaign.milestones import execute_summit
+        from planetfall.engine.models import TacticalEnemy
 
-        state = _make_state()
+        state = game_state
         state.colony.resources.build_points = 20
         state.colony.resources.research_points = 10
+        # Must have at least 1 defeated enemy for colony security
+        state.enemies.tactical_enemies.append(
+            TacticalEnemy(name="Test Enemy", defeated=True)
+        )
         events = execute_summit(state, "Independence")
         assert any("Independence" in e.description for e in events)
         assert state.flags.campaign_complete is True
         assert state.colony.resources.build_points == 5  # 20 - 15
         assert state.colony.resources.research_points == 5  # 10 - 5
 
-    def test_summit_cannot_afford(self):
+    def test_summit_cannot_afford(self, game_state):
         from planetfall.engine.campaign.milestones import execute_summit
+        from planetfall.engine.models import TacticalEnemy
 
-        state = _make_state()
+        state = game_state
         state.colony.resources.build_points = 0
         state.colony.resources.research_points = 0
+        # Must pass security check first to reach the cost check
+        state.enemies.tactical_enemies.append(
+            TacticalEnemy(name="Test Enemy", defeated=True)
+        )
         events = execute_summit(state, "Independence")
         assert any("Cannot afford" in e.description for e in events)
         assert state.flags.campaign_complete is False
 
-    def test_summit_invalid_path(self):
+    def test_summit_invalid_path(self, game_state):
         from planetfall.engine.campaign.milestones import execute_summit
 
-        state = _make_state()
+        state = game_state
         events = execute_summit(state, "InvalidPath")
         assert any("Invalid" in e.description for e in events)
 
 
 class TestCampaignScore:
-    def test_basic_scoring(self):
+    def test_basic_scoring(self, game_state):
         from planetfall.engine.campaign.milestones import calculate_campaign_score
 
-        state = _make_state()
+        state = game_state
         state.campaign.milestones_completed = 3
         state.colony.morale = 25
         state.colony.integrity = 5
@@ -98,10 +101,10 @@ class TestCampaignScore:
         )
         assert "Milestones" in score_data["breakdown"][0]
 
-    def test_defeat_scoring(self):
+    def test_defeat_scoring(self, game_state):
         from planetfall.engine.campaign.milestones import calculate_campaign_score
 
-        state = _make_state()
+        state = game_state
         state.campaign.milestones_completed = 0
         state.colony.morale = 0
         state.colony.integrity = -5
@@ -116,10 +119,10 @@ class TestCampaignScore:
 
 
 class TestXPFlags:
-    def test_double_xp(self):
+    def test_double_xp(self, game_state):
         from planetfall.engine.steps.step10_experience import award_mission_xp
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.notes = "[DOUBLE_XP: next mission]"
         old_xp = char.xp
@@ -129,10 +132,10 @@ class TestXPFlags:
         assert "DOUBLE XP" in events[0].description
         assert "[DOUBLE_XP" not in (char.notes or "")
 
-    def test_forfeit_xp(self):
+    def test_forfeit_xp(self, game_state):
         from planetfall.engine.steps.step10_experience import award_mission_xp
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.notes = "[FORFEIT_XP: next turn]"
         old_xp = char.xp
@@ -141,10 +144,10 @@ class TestXPFlags:
         assert "FORFEITED" in events[0].description
         assert "[FORFEIT_XP" not in (char.notes or "")
 
-    def test_no_flag_normal_xp(self):
+    def test_no_flag_normal_xp(self, game_state):
         from planetfall.engine.steps.step10_experience import award_mission_xp
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.notes = ""
         old_xp = char.xp
@@ -157,10 +160,10 @@ class TestXPFlags:
 
 
 class TestCalibrationBonus:
-    def test_calibration_sets_hit_bonus(self):
+    def test_calibration_sets_hit_bonus(self, game_state):
         from planetfall.engine.combat.missions import _deploy_player_figures
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.notes = "[CALIBRATION: +1 hit bonus next mission]"
         figures = _deploy_player_figures(state, [char.name])
@@ -169,10 +172,10 @@ class TestCalibrationBonus:
         # Note should be consumed
         assert "[CALIBRATION" not in (char.notes or "")
 
-    def test_no_calibration_no_bonus(self):
+    def test_no_calibration_no_bonus(self, game_state):
         from planetfall.engine.combat.missions import _deploy_player_figures
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.notes = ""
         figures = _deploy_player_figures(state, [char.name])
@@ -204,10 +207,10 @@ class TestCalibrationBonus:
 
 
 class TestExcellentHealth:
-    def test_excellent_health_reduces_sick_bay(self):
+    def test_excellent_health_reduces_sick_bay(self, game_state):
         from planetfall.engine.steps.step01_recovery import execute
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.sick_bay_turns = 4
         char.notes = "[EXCELLENT_HEALTH: saved]"
@@ -218,10 +221,10 @@ class TestExcellentHealth:
         assert "[EXCELLENT_HEALTH" not in (char.notes or "")
         assert any("Excellent Health" in e.description for e in events)
 
-    def test_excellent_health_instant_recovery(self):
+    def test_excellent_health_instant_recovery(self, game_state):
         from planetfall.engine.steps.step01_recovery import execute
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.sick_bay_turns = 2
         char.notes = "[EXCELLENT_HEALTH: saved]"
@@ -230,10 +233,10 @@ class TestExcellentHealth:
         assert char.sick_bay_turns == 0
         assert any("Excellent Health" in e.description for e in events)
 
-    def test_no_excellent_health_normal_recovery(self):
+    def test_no_excellent_health_normal_recovery(self, game_state):
         from planetfall.engine.steps.step01_recovery import execute
 
-        state = _make_state()
+        state = game_state
         char = state.characters[0]
         char.sick_bay_turns = 3
         char.notes = ""

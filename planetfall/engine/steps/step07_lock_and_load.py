@@ -6,16 +6,17 @@ from planetfall.engine.models import (
     Character, CharacterClass, Fireteam, GameState,
     TurnEvent, TurnEventType,
 )
+from planetfall.engine.utils import format_display
 
 
-# Default deployment slots by mission type
+# Default deployment slots by mission type (max characters)
 MISSION_SLOTS = {
     "investigation": 4,
-    "scouting": 4,
+    "scouting": 2,
     "exploration": 6,
-    "science": 4,
+    "science": 2,
     "hunt": 5,
-    "patrol": 5,
+    "patrol": 2,  # 2 characters + fireteam of 4 grunts
     "skirmish": 6,
     "rescue": 6,  # Any combo of characters + grunts
     "scout_down": 4,
@@ -25,10 +26,23 @@ MISSION_SLOTS = {
     "delve": 5,
 }
 
+# Missions that require a fixed number of grunts
+MISSION_FORCED_GRUNTS = {
+    "patrol": 4,  # Fireteam of up to 4 grunts
+}
+
 
 def get_available_characters(state: GameState) -> list[Character]:
     """Get characters available for deployment (not in sick bay)."""
-    return [c for c in state.characters if c.is_available]
+    return state.get_available_characters()
+
+
+def can_deploy_bot(state: GameState) -> bool:
+    """Check if the bot can be deployed this turn.
+
+    Rules (p.58): Bot is available if operational AND not repaired this turn.
+    """
+    return state.grunts.bot_operational and not state.flags.bot_repaired_this_turn
 
 
 def get_deployment_slots(mission_type: str) -> int:
@@ -92,14 +106,18 @@ def execute(
 
     char_list = ", ".join(deployed_characters) or "None"
     desc = (
-        f"Deployed for {mission_type.replace('_', ' ').title()}: "
+        f"Deployed for {format_display(mission_type)}: "
         f"{char_list}."
     )
     if deployed_grunts > 0:
         team_desc = ", ".join(f"{ft.name} ({ft.size})" for ft in fireteams)
         desc += f" Grunts: {deployed_grunts} ({team_desc})."
     if deployed_bot:
-        desc += " Bot: Deployed."
+        if state.flags.bot_repaired_this_turn:
+            deployed_bot = False  # Cannot deploy bot on same turn as repair (rules p.58)
+            desc += " Bot: repaired this turn — cannot deploy."
+        else:
+            desc += " Bot: Deployed."
 
     events.append(TurnEvent(
         step=7,
