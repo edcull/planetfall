@@ -10,6 +10,8 @@ def execute(state: GameState) -> list[TurnEvent]:
     """Reduce sick_bay_turns by 1 for all characters. Return events."""
     # Clear per-turn flags from previous turn
     state.flags.augmentation_bought_this_turn = False
+    state.flags.no_story_points_this_turn = False
+    state.flags.bot_repaired_this_turn = False
     state.flags.benched_trooper = ""
 
     events = []

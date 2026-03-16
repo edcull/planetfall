@@ -48,6 +48,9 @@ def serialize_colony_status(state: Any) -> dict:
         "roster_size": len(state.characters),
         "roster_max": 8,
         "agenda": state.settings.colonization_agenda.value,
+        "settings": {
+            "narrative_disabled": state.settings.narrative_disabled,
+        },
     }
 
     # Research — full tech tree
@@ -165,7 +168,7 @@ def serialize_map(state: Any) -> dict:
     sectors = []
     colony_id = state.campaign_map.colony_sector_id
     for s in state.campaign_map.sectors:
-        is_known = s.status.value != "unknown"
+        is_known = s.status.value != "unexplored"
         sectors.append({
             "sector_id": s.sector_id,
             "status": s.status.value,
@@ -173,10 +176,11 @@ def serialize_map(state: Any) -> dict:
             "name": s.name if is_known else "",
             "resource_level": s.resource_level if is_known else 0,
             "hazard_level": s.hazard_level if is_known else 0,
-            "enemy_occupied_by": s.enemy_occupied_by if is_known else None,
-            "has_ancient_sign": s.has_ancient_sign if is_known else False,
-            "has_ancient_site": s.has_ancient_site if is_known else False,
+            "enemy_occupied_by": s.enemy_occupied_by,
+            "has_ancient_sign": s.has_ancient_sign,
+            "has_ancient_site": s.has_ancient_site,
             "has_investigation_site": s.has_investigation_site,  # visible from start
+            "qualities": [q.value for q in s.qualities] if is_known else [],
             "is_colony": s.sector_id == colony_id,
         })
     return {
@@ -194,11 +198,11 @@ def serialize_roster(state: Any) -> dict:
     chars = []
     for c in state.characters:
         # Base stats from class profile
-        base = STARTING_PROFILES.get(c.char_class, {})
+        base = STARTING_PROFILES.get(c.char_class)
         # Compute stat bonuses (current - base)
         stat_bonuses = {}
         for stat in ("reactions", "speed", "combat_skill", "toughness", "savvy"):
-            base_val = base.get(stat, 0)
+            base_val = getattr(base, stat, 0) if base else 0
             curr_val = getattr(c, stat, 0)
             diff = curr_val - base_val
             if diff != 0:
@@ -215,6 +219,7 @@ def serialize_roster(state: Any) -> dict:
             "stat_bonuses": stat_bonuses,
             "xp": c.xp,
             "kill_points": c.kill_points,
+            "level": c.level,
             "loyalty": c.loyalty.value,
             "equipment": c.equipment,
             "sick_bay_turns": c.sick_bay_turns,
@@ -239,7 +244,7 @@ def serialize_character_backgrounds(state: Any) -> dict:
             "role": c.role,
             "motivation": c.background_motivation,
             "prior_experience": c.background_prior_experience,
-            "notable_event": c.background_notable_event,
+            "notable_events": c.background_notable_events,
             "narrative": c.narrative_background,
         })
     return {"characters": chars}
@@ -263,12 +268,17 @@ def serialize_battlefield(bf: Any, **kwargs: Any) -> dict:
         row = []
         for c in range(bf.cols):
             zone = bf.zones[r][c]
-            row.append({
+            zd = {
                 "row": r, "col": c,
                 "terrain": zone.terrain.value,
                 "has_objective": zone.has_objective,
                 "objective_label": zone.objective_label,
-            })
+            }
+            if zone.terrain_name:
+                zd["terrain_name"] = zone.terrain_name
+            if zone.difficult:
+                zd["difficult"] = True
+            row.append(zd)
         zones.append(row)
 
     # Build figure list
@@ -299,34 +309,18 @@ def serialize_battlefield(bf: Any, **kwargs: Any) -> dict:
                 })
             continue
 
-        # Generate label
+        # Generate label using Figure.display_label() (single source of truth)
         if fig.name in _label_cache:
-            label = _label_cache[fig.name]
+            code = _label_cache[fig.name]
         elif fig.is_contact:
-            label = "??"
+            code = "??"
         else:
             side_key = "player" if fig.side.value == "player" else "enemy"
             _label_counters[side_key] += 1
             num = _label_counters[side_key]
-            if fig.side.value == "enemy":
-                # Weapon abbreviation
-                wname = fig.weapon_name or ""
-                abbrev = wname[:2].upper() if wname else "EN"
-            else:
-                # Name initials
-                parts = fig.name.split()
-                abbrev = (parts[0][0] + parts[1][0]).upper() if len(parts) >= 2 else fig.name[:2].upper()
-            label = f"{num}{abbrev}"
-            _label_cache[fig.name] = label
-
-        # Status suffix
-        status_suffix = ""
-        if fig.status.value == "stunned":
-            status_suffix = "~"
-        elif fig.status.value == "sprawling":
-            status_suffix = "_"
-        if fig.aid_marker:
-            status_suffix += "+"
+            code = f"{num}{fig.abbreviation}"
+            _label_cache[fig.name] = code
+        label = fig.display_label(code)
 
         # Color class
         if fig.side.value == "player":
@@ -340,9 +334,9 @@ def serialize_battlefield(bf: Any, **kwargs: Any) -> dict:
         else:
             color = "enemy"
 
-        figures.append({
+        fig_data = {
             "name": fig.name,
-            "label": label + status_suffix,
+            "label": label,
             "side": fig.side.value,
             "zone": list(fig.zone),
             "status": fig.status.value,
@@ -356,7 +350,19 @@ def serialize_battlefield(bf: Any, **kwargs: Any) -> dict:
             "toughness": fig.toughness,
             "combat_skill": fig.combat_skill,
             "stun_markers": fig.stun_markers,
-        })
+            "fireteam_id": fig.fireteam_id,
+            "armor_save": fig.armor_save,
+            "special_rules": list(fig.special_rules) if fig.special_rules else [],
+        }
+        # Include weapon details for enemy figures
+        if fig.side.value == "enemy":
+            fig_data["weapon_range"] = fig.weapon_range
+            fig_data["weapon_shots"] = fig.weapon_shots
+            fig_data["weapon_damage"] = getattr(fig, "weapon_damage", 0)
+            fig_data["weapon_traits"] = list(fig.weapon_traits) if fig.weapon_traits else []
+            fig_data["melee_damage"] = getattr(fig, "melee_damage", 0)
+
+        figures.append(fig_data)
 
     # Build overlay data — send all three when there's an active figure
     overlay = None
@@ -394,46 +400,70 @@ def _build_overlay_data(
     if mode == "movement":
         from planetfall.engine.combat.battlefield import (
             move_zones, rush_available, rush_total_zones,
+            move_zones_difficult, rush_available_difficult, rush_total_zones_difficult,
+            TerrainType, is_impassable, ignores_difficult_ground,
         )
         highlighted[f"{fr},{fc}"] = "active"
-        num_move = move_zones(fig.speed)
         is_scout = fig.char_class == "scout"
+        fig_ignores_dg = ignores_difficult_ground(fig)
+        source_difficult = bf.get_zone(fr, fc).difficult
 
-        # Standard move zones
-        if num_move > 0:
-            if is_scout:
-                for z in bf.jump_destinations(fr, fc, num_move):
-                    if bf.zone_has_capacity(*z, fig.side):
-                        highlighted[f"{z[0]},{z[1]}"] = "move"
-            elif num_move >= 2:
-                for dr in range(-num_move, num_move + 1):
-                    for dc in range(-num_move, num_move + 1):
-                        nr, nc = fr + dr, fc + dc
-                        if (0 <= nr < bf.rows and 0 <= nc < bf.cols
-                                and max(abs(dr), abs(dc)) <= num_move
-                                and (nr, nc) != (fr, fc)
-                                and bf.zone_has_capacity(nr, nc, fig.side)):
-                            highlighted[f"{nr},{nc}"] = "move"
-            else:
-                for z in bf.adjacent_zones(fr, fc):
-                    if bf.zone_has_capacity(*z, fig.side):
-                        highlighted[f"{z[0]},{z[1]}"] = "move"
+        def _move_reach(dest_r: int, dest_c: int) -> tuple[int, bool, int]:
+            """Get (normal_move, can_rush, rush_total) for a destination zone.
 
-        # Rush zones
-        if rush_available(fig.speed):
-            total = rush_total_zones(fig.speed)
-            for dr in range(-total, total + 1):
-                for dc in range(-total, total + 1):
-                    nr, nc = fr + dr, fc + dc
-                    key = f"{nr},{nc}"
-                    if (0 <= nr < bf.rows and 0 <= nc < bf.cols
-                            and max(abs(dr), abs(dc)) <= total
-                            and key not in highlighted
-                            and bf.zone_has_capacity(nr, nc, fig.side)):
-                        highlighted[key] = "rush"
+            Difficult ground applies if source OR destination is difficult,
+            unless the figure ignores difficult ground (scouts, airborne).
+            """
+            if fig_ignores_dg:
+                return (
+                    move_zones(fig.speed),
+                    rush_available(fig.speed),
+                    rush_total_zones(fig.speed),
+                )
+            dest_difficult = bf.get_zone(dest_r, dest_c).difficult
+            if source_difficult or dest_difficult:
+                return (
+                    move_zones_difficult(fig.speed),
+                    rush_available_difficult(fig.speed),
+                    rush_total_zones_difficult(fig.speed),
+                )
+            return (
+                move_zones(fig.speed),
+                rush_available(fig.speed),
+                rush_total_zones(fig.speed),
+            )
+
+        # Build move and rush highlights per-zone
+        max_reach = max(2, move_zones(fig.speed), rush_total_zones(fig.speed))
+        for dr in range(-max_reach, max_reach + 1):
+            for dc in range(-max_reach, max_reach + 1):
+                nr, nc = fr + dr, fc + dc
+                if (nr, nc) == (fr, fc):
+                    continue
+                if not (0 <= nr < bf.rows and 0 <= nc < bf.cols):
+                    continue
+                if is_impassable(bf.get_zone(nr, nc).terrain):
+                    continue
+                if not bf.zone_has_capacity(nr, nc, fig.side):
+                    continue
+                dist = max(abs(dr), abs(dc))
+                nm, can_rush, rush_tot = _move_reach(nr, nc)
+                key = f"{nr},{nc}"
+                if is_scout and dist <= nm:
+                    # Scout jump — skip pathing
+                    highlighted[key] = "move"
+                elif dist <= nm:
+                    highlighted[key] = "move"
+                elif can_rush and dist <= rush_tot and key not in highlighted:
+                    highlighted[key] = "rush"
 
     elif mode == "shooting":
         weapon_range_zones = max(1, fig.weapon_range // 4)
+        # Mark ALL zones as out of range, then upgrade reachable ones
+        for r in range(bf.rows):
+            for c in range(bf.cols):
+                if (r, c) != (fr, fc):
+                    highlighted[f"{r},{c}"] = "no_los"
         for dr in range(-weapon_range_zones, weapon_range_zones + 1):
             for dc in range(-weapon_range_zones, weapon_range_zones + 1):
                 nr, nc = fr + dr, fc + dc
@@ -441,7 +471,10 @@ def _build_overlay_data(
                         and (nr, nc) != (fr, fc)):
                     dist = max(abs(dr), abs(dc))
                     if dist <= weapon_range_zones:
-                        if bf.has_cover_los((fr, fc), (nr, nc)):
+                        los = bf.check_los((fr, fc), (nr, nc))
+                        if los == "blocked":
+                            highlighted[f"{nr},{nc}"] = "blocked"
+                        elif bf.has_cover_los((fr, fc), (nr, nc)):
                             highlighted[f"{nr},{nc}"] = "cover"
                         elif dist <= 2:
                             highlighted[f"{nr},{nc}"] = "close_range"
@@ -450,17 +483,27 @@ def _build_overlay_data(
         highlighted[f"{fr},{fc}"] = "active"
 
     elif mode == "vision":
+        # First mark ALL zones as no_los, then upgrade visible ones
+        for r in range(bf.rows):
+            for c in range(bf.cols):
+                if (r, c) != (fr, fc):
+                    highlighted[f"{r},{c}"] = "no_los"
+        # Check LoS to every zone within range 6
         for dr in range(-6, 7):
             for dc in range(-6, 7):
                 nr, nc = fr + dr, fc + dc
-                if 0 <= nr < bf.rows and 0 <= nc < bf.cols:
-                    dist = max(abs(dr), abs(dc))
-                    if dist <= 2:
-                        highlighted[f"{nr},{nc}"] = "close"
-                    elif dist <= 4:
-                        highlighted[f"{nr},{nc}"] = "medium"
-                    elif dist <= 6:
-                        highlighted[f"{nr},{nc}"] = "far"
+                if 0 <= nr < bf.rows and 0 <= nc < bf.cols and (nr, nc) != (fr, fc):
+                    los = bf.check_los((fr, fc), (nr, nc))
+                    if los == "blocked":
+                        highlighted[f"{nr},{nc}"] = "blocked"
+                    else:
+                        dist = max(abs(dr), abs(dc))
+                        if dist <= 2:
+                            highlighted[f"{nr},{nc}"] = "close"
+                        elif dist <= 4:
+                            highlighted[f"{nr},{nc}"] = "medium"
+                        elif dist <= 6:
+                            highlighted[f"{nr},{nc}"] = "far"
         highlighted[f"{fr},{fc}"] = "active"
 
     return {"mode": mode, "zones": highlighted}
@@ -468,12 +511,22 @@ def _build_overlay_data(
 
 def serialize_armory(state: Any) -> dict:
     """Serialize weapon catalog and grunt upgrades for the armory modal."""
-    from planetfall.engine.models import ALL_WEAPONS, ALLOWED_WEAPON_CLASSES
+    from planetfall.engine.models import ALL_WEAPONS, ALLOWED_WEAPON_CLASSES, WEAPON_APP_IDS
+    from planetfall.engine.campaign.research import APPLICATIONS, THEORIES
 
     # Check which tier buildings are built
     built_names = {b.name for b in state.colony.buildings}
     has_tier1 = "Advanced Manufacturing Plant" in built_names
     has_tier2 = "High-Tech Manufacturing Plant" in built_names
+    unlocked_apps = set(state.tech_tree.unlocked_applications)
+
+    def _theory_name_for_app(app_id: str) -> str:
+        adef = APPLICATIONS.get(app_id)
+        if adef:
+            tdef = THEORIES.get(adef.theory_id)
+            if tdef:
+                return f"{tdef.name} Research"
+        return ""
 
     weapons = []
     for w in ALL_WEAPONS:
@@ -481,11 +534,21 @@ def serialize_armory(state: Any) -> dict:
         available = True
         prereq = ""
         if tier_str == "tier_1":
-            available = has_tier1
-            prereq = "Advanced Manufacturing Plant"
+            app_id = WEAPON_APP_IDS.get(w.name)
+            has_research = app_id in unlocked_apps if app_id else True
+            available = has_tier1 and has_research
+            if not has_tier1:
+                prereq = "Advanced Manufacturing Plant"
+            elif not has_research:
+                prereq = _theory_name_for_app(app_id) if app_id else "Research required"
         elif tier_str == "tier_2":
-            available = has_tier1 and has_tier2
-            prereq = "High-Tech Manufacturing Plant"
+            app_id = WEAPON_APP_IDS.get(w.name)
+            has_research = app_id in unlocked_apps if app_id else True
+            available = has_tier1 and has_tier2 and has_research
+            if not (has_tier1 and has_tier2):
+                prereq = "High-Tech Manufacturing Plant"
+            elif not has_research:
+                prereq = _theory_name_for_app(app_id) if app_id else "Research required"
 
         weapons.append({
             "name": w.name,
@@ -498,20 +561,37 @@ def serialize_armory(state: Any) -> dict:
             "prerequisite": prereq,
         })
 
-    # Grunt upgrades from tech tree applications
+    # Grunt upgrades — both explicit (app_type=grunt_upgrade) and auto-triggered
+    grunt_upgrades_list = list(state.grunts.upgrades) if state.grunts else []
     grunt_upgrades = []
     try:
         from planetfall.engine.campaign.research import APPLICATIONS
-        unlocked = set(state.tech_tree.unlocked_applications)
+        # Explicit grunt_upgrade applications
         for app_id, adef in APPLICATIONS.items():
             if adef.app_type == "grunt_upgrade":
                 grunt_upgrades.append({
                     "id": app_id,
                     "name": adef.name,
                     "description": adef.description,
-                    "available": app_id in unlocked,
-                    "prerequisite": adef.theory_id if app_id not in unlocked else "",
+                    "available": app_id in grunt_upgrades_list,
+                    "prerequisite": adef.theory_id if app_id not in grunt_upgrades_list else "",
                 })
+        # Auto-triggered upgrades (from weapon/building research)
+        _AUTO_UPGRADES = {
+            "side_arms": ("Side Arms", "All grunts carry a handgun.", "Shard Pistol"),
+            "sergeant_weaponry": ("Sergeant Weaponry", "One grunt per fireteam gets Damage +1 melee.", "Carver Blade"),
+            "sharpshooter_sight": ("Sharpshooter Sight", "One grunt per fireteam gets +1 to hit when stationary.", "Early Warning System"),
+            "adapted_armor": ("Adapted Armor", "All grunts receive a 6+ Saving Throw.", "Food Production Site"),
+            "ammo_packs": ("Ammo Packs", "Once per battle, extra hit die per grunt in fireteam.", "Military Barracks"),
+        }
+        for upg_id, (name, desc, prereq_name) in _AUTO_UPGRADES.items():
+            grunt_upgrades.append({
+                "id": upg_id,
+                "name": name,
+                "description": desc,
+                "available": upg_id in grunt_upgrades_list,
+                "prerequisite": prereq_name if upg_id not in grunt_upgrades_list else "",
+            })
     except Exception:
         pass
 
@@ -536,20 +616,30 @@ def serialize_ancient_signs(state: Any) -> dict:
                 "description": bt["description"],
             })
 
-    # Sectors with ancient sites
-    sites = []
+    # Active ancient sites (unexplored)
+    active_sites = []
     for s in state.campaign_map.sectors:
         if s.has_ancient_site:
-            sites.append({
+            active_sites.append({
                 "sector_id": s.sector_id,
-                "name": s.name if s.status.value != "unknown" else "",
+                "name": s.name or f"Sector {s.sector_id}",
+                "status": "unexplored",
             })
+
+    # Explored ancient sites (from tracking)
+    raw_sites = state.tracking.explored_ancient_sites if hasattr(state.tracking, 'explored_ancient_sites') else []
+    explored_sites = [s.model_dump() if hasattr(s, 'model_dump') else s for s in raw_sites]
+
+    # Breakthrough tracker (1-4)
+    bt_count = state.tracking.breakthroughs_count if hasattr(state.tracking, 'breakthroughs_count') else 0
 
     return {
         "ancient_signs_count": signs_count,
         "mission_data_count": mission_data,
         "breakthroughs": breakthroughs,
-        "ancient_sites": sites,
+        "breakthroughs_count": bt_count,
+        "active_sites": active_sites,
+        "explored_sites": explored_sites,
     }
 
 
@@ -593,43 +683,76 @@ def serialize_milestones(state: Any) -> dict:
 
 def serialize_conditions(state: Any) -> dict:
     """Serialize campaign condition table (10 d100 slots) for the modal."""
+    from planetfall.engine.tables.battlefield_conditions import _CONDITIONS_D100_RANGES
+
     conditions_list = state.tracking.battlefield_conditions if hasattr(state.tracking, 'battlefield_conditions') else []
 
-    # Default d100 ranges for 10 slots
-    default_ranges = [
-        (1, 15), (16, 30), (31, 42), (43, 52), (53, 62),
-        (63, 72), (73, 82), (83, 90), (91, 95), (96, 100),
-    ]
-
     slots = []
-    for i in range(10):
-        low, high = default_ranges[i]
+    for i, (low, high) in enumerate(_CONDITIONS_D100_RANGES):
         entry = conditions_list[i] if i < len(conditions_list) else None
+        # Convert BattlefieldCondition model to dict for JSON serialization
+        condition_data = entry.model_dump() if entry is not None and hasattr(entry, 'model_dump') else entry
         slots.append({
             "index": i + 1,
             "d100_low": low,
             "d100_high": high,
-            "condition": entry,  # dict with name, description, etc. or None
+            "condition": condition_data,
         })
 
     return {"slots": slots}
 
 
 def serialize_lifeforms(state: Any) -> dict:
-    """Serialize lifeform d100 table for the modal."""
+    """Serialize lifeform d100 table for the modal.
+
+    Always returns all 10 slots (with empty names for unencountered slots).
+    """
+    _D100_RANGES = [
+        (1, 18), (19, 32), (33, 44), (45, 54), (55, 64),
+        (65, 73), (74, 82), (83, 89), (90, 95), (96, 100),
+    ]
+    existing = state.enemies.lifeform_table
     lifeforms = []
-    for lf in state.enemies.lifeform_table:
-        lifeforms.append({
-            "d100_low": lf.d100_low,
-            "d100_high": lf.d100_high,
-            "name": lf.name,
-            "mobility": lf.mobility,
-            "toughness": lf.toughness,
-            "combat_skill": lf.combat_skill,
-            "weapons": lf.weapons,
-            "special_rules": lf.special_rules,
-            "bio_analysis_level": lf.bio_analysis_level,
-        })
+    for i, (low, high) in enumerate(_D100_RANGES):
+        if i < len(existing):
+            lf = existing[i]
+            lifeforms.append({
+                "d100_low": lf.d100_low,
+                "d100_high": lf.d100_high,
+                "name": lf.name,
+                "mobility": lf.mobility,
+                "toughness": lf.toughness,
+                "combat_skill": lf.combat_skill,
+                "strike_damage": lf.strike_damage,
+                "armor_save": lf.armor_save,
+                "kill_points": lf.kill_points,
+                "dodge": lf.dodge,
+                "partially_airborne": lf.partially_airborne,
+                "weapons": lf.weapons,
+                "special_rules": lf.special_rules,
+                "bio_analysis_level": lf.bio_analysis_level,
+                "specimen_collected": lf.specimen_collected,
+                "bio_analysis_result": lf.bio_analysis_result,
+            })
+        else:
+            lifeforms.append({
+                "d100_low": low,
+                "d100_high": high,
+                "name": "",
+                "mobility": 0,
+                "toughness": 0,
+                "combat_skill": 0,
+                "strike_damage": 0,
+                "armor_save": 0,
+                "kill_points": 0,
+                "dodge": False,
+                "partially_airborne": False,
+                "weapons": [],
+                "special_rules": [],
+                "bio_analysis_level": 0,
+                "specimen_collected": False,
+                "bio_analysis_result": "",
+            })
     return {"lifeforms": lifeforms}
 
 
@@ -645,7 +768,7 @@ def serialize_enemies(state: Any) -> dict:
             "boss_located": te.boss_located,
             "strongpoint_located": te.strongpoint_located,
             "defeated": te.defeated,
-            "profile": te.profile,
+            "profile": te.profile.model_dump() if hasattr(te.profile, 'model_dump') else te.profile,
         })
 
     slyn = {
@@ -708,7 +831,7 @@ def serialize_artifacts(state: Any) -> dict:
 
 def serialize_calamities(state: Any) -> dict:
     """Serialize calamity data for the modal."""
-    calamity_points = state.tracking.calamity_points if hasattr(state.tracking, 'calamity_points') else 0
+    calamity_points = state.colony.resources.calamity_points if hasattr(state.colony.resources, 'calamity_points') else 0
     calamity_events = []
     events_list = state.tracking.calamity_events if hasattr(state.tracking, 'calamity_events') else []
     for evt in events_list:

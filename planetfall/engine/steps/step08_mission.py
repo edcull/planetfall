@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from planetfall.engine.models import GameState, MissionType, TurnEvent, TurnEventType
+from planetfall.engine.utils import format_display
 from planetfall.engine.combat.battlefield import Battlefield, FigureSide
 from planetfall.engine.combat.missions import MissionSetup, setup_mission
 from planetfall.engine.combat.round import (
@@ -182,7 +183,7 @@ def execute(
             step=8,
             event_type=TurnEventType.COMBAT,
             description=(
-                f"Mission: {mission_type.value.replace('_', ' ').title()}. "
+                f"Mission: {format_display(mission_type.value)}. "
                 f"Interactive combat begins."
             ),
             state_changes={"mission_type": mission_type.value, "mode": "interactive"},
@@ -196,7 +197,7 @@ def execute(
             step=8,
             event_type=TurnEventType.COMBAT,
             description=(
-                f"Mission: {mission_type.value.replace('_', ' ').title()}. "
+                f"Mission: {format_display(mission_type.value)}. "
                 f"[Resolve manually and enter results]"
             ),
             state_changes={"mission_type": mission_type.value},
@@ -204,13 +205,25 @@ def execute(
         return result, events
 
 
-def apply_combat_result(state: GameState, result: dict) -> list[TurnEvent]:
-    """Apply interactive combat results to generate TurnEvents for downstream steps."""
-    victory = result.get("victory", False)
-    rounds_played = result.get("rounds_played", 0)
-    enemies_killed = result.get("enemies_killed", 0)
-    char_casualties = result.get("character_casualties", [])
-    grunt_casualties = result.get("grunt_casualties", 0)
+def apply_combat_result(state: GameState, result) -> list[TurnEvent]:
+    """Apply interactive combat results to generate TurnEvents for downstream steps.
+
+    Args:
+        result: CombatResult model or legacy dict with combat outcome data.
+    """
+    if isinstance(result, dict):
+        # Legacy dict support
+        victory = result.get("victory", False)
+        rounds_played = result.get("rounds_played", 0)
+        enemies_killed = result.get("enemies_killed", 0)
+        char_casualties = result.get("character_casualties", [])
+        grunt_casualties = result.get("grunt_casualties", 0)
+    else:
+        victory = result.victory
+        rounds_played = result.rounds_played
+        enemies_killed = result.enemies_killed
+        char_casualties = list(result.character_casualties)
+        grunt_casualties = result.grunt_casualties
 
     summary = (
         f"Battle concluded: {'VICTORY' if victory else 'DEFEAT'} "
@@ -237,7 +250,7 @@ def apply_combat_result(state: GameState, result: dict) -> list[TurnEvent]:
 def _make_combat_event(mission_type: MissionType, result: MissionResult) -> TurnEvent:
     """Create a TurnEvent from a completed auto-battle MissionResult."""
     summary = (
-        f"Mission: {mission_type.value.replace('_', ' ').title()} — "
+        f"Mission: {format_display(mission_type.value)} — "
         f"{'VICTORY' if result.victory else 'DEFEAT'} "
         f"in {result.rounds_played} rounds. "
         f"{result.enemies_killed} enemies killed."

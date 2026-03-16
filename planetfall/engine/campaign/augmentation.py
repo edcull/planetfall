@@ -11,7 +11,26 @@ Rules (pages 105-106):
 
 from __future__ import annotations
 
-from planetfall.engine.models import GameState, SubSpecies, TurnEvent, TurnEventType
+from planetfall.engine.models import Character, GameState, SubSpecies, TurnEvent, TurnEventType
+
+
+def _is_augmentable(char: Character) -> bool:
+    """Check if a character can receive augmentations (not Bot/Soulless)."""
+    return char.sub_species != SubSpecies.SOULLESS and char.char_class.value != "bot"
+
+
+def _apply_effect(char: Character, effect: str) -> None:
+    """Apply a single augmentation effect to a character."""
+    if effect == "speed_boost":
+        char.speed = min(char.speed + 1, 8)
+    elif effect == "melee_boost":
+        if "Claws (melee +0)" not in char.equipment:
+            char.equipment.append("Claws (melee +0)")
+    elif effect == "armor_boost":
+        if "Inherent Protection (6+ save)" not in char.equipment:
+            char.equipment.append("Inherent Protection (6+ save)")
+    # vision_boost, initiative_reroll, loyalty_protection, recovery_boost,
+    # mental_link are checked dynamically during gameplay
 
 
 # Available augmentations
@@ -211,23 +230,9 @@ def _apply_to_all_characters(state: GameState, augmentation_id: str) -> int:
     count = 0
 
     for char in state.characters:
-        # Bots and Soulless are unaffected
-        if char.sub_species == SubSpecies.SOULLESS:
+        if not _is_augmentable(char):
             continue
-        if char.char_class.value == "bot":
-            continue
-
-        if effect == "speed_boost":
-            char.speed = min(char.speed + 1, 8)
-        elif effect == "melee_boost":
-            if "Claws (melee +0)" not in char.equipment:
-                char.equipment.append("Claws (melee +0)")
-        elif effect == "armor_boost":
-            if "Inherent Protection (6+ save)" not in char.equipment:
-                char.equipment.append("Inherent Protection (6+ save)")
-        # vision_boost, initiative_reroll, loyalty_protection, recovery_boost,
-        # mental_link are checked dynamically during gameplay
-
+        _apply_effect(char, effect)
         count += 1
 
     return count
@@ -239,26 +244,12 @@ def apply_augmentations_to_new_character(state: GameState, character_name: str) 
     Called when a replacement character joins (step 13).
     """
     owned = get_colony_augmentations(state)
-    char = None
-    for c in state.characters:
-        if c.name == character_name:
-            char = c
-            break
+    char = state.find_character(character_name)
     if not char:
         return
 
-    # Skip Bots and Soulless
-    if char.sub_species == SubSpecies.SOULLESS or char.char_class.value == "bot":
+    if not _is_augmentable(char):
         return
 
     for aug_id in owned:
-        aug = AUGMENTATIONS[aug_id]
-        effect = aug["effect"]
-        if effect == "speed_boost":
-            char.speed = min(char.speed + 1, 8)
-        elif effect == "melee_boost":
-            if "Claws (melee +0)" not in char.equipment:
-                char.equipment.append("Claws (melee +0)")
-        elif effect == "armor_boost":
-            if "Inherent Protection (6+ save)" not in char.equipment:
-                char.equipment.append("Inherent Protection (6+ save)")
+        _apply_effect(char, AUGMENTATIONS[aug_id]["effect"])

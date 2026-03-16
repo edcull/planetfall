@@ -28,6 +28,48 @@ STEP_NAMES = {
 }
 
 
+def _format_event(e: TurnEvent) -> list[str]:
+    """Format a single event into markdown lines."""
+    lines = []
+    lines.append(f"- {e.description}")
+    for roll in e.dice_rolls:
+        lines.append(f"  - *{roll.label}: {roll.values} = {roll.total}*")
+    if e.state_changes:
+        sc = e.state_changes
+        # Render mechanical effects from colony/discovery events
+        effects = sc.get("effects", {})
+        if effects:
+            effect_parts = []
+            effect_labels = {
+                "research_points": "Research Points",
+                "build_points": "Build Points",
+                "morale": "Morale",
+                "colony_damage": "Colony Damage",
+                "ancient_signs": "Ancient Signs",
+                "all_xp": "XP (all characters)",
+                "grunt": "Grunts",
+                "raw_materials": "Raw Materials",
+                "story_points": "Story Points",
+                "calamity_points": "Calamity Points",
+            }
+            for k, label in effect_labels.items():
+                if k in effects:
+                    val = effects[k]
+                    sign = "+" if val > 0 else ""
+                    effect_parts.append(f"{sign}{val} {label}")
+            if effect_parts:
+                lines.append(f"  - **{', '.join(effect_parts)}**")
+        # Log other significant state changes
+        change_parts = []
+        for key in ("victory", "weapon_loadout", "mission_type",
+                     "application_unlocked", "building_invested"):
+            if key in sc:
+                change_parts.append(f"{key}: {sc[key]}")
+        if change_parts:
+            lines.append(f"  - `{', '.join(change_parts)}`")
+    return lines
+
+
 def export_turn_log(
     state: GameState,
     events: list[TurnEvent] | None = None,
@@ -84,91 +126,7 @@ def export_turn_log(
             lines.append(f"- **{b.name}**{effects_str}")
         lines.append("")
 
-    # Events grouped by step, with narrative inline
-    step_events: dict[int, list[TurnEvent]] = {}
-    step_narratives: dict[int, list[TurnEvent]] = {}
-    unassigned_narratives: list[TurnEvent] = []
-    for e in events:
-        if e.event_type == TurnEventType.NARRATIVE:
-            if e.step > 0:
-                step_narratives.setdefault(e.step, []).append(e)
-            else:
-                unassigned_narratives.append(e)
-        else:
-            step_events.setdefault(e.step, []).append(e)
-
-    # Fallback: assign unassigned narratives positionally to narrative steps
-    _NARRATIVE_STEPS = [3, 5, 9, 17, 18]
-    narr_idx = 0
-    for ns in _NARRATIVE_STEPS:
-        if narr_idx >= len(unassigned_narratives):
-            break
-        if ns in step_events:
-            step_narratives.setdefault(ns, []).append(unassigned_narratives[narr_idx])
-            narr_idx += 1
-
-    lines.append("## Events\n")
-
-    completed_step = state.current_step
-    for step in sorted(step_events.keys()):
-        step_name = STEP_NAMES.get(step, f"Step {step}")
-        lines.append(f"### Step {step}: {step_name}\n")
-        for e in step_events[step]:
-            lines.append(f"- {e.description}")
-            for roll in e.dice_rolls:
-                lines.append(f"  - *{roll.label}: {roll.values} = {roll.total}*")
-            if e.state_changes:
-                sc = e.state_changes
-                # Render mechanical effects from colony/discovery events
-                effects = sc.get("effects", {})
-                if effects:
-                    effect_parts = []
-                    effect_labels = {
-                        "research_points": "Research Points",
-                        "build_points": "Build Points",
-                        "morale": "Morale",
-                        "colony_damage": "Colony Damage",
-                        "ancient_signs": "Ancient Signs",
-                        "all_xp": "XP (all characters)",
-                        "grunt": "Grunts",
-                        "raw_materials": "Raw Materials",
-                        "story_points": "Story Points",
-                    }
-                    for k, label in effect_labels.items():
-                        if k in effects:
-                            val = effects[k]
-                            sign = "+" if val > 0 else ""
-                            effect_parts.append(f"{sign}{val} {label}")
-                    if effect_parts:
-                        lines.append(f"  - **{', '.join(effect_parts)}**")
-                # Log other significant state changes
-                change_parts = []
-                for key in ("victory", "weapon_loadout", "mission_type",
-                            "application_unlocked", "building_invested"):
-                    if key in sc:
-                        change_parts.append(f"{key}: {sc[key]}")
-                if change_parts:
-                    lines.append(f"  - `{', '.join(change_parts)}`")
-        lines.append("")
-
-        # Insert narrative for this step
-        if step in step_narratives:
-            for n in step_narratives[step]:
-                lines.append("---\n")
-                lines.append(f"*{n.description}*\n")
-                lines.append("---\n")
-
-    # Any remaining unassigned narratives
-    for n in unassigned_narratives[narr_idx:]:
-        lines.append("---\n")
-        lines.append(f"*{n.description}*\n")
-        lines.append("---\n")
-
-    # Show incomplete step marker if mid-turn
-    if completed_step > 0 and completed_step < 18:
-        lines.append(f"*-- Save point: Step {completed_step} completed --*\n")
-
-    # Roster
+    # Roster (before events for quick reference)
     lines.append("## Roster\n")
     lines.append("| Name | Class | React | Speed | CS | Tough | Savvy | XP | KP | Status |")
     lines.append("|------|-------|-------|-------|-----|-------|-------|----|----|--------|")
@@ -179,6 +137,46 @@ def export_turn_log(
             f"{c.reactions} | {c.speed}\" | +{c.combat_skill} | "
             f"{c.toughness} | +{c.savvy} | {c.xp} | {c.kill_points} | {status} |"
         )
+    bot_status = "Operational" if state.grunts.bot_operational else "Destroyed"
+    lines.append(f"\n*Bot: {bot_status} | Grunts: {state.grunts.count}*\n")
+
+    # Group events by step. step=0 events are attached to the most recent
+    # non-zero step that precedes them, or to step 12 (tracking) by default.
+    step_events: dict[int, list[TurnEvent]] = {}
+    narratives: dict[int, list[TurnEvent]] = {}
+    last_step = 0
+
+    for e in events:
+        step = e.step if e.step > 0 else last_step
+        if e.step > 0:
+            last_step = e.step
+
+        if e.event_type == TurnEventType.NARRATIVE and e.step == 0 and not e.dice_rolls:
+            # Pure narrative text (from AI) — attach to current step
+            narratives.setdefault(step or 12, []).append(e)
+        else:
+            step_events.setdefault(step or 12, []).append(e)
+
+    lines.append("## Events\n")
+
+    completed_step = state.current_step
+    for step in sorted(step_events.keys()):
+        step_name = STEP_NAMES.get(step, f"Step {step}")
+        lines.append(f"### Step {step}: {step_name}\n")
+        for e in step_events[step]:
+            lines.extend(_format_event(e))
+        lines.append("")
+
+        # Insert narrative for this step
+        if step in narratives:
+            for n in narratives[step]:
+                lines.append("---\n")
+                lines.append(f"*{n.description}*\n")
+                lines.append("---\n")
+
+    # Show incomplete step marker if mid-turn
+    if completed_step > 0 and completed_step < 18:
+        lines.append(f"*-- Save point: Step {completed_step} completed --*\n")
 
     lines.append("")
     lines.append(f"---\n*Updated {datetime.now().strftime('%Y-%m-%d %H:%M')}*\n")
@@ -211,6 +209,99 @@ def export_campaign_log(state: GameState) -> str:
 
     lines.append(f"*Full log exported {datetime.now().strftime('%Y-%m-%d %H:%M')}*\n")
     return "\n".join(lines)
+
+
+def export_day_zero_log(state: GameState) -> str:
+    """Generate a Day 0 markdown log capturing colony founding and crew roster.
+
+    Includes colony details, agenda, administrator, and full character
+    descriptions with backgrounds/motivations/prior experience.
+    """
+    lines: list[str] = []
+
+    lines.append("# Day 0 — Colony Founded")
+    lines.append(f"*{state.colony.name} - {state.campaign_name}*\n")
+
+    # Colonization agenda
+    agenda = state.settings.colonization_agenda.value.replace("_", " ").title()
+    lines.append(f"**Colonization Agenda:** {agenda}\n")
+
+    # Colony founding description
+    if state.colony.description:
+        lines.append(f"{state.colony.description}\n")
+
+    # Administrator
+    if state.administrator.name:
+        admin = state.administrator
+        lines.append("## Administrator")
+        history = f" — {admin.past_history}" if admin.past_history else ""
+        lines.append(f"**{admin.name}**{history}\n")
+
+    # Colony status
+    res = state.colony.resources
+    lines.append("## Colony Status")
+    lines.append("| Stat | Value | Stat | Value |")
+    lines.append("|------|-------|------|-------|")
+    lines.append(f"| Morale | {state.colony.morale} | Integrity | {state.colony.integrity} |")
+    lines.append(f"| Story Points | {res.story_points} | Defenses | {state.colony.defenses} |")
+    lines.append(f"| Build Points | {res.build_points} | Research Points | {res.research_points} |")
+    lines.append(f"| Raw Materials | {res.raw_materials} | Grunts | {state.grunts.count} |")
+    lines.append("")
+
+    # Crew roster with full backgrounds
+    lines.append("## Crew Roster\n")
+    for c in state.characters:
+        char_class = c.char_class.value.title()
+        title_str = f" — {c.title}" if c.title else ""
+        role_str = f", {c.role}" if c.role else ""
+        lines.append(f"### {c.name}{title_str}")
+        lines.append(f"*{char_class}{role_str}*\n")
+
+        lines.append(
+            f"| React | Speed | CS | Tough | Savvy |"
+        )
+        lines.append("|-------|-------|----|-------|-------|")
+        lines.append(
+            f"| {c.reactions} | {c.speed}\" | +{c.combat_skill} | "
+            f"{c.toughness} | +{c.savvy} |"
+        )
+        lines.append("")
+
+        if c.background_motivation:
+            lines.append(f"**Motivation:** {c.background_motivation}\n")
+        if c.background_prior_experience:
+            lines.append(f"**Prior Experience:** {c.background_prior_experience}\n")
+        if c.narrative_background:
+            lines.append(f"{c.narrative_background}\n")
+
+        lines.append("---\n")
+
+    # Bot & grunts
+    bot_status = "Operational" if state.grunts.bot_operational else "Destroyed"
+    lines.append(f"*Colony Bot: {bot_status} | Grunts: {state.grunts.count}*\n")
+
+    # Campaign map summary
+    if state.campaign_map.sectors:
+        colony_id = state.campaign_map.colony_sector_id
+        colony_sector = next(
+            (s for s in state.campaign_map.sectors if s.sector_id == colony_id), None
+        )
+        if colony_sector and colony_sector.name:
+            lines.append(f"**Colony Sector:** {colony_sector.name} (Sector {colony_id})\n")
+
+    lines.append(f"---\n*Colony founded {datetime.now().strftime('%Y-%m-%d %H:%M')}*\n")
+
+    return "\n".join(lines)
+
+
+def save_day_zero_log(state: GameState) -> Path:
+    """Save the Day 0 colony founding log."""
+    campaign_dir = _campaign_dir(state.campaign_name)
+    campaign_dir.mkdir(parents=True, exist_ok=True)
+    md = export_day_zero_log(state)
+    path = campaign_dir / "turn_000_log.md"
+    path.write_text(md, encoding="utf-8")
+    return path
 
 
 def save_turn_log(state: GameState, events: list[TurnEvent] | None = None) -> Path:

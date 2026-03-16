@@ -109,13 +109,17 @@ DETAILED COMBAT LOG (use these specific events to ground the narrative):
 Reference specific combat moments — who fought whom, what was discovered, key shots and movements.
 """
 
+    colony_desc = ""
+    if state.colony.description:
+        colony_desc = f"\nCOLONY BACKGROUND:\n{state.colony.description}\n"
+
     prompt = f"""You are the narrative voice of a gritty frontier sci-fi colony game.
 Write a short narrative passage (2-4 paragraphs) for the following events.
 
 TONE: {nd.tone}
 CONTEXT: {context}
 COLONY: {state.colony.name} (Day {state.current_turn}, Morale: {state.colony.morale})
-
+{colony_desc}
 CREW ROSTER:
 {roster_text}
 
@@ -133,10 +137,12 @@ End with a one-sentence hook or observation about what's coming.
 Do NOT use game mechanics language — translate everything into narrative.
 Specifically: never say "Turn", "roll", "dice", "table", "morale points", or reference game steps.
 Use "day" or narrative time markers instead of "Turn X".
+Do NOT use em dashes (—). Use commas, periods, semicolons, or colons instead.
 
 CRITICAL TIMING RULES:
 - If CONTEXT is "colony_event": This happens EARLY in the day (morning/midday). The day has barely started. Do NOT describe sunsets, evening, end-of-day reflections, or winding down. The mission and combat are STILL AHEAD.
 - If CONTEXT is "battle": This happens MID-DAY after combat. Do not summarize the entire day.
+- If CONTEXT is "morale_incident": This happens AFTER the battle. The colony is reeling from losses. Focus on political tension, unrest, and the incident's consequences.
 - If CONTEXT is "character_event": This happens LATE in the day but the day is not yet over.
 - If CONTEXT is "turn_end": This is the END of the day — you may now summarize and reflect.
 Never frame a narrative as a complete day summary unless CONTEXT is "turn_end".
@@ -210,7 +216,7 @@ def generate_narrative_api(
 
     try:
         import anthropic
-        client = anthropic.Anthropic(api_key=api_key)
+        client = anthropic.Anthropic(api_key=api_key, timeout=30.0)
 
         if not model:
             from planetfall.config import get_narrative_model

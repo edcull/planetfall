@@ -11,6 +11,19 @@ from rich.text import Text
 from rich import box
 
 from planetfall.engine.models import GameState, Character, TurnEvent, STARTING_PROFILES
+from planetfall.engine.utils import format_display
+from planetfall.cli.styles import (
+    TERRAIN_SYMBOL, TERRAIN_STYLE, TERRAIN_BG,
+    OVERLAY_ACTIVE, MOVE_STANDARD, MOVE_RUSH,
+    SHOOT_CLOSE, SHOOT_MEDIUM, SHOOT_COVER,
+    VISION_CLOSE, VISION_FAR, VISION_EXTREME,
+    PLAYER_STYLE, ENEMY_STYLE, CONTACT_STYLE, STORM_STYLE, SLYN_STYLE,
+    SLEEPER_STYLE, ACTIVE_FIG_STYLE_TEMPLATE, HIGHLIGHTED_ENEMY_STYLE,
+    OBJECTIVE_STYLE,
+    OVERLAY_VISION, OVERLAY_MOVEMENT, OVERLAY_SHOOTING, OVERLAY_MODES,
+    OVERLAY_LEGENDS,
+    BOX_UNICODE, BOX_ASCII,
+)
 
 console = Console()
 
@@ -195,7 +208,7 @@ def print_mission_options(options: list[dict]):
 
     for i, opt in enumerate(options, 1):
         forced = " [red](FORCED)[/red]" if opt.get("forced") else ""
-        mission_name = opt["type"].value.replace("_", " ").title() + forced
+        mission_name = format_display(opt["type"].value) + forced
 
         desc = opt["description"]
         targets = opt.get("target_sectors")
@@ -292,7 +305,7 @@ def print_map(state: GameState, cols: int = 6):
                 cell1.append(f"  {sym}  ", style=sym_style)
 
                 # Line 2: resource/hazard for explored sectors
-                if (sector.status != SectorStatus.UNKNOWN
+                if (sector.status != SectorStatus.UNEXPLORED
                         and sector.sector_id != colony_id
                         and (sector.resource_level > 0 or sector.hazard_level > 0)):
                     cell2.append(" ", style="")
@@ -337,7 +350,7 @@ def print_map(state: GameState, cols: int = 6):
 
 def _stat_increases(char: Character) -> list[str]:
     """Return list of stat increases over the class baseline."""
-    base = STARTING_PROFILES.get(char.char_class, {})
+    base = STARTING_PROFILES.get(char.char_class)
     increases = []
     stat_labels = [
         ("reactions", "React"),
@@ -348,7 +361,7 @@ def _stat_increases(char: Character) -> list[str]:
     ]
     for field, label in stat_labels:
         current = getattr(char, field, 0)
-        baseline = base.get(field, 0)
+        baseline = getattr(base, field, 0) if base else 0
         diff = current - baseline
         if diff > 0:
             increases.append(f"{label} +{diff}")
@@ -412,8 +425,8 @@ def print_character_backgrounds(state: GameState):
             tags.append(f"[green]{char.background_motivation}[/green]")
         if char.background_prior_experience:
             tags.append(f"[dark_orange]{char.background_prior_experience}[/dark_orange]")
-        if char.background_notable_event:
-            tags.append(f"[yellow]{char.background_notable_event}[/yellow]")
+        if char.background_notable_events:
+            tags.append(f"[yellow]{' → '.join(char.background_notable_events)}[/yellow]")
         increases = _stat_increases(char)
         for inc in increases:
             tags.append(f"[blue]{inc}[/blue]")
@@ -472,21 +485,8 @@ from planetfall.engine.combat.battlefield import (
     Battlefield, Figure, FigureSide, FigureStatus, TerrainType,
 )
 
-_TERRAIN_SYMBOL = {
-    TerrainType.OPEN: "..",
-    TerrainType.LIGHT_COVER: "~~",
-    TerrainType.HEAVY_COVER: "##",
-    TerrainType.HIGH_GROUND: "^^",
-    TerrainType.IMPASSABLE: "XX",
-}
-
-_TERRAIN_STYLE = {
-    TerrainType.OPEN: "dim",
-    TerrainType.LIGHT_COVER: "yellow",
-    TerrainType.HEAVY_COVER: "yellow",
-    TerrainType.HIGH_GROUND: "cyan",
-    TerrainType.IMPASSABLE: "red",
-}
+_TERRAIN_SYMBOL = TERRAIN_SYMBOL
+_TERRAIN_STYLE = TERRAIN_STYLE
 
 
 def _weapon_abbrev(weapon_name: str) -> str:
@@ -543,21 +543,24 @@ def _name_abbrev(name: str) -> str:
     return name[:2].upper()
 
 
-def get_figure_map_label(fig: Figure) -> str:
-    """Return the short map label (e.g. '3BF') for a figure, allocating one if needed."""
+def _allocate_code(fig: Figure) -> str:
+    """Allocate and cache the base code (e.g. '1RG') for a figure. Not including status suffixes."""
     global _enemy_counter, _player_counter
     if fig.side == FigureSide.ENEMY:
         if fig.name not in _enemy_label_map:
             _enemy_counter += 1
-            abbrev = _weapon_abbrev(fig.weapon_name)
-            _enemy_label_map[fig.name] = f"{_enemy_counter}{abbrev}"
+            _enemy_label_map[fig.name] = f"{_enemy_counter}{fig.abbreviation}"
         return _enemy_label_map[fig.name]
     else:
         if fig.name not in _player_label_map:
             _player_counter += 1
-            abbrev = _name_abbrev(fig.name)
-            _player_label_map[fig.name] = f"{_player_counter}{abbrev}"
+            _player_label_map[fig.name] = f"{_player_counter}{fig.abbreviation}"
         return _player_label_map[fig.name]
+
+
+def get_figure_map_label(fig: Figure) -> str:
+    """Return the short map label (e.g. '3BF') for a figure, allocating one if needed."""
+    return _allocate_code(fig)
 
 
 def reset_enemy_labels():
@@ -570,49 +573,85 @@ def reset_enemy_labels():
 
 
 def _fig_label(fig: Figure) -> str:
-    """3-char label for a figure on the grid.
+    """3-char label for a figure on the grid, wrapped in Rich markup.
 
     All figures use XYY format: X=sequential number, YY=abbreviation.
     Enemies: YY = weapon abbreviation. Players: YY = name initials.
     """
-    global _enemy_counter, _player_counter
+    label, style = _fig_label_parts(fig)
+    return f"[{style}]{label}[/]"
 
-    if fig.is_contact:
-        return "[bold red]??[/]"
 
-    if fig.side == FigureSide.ENEMY:
-        if fig.name not in _enemy_label_map:
-            _enemy_counter += 1
-            abbrev = _weapon_abbrev(fig.weapon_name)
-            _enemy_label_map[fig.name] = f"{_enemy_counter}{abbrev}"
-        code = _enemy_label_map[fig.name]
+def _build_zone_overlay(
+    bf: Battlefield,
+    origin: tuple[int, int],
+    criteria_fn: "Callable[[Battlefield, tuple[int, int], tuple[int, int]], str | None]",
+) -> dict[tuple[int, int], str]:
+    """Generic overlay builder: iterate all zones and apply criteria_fn.
+
+    Args:
+        bf: The battlefield.
+        origin: The active figure's zone (marked with OVERLAY_ACTIVE).
+        criteria_fn: Called as criteria_fn(bf, origin, pos) for each zone.
+            Should return a style string for the zone, or None to skip.
+
+    Returns:
+        Dict mapping (row, col) -> Rich background style string.
+    """
+    overlay: dict[tuple[int, int], str] = {}
+    overlay[origin] = OVERLAY_ACTIVE
+
+    for r in range(bf.rows):
+        for c in range(bf.cols):
+            pos = (r, c)
+            if pos == origin:
+                continue
+            style = criteria_fn(bf, origin, pos)
+            if style is not None:
+                overlay[pos] = style
+
+    return overlay
+
+
+def _shooting_criteria(bf: Battlefield, origin: tuple[int, int], pos: tuple[int, int]) -> str | None:
+    """Criteria function for shooting overlay: returns style based on range/cover."""
+    from planetfall.engine.combat.battlefield import ZONE_INCHES
+
+    los = bf.check_los(origin, pos)
+    if los == "blocked":
+        return None
+    dist = bf.zone_distance(origin, pos)
+    # Need fig context — stored on the function by the caller
+    approx_inches = dist * ZONE_INCHES
+    if approx_inches > _shooting_criteria._weapon_range:
+        return None
+
+    if bf.has_cover_los(origin, pos):
+        return SHOOT_COVER
+    elif dist <= 2:
+        return SHOOT_CLOSE
     else:
-        if fig.name not in _player_label_map:
-            _player_counter += 1
-            abbrev = _name_abbrev(fig.name)
-            _player_label_map[fig.name] = f"{_player_counter}{abbrev}"
-        code = _player_label_map[fig.name]
+        return SHOOT_MEDIUM
 
-    if fig.status == FigureStatus.STUNNED:
-        code += "~"
-    elif fig.status == FigureStatus.SPRAWLING:
-        code += "_"
-    elif fig.status == FigureStatus.CASUALTY:
-        code += "X"
-    if fig.aid_marker:
-        code += "+"
 
-    if fig.side == FigureSide.PLAYER:
-        return f"[bold bright_green]{code}[/]"
-    # Storm clusters = yellow
-    if fig.char_class == "storm":
-        return f"[bold yellow]{code}[/]"
-    # Slyn = cyan, Sleepers = magenta, normal enemies = red
-    if fig.char_class == "slyn":
-        return f"[bold cyan]{code}[/]"
-    if fig.char_class == "sleeper":
-        return f"[bold magenta]{code}[/]"
-    return f"[bold red]{code}[/]"
+def _vision_criteria(bf: Battlefield, origin: tuple[int, int], pos: tuple[int, int]) -> str | None:
+    """Criteria function for vision overlay: returns style based on LoS and detection range."""
+    from planetfall.engine.combat.battlefield import (
+        CONTACT_CLOSE_RANGE, CONTACT_FAR_RANGE, CONTACT_EXTREME_RANGE,
+    )
+
+    los = bf.check_los(origin, pos)
+    if los == "blocked":
+        return None
+    dist = bf.zone_distance(origin, pos)
+
+    if dist <= CONTACT_CLOSE_RANGE:
+        return VISION_CLOSE
+    elif dist <= CONTACT_FAR_RANGE:
+        return VISION_FAR if los == "clear" else VISION_EXTREME
+    elif dist <= CONTACT_EXTREME_RANGE:
+        return VISION_EXTREME if los == "clear" else None
+    return None
 
 
 def _build_movement_map(
@@ -620,14 +659,9 @@ def _build_movement_map(
 ) -> dict[tuple[int, int], str]:
     """Build a zone -> background style map showing movement range.
 
-    - Active zone: green
-    - Standard move: bright green
-    - Rush range: darker green
-    - Speed 1-2: no standard move, only rush (1 zone, dark green)
-    - Speed 3-4: 1 zone move, no rush
-    - Speed 5-6: 1 zone move, rush to 2 zones
-    - Speed 7-8: 2 zone move, no rush
-    - Scouts: jump jets (straight-line, can land on impassable)
+    Movement has unique logic (scout jumps, rush zones, capacity checks)
+    that doesn't fit the simple per-zone criteria pattern, so it builds
+    its overlay directly while reusing the shared style constants.
     """
     from planetfall.engine.combat.battlefield import (
         move_zones as calc_move_zones,
@@ -635,11 +669,8 @@ def _build_movement_map(
         rush_total_zones,
     )
 
-    GREEN_MOVE = "on rgb(20,80,30)"      # bright green — standard move
-    GREEN_RUSH = "on rgb(12,50,20)"      # dark green — rush only
-
     movement: dict[tuple[int, int], str] = {}
-    movement[fig.zone] = "on dark_green"
+    movement[fig.zone] = OVERLAY_ACTIVE
 
     is_scout = fig.char_class == "scout"
     adj_zones = bf.adjacent_zones(*fig.zone)
@@ -667,7 +698,7 @@ def _build_movement_map(
 
     for z in std_zones:
         if bf.zone_has_capacity(*z, fig.side):
-            movement[z] = GREEN_MOVE
+            movement[z] = MOVE_STANDARD
 
     # Rush zones (beyond standard move)
     if rush_available(fig.speed):
@@ -682,7 +713,7 @@ def _build_movement_map(
                     zone = bf.get_zone(r, c)
                     if (zone.terrain != TerrainType.IMPASSABLE
                             and bf.zone_has_capacity(r, c, fig.side)):
-                        movement[pos] = GREEN_RUSH
+                        movement[pos] = MOVE_RUSH
 
     return movement
 
@@ -690,137 +721,19 @@ def _build_movement_map(
 def _build_shooting_map(
     bf: Battlefield, fig: Figure,
 ) -> dict[tuple[int, int], str]:
-    """Build a zone -> background style map showing weapon range and hit bands.
-
-    - Active zone: green
-    - Close range (<=6", 3+ to hit): bright red/orange
-    - Medium range (>6", 5+ to hit): medium red
-    - In range but 6+ (cover): dark red
-    - Out of range: no entry
-    """
-    from planetfall.engine.combat.battlefield import ZONE_INCHES
-
-    RED_CLOSE = "on rgb(120,30,20)"     # bright — close range (3+)
-    RED_MEDIUM = "on rgb(80,20,15)"     # medium — standard range (5+)
-    RED_COVER = "on rgb(50,15,10)"      # dark — in cover (6+)
-
-    shooting: dict[tuple[int, int], str] = {}
-    shooting[fig.zone] = "on dark_green"
-
-    for r in range(bf.rows):
-        for c in range(bf.cols):
-            pos = (r, c)
-            if pos == fig.zone:
-                continue
-            los = bf.check_los(fig.zone, pos)
-            if los == "blocked":
-                continue
-            dist = bf.zone_distance(fig.zone, pos)
-            approx_inches = dist * ZONE_INCHES
-            if approx_inches > fig.weapon_range:
-                continue
-
-            target_has_cover = bf.has_cover_los(fig.zone, pos)
-            if target_has_cover:
-                shooting[pos] = RED_COVER
-            elif dist <= 2:
-                shooting[pos] = RED_CLOSE
-            else:
-                shooting[pos] = RED_MEDIUM
-
-    return shooting
+    """Build shooting overlay using the generic zone overlay builder."""
+    _shooting_criteria._weapon_range = fig.weapon_range
+    return _build_zone_overlay(bf, fig.zone, _shooting_criteria)
 
 
 def _build_vision_map(
     bf: Battlefield, active_zone: tuple[int, int],
 ) -> dict[tuple[int, int], str]:
-    """Build a zone -> background style map showing LoS and detection ranges.
-
-    Detection ranges (from battlefield constants):
-    - Close (1-2 zones): auto-detect clear LoS, D6 4+ obscured
-    - Far (3-4 zones): auto-detect clear LoS only
-    - Extreme (5-6 zones): D6 4+ if clear LoS
-
-    Returns a dict of (row, col) -> Rich background style string:
-    - Active figure's zone: "on dark_green"
-    - Close range (1-2 zones, has LoS): "on navy_blue"
-    - Far range (3-4 zones, clear LoS): "on blue"
-    - Far range (3-4 zones, obscured LoS): "on grey19"
-    - Extreme range (5-6 zones, clear LoS): "on grey19"
-    - Blocked or beyond 6 zones: no entry
-    """
-    from planetfall.engine.combat.battlefield import (
-        CONTACT_CLOSE_RANGE, CONTACT_FAR_RANGE, CONTACT_EXTREME_RANGE,
-    )
-
-    # Three shades of blue: bright → mid → dark
-    BLUE_CLOSE = "on rgb(30,60,120)"     # bright blue — close range
-    BLUE_FAR = "on rgb(20,40,85)"        # medium blue — far range (clear)
-    BLUE_EXTREME = "on rgb(12,25,55)"    # dark blue — extreme or obscured
-
-    vision: dict[tuple[int, int], str] = {}
-    vision[active_zone] = "on dark_green"
-
-    for r in range(bf.rows):
-        for c in range(bf.cols):
-            pos = (r, c)
-            if pos == active_zone:
-                continue
-            los = bf.check_los(active_zone, pos)
-            if los == "blocked":
-                continue
-            dist = bf.zone_distance(active_zone, pos)
-
-            if dist <= CONTACT_CLOSE_RANGE:
-                # Close: auto-detect clear, D6 4+ obscured
-                vision[pos] = BLUE_CLOSE
-            elif dist <= CONTACT_FAR_RANGE:
-                # Far: auto-detect clear only
-                if los == "clear":
-                    vision[pos] = BLUE_FAR
-                else:
-                    vision[pos] = BLUE_EXTREME  # obscured, no auto-detect
-            elif dist <= CONTACT_EXTREME_RANGE:
-                # Extreme: D6 4+ clear only
-                if los == "clear":
-                    vision[pos] = BLUE_EXTREME
-                # obscured at extreme = no detection
-
-    return vision
+    """Build vision overlay using the generic zone overlay builder."""
+    return _build_zone_overlay(bf, active_zone, _vision_criteria)
 
 
-# Overlay mode constants
-OVERLAY_VISION = "vision"
-OVERLAY_MOVEMENT = "movement"
-OVERLAY_SHOOTING = "shooting"
-OVERLAY_MODES = [OVERLAY_VISION, OVERLAY_MOVEMENT, OVERLAY_SHOOTING]
-
-# Legend text per overlay mode
-_OVERLAY_LEGENDS = {
-    OVERLAY_VISION: (
-        "  [dim]Vision:[/] "
-        "[on dark_green]  [/]=Active  "
-        "[on rgb(30,60,120)]  [/]=Close 1-2z  "
-        "[on rgb(20,40,85)]  [/]=Far 3-4z  "
-        "[on rgb(12,25,55)]  [/]=Extreme/Obscured  "
-        "[dim]dark=Blocked[/]"
-    ),
-    OVERLAY_MOVEMENT: (
-        "  [dim]Movement:[/] "
-        "[on dark_green]  [/]=Active  "
-        "[on rgb(20,80,30)]  [/]=Move (1 zone)  "
-        "[on rgb(12,50,20)]  [/]=Dash/Jump  "
-        "[dim]dark=Blocked[/]"
-    ),
-    OVERLAY_SHOOTING: (
-        "  [dim]Shooting:[/] "
-        "[on dark_green]  [/]=Active  "
-        "[on rgb(120,30,20)]  [/]=Close 3+  "
-        "[on rgb(80,20,15)]  [/]=Range 5+  "
-        "[on rgb(50,15,10)]  [/]=Cover 6+  "
-        "[dim]dark=Out of range[/]"
-    ),
-}
+_OVERLAY_LEGENDS = OVERLAY_LEGENDS
 
 
 def build_overlay(
@@ -927,7 +840,7 @@ def print_battlefield(
                 cell1.append(t_sym, style=t_style)
                 cell1.append(" ", style=bg)
                 obj_label = f"*{zone.objective_label[:3]}"
-                cell1.append(obj_label, style="bold bright_white on dark_red")
+                cell1.append(obj_label, style=OBJECTIVE_STYLE)
             else:
                 cell1.append(f" {t_sym}", style=t_style)
             _pad_cell(cell1, CELL_W, bg)
@@ -950,10 +863,10 @@ def print_battlefield(
                 label, style = _fig_label_parts(fig)
                 # Active figure gets highlighted label
                 if active_fig and fig.name == active_fig.name:
-                    style = f"bold bright_white {bg}"
+                    style = ACTIVE_FIG_STYLE_TEMPLATE.format(bg=bg)
                 # Highlight in-range enemies
                 elif highlighted_enemies and fig.name in highlighted_enemies:
-                    style = f"bold bright_white on dark_red"
+                    style = HIGHLIGHTED_ENEMY_STYLE
                 cell2.append(label, style=style)
             if len(figures) > 3:
                 cell2.append(f"+{len(figures) - 3}", style="dim")
@@ -1038,51 +951,25 @@ def _fig_label_parts(fig: Figure) -> tuple[str, str]:
 
     All figures use XYY format: X=sequential number, YY=abbreviation.
     Enemies: YY = weapon abbreviation. Players: YY = name initials.
+    Label text and status suffixes are produced by Figure.display_label().
     """
-    global _enemy_counter, _player_counter
+    code = _allocate_code(fig)
+    label = fig.display_label(code)
 
     if fig.is_contact:
-        return ("??", "bold red")
-
-    if fig.side == FigureSide.ENEMY:
-        if fig.name not in _enemy_label_map:
-            _enemy_counter += 1
-            abbrev = _weapon_abbrev(fig.weapon_name)
-            _enemy_label_map[fig.name] = f"{_enemy_counter}{abbrev}"
-        code = _enemy_label_map[fig.name]
-    else:
-        if fig.name not in _player_label_map:
-            _player_counter += 1
-            abbrev = _name_abbrev(fig.name)
-            _player_label_map[fig.name] = f"{_player_counter}{abbrev}"
-        code = _player_label_map[fig.name]
-
-    if fig.status == FigureStatus.STUNNED:
-        code += "~"
-    elif fig.status == FigureStatus.SPRAWLING:
-        code += "_"
-    elif fig.status == FigureStatus.CASUALTY:
-        code += "X"
-
+        return (label, CONTACT_STYLE)
     if fig.side == FigureSide.PLAYER:
-        return (code, "bold bright_green")
+        return (label, PLAYER_STYLE)
     if fig.char_class == "storm":
-        return (code, "bold yellow")
+        return (label, STORM_STYLE)
     if fig.char_class == "slyn":
-        return (code, "bold cyan")
+        return (label, SLYN_STYLE)
     if fig.char_class == "sleeper":
-        return (code, "bold magenta")
-    return (code, "bold red")
+        return (label, SLEEPER_STYLE)
+    return (label, ENEMY_STYLE)
 
 
-# Background tints per terrain type (subtle, for zone fill)
-_TERRAIN_BG = {
-    TerrainType.OPEN: "",
-    TerrainType.LIGHT_COVER: "on grey11",
-    TerrainType.HEAVY_COVER: "on grey15",
-    TerrainType.HIGH_GROUND: "on grey7",
-    TerrainType.IMPASSABLE: "on grey19",
-}
+_TERRAIN_BG = TERRAIN_BG
 
 
 def _pad_cell(cell: Text, width: int, bg_style: str = "") -> Text:
@@ -1105,19 +992,8 @@ def _detect_unicode_support() -> bool:
         return False
 
 
-# Box-drawing character sets
-_BOX_UNICODE = {
-    "h": "\u2500", "v": "\u2502",
-    "tl": "\u250c", "tr": "\u2510", "bl": "\u2514", "br": "\u2518",
-    "ml": "\u251c", "mr": "\u2524", "mt": "\u252c", "mb": "\u2534",
-    "cx": "\u253c",
-}
-_BOX_ASCII = {
-    "h": "-", "v": "|",
-    "tl": "+", "tr": "+", "bl": "+", "br": "+",
-    "ml": "+", "mr": "+", "mt": "+", "mb": "+",
-    "cx": "+",
-}
+_BOX_UNICODE = BOX_UNICODE
+_BOX_ASCII = BOX_ASCII
 
 
 def print_reaction_roll(reaction: dict):
@@ -1152,7 +1028,7 @@ def print_combat_phase(phase: str, round_number: int):
         "slow_actions": "Slow Actions Phase",
         "end_phase": "End of Round",
     }
-    label = labels.get(phase, phase.replace("_", " ").title())
+    label = labels.get(phase, format_display(phase))
     console.print()
     console.rule(f"[bold yellow]Round {round_number} — {label}[/bold yellow]")
 

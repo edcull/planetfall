@@ -218,4 +218,56 @@ def resolve_brawl(
         outcome = _resolve_brawl_damage(defender, attacker, log)
         result.attacker_outcome = outcome
 
+    # Brawl knockback (rules p.38): surviving figure knocked back 1" per hit taken.
+    # 1" = no effect, 2" = Sprawling, 3"+ = pushed back a zone + Sprawling.
+    _apply_brawl_knockback(battlefield, defender, result.defender_hits_taken, attacker, log)
+    _apply_brawl_knockback(battlefield, attacker, result.attacker_hits_taken, defender, log)
+
     return result
+
+
+def _apply_brawl_knockback(
+    battlefield: Battlefield,
+    target: Figure,
+    hits_taken: int,
+    pusher: Figure,
+    log: list[str],
+) -> None:
+    """Apply knockback from brawling hits (rules p.38).
+
+    Each hit survived knocks back 1". More than 1" = Sprawling.
+    3"+ = pushed back a zone + Sprawling.
+    """
+    if not target.is_alive or hits_taken == 0:
+        return
+    if target.status == FigureStatus.CASUALTY:
+        return
+
+    knockback_inches = hits_taken  # 1" per hit taken
+    if knockback_inches >= 3:
+        # Push to adjacent zone away from pusher + Sprawling
+        adj = battlefield.adjacent_zones(*target.zone)
+        push_zones = [
+            z for z in adj
+            if battlefield.zone_distance(z, pusher.zone) > battlefield.zone_distance(target.zone, pusher.zone)
+            and battlefield.zone_has_capacity(*z, target.side)
+        ]
+        if push_zones:
+            import random
+            target.zone = random.choice(push_zones)
+            log.append(
+                f"Brawl knockback {knockback_inches}\": {target.name} "
+                f"pushed to {target.zone} and Sprawling!"
+            )
+        else:
+            log.append(
+                f"Brawl knockback {knockback_inches}\": {target.name} knocked Sprawling!"
+            )
+        if target.status != FigureStatus.CASUALTY:
+            target.status = FigureStatus.SPRAWLING
+    elif knockback_inches >= 2:
+        if target.status != FigureStatus.CASUALTY:
+            target.status = FigureStatus.SPRAWLING
+        log.append(
+            f"Brawl knockback {knockback_inches}\": {target.name} knocked Sprawling!"
+        )

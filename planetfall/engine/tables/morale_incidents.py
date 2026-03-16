@@ -95,21 +95,17 @@ CRISIS_OUTCOME_TABLE = RandomTable(
         TableEntry(
             low=4, high=5,
             result_id="deteriorating_conditions",
-            description=(
-                "If you successfully completed a mission this turn, no "
-                "changes occur. If you failed a mission, add +1 "
-                "Political Upheaval."
-            ),
-            effects={"upheaval_if_mission_failed": True},
+            description="Add +1 Political Upheaval.",
+            effects={"upheaval_increase": 1},
         ),
         TableEntry(
-            low=6, high=7,
+            low=6, high=8,
             result_id="deadlock",
             description="No agreement is reached, and no progress is made.",
             effects={},
         ),
         TableEntry(
-            low=8, high=10,
+            low=9, high=10,
             result_id="building_bridges",
             description=(
                 "-1 to Political Upheaval. If this reduces the total "
@@ -121,10 +117,10 @@ CRISIS_OUTCOME_TABLE = RandomTable(
             low=11, high=12,
             result_id="agreements_reached",
             description=(
-                "The crisis ends. Political Upheaval and Morale are "
-                "set to 0."
+                "You reach an agreement about the future of the colony. "
+                "Reduce Political Upheaval by 2. Set Morale to 0."
             ),
-            effects={"crisis_ends": True},
+            effects={"upheaval_reduction": -2, "set_morale_zero": True},
         ),
     ],
 )

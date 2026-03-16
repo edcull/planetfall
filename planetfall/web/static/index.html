@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planetfall</title>
-    <link rel="stylesheet" href="/static/css/style.css?v=14">
+    <link rel="stylesheet" href="/static/css/style.css?v=32">
 </head>
 <body>
     <div id="app">
@@ -12,6 +12,15 @@
             <button id="sidebar-toggle" onclick="toggleMobileSidebar()" title="Menu">&#9776;</button>
             <h1>PLANETFALL</h1>
             <span class="subtitle">Five Parsecs from Home</span>
+            <div class="settings-menu" id="settings-menu">
+                <button class="settings-btn" onclick="toggleSettingsMenu()" title="Settings">&#9881;</button>
+                <div class="settings-dropdown" id="settings-dropdown">
+                    <label class="settings-toggle">
+                        <input type="checkbox" id="setting-narrative-disabled" onchange="toggleNarrative(this.checked)">
+                        <span>Disable AI Narrative</span>
+                    </label>
+                </div>
+            </div>
         </header>
 
         <!-- Landing screen -->
@@ -49,9 +58,14 @@
         </div>
     </div>
 
-    <script src="/static/js/app.js?v=14"></script>
-    <script src="/static/js/components.js?v=14"></script>
-    <script src="/static/js/battlefield.js?v=14"></script>
-    <script src="/static/js/input.js?v=14"></script>
+    <script src="/static/js/app.js?v=30"></script>
+    <script src="/static/js/components.js?v=30"></script>
+    <script src="/static/js/components-map.js?v=31"></script>
+    <script src="/static/js/components-modals.js?v=30"></script>
+    <script src="/static/js/components-combat.js?v=28"></script>
+    <script src="/static/js/battlefield.js?v=29"></script>
+    <script src="/static/js/input-combat.js?v=27"></script>
+    <script src="/static/js/input-setup.js?v=27"></script>
+    <script src="/static/js/input.js?v=29"></script>
 </body>
 </html>

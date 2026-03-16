@@ -16,6 +16,15 @@ function connectWebSocket(initMsg) {
     ws.onopen = () => {
         connected = true;
         ws.send(JSON.stringify(initMsg));
+        // Sync narrative preference from localStorage to server
+        const stored = localStorage.getItem('narrative_disabled');
+        if (stored !== null) {
+            ws.send(JSON.stringify({
+                type: 'update_setting',
+                key: 'narrative_disabled',
+                value: JSON.parse(stored),
+            }));
+        }
         showScreen('game');
     };
 
@@ -67,6 +76,7 @@ function routeMessage(msg) {
             break;
         case 'show_colony_status':
             renderColonyStatus(msg.data);
+            _syncSettingsUI(msg.data.settings);
             break;
         case 'show_map':
             _cachedMapData = msg.data;
@@ -76,10 +86,26 @@ function routeMessage(msg) {
             renderRoster(msg.data);
             break;
         case 'show_step_header':
-            // Cache map for non-combat steps (skip Battle only)
-            if (msg.map && msg.step !== 8) _cachedMapData = msg.map;
-            renderStepHeader(msg.step, msg.name);
+            if (msg.map) _cachedMapData = msg.map;
+            renderStepHeader(msg.step, msg.name, msg.colony);
             if (msg.colony) renderColonyStatus(msg.colony);
+            // Show map on step 8 (combat mode choice) — cleared later by show_battlefield
+            if (msg.map && msg.step === 8) renderMap(msg.map);
+            // Auto-open roster modal on step 1 (Recovery) only when there are recovery messages
+            if (msg.roster && msg.step === 1) {
+                renderRoster(msg.roster);
+                if (msg.recovery_messages && msg.recovery_messages.length > 0) {
+                    openRosterModal({ recoveryMessages: msg.recovery_messages });
+                }
+            }
+            // Update enemies sidebar data on step 4 (no modal — results shown as messages)
+            if (msg.enemies && msg.step === 4) {
+                renderEnemies(msg.enemies);
+            }
+            // Update roster sidebar data on step 13 (no modal — results shown as messages)
+            if (msg.roster && msg.step === 13) {
+                renderRoster(msg.roster);
+            }
             break;
         case 'show_loading_modal':
             showLoadingModal(msg.title || 'Colony Log');
@@ -99,6 +125,10 @@ function routeMessage(msg) {
             break;
         case 'show_battlefield':
             _cachedMapData = null;  // combat replaces map
+            // Restore mission briefing data if sent with battlefield
+            if (msg.mission_info && typeof setMissionBriefingData === 'function') {
+                setMissionBriefingData(msg.mission_info);
+            }
             renderBattlefield(msg.data);
             break;
         case 'show_combat_phase':
@@ -161,6 +191,15 @@ function routeMessage(msg) {
             break;
         case 'error':
             appendMessage(`Error: ${msg.message}`, 'error');
+            break;
+        case 'debug_step_set':
+            appendMessage(`Debug: ${msg.message}`, 'info');
+            break;
+        case 'resource_cache_rolled':
+            _handleResourceCacheRolled(msg);
+            break;
+        case 'resource_cache_result':
+            _handleResourceCacheResult(msg);
             break;
         default:
             console.warn('Unknown message type:', msg.type);
@@ -365,11 +404,12 @@ let _currentStep = 0;
 let _betweenTurnsMsg = null;
 let _cachedMapData = null;  // persist map across clears
 
-function renderStepHeader(step, name) {
+function renderStepHeader(step, name, colony) {
     _currentStep = step;
     _betweenTurnsMsg = null;  // clear between-turns state when a step starts
     const header = document.getElementById('step-header');
-    header.innerHTML = `<span class="step-label">Step ${step}: ${name}</span>`;
+    const dayLabel = colony ? `<span class="day-label">Day ${colony.turn}</span>` : '';
+    header.innerHTML = `${dayLabel}<span class="step-label">Step ${step}: ${name}</span>`;
     renderStepsSidebar(step);
 
     // Clear display for battle step only (no campaign map during combat)
@@ -436,19 +476,28 @@ async function loadCampaigns() {
             return;
         }
 
-        list.innerHTML = data.campaigns.map(c => `
+        const STEP_NAMES = {
+            0:'New',1:'Recovery',2:'Repairs',3:'Scout Reports',4:'Enemy Activity',
+            5:'Colony Events',6:'Mission',7:'Lock & Load',8:'Battle',
+            9:'Results',10:'Experience',11:'Morale',12:'Tracking',
+            13:'Replacements',14:'Research',15:'Building',16:'Integrity',
+            17:'Character Event',18:'Done',
+        };
+        list.innerHTML = data.campaigns.map(c => {
+            const stepName = STEP_NAMES[c.step] || `Step ${c.step}`;
+            return `
             <div class="campaign-item">
                 <div style="flex:1; cursor:pointer;" onclick="continueCampaign('${c.name}')">
                     <div class="name">${c.name}</div>
                     <div class="info">
                         Turn ${c.turn || '?'} &middot;
-                        ${c.characters || '?'} characters &middot;
+                        ${stepName} &middot;
                         ${c.total_size_kb || '?'} KB
                     </div>
                 </div>
                 <button class="btn-delete-campaign" title="Delete" onclick="event.stopPropagation(); deleteCampaign('${c.name}')">&#10005;</button>
-            </div>
-        `).join('');
+            </div>`;
+        }).join('');
     } catch (e) {
         console.error('Failed to load campaigns:', e);
     }
@@ -492,6 +541,49 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// ── Settings Menu ──────────────────────────────────────────
+
+function toggleSettingsMenu() {
+    const dropdown = document.getElementById('settings-dropdown');
+    dropdown.classList.toggle('open');
+}
+
+// Close settings dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('settings-menu');
+    if (menu && !menu.contains(e.target)) {
+        const dropdown = document.getElementById('settings-dropdown');
+        if (dropdown) dropdown.classList.remove('open');
+    }
+});
+
+function toggleNarrative(disabled) {
+    localStorage.setItem('narrative_disabled', JSON.stringify(disabled));
+    if (ws && connected) {
+        ws.send(JSON.stringify({
+            type: 'update_setting',
+            key: 'narrative_disabled',
+            value: disabled,
+        }));
+    }
+}
+
+function _syncSettingsUI(settings) {
+    if (!settings) return;
+    const cb = document.getElementById('setting-narrative-disabled');
+    if (cb) cb.checked = !!settings.narrative_disabled;
+}
+
+// Restore narrative setting from localStorage on page load
+(function _restoreNarrativeSetting() {
+    const stored = localStorage.getItem('narrative_disabled');
+    if (stored !== null) {
+        const disabled = JSON.parse(stored);
+        const cb = document.getElementById('setting-narrative-disabled');
+        if (cb) cb.checked = disabled;
+    }
+})();
+
 // ── Collapsible Sidebars (Desktop) ──────────────────────────
 
 function toggleLeftSidebar() {
@@ -512,13 +604,14 @@ function toggleRightSidebar() {
     collapseBtn.style.display = isCollapsed ? 'none' : '';
 }
 
-function toggleInfoPanel(btnId, panelId) {
-    const btn = document.getElementById(btnId);
-    const panel = document.getElementById(panelId);
-    if (!btn || !panel) return;
-    const collapsed = panel.classList.toggle('panel-collapsed');
-    btn.classList.toggle('collapsed', collapsed);
-    btn.querySelector('.toggle-arrow').textContent = collapsed ? '\u25B6' : '\u25BC';
+function toggleInfoPanel(toggleId, bodyId) {
+    const toggle = document.getElementById(toggleId);
+    const body = document.getElementById(bodyId);
+    if (!toggle || !body) return;
+    const collapsed = body.classList.toggle('panel-collapsed');
+    toggle.classList.toggle('collapsed', collapsed);
+    const arrow = toggle.querySelector('.toggle-arrow');
+    if (arrow) arrow.textContent = collapsed ? '\u25B6' : '\u25BC';
 }
 
 // ── Init ────────────────────────────────────────────────────

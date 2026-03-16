@@ -1,8 +1,9 @@
 """Slyn faction — mysterious alien antagonists.
 
-The Slyn become active at milestone 4. Their interference can be
-checked during missions, and they can be permanently driven off
-once enough victories against them are accumulated.
+The Slyn are always a potential threat from the start of the campaign.
+Their interference can be checked during missions, and they can be
+permanently driven off once milestone 4 enables victory tracking and
+enough victories are accumulated.
 """
 
 from __future__ import annotations
@@ -14,8 +15,8 @@ from planetfall.engine.models import GameState, TurnEvent, TurnEventType
 def check_slyn_interference(state: GameState) -> list[TurnEvent]:
     """Check if the Slyn interfere with the current mission.
 
-    Only applies after milestone 4 when Slyn become active.
-    Returns events describing Slyn encounter if triggered.
+    Slyn are always active unless driven off. Returns events
+    describing Slyn encounter if triggered.
     """
     if not state.enemies.slyn.active:
         return []
@@ -52,51 +53,44 @@ def check_slyn_interference(state: GameState) -> list[TurnEvent]:
 def record_slyn_kills(state: GameState, kills: int) -> list[TurnEvent]:
     """Record Slyn kills and check if they can be driven off.
 
-    After milestone 4, track victories. Roll 2D6; if <= total Slyn
+    Victories prior to milestone 4 are not counted. After milestone 4
+    enables tracking, each victory is recorded and triggers a 2D6
+    departure check — if the roll is equal to or below the tracked
     victories, the Slyn leave permanently.
     """
+    if not state.tracking.slyn_victory_tracking_active:
+        return [TurnEvent(
+            step=0, event_type=TurnEventType.NARRATIVE,
+            description=f"Slyn casualties: {kills}. (Victories not yet tracked — need milestone 4.)",
+        )]
+
     state.tracking.slyn_victories += kills
     slyn_victories = state.tracking.slyn_victories
 
     events = [TurnEvent(
         step=0, event_type=TurnEventType.NARRATIVE,
-        description=f"Slyn casualties: {kills}. Total Slyn defeated: {slyn_victories}.",
+        description=f"Slyn casualties: {kills}. Tracked victories: {slyn_victories}.",
     )]
 
-    # Check if Slyn leave
-    if slyn_victories >= 3:  # Need at least 3 before checking
-        check = roll_nd6(2, "Slyn departure check")
-        if check.total <= slyn_victories:
-            state.enemies.slyn.active = False
-            events.append(TurnEvent(
-                step=0, event_type=TurnEventType.NARRATIVE,
-                description=(
-                    f"The Slyn withdraw! Roll {check.total} <= {slyn_victories} victories. "
-                    f"They will not trouble the colony again."
-                ),
-            ))
-        else:
-            events.append(TurnEvent(
-                step=0, event_type=TurnEventType.NARRATIVE,
-                description=(
-                    f"Slyn departure check: {check.total} > {slyn_victories}. "
-                    f"The Slyn remain a threat."
-                ),
-            ))
+    # Each time you beat the Slyn, roll 2D6 — if <= tracked victories, they leave
+    check = roll_nd6(2, "Slyn departure check")
+    if check.total <= slyn_victories:
+        state.enemies.slyn.active = False
+        events.append(TurnEvent(
+            step=0, event_type=TurnEventType.NARRATIVE,
+            description=(
+                f"The Slyn withdraw! Roll {check.total} <= {slyn_victories} victories. "
+                f"They will not trouble the colony again."
+            ),
+            state_changes={"slyn_driven_off": True},
+        ))
+    else:
+        events.append(TurnEvent(
+            step=0, event_type=TurnEventType.NARRATIVE,
+            description=(
+                f"Slyn departure check: rolled {check.total} > {slyn_victories} victories. "
+                f"The Slyn remain a threat."
+            ),
+        ))
 
     return events
-
-
-def activate_slyn(state: GameState) -> list[TurnEvent]:
-    """Activate the Slyn faction (called at milestone 4)."""
-    if state.enemies.slyn.active:
-        return []
-
-    state.enemies.slyn.active = True
-    return [TurnEvent(
-        step=0, event_type=TurnEventType.NARRATIVE,
-        description=(
-            "THE SLYN EMERGE. A shadowy alien faction has taken notice of the "
-            "colony. Their agents will now interfere with missions."
-        ),
-    )]

@@ -26,6 +26,7 @@ from typing import Any
 
 from planetfall.engine.combat.battlefield import (
     Battlefield, Figure, FigureSide, FigureStatus, TerrainType,
+    is_impassable,
 )
 from planetfall.engine.combat.round import (
     roll_reaction_dice, roll_reactions, execute_enemy_phase,
@@ -34,6 +35,8 @@ from planetfall.engine.combat.round import (
     ReactionRollResult, ActivationResult,
 )
 from planetfall.engine.combat.missions import MissionSetup
+
+COMBAT_SAVE_VERSION = 1
 
 
 class CombatPhase(str, Enum):
@@ -66,6 +69,7 @@ class FigureSnapshot:
     has_acted: bool
     kill_points: int
     is_contact: bool = False
+    fireteam_id: str = ""
 
     @classmethod
     def from_figure(cls, f: Figure) -> FigureSnapshot:
@@ -84,6 +88,7 @@ class FigureSnapshot:
             has_acted=f.has_acted,
             kill_points=f.kill_points,
             is_contact=f.is_contact,
+            fireteam_id=f.fireteam_id,
         )
 
 
@@ -148,6 +153,89 @@ class CombatSession:
         self._delayed_troopers: set[str] = set()  # troopers who forgo quick for double slow
         self._had_objectives = len(mission_setup.objectives) > 0
         self.evacuated: list[str] = []  # figures that left the battlefield (non-casualty)
+        self._free_escape_used = False  # per-round free escape (Clear Escape Paths)
+        self._brawl_count: dict[str, int] = {}  # figure_name -> brawls this phase (multiple opponents bonus)
+
+    @property
+    def condition(self):
+        """Shortcut to battlefield condition from mission setup."""
+        return getattr(self.mission_setup, "condition", None)
+
+    def to_dict(self) -> dict:
+        """Serialize combat session state for save/resume."""
+        return {
+            "_version": COMBAT_SAVE_VERSION,
+            "mission_setup": self.mission_setup.to_dict(),
+            "round_number": self.round_number,
+            "phase": self.phase.value,
+            "reaction": {
+                "dice_rolled": self.reaction.dice_rolled,
+                "assignments": self.reaction.assignments,
+                "quick_actors": self.reaction.quick_actors,
+                "slow_actors": self.reaction.slow_actors,
+                "log": self.reaction.log,
+            } if self.reaction else None,
+            "quick_queue": list(self.quick_queue),
+            "slow_queue": list(self.slow_queue),
+            "round_log": list(self.round_log),
+            "full_log": list(self.full_log),
+            "objectives_secured": self.objectives_secured,
+            "pre_round_alive": list(self.pre_round_alive),
+            "reaction_dice": list(self._reaction_dice),
+            "reaction_figures": list(self._reaction_figures),
+            "delayed_troopers": list(self._delayed_troopers),
+            "had_objectives": self._had_objectives,
+            "evacuated": list(self.evacuated),
+            "free_escape_used": self._free_escape_used,
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "CombatSession":
+        """Restore combat session from serialized state.
+
+        Checks _version against COMBAT_SAVE_VERSION. If the saved version
+        is newer than what we support, raises ValueError so the caller
+        can fall back to a fresh combat start.
+        """
+        saved_version = d.get("_version", 0)
+        if saved_version > COMBAT_SAVE_VERSION:
+            raise ValueError(
+                f"Combat save version {saved_version} is newer than "
+                f"supported version {COMBAT_SAVE_VERSION}. "
+                f"Cannot resume — will start fresh."
+            )
+        from planetfall.engine.combat.missions.base import MissionSetup as MS
+        setup = MS.from_dict(d["mission_setup"])
+        session = cls.__new__(cls)
+        session.bf = setup.battlefield
+        session.mission_setup = setup
+        session.round_number = d["round_number"]
+        session.phase = CombatPhase(d["phase"])
+        if d.get("reaction"):
+            r = d["reaction"]
+            session.reaction = ReactionRollResult(
+                dice_rolled=r["dice_rolled"],
+                assignments=r["assignments"],
+                quick_actors=r["quick_actors"],
+                slow_actors=r["slow_actors"],
+                log=r.get("log", []),
+            )
+        else:
+            session.reaction = None
+        session.quick_queue = d.get("quick_queue", [])
+        session.slow_queue = d.get("slow_queue", [])
+        session.round_log = d.get("round_log", [])
+        session.full_log = d.get("full_log", [])
+        session.objectives_secured = d.get("objectives_secured", 0)
+        session.pre_round_alive = d.get("pre_round_alive", [])
+        session._pending_actions = []  # recomputed on next advance
+        session._reaction_dice = d.get("reaction_dice", [])
+        session._reaction_figures = [tuple(x) for x in d.get("reaction_figures", [])]
+        session._delayed_troopers = set(d.get("delayed_troopers", []))
+        session._had_objectives = d.get("had_objectives", False)
+        session.evacuated = d.get("evacuated", [])
+        session._free_escape_used = d.get("free_escape_used", False)
+        return session
 
     def _savvy_roll(self, fig: Figure, label: str) -> tuple[int, str]:
         """Roll a Savvy test, applying Scientific Mind (roll twice, pick best).
@@ -266,6 +354,7 @@ class CombatSession:
         self.slow_queue = list(self.reaction.slow_actors)
 
         self.phase = CombatPhase.QUICK_ACTIONS
+        self._brawl_count.clear()  # Reset multiple opponents bonus
         self._prepare_next_activation()
 
         if not self._pending_actions:
@@ -273,28 +362,25 @@ class CombatSession:
 
         return self._snapshot()
 
-    def _check_contacts(self):
+    def _check_contacts(self, include_obscured: bool = False):
         """Detect and reveal contacts using LoS + distance rules.
 
         Called after player movement. Auto-detects contacts based on:
         - Same zone: always
         - Adjacent (1 zone): if LoS not blocked
         - Within 18" (4 zones): if clear LoS (no intervening cover)
+
+        If *include_obscured* is True, also runs the D6 4+ obscured
+        detection check (contacts within 9"/2 zones with intervening
+        cover). Used at the end of the Enemy Phase.
         """
         detected = self.bf.detect_contacts_auto()
-        for contact in detected:
-            reveal_log = self.bf.reveal_contact(contact)
-            for msg in reveal_log:
-                self.round_log.append(msg)
-                self.full_log.append(msg)
+        if include_obscured:
+            detected.extend(self.bf.detect_contacts_obscured())
+        self._reveal_detected_contacts(detected)
 
-    def _check_contacts_obscured(self):
-        """Detect obscured contacts (D6 4+ roll).
-
-        Called during Enemy Phase. Contacts within 9" (2 zones) with
-        obscured LoS (intervening cover) get a D6 detection roll, 4+.
-        """
-        detected = self.bf.detect_contacts_obscured()
+    def _reveal_detected_contacts(self, detected: list[Figure]):
+        """Reveal a list of detected contacts, logging results."""
         for contact in detected:
             reveal_log = self.bf.reveal_contact(contact)
             for msg in reveal_log:
@@ -303,6 +389,18 @@ class CombatSession:
 
     # Objective types resolved on movement (not sweep)
     INTERACTIVE_OBJ_TYPES = {"discovery", "recon", "science"}
+
+    def _clear_objective_zone(self, obj_zone: tuple[int, int], msg: str) -> None:
+        """Clear an objective from a zone and log a message.
+
+        Shared helper used by both sweep-check and auto-secure paths.
+        """
+        zone = self.bf.get_zone(*obj_zone)
+        zone.has_objective = False
+        zone.objective_label = ""
+        self.objectives_secured += 1
+        self.round_log.append(msg)
+        self.full_log.append(msg)
 
     def _check_objective_interaction(self, fig: Figure):
         """Check if a player figure entered a zone with an interactive objective.
@@ -368,7 +466,7 @@ class CombatSession:
                 for r in range(self.bf.rows)
                 for c in range(self.bf.cols)
                 if self.bf.get_zone(r, c).terrain
-                not in (TerrainType.OPEN, TerrainType.IMPASSABLE)
+                not in (TerrainType.OPEN, TerrainType.IMPASSABLE, TerrainType.IMPASSABLE_BLOCKING)
             ]
             # Filter to zones with capacity
             terrain_zones = [
@@ -400,7 +498,7 @@ class CombatSession:
                 for r in range(self.bf.rows)
                 for c in range(self.bf.cols)
                 if self.bf.get_zone(r, c).terrain
-                not in (TerrainType.OPEN, TerrainType.IMPASSABLE)
+                not in (TerrainType.OPEN, TerrainType.IMPASSABLE, TerrainType.IMPASSABLE_BLOCKING)
                 and (r, c) != fig.zone
                 and self.bf.zone_has_capacity(r, c, FigureSide.ENEMY)
             ]
@@ -409,14 +507,24 @@ class CombatSession:
                     terrain_zones,
                     key=lambda z: self.bf.zone_distance(fig.zone, z),
                 )
+                # Derive species name from existing enemy figures
+                from planetfall.engine.combat.battlefield import _base_species_name
+                _existing = [f for f in self.bf.figures if f.side == FigureSide.ENEMY and f.char_class != "sleeper"]
+                _species = _base_species_name(_existing[0].name) if _existing else "Lifeform"
+                _template = _existing[0] if _existing else None
                 contact = Figure(
-                    name=f"Contact-{len(self.bf.figures) + 1}",
+                    name=f"{_species} {len(self.bf.figures) + 1}",
                     side=FigureSide.ENEMY,
                     zone=closest,
-                    combat_skill=0, toughness=3, speed=4,
-                    melee_damage=0, weapon_name="Natural weapons",
-                    weapon_range=0, weapon_shots=0,
-                    char_class="lifeform", is_contact=True,
+                    combat_skill=_template.combat_skill if _template else 0,
+                    toughness=_template.toughness if _template else 3,
+                    speed=_template.speed if _template else 4,
+                    melee_damage=_template.melee_damage if _template else 0,
+                    weapon_name=_template.weapon_name if _template else "Natural weapons",
+                    weapon_range=_template.weapon_range if _template else 0,
+                    weapon_shots=_template.weapon_shots if _template else 0,
+                    char_class=_template.char_class if _template else "lifeform",
+                    is_contact=True,
                 )
                 self.bf.figures.append(contact)
                 msg_lines.append(f"  Contact placed at zone {closest}!")
@@ -549,13 +657,9 @@ class CombatSession:
                 player_in_zone = any(pf.zone == obj_zone for pf in player_figs)
                 enemy_in_zone = any(ef.zone == obj_zone for ef in enemy_figs)
                 if player_in_zone and not enemy_in_zone:
-                    zone = self.bf.get_zone(*obj_zone)
-                    zone.has_objective = False
-                    zone.objective_label = ""
-                    self.objectives_secured += 1
-                    msg = f"** Patrol objective at {obj_zone} cleared! **"
-                    self.round_log.append(msg)
-                    self.full_log.append(msg)
+                    self._clear_objective_zone(
+                        obj_zone, f"** Patrol objective at {obj_zone} cleared! **"
+                    )
                 else:
                     remaining.append(obj)
                 continue
@@ -569,13 +673,9 @@ class CombatSession:
                 enemy_in_zone = any(ef.zone == obj_zone for ef in enemy_figs)
                 if player_in_zone and not enemy_in_zone:
                     secured_count += 1
-                    zone = self.bf.get_zone(*obj_zone)
-                    zone.has_objective = False
-                    zone.objective_label = ""
-                    self.objectives_secured += 1
-                    msg = f"** Resource objective at {obj_zone} secured! **"
-                    self.round_log.append(msg)
-                    self.full_log.append(msg)
+                    self._clear_objective_zone(
+                        obj_zone, f"** Resource objective at {obj_zone} secured! **"
+                    )
                 else:
                     remaining.append(obj)
                 continue
@@ -584,13 +684,9 @@ class CombatSession:
             if obj_type == "hunt":
                 player_in_zone = any(pf.zone == obj_zone for pf in player_figs)
                 if player_in_zone:
-                    zone = self.bf.get_zone(*obj_zone)
-                    zone.has_objective = False
-                    zone.objective_label = ""
-                    self.objectives_secured += 1
-                    msg = f"** Hunt data at {obj_zone} — transmitted to colony! **"
-                    self.round_log.append(msg)
-                    self.full_log.append(msg)
+                    self._clear_objective_zone(
+                        obj_zone, f"** Hunt data at {obj_zone} — transmitted to colony! **"
+                    )
                 else:
                     remaining.append(obj)
                 continue
@@ -617,13 +713,9 @@ class CombatSession:
                 continue
 
             secured_count += 1
-            zone = self.bf.get_zone(*obj_zone)
-            zone.has_objective = False
-            zone.objective_label = ""
-            self.objectives_secured += 1
-            msg = f"** Objective ({obj_type}) at {obj_zone} secured! **"
-            self.round_log.append(msg)
-            self.full_log.append(msg)
+            self._clear_objective_zone(
+                obj_zone, f"** Objective ({obj_type}) at {obj_zone} secured! **"
+            )
 
         self.mission_setup.objectives = remaining
 
@@ -669,17 +761,14 @@ class CombatSession:
                     best.zone = original_zone
                 else:
                     # No living figures — just clear it
-                    zone.has_objective = False
-                    zone.objective_label = ""
-                    self.objectives_secured += 1
+                    self._clear_objective_zone(
+                        obj_zone, f"** {obj_type.capitalize()} objective at {obj_zone} auto-secured (no figures)! **"
+                    )
             else:
                 # Non-interactive objectives: auto-secured
-                zone.has_objective = False
-                zone.objective_label = ""
-                self.objectives_secured += 1
-                msg = f"** {obj_type.capitalize()} objective at {obj_zone} auto-secured! **"
-                self.round_log.append(msg)
-                self.full_log.append(msg)
+                self._clear_objective_zone(
+                    obj_zone, f"** {obj_type.capitalize()} objective at {obj_zone} auto-secured! **"
+                )
 
         self.mission_setup.objectives.clear()
 
@@ -757,9 +846,9 @@ class CombatSession:
             dist = self.bf.zone_distance(fig.zone, enemy.zone)
             approx_range = zone_range_inches(dist)
             if approx_range <= fig.weapon_range:
-                hit_needed = get_hit_target(self.bf, fig, enemy, shooter_moved=False)
+                hit_needed = get_hit_target(self.bf, fig, enemy, shooter_moved=False, condition=self.condition)
                 if hit_needed <= 6:
-                    eff = get_effective_hit(self.bf, fig, enemy, shooter_moved=False)
+                    eff = get_effective_hit(self.bf, fig, enemy, shooter_moved=False, condition=self.condition)
                     eff_label = "auto" if eff <= 1 else f"{eff}+"
                     range_label = "close" if dist <= 2 else "medium" if approx_range <= 18 else "long"
                     actions.append(ActionOption(
@@ -789,34 +878,38 @@ class CombatSession:
             move_zones as calc_move_zones,
             rush_available,
             rush_total_zones,
+            move_zones_difficult,
+            rush_available_difficult,
+            rush_total_zones_difficult,
+            ignores_difficult_ground,
         )
         is_scout = fig.char_class == "scout"
-        num_move_zones = calc_move_zones(fig.speed)
-        can_rush = rush_available(fig.speed)
+        fig_ignores_dg = ignores_difficult_ground(fig)
+        source_difficult = self.bf.get_zone(*fig.zone).difficult
 
-        # Build standard move zone list
-        if is_scout:
-            # JUMP JET MOVE — straight-line, can traverse impassable
-            move_zones = self.bf.jump_destinations(*fig.zone, num_move_zones) if num_move_zones > 0 else []
-        elif num_move_zones >= 2:
-            # Speed 7-8: can reach 2 zones away (Chebyshev distance)
+        def _effective_move(dest_zone: tuple[int, int]) -> int:
+            """Get effective standard move zones, accounting for difficult ground."""
+            if fig_ignores_dg:
+                return calc_move_zones(fig.speed)
+            if source_difficult or self.bf.get_zone(*dest_zone).difficult:
+                return move_zones_difficult(fig.speed)
+            return calc_move_zones(fig.speed)
+
+        num_move_zones = calc_move_zones(fig.speed)
+
+        # Build standard move zone list (check difficulty per-destination)
+        # Start from canonical zones, then adjust for difficult ground
+        base_move = self.bf.get_standard_move_zones(*fig.zone, fig.speed, is_scout)
+        if not is_scout and not fig_ignores_dg and (source_difficult or True):
+            # Re-check each zone with per-destination difficult ground penalty
             move_zones = []
-            for dr in range(-num_move_zones, num_move_zones + 1):
-                for dc in range(-num_move_zones, num_move_zones + 1):
-                    if dr == 0 and dc == 0:
-                        continue
-                    nr, nc = fig.zone[0] + dr, fig.zone[1] + dc
-                    if (0 <= nr < self.bf.rows and 0 <= nc < self.bf.cols
-                            and max(abs(dr), abs(dc)) <= num_move_zones):
-                        zone_terrain = self.bf.get_zone(nr, nc).terrain
-                        if zone_terrain != TerrainType.IMPASSABLE:
-                            move_zones.append((nr, nc))
-        elif num_move_zones == 1:
-            move_zones = [z for z in adj_zones
-                          if self.bf.get_zone(*z).terrain != TerrainType.IMPASSABLE]
+            for zone in base_move:
+                dist = max(abs(zone[0] - fig.zone[0]), abs(zone[1] - fig.zone[1]))
+                eff = _effective_move(zone)
+                if dist <= eff:
+                    move_zones.append(zone)
         else:
-            # Speed 1-2: no standard move (must Rush to move at all)
-            move_zones = []
+            move_zones = list(base_move)
 
         # MOVE to zone (respecting stacking limit) — only if they have move zones
         for zone in move_zones:
@@ -839,26 +932,27 @@ class CombatSession:
 
         # RUSH — uses action to extend movement (rules p.30: +2")
         # Speed 1-2: rush 1 zone (only way to move). Speed 5-6: rush 2 zones.
-        if can_rush:
-            rush_reach = rush_total_zones(fig.speed)
-            rush_all = []
-            for dr in range(-rush_reach, rush_reach + 1):
-                for dc in range(-rush_reach, rush_reach + 1):
-                    if dr == 0 and dc == 0:
-                        continue
-                    nr, nc = fig.zone[0] + dr, fig.zone[1] + dc
-                    if (0 <= nr < self.bf.rows and 0 <= nc < self.bf.cols
-                            and max(abs(dr), abs(dc)) <= rush_reach):
-                        rush_all.append((nr, nc))
-            # Only include zones beyond normal move range
-            move_set = set(move_zones)
-            rush_only = [z for z in rush_all if z not in move_set and z != fig.zone]
-            for zone in rush_only:
-                if not self.bf.zone_has_capacity(*zone, fig.side):
-                    continue
+        # Difficult ground modifies rush availability and reach per-destination.
+        # Movement penalty conditions block rushing entirely
+        _cond = self.condition
+        _movement_blocked = getattr(_cond, "movement_penalty", False)
+        move_set = set(move_zones)
+        base_rush = self.bf.get_rush_zones(*fig.zone, fig.speed)
+        for zone in base_rush:
+            if zone in move_set or zone == fig.zone:
+                continue
+            if not self.bf.zone_has_capacity(*zone, fig.side):
+                continue
+            dist = max(abs(zone[0] - fig.zone[0]), abs(zone[1] - fig.zone[1]))
+            dest_difficult = self.bf.get_zone(*zone).difficult
+            if fig_ignores_dg or (not source_difficult and not dest_difficult):
+                can_rush = rush_available(fig.speed)
+                rush_reach = rush_total_zones(fig.speed)
+            else:
+                can_rush = rush_available_difficult(fig.speed)
+                rush_reach = rush_total_zones_difficult(fig.speed)
+            if can_rush and dist <= rush_reach and not _movement_blocked:
                 zone_terrain = self.bf.get_zone(*zone).terrain
-                if zone_terrain == TerrainType.IMPASSABLE:
-                    continue
                 terrain_label = zone_terrain.value.replace("_", " ")
                 zone_figs = self.bf.get_figures_in_zone(*zone)
                 fig_names = [f.name for f in zone_figs]
@@ -879,9 +973,9 @@ class CombatSession:
                 dist = self.bf.zone_distance(zone, enemy.zone)
                 approx_range = zone_range_inches(dist)
                 if approx_range <= fig.weapon_range:
-                    hit_needed = get_hit_target(self.bf, fig, enemy, shooter_moved=True)
+                    hit_needed = get_hit_target(self.bf, fig, enemy, shooter_moved=True, condition=self.condition)
                     if hit_needed <= 6:
-                        eff = get_effective_hit(self.bf, fig, enemy, shooter_moved=True)
+                        eff = get_effective_hit(self.bf, fig, enemy, shooter_moved=True, condition=self.condition)
                         eff_label = "auto" if eff <= 1 else f"{eff}+"
                         is_jump = is_scout and zone not in adj_zones
                         move_label = "Jump to" if is_jump else "Move to"
@@ -969,6 +1063,16 @@ class CombatSession:
                 description=f"{fig.name} delays — will take 2 actions in slow phase",
             ))
 
+        # FREE ESCAPE — condition allows one character per round to escape
+        # from anywhere on the battlefield (Clear Escape Paths)
+        _cond_fe = self.condition
+        if (getattr(_cond_fe, "free_escape", False)
+                and not self._free_escape_used):
+            actions.append(ActionOption(
+                action_type="free_escape",
+                description=f"{fig.name} escapes the battlefield (free — Clear Escape Paths)",
+            ))
+
         # LEAVE BATTLEFIELD — available at edge zones
         if self.bf.is_edge_zone(*fig.zone):
             actions.append(ActionOption(
@@ -1035,27 +1139,9 @@ class CombatSession:
             target_name=action.target_name,
             phase=phase_str,
             use_aid=action.use_aid,
+            condition=self.condition,
         )
-        self.round_log.extend(activation.log)
-        self.full_log.extend(activation.log)
-
-        # Delayed trooper gets 2 slow activations — reset has_acted if
-        # they still have another activation queued
-        if fig_name in self._delayed_troopers and fig_name in self.slow_queue:
-            fig.has_acted = False
-
-        # Reveal contacts after movement
-        self._check_contacts()
-
-        # Check if figure moved onto an interactive objective
-        self._check_objective_interaction(fig)
-
-        # Check if queue is empty -> advance phase
-        self._prepare_next_activation()
-        if not self._pending_actions:
-            return self.advance()
-
-        return self._snapshot()
+        return self._finalize_activation(fig, fig_name, activation)
 
     def get_activation_queue(self) -> list[str]:
         """Return the current phase's activation queue (names of figures waiting to act)."""
@@ -1096,9 +1182,11 @@ class CombatSession:
         self.round_log.extend(activation.log)
         self.full_log.extend(activation.log)
 
-        # Handle leave battlefield — remove figure (non-casualty)
-        if activation.action_type == "leave_battlefield":
+        # Handle leave battlefield / free escape — remove figure (non-casualty)
+        if activation.action_type in ("leave_battlefield", "free_escape"):
             self.evacuated.append(fig_name)
+            if activation.action_type == "free_escape":
+                self._free_escape_used = True
             if fig in self.bf.figures:
                 self.bf.figures.remove(fig)
             # Remove from queues
@@ -1146,6 +1234,7 @@ class CombatSession:
             target_name=target_name,
             phase=phase_str,
             use_aid=use_aid,
+            condition=self.condition,
         )
         return self._finalize_activation(fig, fig_name, activation)
 
@@ -1177,6 +1266,7 @@ class CombatSession:
         if self.phase == CombatPhase.QUICK_ACTIONS:
             # Move to enemy phase — just transition, don't execute yet
             self.phase = CombatPhase.ENEMY_PHASE
+            self._brawl_count.clear()  # Reset multiple opponents bonus
             self.round_log.append("--- Enemy Actions Phase ---")
             return self._snapshot()
 
@@ -1203,6 +1293,9 @@ class CombatSession:
         from planetfall.engine.combat.enemy_ai import get_enemy_activation_order, plan_enemy_action
 
         self._enemy_queue = []
+
+        # Investigation/Scouting: spawn contacts at start of enemy phase
+        self._spawn_mission_contacts()
 
         # Contacts first
         contacts = [
@@ -1240,9 +1333,9 @@ class CombatSession:
         if not self._enemy_queue:
             # All done — transition to slow actions
             self._enemy_queue = None
-            self._check_contacts()
-            self._check_contacts_obscured()
+            self._check_contacts(include_obscured=True)
             self.phase = CombatPhase.SLOW_ACTIONS
+            self._brawl_count.clear()  # Reset multiple opponents bonus
             self.round_log.append("--- Slow Actions Phase ---")
             self._prepare_next_activation()
             if not self._pending_actions:
@@ -1253,7 +1346,7 @@ class CombatSession:
 
         if entry_type == "contact":
             contacts_list = extra
-            activation = _activate_contact(self.bf, figure, contacts_list)
+            activation = _activate_contact(self.bf, figure, contacts_list, condition=self.condition)
             if activation:
                 self.round_log.extend(activation.log)
                 self.full_log.extend(activation.log)
@@ -1275,24 +1368,35 @@ class CombatSession:
         if not enemy.is_alive or not enemy.can_act or enemy.is_contact:
             return self._snapshot()
 
-        action = plan_enemy_action(self.bf, enemy)
+        action = plan_enemy_action(self.bf, enemy, condition=self.condition)
         log = list(action.log)
 
         if action.move_to and action.action_type in ("move", "move_and_shoot"):
             enemy.zone = action.move_to
+            # Check contact detection after enemy movement
+            detected = self.bf.detect_contacts_auto()
+            for det in detected:
+                reveal_log = self.bf.reveal_contact(det)
+                log.extend(reveal_log)
 
         if action.target_name and action.action_type in ("shoot", "move_and_shoot"):
             target = self.bf.get_figure_by_name(action.target_name)
             if target and target.is_alive:
                 shooter_moved = action.move_to is not None
-                shots = resolve_shooting_action(self.bf, enemy, target, shooter_moved)
+                shots = resolve_shooting_action(self.bf, enemy, target, shooter_moved, condition=self.condition)
                 for shot in shots:
                     log.extend(shot.log)
 
         elif action.action_type == "brawl" and action.target_name:
             target = self.bf.get_figure_by_name(action.target_name)
             if target and target.is_alive:
-                brawl = resolve_brawl(self.bf, enemy, target)
+                # Multiple opponents bonus (rules p.39): cumulative +1 per prior brawl
+                atk_bonus = self._brawl_count.get(target.name, 0)
+                def_bonus = self._brawl_count.get(enemy.name, 0)
+                brawl = resolve_brawl(self.bf, enemy, target,
+                                      attacker_bonus=atk_bonus, defender_bonus=def_bonus)
+                self._brawl_count[enemy.name] = self._brawl_count.get(enemy.name, 0) + 1
+                self._brawl_count[target.name] = self._brawl_count.get(target.name, 0) + 1
                 log.extend(brawl.log)
 
         if enemy.stun_markers > 0:
@@ -1326,6 +1430,12 @@ class CombatSession:
         # Objective sweep check — end of round, auto-secure nearby objectives
         self._check_objective_sweep()
 
+        # Patrol wildlife: spawn 1 contact at random edge each round
+        self._patrol_wildlife_spawn()
+
+        # Battlefield condition end-of-round effects
+        self._apply_condition_end_of_round()
+
         # Victory check
         outcome = check_battle_end(self.bf)
         remaining_objectives = len(self.mission_setup.objectives)
@@ -1344,12 +1454,16 @@ class CombatSession:
             return self._snapshot()
 
         # Objective-based victory checks
-        if remaining_objectives == 0 and self._had_objectives:
-            from planetfall.engine.models import MissionType
-            requires_evac = self.mission_setup.mission_type == MissionType.INVESTIGATION
+        from planetfall.engine.models import MissionType
+        # Missions that require evacuation after objectives are done
+        EVAC_MISSIONS = {
+            MissionType.INVESTIGATION, MissionType.SCOUTING, MissionType.SCIENCE,
+        }
+        requires_evac = self.mission_setup.mission_type in EVAC_MISSIONS
 
+        if remaining_objectives == 0 and self._had_objectives:
             if requires_evac:
-                # Investigation: all objectives done, check if all players evacuated
+                # Must evacuate all players after completing objectives
                 players_on_field = [
                     f for f in self.bf.figures
                     if f.side == FigureSide.PLAYER and f.is_alive
@@ -1357,7 +1471,7 @@ class CombatSession:
                 if not players_on_field:
                     self.phase = CombatPhase.BATTLE_OVER
                     self.round_log.append(
-                        "All objectives investigated and squad evacuated — VICTORY!"
+                        "All objectives completed and squad evacuated — VICTORY!"
                     )
                     self.full_log.extend(self.round_log)
                     return self._snapshot()
@@ -1370,13 +1484,24 @@ class CombatSession:
                 return self._snapshot()
 
         if outcome == "player_victory":
-            if remaining_objectives > 0:
-                # No threats left — auto-secure all remaining objectives
-                self._auto_secure_remaining_objectives()
-            self.phase = CombatPhase.BATTLE_OVER
-            self.round_log.append("BATTLE OVER: VICTORY!")
-            self.full_log.extend(self.round_log)
-            return self._snapshot()
+            # Missions with contacts/evac don't end just because no enemies are on the table
+            is_patrol = self.mission_setup.mission_type == MissionType.PATROL
+            if is_patrol and remaining_objectives > 0:
+                # Continue — enemies will spawn, objectives still need clearing
+                pass
+            elif requires_evac:
+                # Evac missions: auto-secure remaining objectives but keep playing
+                if remaining_objectives > 0:
+                    self._auto_secure_remaining_objectives()
+                # Don't end — players still need to evacuate
+            else:
+                if remaining_objectives > 0:
+                    # No threats left — auto-secure all remaining objectives
+                    self._auto_secure_remaining_objectives()
+                self.phase = CombatPhase.BATTLE_OVER
+                self.round_log.append("BATTLE OVER: VICTORY!")
+                self.full_log.extend(self.round_log)
+                return self._snapshot()
 
         # Continue to next round
         return self._start_next_round()
@@ -1411,6 +1536,370 @@ class CombatSession:
 
         self.phase = CombatPhase.REACTION_ROLL
         return self._snapshot()
+
+    def _spawn_mission_contacts(self) -> None:
+        """Spawn contacts at start of enemy phase for missions that require it.
+
+        Investigation: D6 per non-deploy edge (3 edges), 1-3 = new Contact.
+        Scouting: D6, on 6 = new Contact at random edge center.
+        Science: D6 (or 2D6 at high hazard), on 6 = new Contact at random edge.
+        """
+        from planetfall.engine.models import MissionType
+        from planetfall.engine.dice import roll_d6
+        import random
+
+        mt = self.mission_setup.mission_type
+        template = self.mission_setup.lifeform_template
+        if not template:
+            return
+
+        if mt not in (MissionType.INVESTIGATION, MissionType.SCOUTING, MissionType.SCIENCE):
+            return
+
+        # Build non-deploy edge zones (top, left, right — excluding bottom/player edge)
+        edges_by_side: list[list[tuple[int, int]]] = []
+        # Top edge
+        top = [(0, c) for c in range(self.bf.cols)
+               if not is_impassable(self.bf.get_zone(0, c).terrain)
+               and self.bf.zone_has_capacity(0, c, FigureSide.ENEMY)]
+        if top:
+            edges_by_side.append(top)
+        # Left edge
+        left = [(r, 0) for r in range(1, self.bf.rows - 1)
+                if not is_impassable(self.bf.get_zone(r, 0).terrain)
+                and self.bf.zone_has_capacity(r, 0, FigureSide.ENEMY)]
+        if left:
+            edges_by_side.append(left)
+        # Right edge
+        right = [(r, self.bf.cols - 1) for r in range(1, self.bf.rows - 1)
+                 if not is_impassable(self.bf.get_zone(r, self.bf.cols - 1).terrain)
+                 and self.bf.zone_has_capacity(r, self.bf.cols - 1, FigureSide.ENEMY)]
+        if right:
+            edges_by_side.append(right)
+
+        spawned = []
+
+        if mt == MissionType.INVESTIGATION:
+            # D6 per non-deploy edge; 1-3 = spawn contact on that edge
+            for edge_zones in edges_by_side:
+                roll = roll_d6("Investigation contact spawn")
+                if roll.total <= 3 and edge_zones:
+                    zone = random.choice(edge_zones)
+                    spawned.append((zone, roll.total))
+
+        elif mt == MissionType.SCOUTING:
+            # D6, on 6 = new contact at random edge center
+            roll = roll_d6("Scouting contact spawn")
+            if roll.total == 6:
+                all_edges = [z for edge in edges_by_side for z in edge]
+                if all_edges:
+                    zone = random.choice(all_edges)
+                    spawned.append((zone, roll.total))
+
+        elif mt == MissionType.SCIENCE:
+            # D6 (or 2D6 at high hazard), on 6 = new contact
+            roll = roll_d6("Science contact spawn")
+            if roll.total == 6:
+                all_edges = [z for edge in edges_by_side for z in edge]
+                if all_edges:
+                    zone = random.choice(all_edges)
+                    spawned.append((zone, roll.total))
+
+        # Create contact figures
+        for zone, roll_val in spawned:
+            next_idx = sum(1 for f in self.bf.figures if f.side == FigureSide.ENEMY) + 1
+            lf_name = template.get("name", "Lifeform")
+            contact = Figure(
+                name=f"{lf_name} {next_idx}",
+                side=FigureSide.ENEMY,
+                zone=zone,
+                speed=template.get("speed", 4),
+                combat_skill=template.get("combat_skill", 0),
+                toughness=template.get("toughness", 3),
+                melee_damage=template.get("strike_damage", 0),
+                armor_save=template.get("armor_save", 0),
+                kill_points=template.get("kill_points", 1),
+                panic_range=0,
+                weapon_name="Natural weapons",
+                weapon_range=0,
+                weapon_shots=0,
+                weapon_damage=template.get("strike_damage", 0),
+                special_rules=list(template.get("special_rules", [])),
+                char_class="lifeform",
+                is_contact=True,
+            )
+            self.bf.figures.append(contact)
+            self.round_log.append(
+                f"Contact detected at zone {zone}! (D6 = {roll_val})"
+            )
+            self.full_log.append(
+                f"Contact detected at zone {zone}! (D6 = {roll_val})"
+            )
+
+    def _patrol_wildlife_spawn(self) -> None:
+        """Spawn 1 contact at a random non-player edge for patrol wildlife missions."""
+        from planetfall.engine.models import MissionType
+        if self.mission_setup.mission_type != MissionType.PATROL:
+            return
+        template = self.mission_setup.lifeform_template
+        if not template:
+            return  # Slyn patrol — no spawning
+
+        # Get edge zones excluding bottom row (player entry)
+        import random
+        edges = []
+        for c in range(self.bf.cols):
+            # Top edge
+            if self.bf.get_zone(0, c).terrain not in (TerrainType.IMPASSABLE, TerrainType.IMPASSABLE_BLOCKING):
+                edges.append((0, c))
+        for r in range(1, self.bf.rows - 1):
+            # Left and right edges
+            if self.bf.get_zone(r, 0).terrain not in (TerrainType.IMPASSABLE, TerrainType.IMPASSABLE_BLOCKING):
+                edges.append((r, 0))
+            if self.bf.get_zone(r, self.bf.cols - 1).terrain not in (TerrainType.IMPASSABLE, TerrainType.IMPASSABLE_BLOCKING):
+                edges.append((r, self.bf.cols - 1))
+        # Exclude bottom row (player entry edge)
+
+        # Filter to zones with capacity
+        valid = [z for z in edges if self.bf.zone_has_capacity(*z, FigureSide.ENEMY)]
+        if not valid:
+            return
+
+        zone = random.choice(valid)
+        traits = []
+        if template.get("special_attack") == "shoot":
+            traits.append("chain_on_6")
+
+        next_idx = sum(1 for f in self.bf.figures if f.side == FigureSide.ENEMY) + 1
+        lf_name = template.get("name", "Lifeform")
+        contact = Figure(
+            name=f"{lf_name} {next_idx}",
+            side=FigureSide.ENEMY,
+            zone=zone,
+            speed=template.get("speed", 4),
+            combat_skill=template.get("combat_skill", 0),
+            toughness=template.get("toughness", 3),
+            melee_damage=template.get("strike_damage", 0),
+            armor_save=template.get("armor_save", 0),
+            kill_points=template.get("kill_points", 1),
+            panic_range=0,
+            weapon_name="Natural weapons",
+            weapon_range=0,
+            weapon_shots=0,
+            weapon_damage=template.get("strike_damage", 0),
+            weapon_traits=traits,
+            special_rules=[
+                template.get("special_attack", ""),
+                template.get("unique_ability", ""),
+            ],
+            char_class="lifeform",
+            is_contact=True,
+        )
+        self.bf.figures.append(contact)
+        self.round_log.append(f"Wildlife contact detected at zone {zone}!")
+
+    def _apply_condition_end_of_round(self) -> None:
+        """Apply battlefield condition effects at end of each round."""
+        import random as rng
+        from planetfall.engine.dice import roll_d6
+
+        cond = self.condition
+        if not cond:
+            return
+
+        # Variable round visibility: re-roll each round
+        if getattr(cond, "visibility_type", "") == "variable_round":
+            new_vis = roll_d6("Visibility re-roll").total + 8
+            old_vis = cond.visibility_limit
+            cond.visibility_limit = new_vis
+            self.round_log.append(
+                f"Visibility shifts: {old_vis}\" → {new_vis}\" (D6+8)"
+            )
+
+        # Uncertain terrain: reveal features within 2 zones (~9") of crew
+        # or within 4 zones (~18") with LoS, roll D100 on Uncertain Features table
+        if self.bf.uncertain_features:
+            self._reveal_uncertain_terrain()
+
+        # Shifting terrain: drift terrain 1D6" random direction,
+        # figures on shifted terrain roll 4+ or become Sprawling
+        if getattr(cond, "shifting_terrain", False):
+            shift_inches = roll_d6("Shifting terrain drift").total
+            shift_zones = shift_inches // 4  # convert inches to zones
+            if shift_zones > 0:
+                # Pick a random terrain feature zone and shift it
+                directions = [(-1, 0), (1, 0), (0, -1), (0, 1),
+                              (-1, -1), (-1, 1), (1, -1), (1, 1)]
+                direction = rng.choice(directions)
+                terrain_zones = [
+                    (r, c) for r in range(self.bf.rows) for c in range(self.bf.cols)
+                    if self.bf.get_zone(r, c).terrain.value not in ("open", "impassable", "impassable_blocking")
+                ]
+                if terrain_zones:
+                    src = rng.choice(terrain_zones)
+                    src_zone = self.bf.get_zone(*src)
+                    nr = min(max(0, src[0] + direction[0] * shift_zones), self.bf.rows - 1)
+                    nc = min(max(0, src[1] + direction[1] * shift_zones), self.bf.cols - 1)
+                    dest_zone = self.bf.get_zone(nr, nc)
+
+                    # Only shift if destination is open (no collision)
+                    if dest_zone.terrain == TerrainType.OPEN:
+                        # Swap terrain
+                        dest_zone.terrain = src_zone.terrain
+                        dest_zone.terrain_name = src_zone.terrain_name
+                        dest_zone.difficult = src_zone.difficult
+                        src_zone.terrain = TerrainType.OPEN
+                        src_zone.terrain_name = ""
+                        src_zone.difficult = False
+                        self.round_log.append(
+                            f"Terrain shifts {shift_inches}\": "
+                            f"{dest_zone.terrain_name or dest_zone.terrain.value} "
+                            f"moves {src} → ({nr},{nc})"
+                        )
+                    else:
+                        self.round_log.append(
+                            f"Terrain shifts {shift_inches}\" but blocked — feature stays at {src}"
+                        )
+
+                    # Check figures on the shifted feature — roll 4+ or Sprawling
+                    affected_figs = [
+                        f for f in self.bf.figures
+                        if f.is_alive and f.zone == src
+                    ]
+                    for fig in affected_figs:
+                        stability = roll_d6(f"{fig.name} stability").total
+                        if stability < 4:
+                            fig.status = FigureStatus.SPRAWLING
+                            self.round_log.append(
+                                f"  {fig.name} rolls {stability} — knocked Sprawling by shifting terrain!"
+                            )
+                        else:
+                            self.round_log.append(
+                                f"  {fig.name} rolls {stability} — stays standing"
+                            )
+
+        # Cloud drift: move clouds 1D6" in random direction, apply toxic/corrosive
+        if getattr(self.bf, "cloud_positions", None):
+            drift_inches = roll_d6("Cloud drift").total
+            drift_zones = drift_inches // 4
+            if drift_zones > 0:
+                directions = [(-1, 0), (1, 0), (0, -1), (0, 1),
+                              (-1, -1), (-1, 1), (1, -1), (1, 1)]
+                direction = rng.choice(directions)
+                new_positions = []
+                for pos in self.bf.cloud_positions:
+                    # Clear old cloud marker
+                    old_zone = self.bf.get_zone(*pos)
+                    old_zone.has_cloud = False
+                    # Calculate new position
+                    nr = pos[0] + direction[0] * drift_zones
+                    nc = pos[1] + direction[1] * drift_zones
+                    if 0 <= nr < self.bf.rows and 0 <= nc < self.bf.cols:
+                        new_positions.append((nr, nc))
+                        new_zone = self.bf.get_zone(nr, nc)
+                        new_zone.has_cloud = True
+                self.bf.cloud_positions = new_positions
+                self.round_log.append(
+                    f"Clouds drift {drift_inches}\" — now at {new_positions}"
+                )
+
+            # Apply toxic/corrosive damage to figures in cloud zones
+            cloud_type = getattr(self.bf, "cloud_type", "safe")
+            if cloud_type in ("toxic", "corrosive"):
+                toxin_level = getattr(self.bf, "cloud_toxin_level", 0)
+                for fig in self.bf.figures:
+                    if not fig.is_alive:
+                        continue
+                    zone_obj = self.bf.get_zone(*fig.zone)
+                    if getattr(zone_obj, "has_cloud", False):
+                        resist = roll_d6(f"{fig.name} toxin resist").total
+                        if resist <= toxin_level:
+                            fig.stun_markers += 1
+                            self.round_log.append(
+                                f"  {fig.name} in {cloud_type} cloud — "
+                                f"rolls {resist} vs toxin {toxin_level} — Stunned!"
+                            )
+                        else:
+                            self.round_log.append(
+                                f"  {fig.name} resists {cloud_type} cloud "
+                                f"({resist} vs {toxin_level})"
+                            )
+
+        # Reset free escape flag for next round
+        if getattr(cond, "free_escape", False):
+            self._free_escape_used = False
+
+    def _reveal_uncertain_terrain(self) -> None:
+        """Check and reveal Uncertain Terrain features at end of round.
+
+        Rules (p.137): At end of each round, for any uncertain feature within
+        9" (~2 zones) of any crew member OR within 18" (~4 zones) and in LoS,
+        roll D100 on the Uncertain Features table to reveal it.
+        """
+        from planetfall.engine.tables.battlefield_conditions import roll_uncertain_terrain
+        from planetfall.engine.combat.battlefield import TerrainType
+
+        player_figs = [
+            f for f in self.bf.figures
+            if f.side == FigureSide.PLAYER and f.is_alive
+        ]
+        if not player_figs:
+            return
+
+        to_reveal = []
+        for uf_zone in list(self.bf.uncertain_features):
+            for fig in player_figs:
+                dist = self.bf.zone_distance(fig.zone, uf_zone)
+                if dist <= 2:
+                    # Within 9" (~2 zones) — auto-reveal
+                    to_reveal.append(uf_zone)
+                    break
+                elif dist <= 4 and self.bf.check_los(fig.zone, uf_zone) != "blocked":
+                    # Within 18" (~4 zones) + LoS — auto-reveal
+                    to_reveal.append(uf_zone)
+                    break
+
+        for uf_zone in to_reveal:
+            if uf_zone not in self.bf.uncertain_features:
+                continue
+            self.bf.uncertain_features.remove(uf_zone)
+            result = roll_uncertain_terrain()
+            zone_obj = self.bf.get_zone(*uf_zone)
+            zone_obj.uncertain = False
+
+            # Apply terrain type
+            terrain_map = {
+                "light_cover": TerrainType.LIGHT_COVER,
+                "heavy_cover": TerrainType.HEAVY_COVER,
+                "high_ground": TerrainType.HIGH_GROUND,
+                "impassable": TerrainType.IMPASSABLE,
+                "open": TerrainType.OPEN,
+            }
+            zone_obj.terrain = terrain_map.get(result["terrain"], TerrainType.OPEN)
+            if result.get("difficult"):
+                zone_obj.difficult = True
+
+            self.round_log.append(
+                f"Uncertain Terrain revealed at {uf_zone}: "
+                f"{result['name']} (D100={result['roll']}) — {result['description']}"
+            )
+
+            # Special effects
+            if result.get("spawn_contact") and self.mission_setup.lifeform_template:
+                self.round_log.append(
+                    f"  Contact spawned at {uf_zone}!"
+                )
+            if result.get("find_on_6"):
+                from planetfall.engine.dice import roll_d6
+                find_roll = roll_d6("Promising terrain").total
+                if find_roll == 6:
+                    self.round_log.append(
+                        f"  Promising terrain! D6={find_roll} — bonus Post-Mission Find!"
+                    )
+                else:
+                    self.round_log.append(
+                        f"  Promising terrain: D6={find_roll} — nothing found"
+                    )
 
     def get_result(self) -> dict:
         """Get final battle results after BATTLE_OVER."""

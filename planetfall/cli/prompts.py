@@ -12,6 +12,7 @@ from planetfall.engine.models import (
 from planetfall.engine.campaign.setup import (
     MOTIVATION_TABLE, PRIOR_EXPERIENCE_TABLE,
 )
+from planetfall.engine.utils import format_display
 
 
 class SaveAndQuit(Exception):
@@ -186,7 +187,7 @@ def prompt_import_character(index: int) -> dict:
         sub_species = prompt_character_subspecies()
 
     # Start from class template
-    profile = dict(STARTING_PROFILES[char_class])
+    profile = STARTING_PROFILES[char_class].model_dump()
     if sub_species == SubSpecies.HULKER:
         profile["toughness"] = 5
 
@@ -276,7 +277,7 @@ def prompt_mission_choice(options: list[dict]) -> int:
     """Ask player to choose a mission. Returns 0-based index."""
     choices = []
     for opt in options:
-        name = opt["type"].value.replace("_", " ").title()
+        name = format_display(opt["type"].value)
         forced = " (FORCED)" if opt.get("forced") else ""
         choices.append(f"{name}{forced} — {opt['description']}")
 
@@ -456,13 +457,14 @@ def prompt_loadout(
 
     loadout: dict[str, str] = {}
     buildings = state.colony.buildings
+    unlocked_apps = set(state.tech_tree.unlocked_applications)
 
     for name in deployed_names:
         char = next((c for c in state.characters if c.name == name), None)
         if not char:
             continue
 
-        weapons = get_available_loadout(char.char_class.value, buildings)
+        weapons = get_available_loadout(char.char_class.value, buildings, unlocked_apps)
         if not weapons:
             loadout[name] = "Colony Rifle"
             continue
@@ -484,7 +486,7 @@ def prompt_loadout(
 
     # Bot weapon selection (civilian weapons only)
     if bot_deploy:
-        bot_weapons = get_available_loadout("bot", buildings)
+        bot_weapons = get_available_loadout("bot", buildings, unlocked_apps)
         if len(bot_weapons) > 1:
             choices = [_format_weapon(w) for w in bot_weapons]
             choice = ask_select("Colony Bot (bot) — choose weapon:", choices)

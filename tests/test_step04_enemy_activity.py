@@ -2,33 +2,28 @@
 
 from unittest.mock import patch
 
-from planetfall.engine.campaign.setup import create_new_campaign
 from planetfall.engine.dice import RollResult, TableEntry
-from planetfall.engine.models import ColonizationAgenda, TacticalEnemy
+from planetfall.engine.models import TacticalEnemy
 from planetfall.engine.steps.step04_enemy_activity import execute
 
 
-def _make_state():
-    return create_new_campaign("T", "C", agenda=ColonizationAgenda.UNITY)
-
-
 class TestNoEnemies:
-    def test_no_tactical_enemies(self):
-        state = _make_state()
+    def test_no_tactical_enemies(self, game_state):
+        state = game_state
         state.enemies.tactical_enemies = []
         events = execute(state)
         assert len(events) == 1
         assert "No active" in events[0].description
 
-    def test_all_enemies_defeated(self):
-        state = _make_state()
+    def test_all_enemies_defeated(self, game_state):
+        state = game_state
         for e in state.enemies.tactical_enemies:
             e.defeated = True
         events = execute(state)
         assert "No active" in events[0].description
 
-    def test_disrupted_enemy_skipped(self):
-        state = _make_state()
+    def test_disrupted_enemy_skipped(self, game_state):
+        state = game_state
         for e in state.enemies.tactical_enemies:
             e.disrupted_this_turn = True
         events = execute(state)
@@ -37,13 +32,13 @@ class TestNoEnemies:
 
 class TestEnemyActivity:
     @patch("planetfall.engine.steps.step04_enemy_activity.ENEMY_ACTIVITY_TABLE")
-    def test_normal_activity(self, mock_table):
+    def test_normal_activity(self, mock_table, game_state):
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[50], total=50, label=""),
             TableEntry(low=41, high=60, result_id="patrol",
                       description="Enemy patrols their territory.", effects={}),
         )
-        state = _make_state()
+        state = game_state
         # Ensure at least one active enemy
         state.enemies.tactical_enemies = [
             TacticalEnemy(name="Raiders", enemy_type="Marauders", sectors=[1])
@@ -55,14 +50,14 @@ class TestEnemyActivity:
 
     @patch("planetfall.engine.steps.step04_enemy_activity.roll_d6")
     @patch("planetfall.engine.steps.step04_enemy_activity.ENEMY_ACTIVITY_TABLE")
-    def test_raid_damages_colony(self, mock_table, mock_d6):
+    def test_raid_damages_colony(self, mock_table, mock_d6, game_state):
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[90], total=90, label=""),
             TableEntry(low=81, high=100, result_id="raid",
                       description="Enemy raids the colony!", effects={}),
         )
         mock_d6.return_value = RollResult(dice_type="d6", values=[3], total=3, label="")
-        state = _make_state()
+        state = game_state
         state.enemies.tactical_enemies = [
             TacticalEnemy(name="Raiders", enemy_type="Marauders", sectors=[1, 2])
         ]
@@ -75,7 +70,7 @@ class TestEnemyActivity:
 
     @patch("planetfall.engine.steps.step04_enemy_activity.roll_d6")
     @patch("planetfall.engine.steps.step04_enemy_activity.ENEMY_ACTIVITY_TABLE")
-    def test_raid_with_defenses(self, mock_table, mock_d6):
+    def test_raid_with_defenses(self, mock_table, mock_d6, game_state):
         mock_table.roll_on_table.return_value = (
             RollResult(dice_type="d100", values=[90], total=90, label=""),
             TableEntry(low=81, high=100, result_id="raid",
@@ -83,7 +78,7 @@ class TestEnemyActivity:
         )
         # Defense rolls: all succeed (4+)
         mock_d6.return_value = RollResult(dice_type="d6", values=[5], total=5, label="")
-        state = _make_state()
+        state = game_state
         state.enemies.tactical_enemies = [
             TacticalEnemy(name="Raiders", enemy_type="Marauders", sectors=[1])
         ]

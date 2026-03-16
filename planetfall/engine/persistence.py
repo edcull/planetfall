@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 
+from planetfall.engine.migrations import apply_migrations
 from planetfall.engine.models import GameState
 
 SAVES_DIR = Path("saves")
@@ -25,17 +25,19 @@ def save_state(state: GameState) -> Path:
     campaign_dir = _campaign_dir(state.campaign_name)
     campaign_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save current state
-    state_path = campaign_dir / "state.json"
-    state_path.write_text(
-        state.model_dump_json(indent=2), encoding="utf-8"
-    )
+    json_data = state.model_dump_json(indent=2)
 
-    # Save turn snapshot
+    # Save current state (atomic write via temp file)
+    state_path = campaign_dir / "state.json"
+    tmp_path = state_path.with_suffix('.tmp')
+    tmp_path.write_text(json_data, encoding="utf-8")
+    tmp_path.replace(state_path)
+
+    # Save turn snapshot (atomic write via temp file)
     snapshot_path = campaign_dir / f"turn_{state.current_turn:03d}.json"
-    snapshot_path.write_text(
-        state.model_dump_json(indent=2), encoding="utf-8"
-    )
+    tmp_snapshot = snapshot_path.with_suffix('.tmp')
+    tmp_snapshot.write_text(json_data, encoding="utf-8")
+    tmp_snapshot.replace(snapshot_path)
 
     return state_path
 
@@ -52,7 +54,14 @@ def load_state(campaign_name: str) -> GameState:
         )
 
     data = json.loads(state_path.read_text(encoding="utf-8"))
-    return GameState.model_validate(data)
+    data = apply_migrations(data)
+    state = GameState.model_validate(data)
+
+    # Retroactively apply any missing grunt upgrades
+    from planetfall.engine.campaign.research import sync_grunt_upgrades
+    sync_grunt_upgrades(state)
+
+    return state
 
 
 def load_snapshot(campaign_name: str, turn: int) -> GameState:
@@ -66,7 +75,9 @@ def load_snapshot(campaign_name: str, turn: int) -> GameState:
         )
 
     data = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    data = apply_migrations(data)
     return GameState.model_validate(data)
+
 
 
 def list_campaigns() -> list[str]:
@@ -147,13 +158,25 @@ def get_campaign_info(campaign_name: str) -> dict:
     state_path = campaign_dir / "state.json"
     if not state_path.exists():
         return {"name": campaign_name, "exists": False}
-    data = json.loads(state_path.read_text(encoding="utf-8"))
+    try:
+        data = json.loads(state_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        # Attempt to recover truncated/doubled JSON
+        text = state_path.read_text(encoding="utf-8")
+        decoder = json.JSONDecoder()
+        try:
+            data, _ = decoder.raw_decode(text)
+            # Re-write the fixed file
+            state_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        except (json.JSONDecodeError, ValueError):
+            return {"name": campaign_name, "exists": True, "corrupted": True}
     snapshots = list_snapshots(campaign_name)
     total_size = sum(f.stat().st_size for f in campaign_dir.iterdir() if f.is_file())
     return {
         "name": campaign_name,
         "exists": True,
         "turn": data.get("current_turn", 0),
+        "step": data.get("current_step", 0),
         "colony_name": data.get("colony", {}).get("name", "Unknown"),
         "characters": len(data.get("characters", [])),
         "snapshots": len(snapshots),

@@ -5,6 +5,7 @@ from __future__ import annotations
 from planetfall.engine.models import (
     GameState, MissionType, SectorStatus, TurnEvent, TurnEventType,
 )
+from planetfall.engine.utils import format_display
 
 
 def get_available_missions(state: GameState) -> list[dict]:
@@ -24,54 +25,62 @@ def get_available_missions(state: GameState) -> list[dict]:
                       "rewards": "Colony survival. Failure costs morale and integrity.",
                       "forced": True}]
 
-    # Patrol — always available
-    available.append({
+    # Patrol — always available, within 2 of colony, not enemy-occupied
+    from planetfall.engine.utils import sectors_within_distance
+    patrol_sectors = [
+        sid for sid in sectors_within_distance(state, state.campaign_map.colony_sector_id, 2)
+        if not state.campaign_map.sectors[sid].enemy_occupied_by
+    ]
+    patrol_entry: dict = {
         "type": MissionType.PATROL,
         "description": "Patrol near the colony to deal with hostile wildlife.",
-        "rewards": "XP for deployed crew. +1 morale on victory.",
-    })
+        "rewards": "Increase Colony Morale.",
+    }
+    if patrol_sectors:
+        patrol_entry["target_sectors"] = patrol_sectors
+    available.append(patrol_entry)
 
     # Investigation — if any sectors have investigation sites
     inv_sectors = [
         s for s in state.campaign_map.sectors
         if s.has_investigation_site
-        and s.status in (SectorStatus.UNKNOWN, SectorStatus.EXPLORED,
-                         SectorStatus.INVESTIGATED, SectorStatus.EXPLOITED)
+        and s.status in (SectorStatus.UNEXPLORED, SectorStatus.EXPLORED,
+                         SectorStatus.EXPLOITED)
     ]
     if inv_sectors:
         if len(inv_sectors) == 1:
             available.append({
                 "type": MissionType.INVESTIGATION,
                 "description": f"Investigate sector {inv_sectors[0].sector_id}.",
-                "rewards": "Reveals sector contents. +1 Mission Data on victory.",
+                "rewards": "Potential Mission Data.",
                 "sector_id": inv_sectors[0].sector_id,
             })
         else:
             available.append({
                 "type": MissionType.INVESTIGATION,
-                "description": f"Investigate a sector with an unknown site ({len(inv_sectors)} available).",
-                "rewards": "Reveals sector contents. +1 Mission Data on victory.",
+                "description": f"Search an Investigation Site ({len(inv_sectors)} available).",
+                "rewards": "Potential Mission Data.",
                 "target_sectors": [s.sector_id for s in inv_sectors],
             })
 
     # Scouting — unexplored sectors
     unexplored = [
         s for s in state.campaign_map.sectors
-        if s.status == SectorStatus.UNKNOWN
+        if s.status == SectorStatus.UNEXPLORED
         and s.sector_id != state.campaign_map.colony_sector_id
     ]
     if unexplored:
         available.append({
             "type": MissionType.SCOUTING,
-            "description": f"Scout an unexplored sector ({len(unexplored)} available).",
-            "rewards": "Reveals sector. XP for deployed crew.",
+            "description": f"Survey a Sector ({len(unexplored)} available).",
+            "rewards": "Surveys a sector.",
             "target_sectors": [s.sector_id for s in unexplored],
         })
 
     # Exploration — explored but unexploited sectors
     explored = [
         s for s in state.campaign_map.sectors
-        if s.status in (SectorStatus.INVESTIGATED, SectorStatus.EXPLORED)
+        if s.status == SectorStatus.EXPLORED
         and s.sector_id != state.campaign_map.colony_sector_id
     ]
     if explored:
@@ -81,8 +90,8 @@ def get_available_missions(state: GameState) -> list[dict]:
         ]
         available.append({
             "type": MissionType.EXPLORATION,
-            "description": f"Explore a surveyed sector for resources ({len(explored)} available).",
-            "rewards": "Raw Materials on victory. Upgrades sector to Exploited.",
+            "description": f"Extract Raw Materials ({len(explored)} available).",
+            "rewards": "Extract Raw Materials and Research Samples.",
             "target_sectors": [s.sector_id for s in explored],
             "target_details": sector_info,
         })
@@ -91,18 +100,24 @@ def get_available_missions(state: GameState) -> list[dict]:
     if explored:
         available.append({
             "type": MissionType.SCIENCE,
-            "description": f"Conduct scientific research in a surveyed sector ({len(explored)} available).",
-            "rewards": "+1 Research Point on victory. Bonus with scientist alive.",
+            "description": f"Obtain Research Samples ({len(explored)} available).",
+            "rewards": "Obtain Research Samples.",
             "target_sectors": [s.sector_id for s in explored],
         })
 
-    # Hunt — if lifeforms have been encountered
+    # Hunt — if lifeforms have been encountered, within 4 of colony
     if state.enemies.lifeform_table:
-        available.append({
+        hunt_sectors = sectors_within_distance(
+            state, state.campaign_map.colony_sector_id, 4,
+        )
+        hunt_entry: dict = {
             "type": MissionType.HUNT,
             "description": "Hunt dangerous lifeforms.",
-            "rewards": "Kill Points for crew. Bio-analysis progress.",
-        })
+            "rewards": "Recover specimens for Bio-analysis research.",
+        }
+        if hunt_sectors:
+            hunt_entry["target_sectors"] = hunt_sectors
+        available.append(hunt_entry)
 
     # Skirmish — if tactical enemies present
     active_enemies = [e for e in state.enemies.tactical_enemies if not e.defeated]
@@ -110,7 +125,7 @@ def get_available_missions(state: GameState) -> list[dict]:
         enemy = active_enemies[0]
         available.append({
             "type": MissionType.SKIRMISH,
-            "description": f"Engage {enemy.name} in a skirmish.",
+            "description": "Engage an enemy in a skirmish.",
             "rewards": f"+1 Enemy Info on victory (have {enemy.enemy_info_count}). Disrupts enemy this turn.",
         })
 
@@ -119,7 +134,7 @@ def get_available_missions(state: GameState) -> list[dict]:
         enemy = active_enemies[0]
         available.append({
             "type": MissionType.STRIKE,
-            "description": f"Strike mission against {enemy.name}.",
+            "description": "Strike mission against an enemy.",
             "rewards": "+2 Enemy Info on victory. Harder fight than skirmish.",
         })
 
@@ -129,7 +144,7 @@ def get_available_missions(state: GameState) -> list[dict]:
         enemy = strongpoint_enemies[0]
         available.append({
             "type": MissionType.ASSAULT,
-            "description": f"Assault {enemy.name}'s strongpoint.",
+            "description": "Assault an enemy strongpoint.",
             "rewards": "Defeats enemy faction permanently. High difficulty.",
         })
 
@@ -190,7 +205,7 @@ def execute(state: GameState, chosen_mission: MissionType, sector_id: int | None
     events = [TurnEvent(
         step=6,
         event_type=TurnEventType.MISSION,
-        description=f"Mission selected: {chosen_mission.value.replace('_', ' ').title()}.",
+        description=f"Mission selected: {format_display(chosen_mission.value)}.",
         state_changes={"mission_type": chosen_mission.value, "sector_id": sector_id},
     )]
     return events

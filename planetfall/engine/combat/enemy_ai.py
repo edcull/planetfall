@@ -12,10 +12,11 @@ from dataclasses import dataclass, field
 
 from planetfall.engine.combat.battlefield import (
     Battlefield, Figure, FigureSide, FigureStatus, TerrainType,
-    zone_range_inches,
+    is_impassable, zone_range_inches,
 )
 from planetfall.engine.combat.shooting import get_hit_target
 from planetfall.engine.dice import roll_d6
+from planetfall.engine.utils import format_display
 
 
 @dataclass
@@ -60,6 +61,7 @@ def find_best_target(
     battlefield: Battlefield,
     shooter: Figure,
     shooter_moved: bool = False,
+    condition: object = None,
 ) -> Figure | None:
     """Find the best target for an enemy shooter.
 
@@ -76,7 +78,7 @@ def find_best_target(
     best_score = (999, 999)  # (hit_needed, -row)  lower is better
 
     for target in player_figs:
-        hit_needed = get_hit_target(battlefield, shooter, target, shooter_moved)
+        hit_needed = get_hit_target(battlefield, shooter, target, shooter_moved, condition=condition)
         if hit_needed > 6:
             continue  # out of range
         # Prefer lower hit_needed, then targets closer to player edge (higher row)
@@ -97,7 +99,9 @@ def find_move_toward_player(
     Prefers cover zones. Moves toward player edge (higher row numbers).
     Speed 7+ enemies can move up to 2 zones.
     """
-    from planetfall.engine.combat.battlefield import move_zones
+    from planetfall.engine.combat.battlefield import (
+        move_zones, move_zones_difficult, ignores_difficult_ground,
+    )
 
     player_figs = [
         f for f in battlefield.figures
@@ -112,24 +116,35 @@ def find_move_toward_player(
         key=lambda p: battlefield.zone_distance(figure.zone, p.zone),
     )
 
-    # Determine move range based on Speed
+    # Determine move range based on Speed, accounting for difficult ground
+    fig_ignores_dg = ignores_difficult_ground(figure)
+    source_difficult = battlefield.get_zone(*figure.zone).difficult
     num_move = move_zones(figure.speed)
 
-    # Build candidate zones (adjacent for Speed 1-6, up to 2 away for Speed 7+)
-    if num_move >= 2:
-        candidates = []
-        for dr in range(-num_move, num_move + 1):
-            for dc in range(-num_move, num_move + 1):
-                if dr == 0 and dc == 0:
-                    continue
-                nr, nc = figure.zone[0] + dr, figure.zone[1] + dc
-                if (0 <= nr < battlefield.rows and 0 <= nc < battlefield.cols
-                        and max(abs(dr), abs(dc)) <= num_move):
-                    terrain = battlefield.get_zone(nr, nc).terrain
-                    if terrain != TerrainType.IMPASSABLE:
-                        candidates.append((nr, nc))
-    else:
-        candidates = list(battlefield.adjacent_zones(*figure.zone))
+    # Build candidate zones — check difficult ground per-destination
+    candidates = []
+    max_reach = max(num_move, 2)
+    for dr in range(-max_reach, max_reach + 1):
+        for dc in range(-max_reach, max_reach + 1):
+            if dr == 0 and dc == 0:
+                continue
+            nr, nc = figure.zone[0] + dr, figure.zone[1] + dc
+            if not (0 <= nr < battlefield.rows and 0 <= nc < battlefield.cols):
+                continue
+            dist = max(abs(dr), abs(dc))
+            if fig_ignores_dg:
+                eff_move = num_move
+            else:
+                dest_difficult = battlefield.get_zone(nr, nc).difficult
+                if source_difficult or dest_difficult:
+                    eff_move = move_zones_difficult(figure.speed)
+                else:
+                    eff_move = num_move
+            if dist > eff_move:
+                continue
+            terrain = battlefield.get_zone(nr, nc).terrain
+            if not is_impassable(terrain):
+                candidates.append((nr, nc))
 
     if not candidates:
         return None
@@ -186,6 +201,7 @@ def find_cover_retreat(
 def plan_enemy_action(
     battlefield: Battlefield,
     figure: Figure,
+    condition: object = None,
 ) -> AIAction:
     """Plan the action for a single enemy figure.
 
@@ -195,9 +211,23 @@ def plan_enemy_action(
     """
     action = AIAction(figure_name=figure.name)
 
+    # Hesitation check (rules p.31): Lifeforms and Tactical enemies without
+    # a visible opponent roll 1D6. On a 1, they hesitate and don't act.
+    # Slyn and Sleepers are exempt.
+    if figure.char_class not in ("slyn", "sleeper"):
+        has_visible_target = find_best_target(battlefield, figure, condition=condition) is not None
+        if not has_visible_target:
+            hesitation = roll_d6(f"{figure.name} hesitation check")
+            if hesitation.total == 1:
+                action.action_type = "hold"
+                action.log.append(
+                    f"{figure.name} hesitates (D6={hesitation.total}) — no action this phase"
+                )
+                return action
+
     # Sleeper rapid fire: don't move, fire with +1 shot
     if "rapid_fire" in figure.special_rules:
-        target = find_best_target(battlefield, figure, shooter_moved=False)
+        target = find_best_target(battlefield, figure, shooter_moved=False, condition=condition)
         if target:
             action.action_type = "shoot"
             action.target_name = target.name
@@ -225,7 +255,7 @@ def plan_enemy_action(
     is_stunned = figure.stun_markers > 0
 
     # Check if we can shoot from current position
-    target = find_best_target(battlefield, figure, shooter_moved=False)
+    target = find_best_target(battlefield, figure, shooter_moved=False, condition=condition)
 
     if is_stunned:
         # Stunned: move OR attack, not both
@@ -265,7 +295,7 @@ def plan_enemy_action(
             # Check if we can shoot after moving
             old_zone = figure.zone
             figure.zone = move_to
-            target_after = find_best_target(battlefield, figure, shooter_moved=True)
+            target_after = find_best_target(battlefield, figure, shooter_moved=True, condition=condition)
             figure.zone = old_zone  # restore
 
             if target_after:
@@ -478,7 +508,7 @@ def roll_ai_variation(
             _apply_ploy(battlefield, target, entry, result)
 
         result.log.append(
-            f"AI Variation: Ploy! D6={sub_roll} — {entry['id'].replace('_', ' ').title()}: "
+            f"AI Variation: Ploy! D6={sub_roll} — {format_display(entry['id'])}: "
             f"{entry['description']}"
         )
 
@@ -498,7 +528,7 @@ def roll_ai_variation(
             _apply_ai_action(battlefield, target, entry, result)
 
         result.log.append(
-            f"AI Variation: Action! D6={sub_roll} — {entry['id'].replace('_', ' ').title()}: "
+            f"AI Variation: Action! D6={sub_roll} — {format_display(entry['id'])}: "
             f"{entry['description']}"
         )
 

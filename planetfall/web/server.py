@@ -82,14 +82,26 @@ async def game_websocket(websocket: WebSocket):
             elif msg.get("type") == "request_log":
                 state = adapter.game_state
                 if state:
-                    from planetfall.engine.campaign_log import export_turn_log
-                    from planetfall.engine.persistence import list_snapshots, load_snapshot
+                    from planetfall.engine.campaign_log import export_turn_log, export_day_zero_log
+                    from planetfall.engine.persistence import list_snapshots, load_snapshot, _campaign_dir
 
                     requested_turn = msg.get("turn")
                     available_turns = list_snapshots(state.campaign_name)
                     current_turn = state.current_turn
 
-                    if requested_turn and requested_turn != current_turn and requested_turn in available_turns:
+                    # Include Day 0 if the log file exists
+                    day0_path = _campaign_dir(state.campaign_name) / "turn_000_log.md"
+                    if day0_path.exists() and 0 not in available_turns:
+                        available_turns = [0] + available_turns
+
+                    if requested_turn == 0:
+                        # Day 0: colony founding log
+                        if day0_path.exists():
+                            log_md = day0_path.read_text(encoding="utf-8")
+                        else:
+                            log_md = export_day_zero_log(state)
+                        display_turn = 0
+                    elif requested_turn and requested_turn != current_turn and requested_turn in available_turns:
                         try:
                             snapshot = load_snapshot(state.campaign_name, requested_turn)
                             log_md = export_turn_log(snapshot, snapshot.turn_log)
@@ -112,6 +124,112 @@ async def game_websocket(websocket: WebSocket):
                         "markdown": "# Colony Log\n\n*No data yet.*",
                         "current_turn": 0,
                         "available_turns": [],
+                    })
+            elif msg.get("type") == "debug_add_milestone":
+                state = adapter.game_state
+                if state:
+                    from planetfall.engine.campaign.milestones import apply_milestone
+                    from planetfall.web.serializers import (
+                        serialize_milestones, serialize_colony_status,
+                        serialize_enemies, serialize_map,
+                        serialize_calamities, serialize_ancient_signs,
+                    )
+                    state.campaign.milestones_completed += 1
+                    ms = state.campaign.milestones_completed
+                    apply_milestone(state, ms)
+                    await websocket.send_json({
+                        "type": "show_milestones",
+                        "data": serialize_milestones(state),
+                    })
+                    await websocket.send_json({
+                        "type": "show_colony_status",
+                        "data": serialize_colony_status(state),
+                    })
+                    await websocket.send_json({
+                        "type": "show_enemies",
+                        "data": serialize_enemies(state),
+                    })
+                    await websocket.send_json({
+                        "type": "show_map",
+                        "data": serialize_map(state),
+                    })
+                    await websocket.send_json({
+                        "type": "show_calamities",
+                        "data": serialize_calamities(state),
+                    })
+                    await websocket.send_json({
+                        "type": "show_ancient_signs",
+                        "data": serialize_ancient_signs(state),
+                    })
+            elif msg.get("type") == "update_setting":
+                state = adapter.game_state
+                if state:
+                    key = msg.get("key")
+                    value = msg.get("value")
+                    if key == "narrative_disabled" and isinstance(value, bool):
+                        state.settings.narrative_disabled = value
+                        from planetfall.engine.persistence import save_state
+                        save_state(state)
+            elif msg.get("type") == "resource_cache_request":
+                # Out-of-band SP spend for resources from colony panel
+                state = adapter.game_state
+                if state:
+                    from planetfall.engine.campaign.story_points import (
+                        can_spend, roll_resource_cache, allocate_resource_cache,
+                    )
+                    from planetfall.web.serializers import serialize_colony_status
+                    if not can_spend(state):
+                        await websocket.send_json({
+                            "type": "resource_cache_result",
+                            "success": False,
+                            "message": "Not enough Story Points.",
+                        })
+                    else:
+                        events, budget = roll_resource_cache(state)
+                        state.turn_log.extend(events)
+                        # Send roll result to client for allocation UI
+                        await websocket.send_json({
+                            "type": "resource_cache_rolled",
+                            "budget": budget,
+                            "dice": events[0].dice_rolls[0].values if events and events[0].dice_rolls else [],
+                            "sp_remaining": state.colony.resources.story_points,
+                        })
+            elif msg.get("type") == "resource_cache_allocate":
+                state = adapter.game_state
+                if state:
+                    from planetfall.engine.campaign.story_points import allocate_resource_cache
+                    from planetfall.web.serializers import serialize_colony_status
+                    from planetfall.engine.persistence import save_state
+                    bp = int(msg.get("bp", 0))
+                    rp = int(msg.get("rp", 0))
+                    rm = int(msg.get("rm", 0))
+                    budget = int(msg.get("budget", 0))
+                    alloc_events = allocate_resource_cache(state, budget, bp, rp, rm)
+                    # Record in turn log
+                    state.turn_log.extend(alloc_events)
+                    save_state(state)
+                    await websocket.send_json({
+                        "type": "resource_cache_result",
+                        "success": True,
+                        "bp": bp, "rp": rp, "rm": rm,
+                        "budget": budget,
+                    })
+                    await websocket.send_json({
+                        "type": "show_colony_status",
+                        "data": serialize_colony_status(state),
+                    })
+            elif msg.get("type") == "debug_set_step":
+                state = adapter.game_state
+                if state:
+                    step = int(msg.get("step", 0))
+                    step = max(0, min(step, 18))
+                    state.current_step = step
+                    from planetfall.engine.persistence import save_state
+                    save_state(state)
+                    await websocket.send_json({
+                        "type": "debug_step_set",
+                        "step": state.current_step,
+                        "message": f"current_step set to {state.current_step}",
                     })
     except WebSocketDisconnect:
         adapter.disconnect()
@@ -149,9 +267,14 @@ def _run_game_loop(adapter: WebAdapter, init_msg: dict) -> None:
         if action == "new":
             state = _setup_new_campaign(adapter, init_msg)
         elif action == "continue":
-            from planetfall.engine.persistence import load_state
+            from planetfall.engine.persistence import load_state, _campaign_dir
             campaign_name = init_msg.get("campaign_name", "")
             state = load_state(campaign_name)
+            # Generate Day 0 log retroactively if missing
+            day0 = _campaign_dir(campaign_name) / "turn_000_log.md"
+            if not day0.exists():
+                from planetfall.engine.campaign_log import save_day_zero_log
+                save_day_zero_log(state)
             adapter.show_colony_status(state)
             adapter.show_map(state)
             adapter.show_roster(state)
@@ -230,9 +353,9 @@ def _build_setup_reference_data() -> dict:
     for cls in [CharacterClass.SCIENTIST, CharacterClass.SCOUT, CharacterClass.TROOPER]:
         p = STARTING_PROFILES[cls]
         class_profiles[cls.value] = {
-            "reactions": p["reactions"], "speed": p["speed"],
-            "combat_skill": p["combat_skill"], "toughness": p["toughness"],
-            "savvy": p["savvy"],
+            "reactions": p.reactions, "speed": p.speed,
+            "combat_skill": p.combat_skill, "toughness": p.toughness,
+            "savvy": p.savvy,
         }
 
     motivations = sorted(set(entry[2] for entry in MOTIVATION_TABLE))
@@ -330,7 +453,7 @@ def _process_roster_data(roster_data: list[dict]) -> list:
         else:
             exp_effects = None
 
-        profile = dict(STARTING_PROFILES[cls])
+        profile = STARTING_PROFILES[cls].model_dump()
         if sub == SubSpecies.HULKER:
             profile["toughness"] = 5
         xp = 0
@@ -478,6 +601,11 @@ def _setup_new_campaign(adapter: WebAdapter, init_msg: dict) -> Any:
     else:
         adapter.message("Creating campaign...", style="dim")
 
+    # Generate colony founding description
+    if not state.colony.description:
+        from planetfall.engine.campaign.setup.backgrounds import generate_colony_description
+        state.colony.description = generate_colony_description(state, api_key=api_key)
+
     # Allow roster edits on colony_ready screen
     adapter.game_state = state
 
@@ -490,6 +618,7 @@ def _setup_new_campaign(adapter: WebAdapter, init_msg: dict) -> Any:
         "input_type": "colony_ready",
         "id": rid2,
         "characters": roster_result["characters"],
+        "colony_description": state.colony.description or "",
     })
     adapter._wait_for_response(rid2)
 
@@ -508,24 +637,10 @@ def _setup_new_campaign(adapter: WebAdapter, init_msg: dict) -> Any:
     adapter.show_morale(state)
 
     save_state(state)
+    from planetfall.engine.campaign_log import save_day_zero_log
+    save_day_zero_log(state)
 
     return state
-
-
-def _prompt_subspecies(adapter: WebAdapter) -> Any:
-    """Prompt for sub-species selection."""
-    from planetfall.engine.models import SubSpecies
-    choice = adapter.select(
-        "Sub-species:",
-        ["Standard Human", "Feral", "Hulker", "Stalker"],
-    )
-    mapping = {
-        "Standard Human": SubSpecies.STANDARD,
-        "Feral": SubSpecies.FERAL,
-        "Hulker": SubSpecies.HULKER,
-        "Stalker": SubSpecies.STALKER,
-    }
-    return mapping[choice]
 
 
 def _prompt_import_character(adapter: WebAdapter, index: int) -> dict:
@@ -545,9 +660,19 @@ def _prompt_import_character(adapter: WebAdapter, index: int) -> dict:
 
     sub_species = SubSpecies.STANDARD
     if adapter.confirm("Choose sub-species?", default=False):
-        sub_species = _prompt_subspecies(adapter)
+        ss_choice = adapter.select(
+            "Sub-species:",
+            ["Standard Human", "Feral", "Hulker", "Stalker"],
+        )
+        ss_mapping = {
+            "Standard Human": SubSpecies.STANDARD,
+            "Feral": SubSpecies.FERAL,
+            "Hulker": SubSpecies.HULKER,
+            "Stalker": SubSpecies.STALKER,
+        }
+        sub_species = ss_mapping[ss_choice]
 
-    profile = dict(STARTING_PROFILES[char_class])
+    profile = STARTING_PROFILES[char_class].model_dump()
     if sub_species == SubSpecies.HULKER:
         profile["toughness"] = 5
 
@@ -636,40 +761,54 @@ def _web_initial_missions(adapter: WebAdapter, state: Any) -> None:
     adapter.show_colony_status(state)
     adapter.show_map(state)
 
-    choices = [
-        "Play initial missions",
-        "Skip missions (gain all bonuses)",
-        "Skip missions (no bonuses)",
+    missions = [
+        {"value": "play", "name": "Play Initial Missions",
+         "description": "Complete 3 tactical missions to establish your colony.",
+         "rewards": "Earn bonuses based on mission outcomes."},
+        {"value": "skip_bonus", "name": "Skip Missions (All Bonuses)",
+         "description": "Automatically establish the colony with all bonuses granted.",
+         "rewards": "+2 Raw Materials, +2 Research Points, +3 Morale."},
+        {"value": "skip_none", "name": "Skip Missions (No Bonuses)",
+         "description": "Establish the colony immediately without any starting bonuses.",
+         "rewards": "No bonuses. Start from scratch."},
     ]
-    choice = adapter.select("Establish Colony", choices)
+    from uuid import uuid4
+    rid = str(uuid4())
+    adapter._send({
+        "type": "input_request", "input_type": "mission_select",
+        "id": rid, "prompt": "Establish Colony", "missions": missions,
+    })
+    choice = adapter._wait_for_response(rid)
 
-    if choice == "Play initial missions":
+    if choice == "play":
         from planetfall.engine.combat.initial_missions import run_initial_missions_ui
         run_initial_missions_ui(state, adapter)
         return
 
-    if choice.startswith("Skip missions (gain"):
+    if choice == "skip_bonus":
         adapter.clear()
-        adapter.message("Landing site established — all bonuses granted.", style="success")
+        adapter.message("Landing site established — all bonuses granted.")
 
         state.colony.resources.raw_materials += 2
-        adapter.message("Beacons: +2 Raw Materials", style="success")
+        adapter.message("Beacons: +2 Raw Materials")
 
         state.colony.resources.research_points += 2
-        adapter.message("Analysis: +2 Research Points", style="success")
+        adapter.message("Analysis: +2 Research Points")
 
         state.colony.morale += 3
-        adapter.message("Perimeter: +3 Colony Morale", style="success")
+        adapter.message("Perimeter: +3 Colony Morale")
 
+        from planetfall.engine.models import MissionResult
         for _, key in MISSION_ORDER:
-            state.campaign.initial_mission_results[key] = {"victory": True}
+            state.campaign.initial_mission_results[key] = MissionResult(victory=True)
 
     else:
         adapter.clear()
         adapter.message("Landing site established — no bonuses granted.", style="dim")
 
+        from planetfall.engine.models import MissionResult
         for _, key in MISSION_ORDER:
-            state.campaign.initial_mission_results[key] = {"victory": False}
+            state.campaign.initial_mission_results[key] = MissionResult(victory=False)
 
     state.campaign.initial_missions_complete = True
     save_state(state)

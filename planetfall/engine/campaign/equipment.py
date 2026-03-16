@@ -70,12 +70,7 @@ def purchase_equipment(
             description=f"Not enough BP ({cost} needed, {state.colony.resources.build_points} available).",
         )]
 
-    char = None
-    for c in state.characters:
-        if c.name == character_name:
-            char = c
-            break
-
+    char = state.find_character(character_name)
     if not char:
         return [TurnEvent(
             step=0, event_type=TurnEventType.NARRATIVE,
@@ -102,12 +97,8 @@ def swap_equipment(
     item_name: str,
 ) -> list[TurnEvent]:
     """Swap an equipment item between two characters."""
-    source = target = None
-    for c in state.characters:
-        if c.name == from_char:
-            source = c
-        if c.name == to_char:
-            target = c
+    source = state.find_character(from_char)
+    target = state.find_character(to_char)
 
     if not source or not target:
         return [TurnEvent(
@@ -134,12 +125,7 @@ def sell_equipment(
     state: GameState, character_name: str, item_name: str
 ) -> list[TurnEvent]:
     """Sell equipment back for half cost (minimum 1 RM)."""
-    char = None
-    for c in state.characters:
-        if c.name == character_name:
-            char = c
-            break
-
+    char = state.find_character(character_name)
     if not char or item_name not in char.equipment:
         return [TurnEvent(
             step=0, event_type=TurnEventType.NARRATIVE,

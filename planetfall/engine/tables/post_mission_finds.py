@@ -190,6 +190,80 @@ def _lookup_table(table: dict, roll: int) -> dict:
     return {"name": "Nothing", "description": "Nothing found."}
 
 
+def roll_single_find(label: str = "") -> tuple:
+    """Roll on the post-mission finds table without applying effects.
+
+    Returns (roll_total, find_entry) for reroll support.
+    """
+    roll = roll_d100(label or "Post-Mission Finds")
+    find = _lookup_table(POST_MISSION_FINDS, roll.total)
+    return roll.total, find
+
+
+def apply_single_find(
+    state: GameState, roll_total: int, find: dict,
+    scientist_alive: bool = False,
+    scout_alive: bool = False,
+    xp_character_name: str | None = None,
+) -> list[TurnEvent]:
+    """Apply a single post-mission find result."""
+    events = []
+    desc = f"Post-Mission Find: {find['name']} — {find['description']}"
+    changes = {}
+
+    if find.get("rp"):
+        state.colony.resources.research_points += find["rp"]
+        changes["rp"] = find["rp"]
+    if find.get("bp"):
+        state.colony.resources.build_points += find["bp"]
+        changes["bp"] = find["bp"]
+    if find.get("rm"):
+        state.colony.resources.raw_materials += find["rm"]
+        changes["rm"] = find["rm"]
+    if find.get("sp"):
+        state.colony.resources.story_points += find["sp"]
+        changes["sp"] = find["sp"]
+    if find.get("morale"):
+        state.colony.morale = min(20, state.colony.morale + find["morale"])
+        changes["morale"] = find["morale"]
+
+    got_sign = False
+    if find.get("ancient_sign"):
+        state.campaign.ancient_signs_count += find["ancient_sign"]
+        changes["ancient_sign"] = find["ancient_sign"]
+        desc += " +1 Ancient Sign!"
+        got_sign = True
+
+    if find.get("xp_pick") and xp_character_name:
+        c = state.find_character(xp_character_name)
+        if c:
+            c.xp += find["xp_pick"]
+            changes["xp"] = {xp_character_name: find["xp_pick"]}
+
+    if scientist_alive and find.get("scientist_bonus_rp"):
+        bonus = find["scientist_bonus_rp"]
+        state.colony.resources.research_points += bonus
+        desc += f" (Scientist bonus: +{bonus} RP)"
+        changes["scientist_bonus_rp"] = bonus
+
+    if scout_alive and find.get("scout_bonus_rm"):
+        bonus = find["scout_bonus_rm"]
+        state.colony.resources.raw_materials += bonus
+        desc += f" (Scout bonus: +{bonus} Raw Materials)"
+        changes["scout_bonus_rm"] = bonus
+
+    events.append(TurnEvent(
+        step=9, event_type=TurnEventType.COLONY_EVENT,
+        description=desc, state_changes=changes,
+    ))
+
+    if got_sign:
+        from planetfall.engine.campaign.ancient_signs import check_ancient_signs
+        events.extend(check_ancient_signs(state))
+
+    return events
+
+
 def roll_post_mission_finds(
     state: GameState,
     scientist_alive: bool = False,
@@ -206,66 +280,12 @@ def roll_post_mission_finds(
         num_rolls: Number of times to roll (usually 1, some conditions grant extra).
     """
     events = []
-
     for i in range(num_rolls):
-        roll = roll_d100(f"Post-Mission Finds (roll {i + 1})")
-        find = _lookup_table(POST_MISSION_FINDS, roll.total)
-
-        desc = f"Post-Mission Find: {find['name']} — {find['description']}"
-        changes = {}
-
-        # Apply base rewards
-        if find.get("rp"):
-            state.colony.resources.research_points += find["rp"]
-            changes["rp"] = find["rp"]
-
-        if find.get("bp"):
-            state.colony.resources.build_points += find["bp"]
-            changes["bp"] = find["bp"]
-
-        if find.get("rm"):
-            state.colony.resources.raw_materials += find["rm"]
-            changes["rm"] = find["rm"]
-
-        if find.get("sp"):
-            state.colony.resources.story_points += find["sp"]
-            changes["sp"] = find["sp"]
-
-        if find.get("morale"):
-            state.colony.morale = min(20, state.colony.morale + find["morale"])
-            changes["morale"] = find["morale"]
-
-        if find.get("ancient_sign"):
-            state.campaign.ancient_signs_count += find["ancient_sign"]
-            changes["ancient_sign"] = find["ancient_sign"]
-            desc += " +1 Ancient Sign!"
-
-        if find.get("xp_pick") and xp_character_name:
-            for c in state.characters:
-                if c.name == xp_character_name:
-                    c.xp += find["xp_pick"]
-                    changes["xp"] = {xp_character_name: find["xp_pick"]}
-                    break
-
-        # Scientist bonus
-        if scientist_alive and find.get("scientist_bonus_rp"):
-            bonus = find["scientist_bonus_rp"]
-            state.colony.resources.research_points += bonus
-            desc += f" (Scientist bonus: +{bonus} RP)"
-            changes["scientist_bonus_rp"] = bonus
-
-        # Scout bonus
-        if scout_alive and find.get("scout_bonus_rm"):
-            bonus = find["scout_bonus_rm"]
-            state.colony.resources.raw_materials += bonus
-            desc += f" (Scout bonus: +{bonus} Raw Materials)"
-            changes["scout_bonus_rm"] = bonus
-
-        events.append(TurnEvent(
-            step=9, event_type=TurnEventType.COLONY_EVENT,
-            description=desc, state_changes=changes,
+        roll_total, find = roll_single_find(f"Post-Mission Finds (roll {i + 1})")
+        events.extend(apply_single_find(
+            state, roll_total, find,
+            scientist_alive, scout_alive, xp_character_name,
         ))
-
     return events
 
 

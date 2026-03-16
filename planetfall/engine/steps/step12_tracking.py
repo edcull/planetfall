@@ -10,14 +10,37 @@ def execute(
     state: GameState,
     mission_type: MissionType,
     mission_victory: bool = True,
+    sector_id: int | None = None,
 ) -> list[TurnEvent]:
     """Update enemy information and mission data based on mission results."""
     events = []
+
+    # Collect ancient sign if mission was in a sector with one
+    if mission_victory and sector_id is not None:
+        sector = next(
+            (s for s in state.campaign_map.sectors if s.sector_id == sector_id), None
+        )
+        if sector and sector.has_ancient_sign:
+            sector.has_ancient_sign = False
+            state.campaign.ancient_signs_count += 1
+            events.append(TurnEvent(
+                step=12,
+                event_type=TurnEventType.MISSION,
+                description=(
+                    f"Ancient Sign collected from Sector {sector_id}! "
+                    f"(total: {state.campaign.ancient_signs_count})"
+                ),
+                state_changes={"ancient_sign_collected": sector_id},
+            ))
+            # Check if collected signs locate an Ancient Site
+            from planetfall.engine.campaign.ancient_signs import check_ancient_signs
+            events.extend(check_ancient_signs(state))
 
     # Mission Data tracking
     if mission_victory and mission_type in (
         MissionType.EXPLORATION, MissionType.SCIENCE,
         MissionType.INVESTIGATION, MissionType.DELVE,
+        MissionType.SCOUTING,
     ):
         state.campaign.mission_data_count += 1
         events.append(TurnEvent(

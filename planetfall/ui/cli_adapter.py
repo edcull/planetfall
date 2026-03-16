@@ -85,10 +85,17 @@ class CLIAdapter:
     def show_map(self, state: Any) -> None:
         display.print_map(state)
 
+    def redraw(self, state: Any, events: list | None = None) -> None:
+        self.clear()
+        self.show_colony_status(state)
+        self.show_map(state)
+        if events:
+            self.show_events(events)
+
     def show_roster(self, state: Any) -> None:
         display.print_roster(state)
 
-    def show_step_header(self, step: int, name: str, state: Any = None) -> None:
+    def show_step_header(self, step: int, name: str, state: Any = None, **kwargs) -> None:
         display.print_step_header(step, name, state)
 
     def show_mission_options(self, options: list[dict]) -> None:
@@ -100,24 +107,28 @@ class CLIAdapter:
     def show_turn_summary(self, events: list) -> None:
         display.print_turn_summary(events)
 
-    def show_mission_result(self, success: bool, title: str, detail: str) -> None:
+    def show_mission_result(self, success: bool, title: str, detail: str,
+                            summary: list[str] | None = None) -> None:
         style = "bold green" if success else "bold red"
         icon = "✓" if success else "✗"
-        self._display.console.print(f"\n[{style}]{icon} {title}[/{style}]")
+        display.console.print(f"\n[{style}]{icon} {title}[/{style}]")
         if detail:
-            self._display.console.print(f"  {detail}")
+            display.console.print(f"  {detail}")
+        if summary:
+            for line in summary:
+                display.console.print(f"  {line}")
 
     def prompt_experience(self, data: dict) -> dict:
         """CLI experience screen — show XP awards, then offer advancement."""
         # Show XP awards
         for a in data.get("xp_awards", []):
-            self._display.console.print(
+            display.console.print(
                 f"  {a['name']}: +{a['xp']} XP ({a['reasons']}). Total: {a['total_xp']} XP"
             )
         cp = data.get("civvy_promotion")
         if cp:
             result = "Promoted!" if cp["promoted"] else "Not promoted"
-            self._display.console.print(f"  Civvy Heroic Promotion: {cp['roll']} — {result}")
+            display.console.print(f"  Civvy Heroic Promotion: {cp['roll']} — {result}")
 
         # Check for advancement-eligible characters
         for c in data.get("characters", []):
@@ -139,22 +150,22 @@ class CLIAdapter:
 
     def show_mission_summary(self, missions: list[dict]) -> None:
         """Show mission summary in CLI."""
-        self._display.console.print("\n[bold cyan]═══ LANDING SITE ESTABLISHED ═══[/bold cyan]")
+        display.console.print("\n[bold cyan]═══ LANDING SITE ESTABLISHED ═══[/bold cyan]")
         for m in missions:
             style = "bold green" if m["success"] else "bold red"
             icon = "✓" if m["success"] else "✗"
-            self._display.console.print(f"  [{style}]{icon} {m['name']}[/{style}]: {m['detail']}")
+            display.console.print(f"  [{style}]{icon} {m['name']}[/{style}]: {m['detail']}")
 
     def show_mission_intro(self, data: dict) -> None:
         """Show mission intro — CLI just prints title and pauses."""
         from planetfall.cli import prompts
         title = data.get("title", "Mission")
-        self._display.console.print(f"\n[bold cyan]═══ {title} ═══[/bold cyan]")
+        display.console.print(f"\n[bold cyan]═══ {title} ═══[/bold cyan]")
         for section in data.get("sections", []):
             if section.get("heading"):
-                self._display.console.print(f"\n[bold yellow]{section['heading']}[/bold yellow]")
+                display.console.print(f"\n[bold yellow]{section['heading']}[/bold yellow]")
             if section.get("body"):
-                self._display.console.print(f"  {section['body']}")
+                display.console.print(f"  {section['body']}")
         prompts.pause()
 
     # ------------------------------------------------------------------
@@ -171,6 +182,8 @@ class CLIAdapter:
         defeat_conditions: list[str],
         enemy_type: str = "",
         slyn_unknown: bool = False,
+        condition: object = None,
+        slyn_briefing: dict | None = None,
     ) -> None:
         """CLI fallback: print mission info as text then show battlefield."""
         self.rule(f"Mission: {mission_type}")
@@ -222,6 +235,7 @@ class CLIAdapter:
         self, available_names: list[str], max_slots: int,
         grunt_count: int = 0, bot_available: bool = False,
         char_classes: dict[str, str] | None = None,
+        char_profiles: dict[str, dict] | None = None,
     ) -> dict:
         return prompts.prompt_deployment(
             available_names, max_slots, grunt_count, bot_available,
@@ -234,6 +248,7 @@ class CLIAdapter:
 
     def prompt_deployment_zones(
         self, bf: Any, figures: list, deployment_zones: list,
+        same_zone: bool = False,
     ) -> None:
         figure_names = [f.name for f in figures]
         assignments = prompts.prompt_deployment_zones(
@@ -309,6 +324,32 @@ class CLIAdapter:
             zone_descs.append(desc)
         choice = prompts.ask_select(message, zone_descs)
         return zone_descs.index(choice)
+
+    def prompt_resource_cache(self, budget: int, sp_remaining: int) -> dict:
+        display.console.print(
+            f"\n[bold yellow]Resource Cache opened![/] "
+            f"Budget: [bold]{budget}[/] points to allocate. "
+            f"({sp_remaining} SP remaining)"
+        )
+        bp = self.number(f"Build Points (0-{budget}):", 0, budget)
+        remaining = budget - bp
+        rp = self.number(f"Research Points (0-{remaining}):", 0, remaining)
+        rm = budget - bp - rp
+        display.console.print(
+            f"  Allocated: {bp} BP, {rp} RP, {rm} RM"
+        )
+        return {"bp": bp, "rp": rp, "rm": rm}
+
+    def prompt_reroll_choice(
+        self, table_name: str, option_a: dict, option_b: dict,
+    ) -> str:
+        display.console.print(f"\n[bold yellow]Story Point Reroll — {table_name}[/]")
+        choices = [
+            f"[A] Roll {option_a['roll']}: {option_a['name']} — {option_a['description']}",
+            f"[B] Roll {option_b['roll']}: {option_b['name']} — {option_b['description']}",
+        ]
+        result = self.select("Choose which result to keep:", choices)
+        return "a" if result == choices[0] else "b"
 
     def prompt_sector_coords(
         self, message: str, valid_ids: list[int],

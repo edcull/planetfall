@@ -3,7 +3,53 @@
  *
  * Each input type creates a UI in #input-area, sends back the response,
  * then clears itself.
+ *
+ * This file contains the router (renderInput), basic input renderers
+ * (select, confirm, number, checkbox, text, pause), shared utilities,
+ * and campaign-phase screens (mission result, experience, research,
+ * building, narrative modal, sector select).
+ *
+ * Combat inputs are in input-combat.js.
+ * Setup inputs are in input-setup.js.
  */
+
+// ── Shared: Figure profile card ─────────────────────────────
+function buildFigureProfileHtml(f) {
+    let html = `<div class="afp-header">
+        <span class="afp-name">${escapeHtml(f.name)}</span>`;
+    if (f.label) html += `<span class="afp-label">${escapeHtml(f.label)}</span>`;
+    html += `<span class="afp-class">${escapeHtml(f.char_class || '')}</span>
+    </div>`;
+    html += '<div class="afp-stats">';
+    html += `<span class="stat-chip"><span class="label">Spd</span><span class="val">${f.speed}"</span></span>`;
+    html += `<span class="stat-chip"><span class="label">React</span><span class="val">${f.reactions}</span></span>`;
+    html += `<span class="stat-chip"><span class="label">CS</span><span class="val">+${f.combat_skill}</span></span>`;
+    html += `<span class="stat-chip"><span class="label">T</span><span class="val">${f.toughness}</span></span>`;
+    html += `<span class="stat-chip"><span class="label">Sav</span><span class="val">+${f.savvy}</span></span>`;
+    if (f.armor_save) {
+        html += `<span class="stat-chip"><span class="label">Arm</span><span class="val">${f.armor_save}+</span></span>`;
+    }
+    html += '</div>';
+    if (f.weapon_name) {
+        let wParts = [f.weapon_name];
+        wParts.push(`Range ${f.weapon_range}"`);
+        wParts.push(`Shots ${f.weapon_shots}`);
+        if (f.weapon_damage) wParts.push(`Dmg +${f.weapon_damage}`);
+        if (f.weapon_traits && f.weapon_traits.length) wParts.push(f.weapon_traits.join(', '));
+        html += `<div class="afp-weapon">${escapeHtml(wParts.join(' | '))}</div>`;
+    }
+    if (f.statuses && f.statuses.length) {
+        html += `<div class="afp-statuses">${f.statuses.map(s => escapeHtml(s)).join(' | ')}</div>`;
+    }
+    return html;
+}
+
+function appendFigureProfile(area, f) {
+    const profile = document.createElement('div');
+    profile.className = 'action-figure-profile';
+    profile.innerHTML = buildFigureProfileHtml(f);
+    area.appendChild(profile);
+}
 
 function renderInput(msg) {
     const area = document.getElementById('input-area');
@@ -42,6 +88,9 @@ function renderInput(msg) {
         case 'narrative_modal':
             renderNarrativeModal(area, msg);
             break;
+        case 'info_modal':
+            renderInfoModal(msg);
+            break;
         case 'roster_editor':
             renderRosterEditor(msg);
             break;
@@ -51,17 +100,29 @@ function renderInput(msg) {
         case 'colony_ready':
             renderColonyReady(msg);
             break;
+        case 'mission_select':
+            renderMissionSelect(area, msg);
+            break;
         case 'sector_select':
             renderSectorSelect(area, msg);
             break;
         case 'weapon_select':
             renderWeaponSelect(area, msg);
             break;
+        case 'figure_select':
+            renderFigureSelect(area, msg);
+            break;
         case 'deployment':
             renderDeployment(area, msg);
             break;
+        case 'lock_and_load':
+            renderLockAndLoad(area, msg);
+            break;
         case 'deploy_zone':
             renderDeployZone(area, msg);
+            break;
+        case 'deploy_zones_batch':
+            renderDeployZonesBatch(area, msg);
             break;
         case 'zone_select':
             renderZoneSelect(area, msg);
@@ -74,6 +135,15 @@ function renderInput(msg) {
             break;
         case 'reaction_assign':
             renderReactionDiceUI(msg.data, msg);
+            break;
+        case 'reroll_offer':
+            renderRerollOffer(area, msg);
+            break;
+        case 'resource_cache':
+            renderResourceCache(area, msg);
+            break;
+        case 'reroll_choice':
+            renderRerollChoice(area, msg);
             break;
         default:
             console.warn('Unknown input type:', msg.input_type);
@@ -100,28 +170,13 @@ function renderSelect(area, msg) {
         return;
     }
 
-    // Character profile card (e.g. Lock and Load weapon selection)
-    if (msg.active_figure) {
-        const f = msg.active_figure;
-        const profile = document.createElement('div');
-        profile.className = 'action-figure-profile';
-        let html = `<div class="afp-header">
-            <span class="afp-name">${escapeHtml(f.name)}</span>
-            <span class="afp-class">${escapeHtml(f.char_class || '')}</span>
-        </div>`;
-        html += '<div class="afp-stats">';
-        html += `<span class="stat-chip"><span class="label">Spd</span><span class="val">${f.speed}"</span></span>`;
-        html += `<span class="stat-chip"><span class="label">React</span><span class="val">${f.reactions}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">CS</span><span class="val">+${f.combat_skill}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">T</span><span class="val">${f.toughness}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">Sav</span><span class="val">+${f.savvy}</span></span>`;
-        if (f.armor_save) {
-            html += `<span class="stat-chip"><span class="label">Arm</span><span class="val">${f.armor_save}+</span></span>`;
-        }
-        html += '</div>';
-        profile.innerHTML = html;
-        area.appendChild(profile);
+    // Combat mode selection: render as cards
+    if (msg.message === 'Combat mode?') {
+        _renderCombatModeCards(area, msg);
+        return;
     }
+
+    if (msg.active_figure) appendFigureProfile(area, msg.active_figure);
 
     if (msg.message) {
         const prompt = document.createElement('div');
@@ -130,193 +185,106 @@ function renderSelect(area, msg) {
         area.appendChild(prompt);
     }
 
-    const list = document.createElement('div');
-    list.className = 'choice-list';
+    // Check if choices reference character names — render as roster cards if so
+    const rosterChars = _lastRosterData ? _lastRosterData.characters : [];
+    const charMap = {};
+    for (const c of rosterChars) { charMap[c.name] = c; }
 
+    // Match choices to characters: exact name match or choice containing a character name
+    const charChoices = [];  // { choice, char, subtitle }
+    const otherChoices = [];
     for (const choice of msg.choices) {
-        const btn = document.createElement('button');
-        btn.className = 'choice-item';
-        btn.textContent = choice;
-        btn.onclick = () => {
-            clearInput();
-            appendMessage(`> ${choice}`, 'dim');
-            sendResponse(msg.id, choice);
-        };
-        list.appendChild(btn);
-    }
-
-    area.appendChild(list);
-
-    // Focus first choice for keyboard nav
-    const first = list.querySelector('.choice-item');
-    if (first) first.focus();
-}
-
-// ── Weapon Select (Lock and Load — weapon cards with stats) ──
-
-function renderWeaponSelect(area, msg) {
-    area.innerHTML = '';
-
-    // Character profile card
-    if (msg.active_figure) {
-        const f = msg.active_figure;
-        const profile = document.createElement('div');
-        profile.className = 'action-figure-profile';
-        let html = `<div class="afp-header">
-            <span class="afp-name">${escapeHtml(f.name)}</span>
-            <span class="afp-class">${escapeHtml(f.char_class || '')}</span>
-        </div>`;
-        html += '<div class="afp-stats">';
-        html += `<span class="stat-chip"><span class="label">Spd</span><span class="val">${f.speed}"</span></span>`;
-        html += `<span class="stat-chip"><span class="label">React</span><span class="val">${f.reactions}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">CS</span><span class="val">+${f.combat_skill}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">T</span><span class="val">${f.toughness}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">Sav</span><span class="val">+${f.savvy}</span></span>`;
-        if (f.armor_save) {
-            html += `<span class="stat-chip"><span class="label">Arm</span><span class="val">${f.armor_save}+</span></span>`;
+        if (charMap[choice]) {
+            charChoices.push({ choice, char: charMap[choice], subtitle: '' });
+        } else {
+            // Check if choice contains a character name
+            const matched = rosterChars.find(c => choice.includes(c.name));
+            if (matched) {
+                const subtitle = choice.replace(matched.name, '').replace(/^\s*[-—]\s*/, '').trim();
+                charChoices.push({ choice, char: matched, subtitle });
+            } else {
+                otherChoices.push(choice);
+            }
         }
-        html += '</div>';
-        profile.innerHTML = html;
-        area.appendChild(profile);
     }
 
-    if (msg.message) {
-        const prompt = document.createElement('div');
-        prompt.className = 'input-prompt';
-        prompt.textContent = msg.message;
-        area.appendChild(prompt);
-    }
+    const hasCharCards = charChoices.length > 0 && rosterChars.length > 0;
 
-    const list = document.createElement('div');
-    list.className = 'weapon-list';
+    if (hasCharCards) {
+        const list = document.createElement('div');
+        list.className = 'crew-select-grid';
 
-    for (const w of msg.weapons) {
-        const btn = document.createElement('button');
-        btn.className = 'weapon-card';
-        if (w.tier === 'tier_1') btn.classList.add('weapon-tier1');
-        if (w.tier === 'tier_2') btn.classList.add('weapon-tier2');
-
-        let statsHtml = '';
-        if (w.range > 0) statsHtml += `<span class="ws-stat"><span class="ws-label">Range</span>${w.range}"</span>`;
-        else statsHtml += `<span class="ws-stat"><span class="ws-label">Range</span>Melee</span>`;
-        statsHtml += `<span class="ws-stat"><span class="ws-label">Shots</span>${w.shots}</span>`;
-        if (w.damage) statsHtml += `<span class="ws-stat"><span class="ws-label">Dmg</span>+${w.damage}</span>`;
-
-        let traitsHtml = '';
-        if (w.traits && w.traits.length) {
-            traitsHtml = `<div class="ws-traits">${w.traits.map(t => escapeHtml(t.replace(/_/g, ' '))).join(', ')}</div>`;
+        for (const { choice, char: c, subtitle } of charChoices) {
+            const card = document.createElement('div');
+            card.className = 'crew-select-card';
+            const extraHtml = subtitle ? `<div class="crew-select-subtitle">${escapeHtml(subtitle)}</div>` : '';
+            card.innerHTML = buildRosterCardHtml(c, { showEdit: false, compact: true, extraHtml });
+            card.onclick = () => {
+                clearInput();
+                appendMessage(`> ${choice}`, 'dim');
+                sendResponse(msg.id, choice);
+            };
+            list.appendChild(card);
         }
 
-        btn.innerHTML = `
-            <div class="ws-name">${escapeHtml(w.name)}</div>
-            <div class="ws-stats">${statsHtml}</div>
-            ${traitsHtml}
-        `;
-        btn.onclick = () => {
-            clearInput();
-            appendMessage(`> ${w.name}`, 'dim');
-            sendResponse(msg.id, w.name);
-        };
-        list.appendChild(btn);
-    }
+        area.appendChild(list);
 
-    area.appendChild(list);
-
-    const first = list.querySelector('.weapon-card');
-    if (first) first.focus();
-}
-
-// ── Action Select (with shoot targets in info panel) ────────
-
-// Global state for shoot targets available during action selection
-let _activeShootTargets = [];
-let _activeShootResponseId = null;
-
-function renderActionSelect(area, msg) {
-    area.innerHTML = '';
-
-    // Store shoot targets globally for the info panel
-    _activeShootTargets = msg.shoot_targets || [];
-    _activeShootResponseId = msg.id;
-
-    // Active figure profile
-    if (msg.active_figure) {
-        const f = msg.active_figure;
-        const profile = document.createElement('div');
-        profile.className = 'action-figure-profile';
-
-        let html = `<div class="afp-header">
-            <span class="afp-name">${escapeHtml(f.name)}</span>
-            <span class="afp-label">${escapeHtml(f.label)}</span>
-            <span class="afp-class">${escapeHtml(f.char_class)}</span>
-        </div>`;
-
-        html += '<div class="afp-stats">';
-        html += `<span class="stat-chip"><span class="label">Spd</span><span class="val">${f.speed}"</span></span>`;
-        html += `<span class="stat-chip"><span class="label">React</span><span class="val">${f.reactions}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">CS</span><span class="val">+${f.combat_skill}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">T</span><span class="val">${f.toughness}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">Sav</span><span class="val">+${f.savvy}</span></span>`;
-        if (f.armor_save) {
-            html += `<span class="stat-chip"><span class="label">Arm</span><span class="val">${f.armor_save}+</span></span>`;
-        }
-        html += '</div>';
-
-        // Weapon
-        let wParts = [f.weapon_name];
-        wParts.push(`Range ${f.weapon_range}"`);
-        wParts.push(`Shots ${f.weapon_shots}`);
-        if (f.weapon_damage) wParts.push(`Dmg +${f.weapon_damage}`);
-        if (f.weapon_traits && f.weapon_traits.length) wParts.push(f.weapon_traits.join(', '));
-        html += `<div class="afp-weapon">${escapeHtml(wParts.join(' | '))}</div>`;
-
-        // Statuses
-        if (f.statuses && f.statuses.length) {
-            html += `<div class="afp-statuses">${f.statuses.map(s => escapeHtml(s)).join(' | ')}</div>`;
+        // Non-character choices (e.g. "Decline — lose 2 Morale") as regular buttons below
+        if (otherChoices.length > 0) {
+            const otherList = document.createElement('div');
+            otherList.className = 'choice-list';
+            for (const choice of otherChoices) {
+                const btn = document.createElement('button');
+                btn.className = 'choice-item';
+                btn.textContent = choice;
+                btn.onclick = () => {
+                    clearInput();
+                    appendMessage(`> ${choice}`, 'dim');
+                    sendResponse(msg.id, choice);
+                };
+                otherList.appendChild(btn);
+            }
+            area.appendChild(otherList);
         }
 
-        profile.innerHTML = html;
-        area.appendChild(profile);
+        const first = list.querySelector('.crew-select-card');
+        if (first) first.focus();
+    } else {
+        const list = document.createElement('div');
+        list.className = 'choice-list';
+
+        let cardCount = 0;
+        for (const choice of msg.choices) {
+            const btn = document.createElement('button');
+            // Parse "Title — description" pattern into a card layout
+            const dashMatch = choice.match(/^(.+?)\s*[—–]\s*(.+)$/);
+            if (dashMatch) {
+                btn.className = 'choice-card';
+                btn.innerHTML = `<div class="choice-card-title">${escapeHtml(dashMatch[1].trim())}</div><div class="choice-card-desc">${escapeHtml(dashMatch[2].trim())}</div>`;
+                cardCount++;
+            } else {
+                btn.className = 'choice-item';
+                btn.textContent = choice;
+            }
+            btn.onclick = () => {
+                clearInput();
+                appendMessage(`> ${choice}`, 'dim');
+                sendResponse(msg.id, choice);
+            };
+            list.appendChild(btn);
+        }
+
+        // If all choices are cards (4+), use grid layout
+        if (cardCount === msg.choices.length && cardCount >= 4) {
+            list.classList.add('choice-grid');
+        }
+
+        area.appendChild(list);
+
+        // Focus first choice for keyboard nav
+        const first = list.querySelector('.choice-card, .choice-item');
+        if (first) first.focus();
     }
-
-    if (msg.message) {
-        const prompt = document.createElement('div');
-        prompt.className = 'input-prompt';
-        prompt.textContent = msg.message;
-        area.appendChild(prompt);
-    }
-
-    const list = document.createElement('div');
-    list.className = 'choice-list';
-
-    for (const choice of msg.choices) {
-        const btn = document.createElement('button');
-        btn.className = 'choice-item';
-        btn.textContent = choice;
-        btn.onclick = () => {
-            _activeShootTargets = [];
-            _activeShootResponseId = null;
-            clearInput();
-            appendMessage(`> ${choice}`, 'dim');
-            sendResponse(msg.id, choice);
-        };
-        list.appendChild(btn);
-    }
-
-    area.appendChild(list);
-
-    // Refresh info panel to show shoot buttons if a zone with targets is selected
-    if (_activeShootTargets.length > 0 && typeof refreshZoneDetailPanel === 'function') {
-        refreshZoneDetailPanel();
-    }
-
-    const first = list.querySelector('.choice-item');
-    if (first) first.focus();
-}
-
-function clearShootTargets() {
-    _activeShootTargets = [];
-    _activeShootResponseId = null;
 }
 
 function _renderBetweenTurnsBar(area, msg) {
@@ -326,8 +294,8 @@ function _renderBetweenTurnsBar(area, msg) {
     const bar = document.createElement('div');
     bar.className = 'commence-turn-bar';
 
-    // Start Day button (maps to "Continue to next turn")
-    const nextTurn = (_lastColonyData && _lastColonyData.turn) ? _lastColonyData.turn + 1 : '?';
+    // Start Day button — current_turn already incremented by step 18
+    const nextTurn = (_lastColonyData && _lastColonyData.turn) ? _lastColonyData.turn : '?';
     const commenceBtn = document.createElement('button');
     commenceBtn.className = 'btn-commence';
     commenceBtn.innerHTML = `&#9654; Start Day ${nextTurn}`;
@@ -352,6 +320,51 @@ function _renderBetweenTurnsBar(area, msg) {
     area.appendChild(bar);
 }
 
+function _renderCombatModeCards(area, msg) {
+    const COMBAT_MODE_INFO = {
+        'Interactive (AI combat)': {
+            icon: '&#9876;',
+            desc: 'The AI handles enemy actions and resolves combat automatically. You make tactical decisions for your crew.',
+        },
+        'Manual (tabletop)': {
+            icon: '&#9998;',
+            desc: 'Play out combat on your physical tabletop. Enter the results manually when done.',
+        },
+    };
+
+    const prompt = document.createElement('div');
+    prompt.className = 'input-prompt';
+    prompt.textContent = 'Battle Resolution:';
+    area.appendChild(prompt);
+
+    const grid = document.createElement('div');
+    grid.className = 'mission-select-grid';
+
+    for (const choice of msg.choices) {
+        const info = COMBAT_MODE_INFO[choice] || { icon: '&#9656;', desc: '' };
+        const card = document.createElement('div');
+        card.className = 'mission-select-card';
+        card.tabIndex = 0;
+        card.innerHTML = `
+            <div class="mission-card-name">${info.icon} ${escapeHtml(choice)}</div>
+            <div class="mission-card-desc">${info.desc}</div>
+        `;
+        card.onclick = () => {
+            clearInput();
+            appendMessage(`> ${choice}`, 'dim');
+            sendResponse(msg.id, choice);
+        };
+        card.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+        };
+        grid.appendChild(card);
+    }
+
+    area.appendChild(grid);
+    const first = grid.querySelector('.mission-select-card');
+    if (first) first.focus();
+}
+
 // ── Confirm ─────────────────────────────────────────────────
 
 function renderConfirm(area, msg) {
@@ -371,7 +384,6 @@ function renderConfirm(area, msg) {
     yesBtn.textContent = 'Yes';
     yesBtn.onclick = () => {
         clearInput();
-        appendMessage(`> Yes`, 'dim');
         sendResponse(msg.id, true);
     };
 
@@ -380,7 +392,6 @@ function renderConfirm(area, msg) {
     noBtn.textContent = 'No';
     noBtn.onclick = () => {
         clearInput();
-        appendMessage(`> No`, 'dim');
         sendResponse(msg.id, false);
     };
 
@@ -532,7 +543,7 @@ function renderPause(area, msg) {
     area.innerHTML = '';
 
     const btn = document.createElement('button');
-    btn.className = 'btn';
+    btn.className = 'btn btn-continue';
     btn.textContent = msg.message || 'Continue';
     btn.onclick = () => {
         clearInput();
@@ -566,6 +577,18 @@ function renderMissionResult(area, msg) {
         banner.appendChild(detail);
     }
 
+    if (msg.summary && msg.summary.length > 0) {
+        const summary = document.createElement('div');
+        summary.className = 'mission-result-summary';
+        for (const line of msg.summary) {
+            const p = document.createElement('div');
+            p.className = 'mission-summary-line';
+            p.textContent = line;
+            summary.appendChild(p);
+        }
+        banner.appendChild(summary);
+    }
+
     const btn = document.createElement('button');
     btn.className = 'btn btn-primary mission-result-btn';
     btn.textContent = 'Continue';
@@ -579,6 +602,43 @@ function renderMissionResult(area, msg) {
     overlay.appendChild(banner);
     area.appendChild(overlay);
     btn.focus();
+}
+
+// ── Mission Select (cards) ──────────────────────────────────
+
+function renderMissionSelect(area, msg) {
+    area.innerHTML = '';
+
+    const prompt = document.createElement('div');
+    prompt.className = 'input-prompt';
+    prompt.textContent = msg.prompt || 'Choose a mission:';
+    area.appendChild(prompt);
+
+    const grid = document.createElement('div');
+    grid.className = 'mission-select-grid';
+
+    for (const m of msg.missions) {
+        const card = document.createElement('div');
+        card.className = 'mission-select-card';
+        card.tabIndex = 0;
+        card.innerHTML = `
+            <div class="mission-card-name">${escapeHtml(m.name)}</div>
+            <div class="mission-card-desc">${escapeHtml(m.description)}</div>
+            <div class="mission-card-rewards">${escapeHtml(m.rewards)}</div>
+        `;
+        card.onclick = () => {
+            clearInput();
+            sendResponse(msg.id, m.value !== undefined ? m.value : m.index);
+        };
+        card.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+        };
+        grid.appendChild(card);
+    }
+
+    area.appendChild(grid);
+    const first = grid.querySelector('.mission-select-card');
+    if (first) first.focus();
 }
 
 // ── Sector Select (map-based) ───────────────────────────────
@@ -605,934 +665,13 @@ function renderSectorSelect(area, msg) {
     }, btnLabel);
 }
 
-// ── Deployment (Lock and Load) ──────────────────────────────
-
-function renderDeployment(area, msg) {
-    area.innerHTML = '';
-
-    const available = msg.available || [];
-    const maxSlots = msg.max_slots || 8;
-    const gruntCount = msg.grunt_count || 0;
-    const botAvailable = msg.bot_available || false;
-    const charClasses = msg.char_classes || {};
-
-    const selected = new Set();
-    let grunts = 0;
-    let bot = false;
-    let civilians = 0;
-
-    function getRemaining() {
-        return maxSlots - selected.size - grunts - (bot ? 1 : 0) - civilians;
-    }
-
-    function render() {
-        area.innerHTML = '';
-        const remaining = getRemaining();
-
-        // Header
-        const header = document.createElement('div');
-        header.className = 'input-prompt';
-        header.textContent = `Deploy Squad (${selected.size + grunts + (bot?1:0) + civilians}/${maxSlots} slots)`;
-        area.appendChild(header);
-
-        // Character grid
-        const grid = document.createElement('div');
-        grid.className = 'deploy-grid';
-
-        for (const name of available) {
-            const card = document.createElement('div');
-            const isSelected = selected.has(name);
-            card.className = 'deploy-card' + (isSelected ? ' selected' : '');
-            const cls = charClasses[name] || '';
-            card.innerHTML = `<span class="deploy-name">${escapeHtml(name)}</span>${cls ? `<span class="deploy-class">${escapeHtml(cls)}</span>` : ''}`;
-            card.onclick = () => {
-                if (isSelected) {
-                    selected.delete(name);
-                } else if (getRemaining() > 0) {
-                    selected.add(name);
-                }
-                render();
-            };
-            grid.appendChild(card);
-        }
-        area.appendChild(grid);
-
-        // Support units row
-        const support = document.createElement('div');
-        support.className = 'deploy-support';
-
-        // Grunts
-        if (gruntCount > 0) {
-            const maxGrunts = Math.min(gruntCount, remaining + grunts);
-            const gruntRow = document.createElement('div');
-            gruntRow.className = 'deploy-support-row';
-            gruntRow.innerHTML = `
-                <span class="deploy-support-label">Grunts (${gruntCount} available)</span>
-                <div class="deploy-counter">
-                    <button class="btn-counter" onclick="void(0)">−</button>
-                    <span class="counter-val">${grunts}</span>
-                    <button class="btn-counter" onclick="void(0)">+</button>
-                </div>
-            `;
-            const btns = gruntRow.querySelectorAll('.btn-counter');
-            btns[0].onclick = () => { if (grunts > 0) { grunts--; render(); } };
-            btns[1].onclick = () => { if (grunts < maxGrunts && getRemaining() > 0) { grunts++; render(); } };
-            support.appendChild(gruntRow);
-        }
-
-        // Bot
-        if (botAvailable) {
-            const botRow = document.createElement('div');
-            botRow.className = 'deploy-support-row';
-            botRow.innerHTML = `
-                <span class="deploy-support-label">Security Bot</span>
-                <button class="btn-toggle ${bot ? 'active' : ''}">${bot ? 'Deployed' : 'Available'}</button>
-            `;
-            botRow.querySelector('.btn-toggle').onclick = () => {
-                if (bot) { bot = false; }
-                else if (getRemaining() > 0) { bot = true; }
-                render();
-            };
-            support.appendChild(botRow);
-        }
-
-        // Civilians
-        const maxCiv = remaining + civilians;
-        const civRow = document.createElement('div');
-        civRow.className = 'deploy-support-row';
-        civRow.innerHTML = `
-            <span class="deploy-support-label">Civilian Volunteers</span>
-            <div class="deploy-counter">
-                <button class="btn-counter" onclick="void(0)">−</button>
-                <span class="counter-val">${civilians}</span>
-                <button class="btn-counter" onclick="void(0)">+</button>
-            </div>
-        `;
-        const civBtns = civRow.querySelectorAll('.btn-counter');
-        civBtns[0].onclick = () => { if (civilians > 0) { civilians--; render(); } };
-        civBtns[1].onclick = () => { if (getRemaining() > 0) { civilians++; render(); } };
-        support.appendChild(civRow);
-
-        area.appendChild(support);
-
-        // Deploy button
-        const deployBtn = document.createElement('button');
-        deployBtn.className = 'btn btn-primary';
-        deployBtn.textContent = `Deploy Squad`;
-        deployBtn.disabled = selected.size === 0;
-        deployBtn.style.marginTop = '8px';
-        deployBtn.onclick = () => {
-            const result = {
-                characters: Array.from(selected),
-                grunts: grunts,
-                bot: bot,
-                civilians: civilians,
-            };
-            clearInput();
-            appendMessage(`> Deployed ${selected.size} characters, ${grunts} grunts${bot ? ', bot' : ''}${civilians ? `, ${civilians} civilian${civilians>1?'s':''}` : ''}`, 'dim');
-            sendResponse(msg.id, result);
-        };
-        area.appendChild(deployBtn);
-    }
-
-    render();
-}
-
-// ── Deploy Zone (click-on-map) ──────────────────────────────
-
-function renderMovement(area, msg) {
-    area.innerHTML = '';
-
-    // Active figure profile
-    if (msg.active_figure) {
-        const f = msg.active_figure;
-        const profile = document.createElement('div');
-        profile.className = 'action-figure-profile';
-
-        let html = `<div class="afp-header">
-            <span class="afp-name">${escapeHtml(f.name)}</span>
-            <span class="afp-label">${escapeHtml(f.label)}</span>
-            <span class="afp-class">${escapeHtml(f.char_class)}</span>
-        </div>`;
-
-        html += '<div class="afp-stats">';
-        html += `<span class="stat-chip"><span class="label">Spd</span><span class="val">${f.speed}"</span></span>`;
-        html += `<span class="stat-chip"><span class="label">React</span><span class="val">${f.reactions}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">CS</span><span class="val">+${f.combat_skill}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">T</span><span class="val">${f.toughness}</span></span>`;
-        html += `<span class="stat-chip"><span class="label">Sav</span><span class="val">+${f.savvy}</span></span>`;
-        if (f.armor_save) {
-            html += `<span class="stat-chip"><span class="label">Arm</span><span class="val">${f.armor_save}+</span></span>`;
-        }
-        html += '</div>';
-
-        let wParts = [f.weapon_name];
-        wParts.push(`Range ${f.weapon_range}"`);
-        wParts.push(`Shots ${f.weapon_shots}`);
-        if (f.weapon_damage) wParts.push(`Dmg +${f.weapon_damage}`);
-        if (f.weapon_traits && f.weapon_traits.length) wParts.push(f.weapon_traits.join(', '));
-        html += `<div class="afp-weapon">${escapeHtml(wParts.join(' | '))}</div>`;
-
-        if (f.statuses && f.statuses.length) {
-            html += `<div class="afp-statuses">${f.statuses.map(s => escapeHtml(s)).join(' | ')}</div>`;
-        }
-
-        profile.innerHTML = html;
-        area.appendChild(profile);
-    }
-
-    const prompt = document.createElement('div');
-    prompt.className = 'input-prompt';
-    prompt.innerHTML = `Movement: <span style="color: var(--text-dim);">click a zone to move, or choose an option below</span>`;
-    area.appendChild(prompt);
-
-    // Buttons for non-zone actions
-    const btnRow = document.createElement('div');
-    btnRow.className = 'choice-list';
-    btnRow.style.flexDirection = 'row';
-    btnRow.style.flexWrap = 'wrap';
-    btnRow.style.gap = '6px';
-
-    const stayBtn = document.createElement('button');
-    stayBtn.className = 'choice-item';
-    stayBtn.textContent = msg.can_trooper_delay ? 'Delay Action' : 'Stay Stationary';
-    stayBtn.onclick = () => {
-        disableBattlefieldMovementSelect();
-        clearInput();
-        appendMessage('> Stay stationary', 'dim');
-        sendResponse(msg.id, { type: 'stay' });
-    };
-    btnRow.appendChild(stayBtn);
-
-    if (msg.can_scout_first) {
-        const scoutBtn = document.createElement('button');
-        scoutBtn.className = 'choice-item';
-        scoutBtn.textContent = 'Take action first, then move';
-        scoutBtn.onclick = () => {
-            disableBattlefieldMovementSelect();
-            clearInput();
-            appendMessage('> Take action first', 'dim');
-            sendResponse(msg.id, { type: 'scout_first' });
-        };
-        btnRow.appendChild(scoutBtn);
-    }
-    area.appendChild(btnRow);
-
-    // Enable movement zone selection on the battlefield
-    enableBattlefieldMovementSelect(msg.zones || [], (zone) => {
-        disableBattlefieldMovementSelect();
-        clearInput();
-        const label = zone.move_type === 'dash' ? 'Dash' : 'Move';
-        appendMessage(`> ${label} to (${zone.row},${zone.col})`, 'dim');
-        sendResponse(msg.id, { type: zone.move_type, zone_idx: zone.index });
-    });
-}
-
-function renderZoneSelect(area, msg) {
-    area.innerHTML = '';
-
-    const prompt = document.createElement('div');
-    prompt.className = 'input-prompt';
-    prompt.innerHTML = `${escapeHtml(msg.message)} <span style="color: var(--text-dim);">— click a highlighted zone on the map</span>`;
-    area.appendChild(prompt);
-
-    // Convert zone_select data to deploy-style zones for reuse
-    const validZones = (msg.valid_zones || []).map(z => ({row: z.row, col: z.col, index: z.index, label: z.label}));
-    enableBattlefieldZoneSelect(validZones, (zone) => {
-        disableBattlefieldZoneSelect();
-        clearInput();
-        appendMessage(`> ${zone.label || `Zone (${zone.row},${zone.col})`}`, 'dim');
-        sendResponse(msg.id, zone.index);
-    });
-}
-
-function renderDeployZone(area, msg) {
-    area.innerHTML = '';
-
-    const prompt = document.createElement('div');
-    prompt.className = 'input-prompt';
-    prompt.innerHTML = `${escapeHtml(msg.message)} <span style="color: var(--text-dim);">— click a highlighted zone on the map</span>`;
-    area.appendChild(prompt);
-
-    // Enable zone selection mode on the battlefield
-    const validZones = msg.valid_zones || [];
-    enableBattlefieldDeploySelect(validZones, (zone) => {
-        disableBattlefieldDeploySelect();
-        clearInput();
-        appendMessage(`> Deployed to zone (${zone.row},${zone.col})`, 'dim');
-        sendResponse(msg.id, { row: zone.row, col: zone.col });
-    });
-}
-
-// ── Roster Editor ───────────────────────────────────────────
-
-function renderRosterEditor(msg) {
-    // Remove existing modal
-    const existing = document.getElementById('roster-editor-modal');
-    if (existing) existing.remove();
-
-    const profiles = msg.class_profiles;
-    const motivations = msg.motivations;
-    const experiences = msg.experiences;
-    const subspecies = msg.subspecies;
-    let roster = JSON.parse(JSON.stringify(msg.default_roster));
-
-    const overlay = document.createElement('div');
-    overlay.id = 'roster-editor-modal';
-    overlay.className = 'modal-overlay';
-    // Don't close on backdrop click — this is required input
-
-    const modal = document.createElement('div');
-    modal.className = 'modal-content roster-editor';
-
-    function render() {
-        let html = `
-            <div class="modal-header">
-                <h2>Create Your Crew (${roster.length}/8)</h2>
-                <div style="display: flex; gap: 8px;">
-                    ${roster.length < 8 ? '<button class="btn btn-success" id="re-add-btn">+ Add Character</button>' : ''}
-                    ${roster.length >= 1 ? '<button class="btn btn-primary" id="re-done-btn">Done &#10003;</button>' : ''}
-                </div>
-            </div>
-            <div class="modal-body">
-        `;
-
-        for (let i = 0; i < roster.length; i++) {
-            const c = roster[i];
-            const p = profiles[c.char_class] || profiles['trooper'];
-            const expTag = c.experienced ? ' (exp)' : '';
-            const motLabel = c.motivation || 'not set';
-            const priorLabel = c.prior_experience !== 'None' ? c.prior_experience : '';
-
-            html += `
-                <div class="roster-card">
-                    <div class="roster-card-header">
-                        <div class="roster-card-name">${escapeHtml(c.name)}</div>
-                        <div class="roster-card-class">${capitalize(c.char_class)}${expTag}</div>
-                        ${c.sub_species !== 'standard' ? `<div class="roster-card-title">${capitalize(c.sub_species)}</div>` : ''}
-                        ${c.title ? `<div class="roster-card-title">${escapeHtml(c.title)}</div>` : ''}
-                        ${c.role ? `<div class="roster-card-role">${escapeHtml(c.role)}</div>` : ''}
-                    </div>
-                    <div class="roster-card-stats">
-                        <div class="stat-chip"><span class="label">React</span><span class="val">${p.reactions}</span></div>
-                        <div class="stat-chip"><span class="label">Speed</span><span class="val">${p.speed}"</span></div>
-                        <div class="stat-chip"><span class="label">Combat</span><span class="val">+${p.combat_skill}</span></div>
-                        <div class="stat-chip"><span class="label">Tough</span><span class="val">${p.toughness}</span></div>
-                        <div class="stat-chip"><span class="label">Savvy</span><span class="val">+${p.savvy}</span></div>
-                    </div>
-                    <div class="roster-card-info">
-                        ${motLabel !== 'not set' ? `<div>Motivation: ${escapeHtml(motLabel)}</div>` : ''}
-                        ${priorLabel ? `<div>Experience: ${escapeHtml(priorLabel)}</div>` : ''}
-                    </div>
-                    <div style="margin-top: 8px; display: flex; gap: 6px;">
-                        <button class="btn" onclick="editRosterChar(${i})">Edit</button>
-                        <button class="btn btn-danger" onclick="removeRosterChar(${i})">Remove</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        html += '</div>';
-        modal.innerHTML = html;
-
-        // Wire up buttons
-        const addBtn = modal.querySelector('#re-add-btn');
-        if (addBtn) addBtn.onclick = () => addRosterChar();
-
-        const doneBtn = modal.querySelector('#re-done-btn');
-        if (doneBtn) doneBtn.onclick = () => submitRoster();
-    }
-
-    // Store state in window for button callbacks
-    window._rosterEditor = { roster, profiles, motivations, experiences, subspecies, render, modal, msg, overlay };
-
-    render();
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-}
-
-function addRosterChar() {
-    const ed = window._rosterEditor;
-    if (ed.roster.length >= 8) return;
-    ed.roster.push({
-        name: `Character ${ed.roster.length + 1}`,
-        char_class: 'trooper',
-        experienced: false,
-        sub_species: 'standard',
-        title: '', role: '',
-        motivation: '', prior_experience: '',
-        narrative_background: '',
-    });
-    ed.render();
-    // Auto-open edit for the new character
-    editRosterChar(ed.roster.length - 1);
-}
-
-function removeRosterChar(index) {
-    const ed = window._rosterEditor;
-    if (ed.roster.length <= 1) return;
-    ed.roster.splice(index, 1);
-    ed.render();
-}
-
-function editRosterChar(index) {
-    const ed = window._rosterEditor;
-    const c = ed.roster[index];
-    const p = ed.profiles;
-
-    // Remove existing edit modal
-    const existing = document.getElementById('char-edit-modal');
-    if (existing) existing.remove();
-
-    const overlay = document.createElement('div');
-    overlay.id = 'char-edit-modal';
-    overlay.className = 'modal-overlay';
-    overlay.style.zIndex = '1001';
-
-    const modal = document.createElement('div');
-    modal.className = 'modal-content';
-    modal.style.maxWidth = '550px';
-
-    const classOptions = ['scientist', 'scout', 'trooper'].map(cls =>
-        `<option value="${cls}" ${c.char_class === cls ? 'selected' : ''}>${capitalize(cls)}</option>`
-    ).join('');
-
-    const subOptions = ed.subspecies.map(s =>
-        `<option value="${s}" ${c.sub_species === s ? 'selected' : ''}>${capitalize(s)}</option>`
-    ).join('');
-
-    const motOptions = ['', ...ed.motivations].map(m =>
-        `<option value="${m}" ${c.motivation === m ? 'selected' : ''}>${m || '(roll randomly)'}</option>`
-    ).join('');
-
-    const expOptions = [`<option value="" ${!c.prior_experience || c.prior_experience === 'None' ? 'selected' : ''}>(roll randomly)</option>`]
-        .concat(ed.experiences.map(e =>
-            `<option value="${e.name}" ${c.prior_experience === e.name ? 'selected' : ''}>${escapeHtml(e.label)}</option>`
-        )).join('');
-    const expDisabled = !c.experienced ? 'disabled' : '';
-
-    modal.innerHTML = `
-        <div class="modal-header">
-            <h2>Edit Character</h2>
-            <button class="modal-close" id="ce-cancel">&#10005;</button>
-        </div>
-        <div class="modal-body">
-            <div class="edit-form">
-                <div class="form-row">
-                    <label>Name</label>
-                    <input type="text" id="ce-name" value="${escapeHtml(c.name)}">
-                </div>
-                <div class="form-row">
-                    <label>Class</label>
-                    <select id="ce-class">${classOptions}</select>
-                </div>
-                <div class="form-row">
-                    <label>Experienced</label>
-                    <input type="checkbox" id="ce-exp" ${c.experienced ? 'checked' : ''}>
-                </div>
-                <div class="form-row">
-                    <label>Sub-species</label>
-                    <select id="ce-sub">${subOptions}</select>
-                </div>
-                <div class="form-row">
-                    <label>Title <span style="color:var(--text-dim)">(optional)</span></label>
-                    <input type="text" id="ce-title" value="${escapeHtml(c.title)}">
-                </div>
-                <div class="form-row">
-                    <label>Role <span style="color:var(--text-dim)">(optional)</span></label>
-                    <input type="text" id="ce-role" value="${escapeHtml(c.role)}">
-                </div>
-                <div class="form-row">
-                    <label>Motivation</label>
-                    <select id="ce-mot">${motOptions}</select>
-                </div>
-                <div class="form-row">
-                    <label>Prior Experience</label>
-                    <select id="ce-prior" ${expDisabled}>${expOptions}</select>
-                </div>
-                <div class="form-row">
-                    <label>Background <span style="color:var(--text-dim)">(optional)</span></label>
-                    <textarea id="ce-bg" rows="3">${escapeHtml(c.narrative_background)}</textarea>
-                </div>
-                <div id="ce-preview" class="roster-card-stats" style="margin-top: 12px;"></div>
-                <div style="display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end;">
-                    <button class="btn" id="ce-cancel2">Cancel</button>
-                    <button class="btn btn-primary" id="ce-save">Save</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-
-    // Preview stats based on class + experience bonuses
-    function updatePreview() {
-        const cls = document.getElementById('ce-class').value;
-        const prof = p[cls] || p['trooper'];
-        const isExp = document.getElementById('ce-exp').checked;
-        const priorSel = document.getElementById('ce-prior');
-        const priorName = priorSel.value;
-
-        // Base stats from class
-        let stats = {
-            reactions: prof.reactions, speed: prof.speed,
-            combat_skill: prof.combat_skill, toughness: prof.toughness,
-            savvy: prof.savvy,
-        };
-
-        // Apply experience bonuses
-        let bonusLabel = '';
-        if (isExp && priorName) {
-            const exp = ed.experiences.find(e => e.name === priorName);
-            if (exp && exp.effects) {
-                const parts = [];
-                for (const [stat, val] of Object.entries(exp.effects)) {
-                    if (stat in stats) {
-                        stats[stat] += val;
-                        const labels = {reactions:'React',speed:'Speed',combat_skill:'Combat',toughness:'Tough',savvy:'Savvy'};
-                        parts.push(`${labels[stat] || stat} +${val}`);
-                    } else if (stat === 'xp') {
-                        parts.push(`XP +${val}`);
-                    } else if (stat === 'kill_points') {
-                        parts.push(`KP +${val}`);
-                    } else if (stat === 'loyalty') {
-                        parts.push(`Loyalty → ${capitalize(val)}`);
-                    } else if (stat === 'story_points') {
-                        parts.push(`SP +${val}`);
-                    }
-                }
-                if (parts.length) bonusLabel = `<div style="margin-top:4px;font-size:11px;color:var(--accent-yellow);">${escapeHtml(priorName)}: ${parts.join(', ')}</div>`;
-            }
-        }
-
-        const preview = document.getElementById('ce-preview');
-        preview.innerHTML = `
-            <div class="stat-chip"><span class="label">React</span><span class="val">${stats.reactions}</span></div>
-            <div class="stat-chip"><span class="label">Speed</span><span class="val">${stats.speed}"</span></div>
-            <div class="stat-chip"><span class="label">Combat</span><span class="val">+${stats.combat_skill}</span></div>
-            <div class="stat-chip"><span class="label">Tough</span><span class="val">${stats.toughness}</span></div>
-            <div class="stat-chip"><span class="label">Savvy</span><span class="val">+${stats.savvy}</span></div>
-            ${bonusLabel}
-        `;
-    }
-    document.getElementById('ce-class').onchange = () => {
-        // Update placeholder name when class changes
-        const nameEl = document.getElementById('ce-name');
-        const curName = nameEl.value.trim();
-        if (/^(Scientist|Scout|Trooper|Character)\s+\d+$/i.test(curName)) {
-            const newCls = capitalize(document.getElementById('ce-class').value);
-            const num = curName.match(/\d+$/)[0];
-            nameEl.value = `${newCls} ${num}`;
-        }
-        updatePreview();
-    };
-    document.getElementById('ce-prior').onchange = updatePreview;
-
-    // Experienced checkbox toggles Prior Experience dropdown
-    document.getElementById('ce-exp').onchange = () => {
-        const priorSel = document.getElementById('ce-prior');
-        priorSel.disabled = !document.getElementById('ce-exp').checked;
-        if (!document.getElementById('ce-exp').checked) {
-            priorSel.value = '';
-        }
-        updatePreview();
-    };
-
-    updatePreview();
-
-    // Save
-    document.getElementById('ce-save').onclick = () => {
-        ed.roster[index] = {
-            name: document.getElementById('ce-name').value || `Character ${index + 1}`,
-            char_class: document.getElementById('ce-class').value,
-            experienced: document.getElementById('ce-exp').checked,
-            sub_species: document.getElementById('ce-sub').value,
-            title: document.getElementById('ce-title').value,
-            role: document.getElementById('ce-role').value,
-            motivation: document.getElementById('ce-mot').value,
-            prior_experience: document.getElementById('ce-prior').value,
-            narrative_background: document.getElementById('ce-bg').value,
-        };
-        overlay.remove();
-        ed.render();
-    };
-
-    // Cancel
-    const close = () => overlay.remove();
-    document.getElementById('ce-cancel').onclick = close;
-    document.getElementById('ce-cancel2').onclick = close;
-
-    // Focus name
-    document.getElementById('ce-name').focus();
-    document.getElementById('ce-name').select();
-}
-
-function submitRoster() {
-    const ed = window._rosterEditor;
-    if (ed.roster.length < 1) return;
-    ed.overlay.remove();
-    clearInput();
-    appendMessage(`> Created ${ed.roster.length} characters`, 'dim');
-    sendResponse(ed.msg.id, ed.roster);
-    window._rosterEditor = null;
-}
-
-// ── Colony Setup Modal ─────────────────────────────────────
-
-function renderColonySetup(msg) {
-    const existing = document.getElementById('colony-setup-modal');
-    if (existing) existing.remove();
-
-    const profiles = msg.class_profiles;
-    const motivations = msg.motivations;
-    const experiences = msg.experiences;
-    const subspecies = msg.subspecies;
-    const agendas = msg.agendas;
-    let roster = JSON.parse(JSON.stringify(msg.default_roster));
-
-    const overlay = document.createElement('div');
-    overlay.id = 'colony-setup-modal';
-    overlay.className = 'modal-overlay';
-
-    const modal = document.createElement('div');
-    modal.className = 'modal-content colony-setup';
-
-    // Store state for roster editor callbacks
-    window._colonySetup = {
-        roster, profiles, motivations, experiences, subspecies, agendas, msg, overlay, modal,
-    };
-
-    function renderSetup() {
-        const cs = window._colonySetup;
-        const agendaOptions = cs.agendas.map(a =>
-            `<option value="${a.value}">${escapeHtml(a.label)}</option>`
-        ).join('');
-
-        let rosterHtml = '';
-        for (let i = 0; i < cs.roster.length; i++) {
-            const c = cs.roster[i];
-            const p = cs.profiles[c.char_class] || cs.profiles['trooper'];
-            const expTag = c.experienced ? ' <span style="color:var(--accent-yellow)">(exp)</span>' : '';
-
-            rosterHtml += `
-                <div class="setup-char-card">
-                    <div class="setup-char-info">
-                        <span class="setup-char-name">${escapeHtml(c.name)}</span>
-                        <span class="setup-char-class">${capitalize(c.char_class)}${expTag}</span>
-                        ${c.sub_species !== 'standard' ? `<span class="setup-char-sub">${capitalize(c.sub_species)}</span>` : ''}
-                    </div>
-                    <div class="setup-char-stats">
-                        <span>R${p.reactions}</span>
-                        <span>S${p.speed}"</span>
-                        <span>C+${p.combat_skill}</span>
-                        <span>T${p.toughness}</span>
-                        <span>V+${p.savvy}</span>
-                    </div>
-                    <div class="setup-char-actions">
-                        <button class="btn-sm" onclick="editSetupChar(${i})">Edit</button>
-                        <button class="btn-sm btn-sm-danger" onclick="removeSetupChar(${i})">&#10005;</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        modal.innerHTML = `
-            <div class="modal-header">
-                <h2>New Colony</h2>
-            </div>
-            <div class="modal-body setup-body">
-                <div class="setup-section">
-                    <div class="setup-form">
-                        <div class="form-row">
-                            <label>Colony Name</label>
-                            <input type="text" id="cs-colony" value="Haven">
-                        </div>
-                        <div class="form-row">
-                            <label>Administrator</label>
-                            <input type="text" id="cs-admin" value="Commander">
-                        </div>
-                        <div class="form-row">
-                            <label>Agenda</label>
-                            <select id="cs-agenda">${agendaOptions}</select>
-                        </div>
-                    </div>
-                </div>
-                <div class="setup-section">
-                    <div class="setup-section-header">
-                        <h3>Crew (${cs.roster.length}/8)</h3>
-                        ${cs.roster.length < 8 ? '<button class="btn-sm btn-sm-success" id="cs-add-char">+ Add</button>' : ''}
-                    </div>
-                    <div class="setup-roster">
-                        ${rosterHtml}
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: flex-end; padding-top: 8px;">
-                    <button class="btn btn-primary" id="cs-launch" ${cs.roster.length < 1 ? 'disabled' : ''}>Launch Colony &#9654;</button>
-                </div>
-            </div>
-        `;
-
-        // Wire buttons
-        const addBtn = modal.querySelector('#cs-add-char');
-        if (addBtn) addBtn.onclick = () => addSetupChar();
-
-        const launchBtn = modal.querySelector('#cs-launch');
-        if (launchBtn) launchBtn.onclick = () => submitColonySetup();
-    }
-
-    window._colonySetup.render = renderSetup;
-    renderSetup();
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-}
-
-function addSetupChar() {
-    const cs = window._colonySetup;
-    if (cs.roster.length >= 8) return;
-    cs.roster.push({
-        name: `Character ${cs.roster.length + 1}`,
-        char_class: 'trooper',
-        experienced: false,
-        sub_species: 'standard',
-        title: '', role: '',
-        motivation: '', prior_experience: '',
-        narrative_background: '',
-    });
-    cs.render();
-    editSetupChar(cs.roster.length - 1);
-}
-
-function removeSetupChar(index) {
-    const cs = window._colonySetup;
-    if (cs.roster.length <= 1) return;
-    cs.roster.splice(index, 1);
-    cs.render();
-}
-
-function editSetupChar(index) {
-    // Reuse the same edit modal as roster editor
-    const cs = window._colonySetup;
-    // Temporarily set up _rosterEditor for editRosterChar to use
-    window._rosterEditor = {
-        roster: cs.roster,
-        profiles: cs.profiles,
-        motivations: cs.motivations,
-        experiences: cs.experiences,
-        subspecies: cs.subspecies,
-        render: cs.render,
-        modal: cs.modal,
-        msg: cs.msg,
-        overlay: cs.overlay,
-    };
-    editRosterChar(index);
-}
-
-function submitColonySetup() {
-    const cs = window._colonySetup;
-    if (cs.roster.length < 1) return;
-
-    const colonyName = document.getElementById('cs-colony').value || 'Haven';
-    const result = {
-        campaign_name: colonyName,
-        colony_name: colonyName,
-        admin_name: document.getElementById('cs-admin').value || 'Commander',
-        agenda: document.getElementById('cs-agenda').value,
-        roster: cs.roster,
-    };
-
-    // Transform modal to loading state
-    cs.modal.innerHTML = `
-        <div class="modal-header"><h2>Generating Colony...</h2></div>
-        <div class="modal-body" style="align-items: center; justify-content: center; padding: 60px 20px;">
-            <div class="loading-spinner"></div>
-            <div style="color: var(--text-dim); margin-top: 20px; text-align: center;">
-                Creating backgrounds and generating names...
-            </div>
-        </div>
-    `;
-    window._colonyLoading = cs.overlay;
-
-    clearInput();
-    appendMessage(`> Colony "${result.colony_name}" — ${cs.roster.length} crew`, 'dim');
-    sendResponse(cs.msg.id, result);
-    window._colonySetup = null;
-}
-
-// ── Colony Ready (loading → roster) ────────────────────────
-
-function renderColonyReady(msg) {
-    window._colonyReadyMsg = msg;
-
-    // Use existing loading modal or create new one
-    let overlay = window._colonyLoading;
-    let modal;
-
-    if (overlay) {
-        modal = overlay.querySelector('.modal-content');
-    } else {
-        overlay = document.createElement('div');
-        overlay.className = 'modal-overlay';
-        modal = document.createElement('div');
-        modal.className = 'modal-content';
-        overlay.appendChild(modal);
-        document.body.appendChild(overlay);
-    }
-
-    let html = `
-        <div class="modal-header">
-            <h2>Colony Roster</h2>
-        </div>
-        <div class="modal-body">
-    `;
-
-    for (const c of msg.characters) {
-        // Experience stat bonuses display
-        const bgParts = [];
-        if (c.motivation) bgParts.push(`<div><span style="color:var(--text-dim)">Motivation:</span> ${escapeHtml(c.motivation)}</div>`);
-        if (c.prior_experience) {
-            let expLine = `<span style="color:var(--text-dim)">Experience:</span> ${escapeHtml(c.prior_experience)}`;
-            if (c.stat_bonuses && Object.keys(c.stat_bonuses).length > 0) {
-                const bonusLabels = {reactions:'React',speed:'Speed',combat_skill:'Combat',toughness:'Tough',savvy:'Savvy'};
-                const parts = Object.entries(c.stat_bonuses).map(([k,v]) => `${bonusLabels[k]||k} +${v}`);
-                expLine += ` <span style="color:var(--accent-yellow)">(${parts.join(', ')})</span>`;
-            }
-            bgParts.push(`<div>${expLine}</div>`);
-        }
-        const bgSection = bgParts.length ? `<div class="roster-card-background">${bgParts.join('')}</div>` : '';
-
-        const titlePrefix = c.title ? `<span class="roster-card-title">${escapeHtml(c.title)}</span>` : '';
-        const charIdx = msg.characters.indexOf(c);
-        html += `
-            <div class="roster-card">
-                <div class="roster-card-header">
-                    ${titlePrefix}
-                    <div class="roster-card-name">${escapeHtml(c.name)}</div>
-                    ${c.role ? `<div class="roster-card-role">${escapeHtml(c.role)}</div>` : ''}
-                    <div class="roster-card-class">${capitalize(c.char_class)}</div>
-                    <button class="btn-edit-char" onclick="editColonyReadyChar(${charIdx})" title="Edit">&#9998;</button>
-                </div>
-                <div class="roster-card-stats">
-                    <div class="stat-chip"><span class="label">React</span><span class="val">${c.reactions}</span></div>
-                    <div class="stat-chip"><span class="label">Speed</span><span class="val">${c.speed}"</span></div>
-                    <div class="stat-chip"><span class="label">Combat</span><span class="val">+${c.combat_skill}</span></div>
-                    <div class="stat-chip"><span class="label">Tough</span><span class="val">${c.toughness}</span></div>
-                    <div class="stat-chip"><span class="label">Savvy</span><span class="val">+${c.savvy}</span></div>
-                </div>
-                ${bgSection}
-                ${c.narrative ? `<div class="roster-card-bg">${escapeHtml(c.narrative)}</div>` : ''}
-            </div>
-        `;
-    }
-
-    html += `
-            <div style="display: flex; justify-content: flex-end; padding-top: 8px;">
-                <button class="btn btn-primary" id="cr-continue">Continue &#9654;</button>
-            </div>
-        </div>
-    `;
-
-    modal.innerHTML = html;
-
-    document.getElementById('cr-continue').onclick = () => {
-        overlay.remove();
-        window._colonyLoading = null;
-        window._colonyReadyMsg = null;
-        clearInput();
-        sendResponse(msg.id, true);
-    };
-}
-
-function editColonyReadyChar(index) {
-    const msg = window._colonyReadyMsg;
-    if (!msg || !msg.characters[index]) return;
-    const c = msg.characters[index];
-
-    const existing = document.getElementById('char-edit-modal');
-    if (existing) existing.remove();
-
-    const overlay = document.createElement('div');
-    overlay.id = 'char-edit-modal';
-    overlay.className = 'modal-overlay';
-    overlay.style.zIndex = '1001';
-
-    const modal = document.createElement('div');
-    modal.className = 'modal-content';
-    modal.style.maxWidth = '550px';
-
-    modal.innerHTML = `
-        <div class="modal-header">
-            <h2>Edit Character</h2>
-            <button class="modal-close" id="crce-cancel">&#10005;</button>
-        </div>
-        <div class="modal-body">
-            <div class="edit-form">
-                <div class="form-row">
-                    <label>Title <span style="color:var(--text-dim)">(optional)</span></label>
-                    <input type="text" id="crce-title" value="${escapeHtml(c.title || '')}" placeholder="e.g. Sgt., Dr.">
-                </div>
-                <div class="form-row">
-                    <label>Name</label>
-                    <input type="text" id="crce-name" value="${escapeHtml(c.name)}">
-                </div>
-                <div class="form-row">
-                    <label>Role <span style="color:var(--text-dim)">(optional)</span></label>
-                    <input type="text" id="crce-role" value="${escapeHtml(c.role || '')}" placeholder="e.g. Lead researcher">
-                </div>
-                <div class="form-row">
-                    <label>Background <span style="color:var(--text-dim)">(optional)</span></label>
-                    <textarea id="crce-narrative" rows="4">${escapeHtml(c.narrative || '')}</textarea>
-                </div>
-                <div style="display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end;">
-                    <button class="btn" id="crce-cancel2">Cancel</button>
-                    <button class="btn btn-primary" id="crce-save">Save</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-
-    document.getElementById('crce-save').onclick = () => {
-        const newTitle = document.getElementById('crce-title').value.trim();
-        const newName = document.getElementById('crce-name').value.trim();
-        const newRole = document.getElementById('crce-role').value.trim();
-        const newNarrative = document.getElementById('crce-narrative').value.trim();
-        if (!newName) return;
-
-        // Update local data and server
-        const origName = c.name;
-        c.title = newTitle;
-        c.name = newName;
-        c.role = newRole;
-        c.narrative = newNarrative;
-
-        if (window._ws && window._ws.readyState === 1) {
-            window._ws.send(JSON.stringify({
-                type: 'update_roster',
-                character_name: origName,
-                updates: { title: newTitle, name: newName, role: newRole, narrative: newNarrative },
-            }));
-        }
-
-        overlay.remove();
-        // Re-render the colony ready screen with updated data
-        renderColonyReady(msg);
-    };
-
-    const close = () => overlay.remove();
-    document.getElementById('crce-cancel').onclick = close;
-    document.getElementById('crce-cancel2').onclick = close;
-    overlay.onclick = (e) => { if (e.target === overlay) close(); };
-
-    document.getElementById('crce-name').focus();
-    document.getElementById('crce-name').select();
-}
-
 // ── Experience Screen ───────────────────────────────────────
 
 function renderExperienceScreen(area, msg) {
+    console.log('[EXP] renderExperienceScreen called, msg:', JSON.stringify(msg).slice(0, 500));
+    try { return _renderExperienceScreenInner(area, msg); } catch(e) { console.error('[EXP] Error:', e); area.innerHTML = `<div style="color:red">Experience screen error: ${e.message}</div>`; }
+}
+function _renderExperienceScreenInner(area, msg) {
     area.innerHTML = '';
 
     // Remove existing modal if any
@@ -1554,7 +693,7 @@ function renderExperienceScreen(area, msg) {
         <div class="modal-body">
     `;
 
-    // --- XP Gained Rules Box ---
+    // --- XP Gained Box ---
     html += '<div class="exp-rules-box">';
     html += '<div class="exp-rules-title">EXPERIENCE GAINED</div>';
     html += '<div class="exp-rules-list">';
@@ -1589,34 +728,33 @@ function renderExperienceScreen(area, msg) {
         html += '</div>';
     }
 
-    // --- Character Cards (only those with 5+ XP) ---
-    const advChars = msg.characters.filter(c => c.xp >= 5);
-    if (advChars.length > 0) {
-        html += '<div class="exp-roster-title">ELIGIBLE FOR ADVANCEMENT</div>';
+    // --- Full Roster Cards (reuses sidebar roster card layout) ---
+    // Build an XP award lookup for quick access
+    const xpAwardMap = {};
+    if (msg.xp_awards) {
+        for (const a of msg.xp_awards) xpAwardMap[a.name] = a;
     }
-    html += '<div class="exp-roster">';
-    for (const c of advChars) {
-        html += `<div class="exp-char-card exp-can-advance" data-char-name="${escapeHtml(c.name)}">`;
-        html += '<div class="exp-char-header">';
-        if (c.title) html += `<span class="roster-card-title">${escapeHtml(c.title)}</span>`;
-        html += `<span class="exp-char-name">${escapeHtml(c.name)}</span>`;
-        if (c.role) html += `<span class="roster-card-role">${escapeHtml(c.role)}</span>`;
-        html += `<span class="exp-char-class">${capitalize(c.char_class)}</span>`;
-        html += '</div>';
-        html += '<div class="roster-card-stats">';
-        html += `<div class="stat-chip"><span class="label">React</span><span class="val">${c.reactions}</span></div>`;
-        html += `<div class="stat-chip"><span class="label">Speed</span><span class="val">${c.speed}"</span></div>`;
-        html += `<div class="stat-chip"><span class="label">Combat</span><span class="val">+${c.combat_skill}</span></div>`;
-        html += `<div class="stat-chip"><span class="label">Tough</span><span class="val">${c.toughness}</span></div>`;
-        html += `<div class="stat-chip"><span class="label">Savvy</span><span class="val">+${c.savvy}</span></div>`;
-        html += `<div class="stat-chip exp-xp-chip exp-xp-ready"><span class="label">XP</span><span class="val">${c.xp}</span></div>`;
-        html += `<div class="stat-chip"><span class="label">KP</span><span class="val">${c.kill_points}</span></div>`;
-        html += '</div>';
-        html += `<div class="exp-char-info">Status: <span style="color:var(--accent-green)">Ready</span>&nbsp;&nbsp;Loyalty: ${capitalize(c.loyalty)}</div>`;
-        html += `<button class="btn btn-accent exp-advance-btn" data-char="${escapeHtml(c.name)}">Advancement (5 XP)</button>`;
-        html += '</div>';
+
+    for (const c of msg.characters) {
+        const canAdvance = c.xp >= 5;
+        const award = xpAwardMap[c.name];
+
+        // Build per-card extra content: XP gain badge + advancement button
+        let extra = '';
+        if (award) {
+            const gainCls = award.xp > 0 ? 'exp-gain-positive' : 'exp-gain-zero';
+            extra += `<div class="exp-card-gain ${gainCls}">+${award.xp} XP <span class="exp-card-gain-reason">${escapeHtml(award.reasons)}</span></div>`;
+        }
+        if (canAdvance) {
+            extra += `<button class="btn btn-accent exp-advance-btn" data-char="${escapeHtml(c.name)}">Advancement (5 XP)</button>`;
+        }
+
+        html += buildRosterCardHtml(c, {
+            showEdit: false,
+            highlightXp: true,
+            extraHtml: extra,
+        });
     }
-    html += '</div>';
 
     // Continue button inside modal
     html += '<div class="exp-modal-footer"><button class="btn btn-primary exp-continue-btn">Continue</button></div>';
@@ -1653,11 +791,11 @@ function renderExperienceScreen(area, msg) {
 
     // Auto-open advancement modal if returning from an advancement action
     if (msg.last_advancement) {
-        openAdvancementModal(msg, msg.last_advancement.character, msg.last_advancement.description);
+        openAdvancementModal(msg, msg.last_advancement.character, msg.last_advancement.description, msg.last_advancement.trade);
     }
 }
 
-function openAdvancementModal(msg, charName, resultDesc) {
+function openAdvancementModal(msg, charName, resultDesc, tradeInfo) {
     const existing = document.getElementById('advancement-modal');
     if (existing) existing.remove();
 
@@ -1674,7 +812,7 @@ function openAdvancementModal(msg, charName, resultDesc) {
 
     const titlePart = char.title ? `<span class="roster-card-title">${escapeHtml(char.title)}</span> ` : '';
     const rolePart = char.role ? `<span class="roster-card-role">${escapeHtml(char.role)}</span> ` : '';
-    const classPart = `<span class="exp-char-class">${capitalize(char.char_class)}</span>`;
+    const classPart = `<span class="exp-char-class">${capitalize(char.char_class)}${char.level != null ? ' ' + char.level : ''}</span>`;
 
     let html = `
         <div class="modal-header">
@@ -1688,7 +826,13 @@ function openAdvancementModal(msg, charName, resultDesc) {
 
     // Show result banner if returning from an advancement
     if (resultDesc) {
-        html += `<div class="adv-result-banner">${escapeHtml(resultDesc)}</div>`;
+        let bannerExtra = '';
+        if (tradeInfo) {
+            const statLabels = {reactions:'Reactions',combat_skill:'Combat Skill',speed:'Speed',toughness:'Toughness',savvy:'Savvy',kill_points:'Kill Points'};
+            const tradeLabel = statLabels[tradeInfo.trade_stat] || tradeInfo.trade_stat;
+            bannerExtra = `<button class="btn btn-sm adv-trade-btn" data-rolled-stat="${tradeInfo.rolled_stat}" data-rolled-bonus="${tradeInfo.rolled_bonus}" data-trade-stat="${tradeInfo.trade_stat}">Trade for ${escapeHtml(tradeLabel)} instead</button>`;
+        }
+        html += `<div class="adv-result-banner">${escapeHtml(resultDesc)}${bannerExtra}</div>`;
     }
 
     const canRoll = char.xp >= 5;
@@ -1810,6 +954,21 @@ function openAdvancementModal(msg, charName, resultDesc) {
         };
     });
 
+    // Wire up Trade button (if present)
+    const tradeBtn = modal.querySelector('.adv-trade-btn');
+    if (tradeBtn) {
+        tradeBtn.onclick = () => {
+            overlay.remove();
+            clearInput();
+            sendResponse(msg.id, {
+                action: 'trade', character: charName,
+                rolled_stat: tradeBtn.dataset.rolledStat,
+                rolled_bonus: parseInt(tradeBtn.dataset.rolledBonus),
+                trade_stat: tradeBtn.dataset.tradeStat,
+            });
+        };
+    }
+
     // Wire up Alternative buttons
     modal.querySelectorAll('.adv-alt-btn').forEach(btn => {
         btn.onclick = () => {
@@ -1851,6 +1010,13 @@ function renderResearchSpending(area, msg) {
     const rpGained = msg.rp_gained || 0;
     const lastAction = msg.last_action_desc || '';
 
+    // Build apps-by-theory lookup for unlock buttons
+    const appsByTheory = {};
+    for (const a of apps) {
+        if (!appsByTheory[a.theory]) appsByTheory[a.theory] = {apps: [], cost: a.cost};
+        appsByTheory[a.theory].apps.push(a);
+    }
+
     let html = `
         <div class="modal-header">
             <h2>Research</h2>
@@ -1870,73 +1036,50 @@ function renderResearchSpending(area, msg) {
         html += `<div class="adv-result-banner">${escapeHtml(lastAction)}</div>`;
     }
 
-    // Build apps-by-theory lookup
-    const appsByTheory = {};
-    for (const a of apps) {
-        if (!appsByTheory[a.theory]) appsByTheory[a.theory] = {apps: [], cost: a.cost};
-        appsByTheory[a.theory].apps.push(a);
-    }
-
-    // Theories - with applications inline (completed first)
+    // Theories — sorted: completed first, then by name
     if (theories.length > 0) {
         const sortedTheories = [...theories].sort((a, b) => {
-            const aComplete = (a.invested_rp || 0) >= (a.rp_cost || 0);
-            const bComplete = (b.invested_rp || 0) >= (b.rp_cost || 0);
+            const aInv = a.invested_rp ?? a.invested ?? 0;
+            const bInv = b.invested_rp ?? b.invested ?? 0;
+            const aComplete = aInv >= (a.rp_cost || 0);
+            const bComplete = bInv >= (b.rp_cost || 0);
             if (aComplete && !bComplete) return -1;
             if (!aComplete && bComplete) return 1;
             return 0;
         });
-        html += '<div class="rs-section-title">THEORIES</div>';
-        html += '<div class="rs-theories">';
+
+        html += '<h4 class="tt-section-header">Theories</h4>';
+        html += '<div class="tt-grid">';
         for (const t of sortedTheories) {
-            const invested = t.invested_rp || 0;
+            const invested = t.invested_rp ?? t.invested ?? 0;
             const cost = t.rp_cost || 0;
             const remaining = cost - invested;
             const completed = invested >= cost;
 
-            html += `<div class="rs-theory${completed ? ' rs-theory-completed' : ''}">`;
-            html += `<div class="rs-theory-header">`;
-            html += `<span class="rs-theory-name">${completed ? '&#10003; ' : ''}${escapeHtml(t.name)}</span>`;
-            html += `<span class="rs-theory-rp">${completed ? invested + '/' + cost + ' RP' : cost + ' RP'}</span>`;
-            html += `</div>`;
-            // Applications list
-            if (t.applications && t.applications.length > 0) {
-                html += '<div class="tt-apps">';
-                for (const app of t.applications) {
-                    const appCls = app.unlocked ? 'tt-app-researched' : 'tt-app-locked';
-                    const typeIcons = {building: '&#9632;', weapon: '&#9876;', bonus: '&#9733;', milestone: '&#9670;', grunt_upgrade: '&#9650;'};
-                    const typeIcon = typeIcons[app.type] || '&#8226;';
-                    html += `<div class="tt-app ${appCls}">`;
-                    html += `<span class="tt-app-icon">${typeIcon}</span>`;
-                    html += `<span class="tt-app-name">${escapeHtml(app.name)}</span>`;
-                    if (app.description) html += `<span class="tt-app-desc">${escapeHtml(app.description)}</span>`;
-                    html += '</div>';
-                }
-                html += '</div>';
-            }
-            // Action buttons
-            html += '<div class="rs-theory-actions">';
+            // Build action buttons for this theory
+            let buttonsHtml = '<div class="rs-theory-actions">';
             if (!completed && remaining > 0) {
                 const canBuy = rp >= remaining;
-                html += `<button class="btn btn-sm btn-accent rs-invest-btn" data-theory="${escapeHtml(t.id)}" data-amount="${remaining}"${canBuy ? '' : ' disabled'}>Complete Theory (${remaining} RP)</button>`;
+                buttonsHtml += `<button class="btn btn-sm btn-accent rs-invest-btn" data-theory="${escapeHtml(t.id)}" data-amount="${remaining}"${canBuy ? '' : ' disabled'}>Complete Theory (${remaining} RP)</button>`;
             }
-            // Unlock application button (if theory completed and has undiscovered apps)
             const theoryApps = appsByTheory[t.name];
             if (completed && theoryApps && theoryApps.apps.length > 0) {
                 const canAfford = rp >= theoryApps.cost;
-                html += `<button class="btn btn-sm rs-app-btn" data-theory="${escapeHtml(t.name)}"${canAfford ? '' : ' disabled'}>Unlock Application (${theoryApps.cost} RP)</button>`;
+                buttonsHtml += `<button class="btn btn-sm rs-app-btn" data-theory="${escapeHtml(t.name)}"${canAfford ? '' : ' disabled'}>Unlock Application (${theoryApps.cost} RP)</button>`;
+            } else if (!completed) {
+                buttonsHtml += `<button class="btn btn-sm rs-app-btn" disabled>Unlock Application</button>`;
             }
-            html += '</div>';
-            html += `</div>`;
+            buttonsHtml += '</div>';
+
+            html += buildTheoryCardHtml(t, { extraHtml: buttonsHtml });
         }
         html += '</div>';
     }
 
     // Bio-analysis — per-specimen
     const specimens = msg.bio_specimens || [];
-    const unanalyzed = specimens.filter(s => !s.analyzed);
     if (specimens.length > 0) {
-        html += '<div class="rs-section-title">BIO-ANALYSIS</div>';
+        html += '<h4 class="tt-section-header" style="margin-top:16px;">Bio-Analysis</h4>';
         html += '<div class="rs-other">';
         for (const spec of specimens) {
             if (spec.analyzed) {
@@ -2183,6 +1326,32 @@ function showLoadingModal(title) {
     document.body.appendChild(overlay);
 }
 
+function renderInfoModal(msg) {
+    // Map modal name to opener function
+    const openers = {
+        'enemies': typeof openEnemiesModal !== 'undefined' ? openEnemiesModal : null,
+        'ancient_signs': typeof openAncientSignsModal !== 'undefined' ? openAncientSignsModal : null,
+        'lifeforms': typeof openLifeformsModal !== 'undefined' ? openLifeformsModal : null,
+        'conditions': typeof openConditionsModal !== 'undefined' ? openConditionsModal : null,
+        'research': typeof openResearchModal !== 'undefined' ? openResearchModal : null,
+        'roster': typeof openRosterModal !== 'undefined' ? openRosterModal : null,
+    };
+    const opener = openers[msg.modal];
+    if (opener) {
+        opener();
+        // Find the modal that was just opened and hook its close to send response
+        const modalId = msg.modal.replace(/_/g, '-') + '-modal';
+        const checkClose = setInterval(() => {
+            if (!document.getElementById(modalId)) {
+                clearInterval(checkClose);
+                sendResponse(msg.id, 'closed');
+            }
+        }, 200);
+    } else {
+        sendResponse(msg.id, 'closed');
+    }
+}
+
 function renderNarrativeModal(area, msg) {
     area.innerHTML = '';
 
@@ -2231,4 +1400,167 @@ function renderNarrativeModal(area, msg) {
         }
     };
     document.addEventListener('keydown', escHandler);
+}
+
+
+// ── Reroll Offer ───────────────────────────────────────────
+function renderRerollOffer(area, msg) {
+    area.innerHTML = '';
+    const panel = document.createElement('div');
+    panel.className = 'reroll-offer-panel';
+
+    const r = msg.result;
+    const effectsHtml = r.effects
+        ? `<div class="ro-effects">${escapeHtml(r.effects)}</div>`
+        : '';
+
+    panel.innerHTML = `
+        <div class="ro-card">
+            <div class="ro-table-name">${escapeHtml(msg.table_name)}</div>
+            <div class="ro-roll">Roll: ${r.roll}</div>
+            <div class="ro-name">${escapeHtml(r.name)}</div>
+            <div class="ro-desc">${escapeHtml(r.description)}</div>
+            ${effectsHtml}
+        </div>
+        <div class="ro-offer">
+            <span class="ro-sp-info">Spend 1 Story Point to reroll? (${msg.sp_available} SP available)</span>
+            <div class="ro-buttons">
+                <button class="btn btn-primary ro-btn-reroll">Reroll (1 SP)</button>
+                <button class="btn ro-btn-keep">Keep Result</button>
+            </div>
+        </div>
+    `;
+
+    panel.querySelector('.ro-btn-reroll').onclick = () => {
+        area.innerHTML = '';
+        sendResponse(msg.id, true);
+    };
+    panel.querySelector('.ro-btn-keep').onclick = () => {
+        area.innerHTML = '';
+        sendResponse(msg.id, false);
+    };
+
+    area.appendChild(panel);
+}
+
+
+// ── Resource Cache ─────────────────────────────────────────
+function renderResourceCache(area, msg) {
+    const budget = msg.budget;
+    const spRemaining = msg.sp_remaining;
+    let bp = 0, rp = 0, rm = 0;
+
+    area.innerHTML = '';
+    const panel = document.createElement('div');
+    panel.className = 'resource-cache-panel';
+
+    function remaining() { return budget - bp - rp - rm; }
+
+    function render() {
+        panel.innerHTML = `
+            <div class="rc-header">
+                <h3>Resource Cache</h3>
+                <span class="rc-sp-badge">${spRemaining} SP remaining</span>
+            </div>
+            <div class="rc-dice">
+                <span class="rc-dice-label">Rolled 2D6 — Budget:</span>
+                <span class="rc-budget-value">${budget}</span>
+            </div>
+            <div class="rc-remaining ${remaining() === 0 ? 'rc-zero' : ''}">
+                ${remaining()} point${remaining() !== 1 ? 's' : ''} to allocate
+            </div>
+            <div class="rc-resources">
+                ${_rcRow('Build Points', 'bp', bp, 'var(--accent-orange, #f0a030)')}
+                ${_rcRow('Research Points', 'rp', rp, 'var(--accent-cyan, #40d0d0)')}
+                ${_rcRow('Raw Materials', 'rm', rm, 'var(--accent-green, #40c040)')}
+            </div>
+            <button class="btn btn-primary rc-confirm" ${remaining() < 0 ? 'disabled' : ''}>
+                Confirm Allocation
+            </button>
+        `;
+
+        // Wire +/- buttons
+        panel.querySelectorAll('.rc-btn-minus').forEach(btn => {
+            btn.onclick = () => {
+                const key = btn.dataset.key;
+                if (key === 'bp' && bp > 0) bp--;
+                else if (key === 'rp' && rp > 0) rp--;
+                else if (key === 'rm' && rm > 0) rm--;
+                render();
+            };
+        });
+        panel.querySelectorAll('.rc-btn-plus').forEach(btn => {
+            btn.onclick = () => {
+                if (remaining() <= 0) return;
+                const key = btn.dataset.key;
+                if (key === 'bp') bp++;
+                else if (key === 'rp') rp++;
+                else if (key === 'rm') rm++;
+                render();
+            };
+        });
+
+        panel.querySelector('.rc-confirm').onclick = () => {
+            area.innerHTML = '';
+            sendResponse(msg.id, { bp, rp, rm });
+        };
+    }
+
+    function _rcRow(label, key, val, color) {
+        return `
+            <div class="rc-row">
+                <span class="rc-resource-label" style="color:${color}">${label}</span>
+                <div class="rc-controls">
+                    <button class="btn rc-btn-minus" data-key="${key}" ${val <= 0 ? 'disabled' : ''}>−</button>
+                    <span class="rc-value">${val}</span>
+                    <button class="btn rc-btn-plus" data-key="${key}" ${remaining() <= 0 ? 'disabled' : ''}>+</button>
+                </div>
+            </div>
+        `;
+    }
+
+    render();
+    area.appendChild(panel);
+}
+
+
+// ── Reroll Choice ──────────────────────────────────────────
+function renderRerollChoice(area, msg) {
+    area.innerHTML = '';
+    const panel = document.createElement('div');
+    panel.className = 'reroll-choice-panel';
+
+    const optA = msg.option_a;
+    const optB = msg.option_b;
+
+    panel.innerHTML = `
+        <div class="reroll-header">
+            <h3>Story Point Reroll</h3>
+            <span class="reroll-table-name">${escapeHtml(msg.table_name)}</span>
+        </div>
+        <div class="reroll-subtitle">Choose which result to keep:</div>
+        <div class="reroll-cards">
+            <div class="reroll-card" data-choice="a">
+                <div class="reroll-card-badge">Original</div>
+                <div class="reroll-card-roll">Roll: ${optA.roll}</div>
+                <div class="reroll-card-name">${escapeHtml(optA.name)}</div>
+                <div class="reroll-card-desc">${escapeHtml(optA.description)}</div>
+            </div>
+            <div class="reroll-card reroll-card-new" data-choice="b">
+                <div class="reroll-card-badge">Reroll</div>
+                <div class="reroll-card-roll">Roll: ${optB.roll}</div>
+                <div class="reroll-card-name">${escapeHtml(optB.name)}</div>
+                <div class="reroll-card-desc">${escapeHtml(optB.description)}</div>
+            </div>
+        </div>
+    `;
+
+    panel.querySelectorAll('.reroll-card').forEach(card => {
+        card.onclick = () => {
+            area.innerHTML = '';
+            sendResponse(msg.id, card.dataset.choice);
+        };
+    });
+
+    area.appendChild(panel);
 }

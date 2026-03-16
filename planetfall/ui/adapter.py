@@ -96,11 +96,19 @@ class UIAdapter(Protocol):
         """Render the campaign map."""
         ...
 
+    def redraw(self, state: Any, events: list | None = None) -> None:
+        """Clear and redraw colony status, map, and optionally events."""
+        self.clear()
+        self.show_colony_status(state)
+        self.show_map(state)
+        if events:
+            self.show_events(events)
+
     def show_roster(self, state: Any) -> None:
         """Render the character roster table."""
         ...
 
-    def show_step_header(self, step: int, name: str, state: Any = None) -> None:
+    def show_step_header(self, step: int, name: str, state: Any = None, **kwargs) -> None:
         """Display step header (includes pause, clear, colony status)."""
         ...
 
@@ -123,7 +131,8 @@ class UIAdapter(Protocol):
         """
         ...
 
-    def show_mission_result(self, success: bool, title: str, detail: str) -> None:
+    def show_mission_result(self, success: bool, title: str, detail: str,
+                            summary: list[str] | None = None) -> None:
         """Show mission success/failure result screen and wait for continue."""
         ...
 
@@ -169,6 +178,8 @@ class UIAdapter(Protocol):
         defeat_conditions: list[str],
         enemy_type: str = "",
         slyn_unknown: bool = False,
+        condition: object = None,
+        slyn_briefing: dict | None = None,
     ) -> None:
         """Render mission briefing panel (map + mission info)."""
         ...
@@ -224,6 +235,7 @@ class UIAdapter(Protocol):
         self, available_names: list[str], max_slots: int,
         grunt_count: int = 0, bot_available: bool = False,
         char_classes: dict[str, str] | None = None,
+        char_profiles: dict[str, dict] | None = None,
     ) -> dict:
         """Prompt for squad deployment (characters, grunts, bot, civilians)."""
         ...
@@ -236,6 +248,7 @@ class UIAdapter(Protocol):
 
     def prompt_deployment_zones(
         self, bf: Any, figures: list, deployment_zones: list,
+        same_zone: bool = False,
     ) -> None:
         """Interactive deployment zone assignment for figures on battlefield."""
         ...
@@ -272,6 +285,43 @@ class UIAdapter(Protocol):
         highlighted_enemies: list | None = None,
     ) -> int:
         """Prompt player to select a zone on the battlefield. Returns index into valid_zones."""
+        ...
+
+    def prompt_resource_cache(self, budget: int, sp_remaining: int) -> dict:
+        """Show resource allocation UI for Story Point resource cache.
+
+        Args:
+            budget: Maximum total resources to allocate (highest die).
+            sp_remaining: Story Points remaining after spending.
+
+        Returns:
+            {"bp": int, "rp": int, "rm": int}
+        """
+        ...
+
+    def confirm_reroll_offer(
+        self, table_name: str, result: dict, sp_available: int,
+    ) -> bool:
+        """Show a rolled result as a card and offer SP reroll.
+
+        result: {"roll": int, "name": str, "description": str, "effects": str|None}
+        Returns True if player wants to reroll.
+        """
+        return self.confirm(
+            f"{table_name}: {result['name']} — Spend 1 SP to reroll? ({sp_available} SP)",
+            default=False,
+        )
+
+    def prompt_reroll_choice(
+        self, table_name: str,
+        option_a: dict,
+        option_b: dict,
+    ) -> str:
+        """Show two table results as cards, let player pick one.
+
+        Each option: {"roll": int, "name": str, "description": str}
+        Returns "a" or "b".
+        """
         ...
 
     def prompt_sector_coords(

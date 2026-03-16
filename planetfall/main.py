@@ -17,6 +17,7 @@ from planetfall.engine.persistence import (
     list_snapshots, _campaign_dir,
 )
 from planetfall.orchestrator import run_campaign_turn
+from planetfall.engine.utils import format_display
 
 
 def setup_new_campaign():
@@ -168,6 +169,11 @@ def setup_new_campaign():
             api_key=api_key,
         )
 
+    # Generate colony description (after backgrounds exist for full context)
+    if not state.colony.description:
+        from planetfall.engine.campaign.setup.backgrounds import generate_colony_description
+        state.colony.description = generate_colony_description(state, api_key=api_key)
+
     # Page 1: Character backgrounds
     display.clear_screen()
     display.print_character_backgrounds(state)
@@ -189,6 +195,8 @@ def setup_new_campaign():
 
     # Save
     save_state(state)
+    from planetfall.engine.campaign_log import save_day_zero_log
+    save_day_zero_log(state)
     display.console.print(f"\n[green]Campaign saved![/green]")
     prompts.pause()
 
@@ -354,7 +362,7 @@ def rules_search_menu():
                 display.console.print()
         elif choice == "Browse section":
             sections = list_sections()
-            section_labels = [s.replace("_", " ").title() for s in sections]
+            section_labels = [format_display(s) for s in sections]
             label = prompts.ask_select("Section:", section_labels)
             section_name = sections[section_labels.index(label)]
             try:

@@ -12,7 +12,7 @@ import os
 from pathlib import Path
 
 # Path to the full rules text
-RULES_FILE = Path(__file__).parent.parent.parent / "5PFH Planetfall Digital Final.txt"
+RULES_FILE = Path(__file__).parent.parent.parent / "rulebook" / "5PFH Planetfall Digital Final.txt"
 
 # Path to pre-chunked section files
 SECTIONS_DIR = Path(__file__).parent / "sections"

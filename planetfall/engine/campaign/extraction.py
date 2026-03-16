@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from planetfall.engine.dice import roll_d6
 from planetfall.engine.models import (
-    GameState, SectorStatus, TurnEvent, TurnEventType,
+    ExtractionData, GameState, SectorStatus, TurnEvent, TurnEventType,
 )
 
 
@@ -35,10 +35,10 @@ def get_active_extractions(state: GameState) -> list[dict]:
     for sid_str, data in extractions.items():
         results.append({
             "sector_id": int(sid_str),
-            "resource_type": data.get("resource_type", "raw_materials"),
-            "yield_per_turn": data.get("yield_per_turn", 1),
-            "turns_active": data.get("turns_active", 0),
-            "depleted": data.get("depleted", False),
+            "resource_type": data.resource_type,
+            "yield_per_turn": data.yield_per_turn,
+            "turns_active": data.turns_active,
+            "depleted": data.depleted,
         })
     return results
 
@@ -81,7 +81,7 @@ def start_extraction(
     extractions = dict(state.tracking.active_extractions)
     sid_str = str(sector_id)
 
-    if sid_str in extractions and not extractions[sid_str].get("depleted"):
+    if sid_str in extractions and not extractions[sid_str].depleted:
         return [TurnEvent(
             step=0, event_type=TurnEventType.NARRATIVE,
             description=f"Sector {sector_id} is already being exploited.",
@@ -90,13 +90,13 @@ def start_extraction(
     sector.status = SectorStatus.EXPLOITED
     yield_per_turn = max(1, sector.resource_level // 2)
 
-    extractions[sid_str] = {
-        "resource_type": resource_type,
-        "yield_per_turn": yield_per_turn,
-        "turns_active": 0,
-        "max_turns": sector.resource_level * 3,
-        "depleted": False,
-    }
+    extractions[sid_str] = ExtractionData(
+        resource_type=resource_type,
+        yield_per_turn=yield_per_turn,
+        turns_active=0,
+        max_turns=sector.resource_level * 3,
+        depleted=False,
+    )
     state.tracking.active_extractions = extractions
 
     return [TurnEvent(
@@ -119,12 +119,12 @@ def process_extractions(state: GameState) -> list[TurnEvent]:
     events = []
 
     for sid_str, data in list(extractions.items()):
-        if data.get("depleted"):
+        if data.depleted:
             continue
 
-        data["turns_active"] += 1
-        yield_amt = data["yield_per_turn"]
-        rtype = data["resource_type"]
+        data.turns_active += 1
+        yield_amt = data.yield_per_turn
+        rtype = data.resource_type
 
         # Apply yield
         if rtype == "raw_materials":
@@ -143,8 +143,8 @@ def process_extractions(state: GameState) -> list[TurnEvent]:
         ))
 
         # Check depletion
-        if data["turns_active"] >= data.get("max_turns", 999):
-            data["depleted"] = True
+        if data.turns_active >= data.max_turns:
+            data.depleted = True
             events.append(TurnEvent(
                 step=0, event_type=TurnEventType.NARRATIVE,
                 description=f"Sector {sid_str} resources depleted.",

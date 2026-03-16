@@ -11,15 +11,15 @@
 // Terrain config
 const TERRAIN_LABELS = {
     'open': '', 'light_cover': 'SC', 'heavy_cover': 'C',
-    'high_ground': 'HG', 'impassable': 'XX',
+    'high_ground': 'HG', 'impassable': 'XX', 'impassable_blocking': 'XX',
 };
 const TERRAIN_NAMES = {
     'open': 'Open Ground', 'light_cover': 'Scatter Cover', 'heavy_cover': 'Cover',
-    'high_ground': 'High Ground', 'impassable': 'Impassable',
+    'high_ground': 'High Ground', 'impassable': 'Impassable', 'impassable_blocking': 'Impassable (LoS)',
 };
 const TERRAIN_ICONS = {
     'open': '', 'light_cover': '&#9683;', 'heavy_cover': '&#9632;',
-    'high_ground': '&#9650;', 'impassable': '&#10005;',
+    'high_ground': '&#9650;', 'impassable': '&#10005;', 'impassable_blocking': '&#10006;',
 };
 const TERRAIN_DESCRIPTIONS = {
     'open': 'No cover modifier',
@@ -27,6 +27,7 @@ const TERRAIN_DESCRIPTIONS = {
     'heavy_cover': 'Cover: 6+ to hit when targeted',
     'high_ground': 'High ground: negates cover (except direct cover)',
     'impassable': 'Cannot enter this zone',
+    'impassable_blocking': 'Cannot enter this zone, blocks line of sight',
 };
 
 // Store latest battlefield data for lookups
@@ -34,6 +35,13 @@ let _bfData = null;
 let _bfFigureMap = {};
 let _selectedZone = null;
 let _missionBriefingData = null;  // cached mission info for persistent display
+
+function setMissionBriefingData(info) {
+    // Restore mission briefing from server cache (e.g. after resume)
+    if (!_missionBriefingData && info) {
+        _missionBriefingData = info;
+    }
+}
 
 // ── Deployment zone selection mode ──────────────────────────
 let _deploySelectMode = false;
@@ -170,6 +178,7 @@ function renderBattlefield(data) {
             const isSelected = _selectedZone === key;
 
             let cellClass = `bf-cell terrain-${zone.terrain} ${overlayClass}`;
+            if (zone.difficult) cellClass += ' bf-difficult';
             if (isDeployZone) cellClass += ' bf-deploy-zone';
             if (isSelected) cellClass += ' bf-cell-selected';
 
@@ -179,8 +188,9 @@ function renderBattlefield(data) {
                 ? `<span class="bf-terrain-icon">${tIcon}</span>`
                 : '';
 
-            // Terrain label abbreviation
-            const tLabel = TERRAIN_LABELS[zone.terrain] || '';
+            // Terrain label — use thematic name if available, else abbreviation
+            let tLabel = zone.terrain_name || TERRAIN_LABELS[zone.terrain] || '';
+            if (zone.difficult && !zone.terrain_name) tLabel = tLabel ? tLabel + ' DG' : 'DG';
             const labelHtml = tLabel
                 ? `<span class="terrain-label">${tLabel}</span>`
                 : '';
@@ -203,10 +213,13 @@ function renderBattlefield(data) {
                     if (fig.is_contact) figClass += ' contact';
                     if (fig.is_active) figClass += ' active-fig';
                     if (fig.is_highlighted) figClass += ' highlighted';
-                    // Contacts use radar icon, normal figures use label
+                    // Contacts: radar icon; Enemies: filled diamond; Players: text label
                     const figContent = fig.is_contact
                         ? '&#9432;'  // circled info / radar blip
-                        : escapeHtml(fig.label);
+                        : fig.side === 'enemy'
+                            ? '&#9670;'  // ◆ filled diamond
+                            : escapeHtml(fig.label);
+                    if (fig.side === 'enemy') figClass += ' bf-fig-icon';
                     figsHtml += `<span class="${figClass}" title="${escapeHtml(fig.name)}">${figContent}</span>`;
                 }
                 figsHtml += '</div>';
@@ -228,15 +241,16 @@ function renderBattlefield(data) {
 
     // Right panel: mission info (persistent) + zone detail (on click)
     if (_missionBriefingData) {
-        html += '<button class="info-panel-toggle" id="combat-info-toggle" onclick="toggleInfoPanel(\'combat-info-toggle\',\'bf-mission-panel\')"><span class="toggle-arrow">&#9660;</span> Mission Info</button>';
         html += '<div class="mission-info-panel" id="bf-mission-panel">';
         // Zone detail area (above mission info, shown when zone clicked)
         html += '<div class="bf-detail-panel" id="bf-detail-panel"></div>';
-        html += '<div class="bf-mission-info-divider"></div>';
+        html += '<button class="info-panel-toggle" id="combat-info-toggle" onclick="toggleInfoPanel(\'combat-info-toggle\',\'bf-mission-detail\')"><span class="toggle-arrow">&#9660;</span> Mission Info</button>';
+        html += '<div id="bf-mission-detail">';
         // Use current battlefield zones for live objective progress
         const liveData = Object.assign({}, _missionBriefingData, { battlefield: data });
         html += _buildMissionInfoHtml(liveData);
-        html += '</div>';
+        html += '</div>';  // close bf-mission-detail
+        html += '</div>';  // close mission-info-panel
     } else {
         html += '<div class="bf-detail-panel" id="bf-detail-panel"><div class="bf-detail-empty">Click a zone to view details</div></div>';
     }
@@ -416,12 +430,20 @@ function updateZoneDetailPanel(zoneKey) {
         <h3>Zone (${r},${c})</h3>
     </div>`;
 
-    // Terrain info
+    // Terrain info — show thematic name + type
+    const themeName = zone.terrain_name || '';
+    let terrainDisplay = `${terrainIcon} ${terrainName}`;
+    if (themeName && themeName !== terrainName) {
+        terrainDisplay = `${terrainIcon} ${themeName} <span style="color:var(--text-dim);">(${terrainName})</span>`;
+    }
     html += `<div class="stat-list">
-        <div class="stat-row"><span class="label">Terrain</span><span class="value">${terrainIcon} ${terrainName}</span></div>
+        <div class="stat-row"><span class="label">Terrain</span><span class="value">${terrainDisplay}</span></div>
     </div>`;
     if (terrainDesc) {
         html += `<div class="bf-detail-desc">${terrainDesc}</div>`;
+    }
+    if (zone.difficult) {
+        html += `<div class="bf-detail-desc" style="color: #d4a574;">&#9888; Difficult Ground — movement penalties apply</div>`;
     }
 
     // Objective
@@ -435,22 +457,69 @@ function updateZoneDetailPanel(zoneKey) {
 
         for (const fig of figs) {
             const color = figColor(fig.color);
-            html += '<div class="bf-detail-fig">';
-            html += `<div class="bf-detail-fig-header">
-                <span class="bf-detail-fig-name" style="color:${color}">${escapeHtml(fig.name)}</span>
-                <span class="bf-detail-fig-label" style="color:${color}">${escapeHtml(fig.label)}</span>
-            </div>`;
+            // Strip trailing number/pair info from enemy names
+            const displayName = fig.side === 'enemy'
+                ? fig.name.replace(/\s*\d+.*$/, '')
+                : fig.name;
 
             if (fig.is_contact) {
+                html += '<div class="bf-detail-fig">';
                 html += '<div class="bf-detail-fig-info">&#9432; Unidentified contact — within sensor range</div>';
+                html += '</div>';
+            } else if (fig.side === 'enemy') {
+                // Compact single-line enemy entry
+                const fc = figColor(fig.color);
+                let eLine = `<span style="color:${fc};font-weight:700;">${escapeHtml(displayName)}</span>`;
+                eLine += ` <span class="text-dim">SPD ${fig.speed}" CS +${fig.combat_skill} T ${fig.toughness}</span>`;
+                if (fig.armor_save) eLine += ` <span class="text-dim">ARM ${fig.armor_save}+</span>`;
+                if (fig.weapon) {
+                    const wr = fig.weapon_range ? `R${fig.weapon_range}"` : 'Melee';
+                    const ws = fig.weapon_shots ? `S${fig.weapon_shots}` : '';
+                    const wd = fig.weapon_damage ? `D+${fig.weapon_damage}` : 'D+0';
+                    eLine += ` <span class="text-dim">| ${escapeHtml(fig.weapon)} ${wr} ${ws} ${wd}</span>`;
+                }
+                const statusLabel = fig.status !== 'active' ? ` [${fig.status}]` : '';
+                if (fig.stun_markers > 0) eLine += ` <span class="bf-fig-status stun">Stun x${fig.stun_markers}</span>`;
+                if (statusLabel) eLine += ` <span class="bf-fig-status">${statusLabel}</span>`;
+                html += `<div class="bf-detail-fig-enemy">${eLine}</div>`;
+
+                // Shoot buttons for valid targets during action selection
+                if (typeof _activeShootTargets !== 'undefined' && _activeShootTargets.length > 0) {
+                    const targets = _activeShootTargets.filter(t => t.name === fig.name);
+                    for (const t of targets) {
+                        const aidTag = t.use_aid ? ' [Aid +1]' : '';
+                        const mods = (t.modifiers && t.modifiers.length) ? ' [' + t.modifiers.join(', ') + ']' : '';
+                        html += `<button class="btn-shoot-target" data-desc="${escapeHtml(t.desc)}" data-target-name="${escapeHtml(t.name)}">`
+                            + `Shoot — ${t.range_label} (${t.eff_label}, ${t.shots} shot${t.shots !== 1 ? 's' : ''})${mods}${aidTag}`
+                            + `</button>`;
+                    }
+                }
             } else {
+                // Player figure — keep existing format
+                html += '<div class="bf-detail-fig">';
+                html += `<div class="bf-detail-fig-header">
+                    <span class="bf-detail-fig-name" style="color:${color}">${escapeHtml(fig.name)}</span>
+                    <span class="bf-detail-fig-label" style="color:${color}">${escapeHtml(fig.label)}</span>
+                </div>`;
                 const statusLabel = fig.status !== 'active' ? ` [${fig.status}]` : '';
                 html += '<div class="bf-detail-fig-stats">';
                 html += `<div class="stat-chip"><span class="label">Spd</span><span class="val">${fig.speed}"</span></div>`;
                 html += `<div class="stat-chip"><span class="label">CS</span><span class="val">+${fig.combat_skill}</span></div>`;
                 html += `<div class="stat-chip"><span class="label">T</span><span class="val">${fig.toughness}</span></div>`;
+                if (fig.armor_save) html += `<div class="stat-chip"><span class="label">ARM</span><span class="val">${fig.armor_save}+</span></div>`;
                 if (fig.weapon) {
                     html += `<span class="bf-fig-weapon-inline">${escapeHtml(fig.weapon)}</span>`;
+                }
+                // Grunt upgrade tags
+                if (fig.special_rules && fig.special_rules.length > 0 && fig.char_class === 'grunt') {
+                    const UPGRADE_LABELS = {
+                        side_arms: 'Side Arms', sergeant_weaponry: 'Sgt Weapon',
+                        sharpshooter_sight: 'Sharpshooter', ammo_packs: 'Ammo Packs',
+                    };
+                    const upgradeTags = fig.special_rules
+                        .filter(r => UPGRADE_LABELS[r])
+                        .map(r => `<span class="bf-upgrade-tag">${UPGRADE_LABELS[r]}</span>`);
+                    if (upgradeTags.length > 0) html += upgradeTags.join('');
                 }
                 if (fig.stun_markers > 0) {
                     html += `<span class="bf-fig-status stun">Stun x${fig.stun_markers}</span>`;
@@ -471,8 +540,8 @@ function updateZoneDetailPanel(zoneKey) {
                             + `</button>`;
                     }
                 }
+                html += '</div>';
             }
-            html += '</div>';
         }
     } else {
         html += '<div class="bf-detail-divider"></div>';
@@ -547,25 +616,45 @@ function refreshZoneDetailPanel() {
 // ── Legend ───────────────────────────────────────────────────
 
 function buildLegend(data) {
-    const seen = new Map();
+    const playerFigs = new Map();
+    const enemyTypes = new Map();  // color -> {name, count, color}
     const fallen = [];
     for (const fig of data.figures) {
         if (fig.status === 'casualty') {
             fallen.push(fig);
             continue;
         }
-        const cleanLabel = fig.label.replace(/[~_+]/g, '');
-        if (!seen.has(cleanLabel)) {
-            seen.set(cleanLabel, fig);
+        if (fig.side === 'enemy') {
+            // Group enemies by type (strip trailing number + pair suffix like "(P1)")
+            const typeName = fig.name.replace(/\s*\d+.*$/, '');
+            if (!enemyTypes.has(typeName)) {
+                enemyTypes.set(typeName, { color: fig.color, count: 0 });
+            }
+            enemyTypes.get(typeName).count++;
+        } else {
+            const cleanLabel = fig.label.replace(/[~_+]/g, '');
+            if (!playerFigs.has(cleanLabel)) {
+                playerFigs.set(cleanLabel, fig);
+            }
         }
     }
 
     let html = '';
-    if (seen.size > 0) {
+    // Player figure legend (with text labels)
+    if (playerFigs.size > 0) {
         html += '<div class="bf-legend-figs">';
-        for (const [label, fig] of seen) {
+        for (const [label, fig] of playerFigs) {
             const color = figColor(fig.color);
             html += `<span class="bf-legend-item"><span style="color:${color}; font-weight:700;">${escapeHtml(label)}</span>=${escapeHtml(fig.name)}</span>`;
+        }
+        html += '</div>';
+    }
+    // Enemy type legend (with diamond icon)
+    if (enemyTypes.size > 0) {
+        html += '<div class="bf-legend-figs">';
+        for (const [typeName, info] of enemyTypes) {
+            const color = figColor(info.color);
+            html += `<span class="bf-legend-item"><span style="color:${color}; font-weight:700;">&#9670;</span>${escapeHtml(typeName)} x${info.count}</span>`;
         }
         html += '</div>';
     }
@@ -583,6 +672,12 @@ function buildLegend(data) {
     html += '<span class="bf-legend-item"><span class="terrain-heavy_cover-chip"></span>C=Cover</span>';
     html += '<span class="bf-legend-item"><span class="terrain-high_ground-chip"></span>HG=High Ground</span>';
     html += '<span class="bf-legend-item"><span class="terrain-impassable-chip"></span>XX=Impassable</span>';
+    html += '<span class="bf-legend-item"><span class="terrain-impassable_blocking-chip"></span>XX=Impassable (LoS)</span>';
+    // Show DG legend if any difficult zones exist
+    const hasDifficult = data.zones && data.zones.some(row => row.some(z => z.difficult));
+    if (hasDifficult) {
+        html += '<span class="bf-legend-item"><span class="terrain-difficult-chip"></span>DG=Difficult Ground</span>';
+    }
     html += '</div>';
 
     // Objective legend — collect unique labels
@@ -632,9 +727,9 @@ function renderReactionDiceUI(data, msg) {
     area.innerHTML = '';
 
     const dice = [...data.dice];
-    const figures = data.figures;  // [{name, speed}, ...]
+    const figures = data.figures;  // [{name, speed, char_class?, combat_skill?, toughness?, weapon?}, ...]
     const assignments = {};  // name -> die value
-    let currentFigIdx = 0;
+    let selectedFig = null;  // name of figure currently selected for assignment
 
     function getAvailableDice() {
         const used = Object.values(assignments);
@@ -652,105 +747,124 @@ function renderReactionDiceUI(data, msg) {
         const wrapper = document.createElement('div');
         wrapper.className = 'reaction-ui';
 
-        // Header
-        const header = document.createElement('div');
-        header.className = 'reaction-header';
-        header.innerHTML = '<h4>Assign Reaction Dice</h4>';
-        wrapper.appendChild(header);
-
-        // Dice pool
+        // Dice pool at top
         const pool = document.createElement('div');
         pool.className = 'reaction-pool';
         const available = getAvailableDice();
         const poolLabel = document.createElement('div');
         poolLabel.className = 'reaction-pool-label';
-        poolLabel.textContent = 'Available Dice:';
+        poolLabel.textContent = 'Reaction Dice';
         pool.appendChild(poolLabel);
 
         const diceRow = document.createElement('div');
         diceRow.className = 'reaction-dice-row';
         for (const d of available) {
             const die = document.createElement('div');
-            die.className = `reaction-die ${d <= figures[currentFigIdx]?.speed ? 'die-quick' : 'die-slow'}`;
+            const selFig = figures.find(f => f.name === selectedFig);
+            const isQuick = selFig ? d <= selFig.speed : false;
+            die.className = `reaction-die ${selFig ? (isQuick ? 'die-quick' : 'die-slow') : ''}`;
             die.textContent = d;
-            die.title = d <= (figures[currentFigIdx]?.speed || 0) ? 'Quick (die ≤ Reactions)' : 'Slow (die > Reactions)';
-            // Click to assign to current figure
+            if (selFig) {
+                die.title = isQuick ? 'Quick (die ≤ Reactions)' : 'Slow (die > Reactions)';
+                die.style.cursor = 'pointer';
+            } else {
+                die.title = 'Select a figure first';
+                die.classList.add('die-inactive');
+            }
             die.addEventListener('click', () => {
-                if (currentFigIdx < figures.length) {
-                    assignments[figures[currentFigIdx].name] = d;
-                    currentFigIdx++;
-                    // Skip figures if no dice remain
-                    while (currentFigIdx < figures.length && getAvailableDice().length === 0) {
-                        currentFigIdx++;
-                    }
-                    render();
-                }
+                if (!selectedFig) return;
+                assignments[selectedFig] = d;
+                // Auto-advance to next unassigned figure
+                const nextUnassigned = figures.find(f => assignments[f.name] === undefined && f.name !== selectedFig);
+                selectedFig = nextUnassigned ? nextUnassigned.name : null;
+                render();
             });
             diceRow.appendChild(die);
         }
         pool.appendChild(diceRow);
-        wrapper.appendChild(pool);
 
-        // Figure assignment list
-        const figList = document.createElement('div');
-        figList.className = 'reaction-figures';
-
-        for (let i = 0; i < figures.length; i++) {
-            const fig = figures[i];
-            const assigned = assignments[fig.name];
-            const isCurrent = i === currentFigIdx;
-
-            const row = document.createElement('div');
-            row.className = `reaction-fig-row ${isCurrent ? 'current' : ''} ${assigned !== undefined ? 'assigned' : ''}`;
-
-            const info = document.createElement('div');
-            info.className = 'reaction-fig-info';
-            info.innerHTML = `<span class="reaction-fig-name">${escapeHtml(fig.name)}</span>
-                <span class="reaction-fig-speed">Reactions ${fig.speed}</span>`;
-            row.appendChild(info);
-
-            if (assigned !== undefined) {
-                const badge = document.createElement('div');
-                badge.className = `reaction-die-badge ${assigned <= fig.speed ? 'die-quick' : 'die-slow'}`;
-                badge.textContent = assigned;
-                badge.title = 'Click to unassign';
-                badge.addEventListener('click', () => {
-                    delete assignments[fig.name];
-                    // Reset currentFigIdx to this figure
-                    currentFigIdx = i;
-                    render();
-                });
-                row.appendChild(badge);
-            } else if (isCurrent) {
-                const hint = document.createElement('span');
-                hint.className = 'reaction-hint';
-                hint.textContent = '← click a die';
-                row.appendChild(hint);
-            }
-
-            figList.appendChild(row);
-        }
-        wrapper.appendChild(figList);
-
-        // Speed reference
+        // Quick/slow reference inline
         const ref = document.createElement('div');
         ref.className = 'reaction-ref';
         ref.innerHTML = 'Die ≤ Reactions = <span class="die-quick-text">Quick</span> &nbsp;|&nbsp; Die > Reactions = <span class="die-slow-text">Slow</span>';
-        wrapper.appendChild(ref);
+        pool.appendChild(ref);
+
+        wrapper.appendChild(pool);
+
+        // Figure cards grid
+        const grid = document.createElement('div');
+        grid.className = 'reaction-card-grid';
+
+        for (const fig of figures) {
+            const assigned = assignments[fig.name];
+            const isSelected = selectedFig === fig.name;
+            const isAssigned = assigned !== undefined;
+            const isQuickAssigned = isAssigned && assigned <= fig.speed;
+
+            const card = document.createElement('div');
+            card.className = 'reaction-card'
+                + (isSelected ? ' selected' : '')
+                + (isAssigned ? (isQuickAssigned ? ' assigned-quick' : ' assigned-slow') : '');
+
+            // Header: name + class
+            let headerHtml = `<div class="reaction-card-header">
+                <span class="reaction-card-name">${escapeHtml(fig.name)}</span>`;
+            if (fig.char_class) {
+                headerHtml += `<span class="reaction-card-class">${escapeHtml(fig.char_class)}</span>`;
+            }
+            headerHtml += '</div>';
+
+            // Stats row
+            let statsHtml = '<div class="reaction-card-stats">';
+            statsHtml += `<span class="stat-chip sm"><span class="label">React</span><span class="val">${fig.speed}</span></span>`;
+            if (fig.combat_skill !== undefined) {
+                statsHtml += `<span class="stat-chip sm"><span class="label">CS</span><span class="val">+${fig.combat_skill}</span></span>`;
+            }
+            if (fig.toughness !== undefined) {
+                statsHtml += `<span class="stat-chip sm"><span class="label">T</span><span class="val">${fig.toughness}</span></span>`;
+            }
+            statsHtml += '</div>';
+
+            // Weapon
+            let weaponHtml = '';
+            if (fig.weapon) {
+                weaponHtml = `<div class="reaction-card-weapon">${escapeHtml(fig.weapon)}</div>`;
+            }
+
+            // Assigned die badge
+            let dieHtml = '';
+            if (isAssigned) {
+                const dieClass = isQuickAssigned ? 'die-quick' : 'die-slow';
+                const dieLabel = isQuickAssigned ? 'QUICK' : 'SLOW';
+                dieHtml = `<div class="reaction-card-die">
+                    <span class="reaction-die-badge ${dieClass}">${assigned}</span>
+                    <span class="reaction-die-label ${dieClass}-text">${dieLabel}</span>
+                </div>`;
+            } else if (isSelected) {
+                dieHtml = `<div class="reaction-card-die"><span class="reaction-hint">click a die above</span></div>`;
+            }
+
+            card.innerHTML = headerHtml + statsHtml + weaponHtml + dieHtml;
+
+            card.onclick = () => {
+                if (isAssigned) {
+                    // Click assigned card to unassign
+                    delete assignments[fig.name];
+                    selectedFig = fig.name;
+                } else {
+                    // Select for assignment
+                    selectedFig = fig.name;
+                }
+                render();
+            };
+
+            grid.appendChild(card);
+        }
+        wrapper.appendChild(grid);
 
         // Buttons
         const btns = document.createElement('div');
         btns.className = 'reaction-buttons';
-
-        const skipBtn = document.createElement('button');
-        skipBtn.className = 'btn';
-        skipBtn.textContent = 'Skip Remaining';
-        skipBtn.onclick = () => {
-            // Skip all unassigned figures
-            currentFigIdx = figures.length;
-            render();
-        };
-        btns.appendChild(skipBtn);
 
         const confirmBtn = document.createElement('button');
         confirmBtn.className = 'btn btn-primary';
@@ -765,10 +879,139 @@ function renderReactionDiceUI(data, msg) {
         area.appendChild(wrapper);
     }
 
+    // Auto-select first figure
+    selectedFig = figures.length > 0 ? figures[0].name : null;
     render();
 }
 
 // ── Mission Briefing Panel ───────────────────────────────────
+
+/** Deduplicate enemy figures into unique profiles (by type name + weapon).
+ *  includeContacts: if true, count contact (unrevealed) figures too. */
+function _buildEnemyProfiles(figures, includeContacts) {
+    const profiles = [];
+    const seen = new Map();  // key -> profile
+    for (const fig of figures) {
+        if (fig.side !== 'enemy') continue;
+        if (fig.is_contact && !includeContacts) continue;
+        // Group by stripped name + weapon to get unique profiles
+        const typeName = fig.name.replace(/\s*\d+.*$/, '');  // "Slyn 5 (P3)" -> "Slyn"
+        const key = `${typeName}|${fig.weapon || ''}`;
+        if (!seen.has(key)) {
+            const profile = {
+                name: typeName,
+                color: fig.color,
+                speed: fig.speed,
+                combat_skill: fig.combat_skill,
+                toughness: fig.toughness,
+                weapon: fig.weapon,
+                weapon_range: fig.weapon_range || 0,
+                weapon_shots: fig.weapon_shots || 0,
+                weapon_damage: fig.weapon_damage || 0,
+                weapon_traits: fig.weapon_traits || [],
+                armor_save: fig.armor_save || 0,
+                special_rules: fig.special_rules || [],
+                melee_damage: fig.melee_damage || 0,
+                count: 0,
+            };
+            seen.set(key, profile);
+            profiles.push(profile);
+        }
+        seen.get(key).count++;
+    }
+    return profiles;
+}
+
+/** Special rule and lifeform ability tooltips. */
+const SPECIAL_RULE_TIPS = {
+    // Combat rules
+    'no_stun': 'Cannot be Stunned',
+    'no_panic': 'Not subject to Panic',
+    'force_screen': 'Force screen: 6+ armor save vs all fire including burning',
+    'dodge': 'Dodge: 6+ save against ranged attacks',
+    'partially_airborne': 'Partially Airborne: ignores terrain movement penalties',
+    // Lifeform special attacks
+    'razor_claws': 'Razor Claws: +1 damage in melee',
+    'eruption': 'Eruption: area attack hitting all figures in the zone',
+    'shoot': 'Ranged attack: chain on natural 6',
+    'spit': 'Spit: ranged attack (12" range, 1 shot)',
+    'overpower': 'Overpower: wins ties in brawling',
+    'ferocity': 'Ferocity: +1 extra attack in melee',
+    // Lifeform unique abilities
+    'pull': 'Pull: drags target 1 zone closer on hit',
+    'jump': 'Jump: can leap over obstacles, ignores terrain',
+    'teleport': 'Teleport: can move to any zone within speed range ignoring terrain',
+    'paralyze': 'Paralyze: stunned targets cannot act next activation',
+    'terror': 'Terror: enemies in same zone must pass morale or flee',
+    'confuse': 'Confuse: target suffers -1 to hit next activation',
+    'hinder': 'Hinder: enemies in same zone suffer -1 to hit',
+    'knock_down': 'Knock Down: target is knocked sprawling on hit',
+    // Other
+    'swarm': 'Swarm: +1 to hit per friendly in same zone',
+    'ambush': 'Ambush: free attack when revealed from contact',
+    'burrow': 'Burrow: can move through impassable terrain',
+    'terrifying': 'Terrifying: enemies must pass morale check to engage',
+};
+
+/** Build HTML for an enemy profile card. */
+function _buildEnemyCardHtml(ep) {
+    const color = figColor(ep.color);
+    const tips = (typeof WEAPON_TRAIT_TIPS !== 'undefined') ? WEAPON_TRAIT_TIPS : {};
+
+    let html = `<div class="enemy-profile-card" style="border-left-color: ${color}">`;
+    html += `<div class="epc-header">`;
+    html += `<span class="epc-name" style="color:${color}">${escapeHtml(ep.name)}</span>`;
+    html += `<span class="epc-count">x${ep.count}</span>`;
+    html += `</div>`;
+
+    // Stats row
+    html += '<div class="epc-stats">';
+    html += `<span class="stat-chip sm"><span class="label">Spd</span><span class="val">${ep.speed}"</span></span>`;
+    html += `<span class="stat-chip sm"><span class="label">CS</span><span class="val">+${ep.combat_skill}</span></span>`;
+    html += `<span class="stat-chip sm"><span class="label">T</span><span class="val">${ep.toughness}</span></span>`;
+    if (ep.armor_save) {
+        html += `<span class="stat-chip sm"><span class="label">Arm</span><span class="val">${ep.armor_save}+</span></span>`;
+    }
+    html += '</div>';
+
+    // Weapon line
+    if (ep.weapon) {
+        html += '<div class="epc-weapon">';
+        html += `<span class="epc-weapon-name">${escapeHtml(ep.weapon)}</span>`;
+        if (ep.weapon_range > 0) {
+            html += `<span class="epc-weapon-stat">R${ep.weapon_range}" S${ep.weapon_shots} D+${ep.weapon_damage}</span>`;
+        } else {
+            html += `<span class="epc-weapon-stat">Melee D+${ep.melee_damage || ep.weapon_damage}</span>`;
+        }
+        html += '</div>';
+
+        // Weapon traits with tooltips
+        if (ep.weapon_traits && ep.weapon_traits.length) {
+            html += '<div class="epc-traits">';
+            for (const t of ep.weapon_traits) {
+                const label = t.replace(/_/g, ' ');
+                const tip = tips[label] || '';
+                html += `<span class="wpn-trait${tip ? ' has-tooltip' : ''}" ${tip ? `data-tooltip="${escapeHtml(tip)}"` : ''}>${escapeHtml(label)}</span>`;
+            }
+            html += '</div>';
+        }
+    }
+
+    // Special rules with tooltips (filter out internal ones like pair_1, pair_2)
+    const displayRules = (ep.special_rules || []).filter(r => r && !r.startsWith('pair_'));
+    if (displayRules.length > 0) {
+        html += '<div class="epc-traits">';
+        for (const r of displayRules) {
+            const label = r.replace(/_/g, ' ');
+            const tip = SPECIAL_RULE_TIPS[r] || '';
+            html += `<span class="wpn-trait epc-rule${tip ? ' has-tooltip' : ''}" ${tip ? `data-tooltip="${escapeHtml(tip)}"` : ''}>${escapeHtml(label)}</span>`;
+        }
+        html += '</div>';
+    }
+
+    html += '</div>';
+    return html;
+}
 
 /** Build mission info HTML for the right panel (reusable). */
 function _buildMissionInfoHtml(data) {
@@ -779,22 +1022,50 @@ function _buildMissionInfoHtml(data) {
         <h3>&#9876; ${escapeHtml(data.mission_type)}</h3>
     </div>`;
 
-    // Enemy type badge
-    if (data.enemy_type) {
-        const etLabel = data.enemy_type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-        const etClass = data.enemy_type === 'tactical' ? 'enemy-tactical' : data.enemy_type === 'slyn' ? 'enemy-slyn' : 'enemy-lifeform';
-        html += `<div class="mission-enemy-badge ${etClass}">${escapeHtml(etLabel)}</div>`;
+    // Battlefield condition
+    if (data.condition) {
+        html += '<div class="mission-section">';
+        html += '<div class="mission-section-title">Battlefield Condition</div>';
+        if (data.condition.no_effect) {
+            html += `<div class="mission-condition mission-condition-clear"><strong>${escapeHtml(data.condition.name)}</strong> — ${escapeHtml(data.condition.description)}</div>`;
+        } else {
+            html += `<div class="mission-condition"><strong>${escapeHtml(data.condition.name)}</strong> — ${escapeHtml(data.condition.description)}</div>`;
+            if (data.condition.effects_summary && data.condition.effects_summary.length > 0) {
+                html += '<ul class="mission-condition-effects">';
+                for (const eff of data.condition.effects_summary) {
+                    html += `<li>${escapeHtml(eff)}</li>`;
+                }
+                html += '</ul>';
+            }
+        }
+        html += '</div>';
     }
 
-    // Enemy stats
-    if (data.enemy_info && data.enemy_info.length > 0) {
-        html += '<div class="mission-section">';
-        html += '<div class="mission-section-title">Enemy Intel</div>';
-        html += '<div class="mission-enemy-stats">';
-        for (const line of data.enemy_info) {
-            html += `<div class="mission-enemy-line">${escapeHtml(line)}</div>`;
+    // Slyn warning
+    if (data.slyn_briefing) {
+        const sb = data.slyn_briefing;
+        html += '<div class="mission-slyn-warning">';
+        if (sb.is_first) {
+            html += '<div class="slyn-warning-title">&#9888; UNKNOWN ALIEN CONTACT</div>';
+            html += `<div class="slyn-warning-body">Unidentified alien signatures detected in the mission area.<br>${sb.count} unknown hostiles inbound. Exercise extreme caution.<br><em>Your team has no prior intel on this species.</em></div>`;
+        } else {
+            html += '<div class="slyn-warning-title">&#9888; SLYN INTERFERENCE</div>';
+            html += `<div class="slyn-warning-body">Slyn signatures detected! ${sb.count} Slyn warriors moving to intercept.<br>Encounter #${sb.encounter_num} with the Slyn.</div>`;
         }
-        html += '</div></div>';
+        html += '</div>';
+    }
+
+    // Enemy intel — build cards from battlefield figures
+    if (data.battlefield && data.battlefield.figures) {
+        const enemyProfiles = _buildEnemyProfiles(data.battlefield.figures, true);
+        if (enemyProfiles.length > 0) {
+            html += '<div class="mission-section">';
+            html += '<div class="mission-section-title">Enemy Intel</div>';
+            for (const ep of enemyProfiles) {
+                html += _buildEnemyCardHtml(ep);
+            }
+            html += '</div>';
+        }
     }
 
     // Objectives / victory conditions + progress tracking
@@ -853,17 +1124,6 @@ function _buildMissionInfoHtml(data) {
         html += '</ul></div>';
     }
 
-    // Special rules
-    if (data.special_rules && data.special_rules.length > 0) {
-        html += '<div class="mission-section">';
-        html += '<div class="mission-section-title">Special Rules</div>';
-        html += '<ul class="mission-rules">';
-        for (const rule of data.special_rules) {
-            html += `<li>${escapeHtml(rule)}</li>`;
-        }
-        html += '</ul></div>';
-    }
-
     return html;
 }
 
@@ -896,10 +1156,12 @@ function renderMissionBriefing(data) {
             const figs = _bfFigureMap[key] || [];
 
             let cellClass = `bf-cell terrain-${zone.terrain}`;
+            if (zone.difficult) cellClass += ' bf-difficult';
 
             const tIcon = TERRAIN_ICONS[zone.terrain] || '';
             const terrainHtml = tIcon ? `<span class="bf-terrain-icon">${tIcon}</span>` : '';
-            const tLabel = TERRAIN_LABELS[zone.terrain] || '';
+            let tLabel = zone.terrain_name || TERRAIN_LABELS[zone.terrain] || '';
+            if (zone.difficult && !zone.terrain_name) tLabel = tLabel ? tLabel + ' DG' : 'DG';
             const labelHtml = tLabel ? `<span class="terrain-label">${tLabel}</span>` : '';
             const objHtml = zone.has_objective
                 ? `<span class="bf-objective" title="${escapeHtml(zone.objective_label) || 'Objective'}">&#9733;</span>`
@@ -911,7 +1173,12 @@ function renderMissionBriefing(data) {
                 for (const fig of figs) {
                     let figClass = `bf-fig ${fig.color}`;
                     if (fig.is_contact) figClass += ' contact';
-                    const figContent = fig.is_contact ? '&#9432;' : escapeHtml(fig.label);
+                    const figContent = fig.is_contact
+                        ? '&#9432;'
+                        : fig.side === 'enemy'
+                            ? '&#9670;'
+                            : escapeHtml(fig.label);
+                    if (fig.side === 'enemy') figClass += ' bf-fig-icon';
                     figsHtml += `<span class="${figClass}" title="${escapeHtml(fig.name)}">${figContent}</span>`;
                 }
                 figsHtml += '</div>';
@@ -925,8 +1192,7 @@ function renderMissionBriefing(data) {
     html += '</div>'; // close battlefield grid
     html += '</div>'; // close mission-map-section
 
-    // Right: mission info panel
-    html += '<button class="info-panel-toggle" id="briefing-info-toggle" onclick="toggleInfoPanel(\'briefing-info-toggle\',\'briefing-info-panel\')"><span class="toggle-arrow">&#9660;</span> Mission Info</button>';
+    // Right: mission info panel (always visible during briefing)
     html += '<div class="mission-info-panel" id="briefing-info-panel">';
     html += _buildMissionInfoHtml(data);
     html += '</div>'; // close mission-info-panel
@@ -937,15 +1203,45 @@ function renderMissionBriefing(data) {
     html += buildLegend(bf);
     html += '</div>';
 
+    // Context messages: condition + enemy info
+    html += '<div class="briefing-context">';
+    if (data.condition && data.condition.name) {
+        html += `<div class="msg bold">Battlefield Condition: ${escapeHtml(data.condition.name)} — ${escapeHtml(data.condition.description)}</div>`;
+        if (data.condition.effects_summary && data.condition.effects_summary.length > 0 && !data.condition.no_effect) {
+            for (const eff of data.condition.effects_summary) {
+                html += `<div class="msg dim" style="padding-left:14px;">&#9656; ${escapeHtml(eff)}</div>`;
+            }
+        }
+    } else {
+        html += `<div class="msg dim">Battlefield Condition: None</div>`;
+    }
+    if (data.enemy_info && data.enemy_info.length) {
+        html += '<div class="msg bold" style="margin-top:6px;">Enemy Intel:</div>';
+        for (const line of data.enemy_info) {
+            html += `<div class="msg">${escapeHtml(line)}</div>`;
+        }
+    }
+    if (data.slyn_briefing) {
+        const sb = data.slyn_briefing;
+        html += '<div class="msg error" style="margin-top:6px;">';
+        if (sb.is_first) {
+            html += `&#9888; WARNING: Unidentified alien signatures detected — ${sb.count} unknown hostiles inbound`;
+        } else {
+            html += `&#9888; SLYN INTERFERENCE — ${sb.count} Slyn warriors moving to intercept (Encounter #${sb.encounter_num})`;
+        }
+        html += '</div>';
+    }
+    html += '</div>';
+
     display.innerHTML = html;
 
     // Wire zone click handlers for detail display
     display.querySelectorAll('.bf-cell[data-zone]').forEach(cell => {
         cell.addEventListener('click', (e) => {
             e.stopPropagation();
-            // Highlight clicked zone
             display.querySelectorAll('.bf-cell-selected').forEach(el => el.classList.remove('bf-cell-selected'));
             cell.classList.add('bf-cell-selected');
         });
     });
+
 }
